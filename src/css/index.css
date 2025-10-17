@@ -1,0 +1,146 @@
+p {
+    margin-bottom: 0px;
+}
+
+/* Banner principal */
+#banner {
+    position: relative;
+    background-image: url('/public/assets/images/index-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    color: var(--text-navbar); 
+    z-index: 0;
+}
+
+#banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+#banner > * {
+  position: relative;
+  z-index: 2;
+}
+
+#banner-title {
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos generales para cards */
+.card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease;
+    border-radius: 1rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Cards de sección de pendientes */
+.pending-card {
+    box-shadow: -5px 0px var(--primary) ;
+}
+
+.icon-circle {
+    color: var(--primary);    
+    background: var(--primary-light);
+    border-radius: 100%;        
+    width: 64px;                      
+    height: 64px;                      
+    padding: 16px;                    
+}
+
+.pending-cant {
+    font-size: 30px;
+    font-weight: bold;
+    padding-top: 0px;
+}
+
+/* Cards de sección de envíos */
+#ship-status-container {
+    background-color: var(--card-bg) !important;
+    border-radius: 1rem;
+}
+
+.order-card {
+    height: 130px;
+    background-color: var(--primary-light);
+    border-radius: 10px 10px 0 0;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.order-card:hover {
+  filter: brightness(1.0); /* Hover individual: subir e iluminar */
+}
+
+#ship-cards-container:hover .order-card {
+  filter: opacity(0.5); /* Cuando el contenedor tiene hover, todas las cards se oscurecen */
+}
+
+#ship-cards-container:hover .order-card:hover {
+  filter: brightness(1.0); /* Pero si una card está en hover, se ilumina */
+}
+
+#order-card-1 {
+    border-radius: 10px 10px 0 0;
+    background: linear-gradient(to top, var(--primary) 65%, var(--primary-light) 65%);
+}
+
+#order-card-2 {
+    border-radius: 10px 10px 0 0;
+    background: linear-gradient(to top, var(--primary) 100%, var(--primary-light) 100%);
+}
+
+#order-card-3 {
+    border-radius: 10px 10px 0 0;
+    background: linear-gradient(to top, var(--primary) 30%, var(--primary-light) 30%);
+}
+
+.ship-cant {
+    font-size: 20px;
+}
+
+.ship-text {
+    font-size: 13px;
+}
+
+/* Cards de sección de accesos directos */
+.access-card{
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 12px) center;
+    background-size: 22px 22px;
+    padding-right: 24px;
+}
+
+.icon-square {
+    color: var(--primary);    
+    background: var(--primary-light);
+    border-radius: 15px;        
+    width: 60px;                      
+    height: 60px;                      
+    padding: 14px;                    
+}

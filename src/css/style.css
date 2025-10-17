@@ -1,0 +1,27 @@
+:root {
+    --primary: #8FC74A;
+    --primary-light: #E8F5E9;
+    --secondary: #7B7B7B;
+    --background: #F5F5F5;
+    --background-dark: #222222;
+    --text-navbar: #fff;
+    --card-bg: #fff;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+main {
+    flex: 1;
+    background-color: var(--background);
+}
+
+section {
+    margin: 20px 0px 20px 0px;
+}

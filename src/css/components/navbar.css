@@ -1,0 +1,52 @@
+
+/*--- BARRA DE RELLENO SUPERIOR ---*/
+#top-bar {
+    background-color: var(--primary);
+    height: 38.4px;
+}
+
+#btn-logout {
+    color: var(--text-navbar);
+    height: 35px;
+    border-radius: 4px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    text-transform: none;
+}
+
+#btn-logout:hover {
+    background-color: #6c9639;
+    border-color: #6c9639;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#btn-logout:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(143, 199, 74, 0.5);
+}
+
+/*--- BARRA DE NAVEGACION PRINCIPAL ---*/
+#site-navbar {
+    background-color: var(--secondary);
+    border: 1px solid white;
+    padding: 0px 50px 0px 40px;
+}
+
+#nav-logo {
+    padding: 10px;   
+}
+
+.nav-prin {
+    color: var(--text-navbar);
+}
+
+.nav-prin.active {
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.nav-prin.active::after {
+    width: 100%;
+}
