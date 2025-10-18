@@ -6,7 +6,7 @@
 }
 
 #btn-logout {
-    color: var(--text-navbar);
+    color: var(--text-light);
     height: 35px;
     border-radius: 4px;
     display: inline-flex;
@@ -39,7 +39,7 @@
 }
 
 .nav-prin {
-    color: var(--text-navbar);
+    color: var(--text-light);
 }
 
 .nav-prin.active {

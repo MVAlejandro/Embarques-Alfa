@@ -1,11 +1,13 @@
 :root {
     --primary: #8FC74A;
     --primary-light: #E8F5E9;
+    --primary-dark: #6c9639;
     --secondary: #7B7B7B;
+    --secondary-light: #b6b6b6;
     --background: #F5F5F5;
     --background-dark: #222222;
-    --text-navbar: #fff;
-    --card-bg: #fff;
+    --background-light: #fff;
+    --text-light: #fff;
 }
 
 body {
@@ -24,4 +26,66 @@ main {
 
 section {
     margin: 20px 0px 20px 0px;
+}
+
+.icon-circle {
+    color: var(--primary);    
+    background: var(--primary-light);
+    border-radius: 100%;        
+    width: 64px;                      
+    height: 64px;                      
+    padding: 16px;                    
+}
+
+.icon-square {
+    color: var(--primary);    
+    background: var(--primary-light);
+    border-radius: 15px;        
+    width: 60px;                      
+    height: 60px;                      
+    padding: 14px;                    
+}
+
+.btn-primary {
+    border: 1px solid var(--primary);
+    background-color: var(--primary);
+    border-radius: 11px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(143, 199, 74, 0.5);
+}
+
+.pagination .page-link {
+    border: 1px solid var(--secondary-light);
+    background-color: var(--background);
+    color: var(--secondary);
+    transition: all 0.3s ease;
+}
+
+.pagination .page-link:hover {
+    background-color: var(--primary-light);
+    color: var(--primary-dark);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.pagination .page-link:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(143, 199, 74, 0.5);
+}
+
+/* Página activa */
+.pagination .page-item.active .page-link {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--text-light);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

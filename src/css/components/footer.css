@@ -1,6 +1,6 @@
 #site-footer {
     background-color: var(--background-dark);
-    color: var(--text-navbar);
+    color: var(--text-light);
     padding: 15px;
     text-align: center;
 }
