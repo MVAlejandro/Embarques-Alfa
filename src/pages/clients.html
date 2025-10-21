@@ -31,7 +31,7 @@
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="/src/pages/clients.html">Clientes</a></li>
                         <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="/src/pages/orders.html">Órdenes</a></li>
-                        <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href=#>Planeación</a></li>
+                        <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="/src/pages/shipments.html">Planeación</a></li>
                     </ul>
                 </div>
             </div>
@@ -64,34 +64,37 @@
             </div>
         </section>
 
+        <!-- SECCIÓN DE FILTROS -->
         <section id="clients-filter">
             <div class="container pt-3 pb-3">
                 <h5>Listado de Clientes</h5>
             </div>
             <div id="clients-filter-container" class="container pt-4 pb-3">
-                <div class="row ms-2">
+                <div class="row ms-2 me-2">
                     <div class="col-md-4 col-lg-3 d-flex align-items-center label-over-border">
                         <label for="status-filter" class="form-label m-2">Filtrar por Estado</label>
                         <select class="form-select" id="status-filter">
                             <option value="">Todos</option>
                         </select>
                     </div>
+                    <div class="col-md-4 col-lg-3 d-flex align-items-center label-over-border">
+                        <label for="search-filter" class="form-label m-2">Buscar por cliente</label>    
+                        <input id="search-filter" class="form-control" type="search" placeholder="Buscar..." aria-label="Search"/>
+                    </div>
                     <div class="col-md d-flex align-items-center justify-content-end">
-                        <form class="d-flex" role="search">
-                            <button id="search-filter-btn" class="btn btn-outline-success" type="submit">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                                </svg>
-                            </button>
-                            <input id="search-filter" class="form-control me-2" type="search" placeholder="Buscar cliente..." aria-label="Search"/>
-                        </form>
+                        <button id="filter-btn" class="btn btn-primary d-flex align-items-center ps-3 pe-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                            <p class="ps-2">Filtrar</p>
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- SECCIÓN DE REGISTROS -->
         <section id="clients-register">
-            <!-- Tabla de registros -->
             <div class="container table-responsive p-0">
                 <table id="clients-table" class="table table-hover align-middle">
                     <thead>
@@ -299,6 +302,7 @@
             </div>
         </section>
 
+        <!-- SECCIÓN DE PAGINACIÓN -->
         <section id="clients-pages" class="pb-4">
             <div id="clients-pages-container" class="container pt-3 pb-3">
                 <div class="row ms-2 align-items-center">

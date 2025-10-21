@@ -1,14 +1,16 @@
+/* Variables de colores de estado */
 :root {
     --completed-light: #a4dbc2;
-    --completed-dark: #0a6b3e;
+    --completed-dark: #0b5231;
     --canceled-light: #dd989f;
-    --canceled-dark: #991522;
+    --canceled-dark: #79111c;
     --pending-light: #95a9d6;
-    --pending-dark: #0d3999;
+    --pending-dark: #0a2a6e;
     --process-light: #fcebb9;
-    --process-dark: #a57c00;
+    --process-dark: #7e6009;
 }
 
+/* Estilos de la página y estructura */
 #orders-header {
     margin-top: 0;
 }
@@ -24,36 +26,11 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#search-filter-btn {
-    border-radius: 10px 0 0 10px;
-    border: 1px solid var(--secondary-light);
-    background-color: var(--background);
-}
-
-#search-filter-btn:hover {
-    background-color: var(--primary-dark);
-    border-color: var(--primary-dark);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-#search-filter-btn:focus {
-    outline: none;
-    box-shadow: 0 0 10px rgba(143, 199, 74, 0.5);
-}
-
-#search-filter {
-    border-radius: 0 10px 10px 0;
-    border: 1px solid var(--secondary-light);
-}
-
 th {
     color: var(--secondary) !important;
 }
 
-.order-id {
-    font-weight: bold;
-}
-
+/* Estilos de texto para la tabla */
 .order-client-email, #orders-pages-results {
     font-size: 13px;
     color: var(--secondary) !important;

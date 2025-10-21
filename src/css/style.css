@@ -54,6 +54,11 @@ p, h5, h4 {
 }
 
 /* Estilos para formularios */
+.form-control, .form-select{
+    border-radius: 10px;
+    border: 1px solid var(--secondary-light);
+}
+
 .form-control:focus, .form-select:focus {
     border-color: var(--primary);
     box-shadow: 0 0 5px var(--primary-dark);

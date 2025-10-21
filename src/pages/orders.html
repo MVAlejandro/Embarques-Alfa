@@ -31,7 +31,7 @@
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="/src/pages/clients.html">Clientes</a></li>
                         <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="/src/pages/orders.html">Órdenes</a></li>
-                        <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href=#>Planeación</a></li>
+                        <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="/src/pages/shipments.html">Planeación</a></li>
                     </ul>
                 </div>
             </div>
@@ -64,12 +64,13 @@
             </div>
         </section>
 
+        <!-- SECCIÓN DE FILTROS -->
         <section id="orders-filter">
             <div class="container pt-3 pb-3">
                 <h5>Órdenes de Compra Existentes</h5>
             </div>
             <div id="orders-filter-container" class="container pt-4 pb-3">
-                <div class="row ms-2">
+                <div class="row ms-2 me-2">
                     <div class="col-md d-flex align-items-center label-over-border">
                         <label for="client-filter" class="form-label m-2">Filtrar por Cliente</label>
                         <select class="form-select" id="client-filter">
@@ -87,21 +88,19 @@
                         <input type="date" id="date-filter" class="form-control" placeholder="Fecha">
                     </div>
                     <div class="col-md d-flex align-items-center justify-content-end">
-                        <form class="d-flex" role="search">
-                            <button id="search-filter-btn" class="btn btn-outline-success" type="submit">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                                </svg>
-                            </button>
-                            <input id="search-filter" class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search"/>
-                        </form>
+                        <button id="filter-btn" class="btn btn-primary d-flex align-items-center ps-3 pe-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                            </svg>
+                            <p class="ps-2">Filtrar</p>
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- SECCIÓN DE REGISTROS -->
         <section id="orders-register">
-            <!-- Tabla de registros -->
             <div id="orders-table-container" class="container table-responsive p-0">
                 <table id="orders-table" class="table table-hover align-middle">
                     <thead>
@@ -116,7 +115,7 @@
                     <tbody>
                         <tr>
                             <td class="p-3 ps-4">
-                                <p class="order-id">#1021</p>
+                                <p class="order-id fw-bold">#1021</p>
                             </td>
                             <td class="p-3">
                                 <p class="order-client">Maderas del Norte S.A.</p>
@@ -155,7 +154,7 @@
                         </tr>
                         <tr>
                             <td class="p-3 ps-4">
-                                <p class="order-id">#1022</p>
+                                <p class="order-id fw-bold">#1022</p>
                             </td>
                             <td class="p-3">
                                 <p class="order-client">Carpintería Fina Ltda.</p>
@@ -194,7 +193,7 @@
                         </tr>
                         <tr>
                             <td class="p-3 ps-4">
-                                <p class="order-id">#1023</p>
+                                <p class="order-id fw-bold">#1023</p>
                             </td>
                             <td class="p-3">
                                 <p class="order-client">Constructora El Roble</p>
@@ -233,7 +232,7 @@
                         </tr>
                         <tr>
                             <td class="p-3 ps-4">
-                                <p class="order-id">#1024</p>
+                                <p class="order-id fw-bold">#1024</p>
                             </td>
                             <td class="p-3">
                                 <p class="order-client">Diseños de Madera S.C.</p>
@@ -272,7 +271,7 @@
                         </tr>
                         <tr>
                             <td class="p-3 ps-4">
-                                <p class="order-id">#1025</p>
+                                <p class="order-id fw-bold">#1025</p>
                             </td>
                             <td class="p-3">
                                 <p class="order-client">Maderas del Norte S.A.</p>
@@ -314,6 +313,7 @@
             </div>
         </section>
 
+        <!-- SECCIÓN DE PAGINACIÓN -->
         <section id="orders-pages" class="pb-4">
             <div id="orders-pages-container" class="container pt-3 pb-3">
                 <div class="row ms-2 align-items-center">
@@ -344,7 +344,7 @@
         </section>
      </main>
 
-     <!-- FOOTER -->
+    <!-- FOOTER -->
     <footer id="site-footer">
         <div class="container">
             <hr>
