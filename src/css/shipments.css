@@ -38,6 +38,11 @@
     animation: fadeInUp 0.8s ease-in-out;
 }
 
+.week-buttons {
+    border: none;
+    padding: 0px;
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;

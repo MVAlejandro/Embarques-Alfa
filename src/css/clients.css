@@ -62,14 +62,7 @@ th {
 
 .client-buttons {
     padding: 0px;
-}
-
-.btn-edit, .btn-delete, .btn-view {
-    border-radius: 100%;
-}
-
-.btn-edit:hover, .btn-delete:hover, .btn-view:hover {
-    background-color: var(--primary-dark);
-    color: var(--text-light);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    gap: 8px;
+    display: flex;
+    justify-content: flex-end;
 }

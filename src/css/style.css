@@ -5,6 +5,8 @@
     --primary-dark: #6c9639;
     --secondary: #7B7B7B;
     --secondary-light: #b6b6b6;
+    --canceled-light: #dd989f;
+    --canceled-dark: #79111c;
     --background: #F5F5F5;
     --background-dark: #222222;
     --background-light: #fff;
@@ -108,6 +110,32 @@ p, h5, h4 {
 .btn-primary:focus {
     outline: none;
     box-shadow: 0 0 10px rgba(143, 199, 74, 0.5);
+}
+
+/* Estilos para botones de edición de entradas */
+.btn-edit, .btn-delete{
+    border-radius: 12px;
+    border: 1px solid var(--secondary-light);
+}
+
+.btn-edit {
+    color: var(--primary);
+}
+
+.btn-edit:hover {
+    background-color: var(--primary);
+    color: var(--text-light);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-delete {
+    color: var(--canceled-dark);
+}
+
+.btn-delete:hover {
+    background-color: var(--canceled-dark);
+    color: var(--text-light);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilos para paginación y su navegación */
