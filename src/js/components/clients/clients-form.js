@@ -82,9 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <p class="error invalid-feedback" id="error-codigo_postal" style="color: red;"></p>
                             </div>
                             <div class="col-md-6 label-over-border">
-                                <label for="direccion" class="form-label m-2">Dirección</label>
-                                <input type="email" id="direccion" class="form-control" placeholder="Dirección completa">    
-                                <p class="error invalid-feedback" id="error-direccion" style="color: red;"></p>
+                                <label for="ubicacion" class="form-label m-2">Ubicación</label>
+                                <input type="text" id="ubicacion" class="form-control" placeholder="Ciudad, Estado">    
+                                <p class="error invalid-feedback" id="error-ubicacion" style="color: red;"></p>
                             </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-end pt-1 me-3">

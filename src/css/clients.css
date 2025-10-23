@@ -1,9 +1,7 @@
 /* Variables de colores de estado */
 :root {
-    --active-light: #a4dbc2;
-    --active-dark: #0a6b3e;
-    --inactive-light: #dd989f;
-    --inactive-dark: #991522;
+    --danger-light: #dd989f;
+    --danger-dark: #991522;
 }
 
 /* Estilos de la página y estructura */
@@ -22,6 +20,16 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+table {
+    font-size: 15px;
+}
+
+@media (max-width: 430px) {
+    table {
+        font-size: 13px;
+    }
+}
+
 th {
     color: var(--secondary) !important;
 }
@@ -31,26 +39,9 @@ th {
     font-weight: bold;
 }
 
-.client-id, .client-email, #clients-pages-results {
+.client-rfc, .client-phone, .client-cp, #clients-pages-results {
     font-size: 13px;
     color: var(--secondary) !important;
-}
-
-.client-status {
-    padding: 5px 12px 5px 12px;
-    border-radius: 50px;
-    font-weight: bold;
-    display: inline-block;
-}
-
-.client-active {
-    background-color: var(--active-light) !important;
-    color: var(--active-dark) !important;
-}
-
-.client-inactive {
-    background-color: var(--inactive-light) !important;
-    color: var(--inactive-dark) !important;
 }
 
 .client-buttons {
