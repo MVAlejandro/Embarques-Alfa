@@ -1,4 +1,10 @@
+// Estilos generales
 import '../css/style.css'
+import '../css/orders.css'
+
+// Estilos de componentes
 import '../css/components/navbar.css'
 import '../css/components/footer.css'
-import '../css/orders.css'
+
+// Componentes JS
+import './components/navbar.js';

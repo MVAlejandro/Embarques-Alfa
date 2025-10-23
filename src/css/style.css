@@ -66,6 +66,13 @@ p, h5, h4 {
     box-shadow: 0 0 5px var(--primary-dark);
 }
 
+input::placeholder, textarea::placeholder {
+    color: var(--primary-dark) !important;
+    font-style: italic;
+    opacity: 1;
+    font-size: 14px;
+}
+
 .label-over-border {
     position: relative;
 }
@@ -93,8 +100,15 @@ p, h5, h4 {
     }
 }
 
+/* Eliminar flechas de inputs numericos */
+.no-arrows::-webkit-outer-spin-button,
+.no-arrows::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 /* Estilos para botones */
-.btn-primary {
+.btn-primary, .btn:disabled {
     border: 1px solid var(--primary);
     background-color: var(--primary);
     border-radius: 11px;
@@ -109,7 +123,48 @@ p, h5, h4 {
 
 .btn-primary:focus {
     outline: none;
-    box-shadow: 0 0 10px rgba(143, 199, 74, 0.5);
+    box-shadow: 0 0 10px var(--primary-dark);
+}
+
+.btn-secondary {
+    border: 1px solid var(--secondary-light);
+    background-color: transparent;
+    color: var(--secondary);
+    border-radius: 11px;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary);
+    border-color: var(--primary-dark);
+    color: var(--text-light);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary:focus {
+    outline: none;
+    box-shadow: 0 0 10px var(--primary-dark);
+}
+
+/* Estilos para botones de las tabs */
+.tab-btn {
+    background-color: var(--background);
+    border: 1px solid var(--secondary-light);
+    color: var(--background-dark);
+    font-weight: bold;
+    font-size: 0.9rem;
+    border-radius: 11px !important;
+    margin-right: 8px;
+    transition: all 0.3s ease;
+}
+.tab-btn.active {
+    background-color: var(--primary) !important;
+    color: var(--text-light);
+}
+
+.tab-btn:hover {
+    background-color: var(--primary-light);
+    color: var(--secondary);
 }
 
 /* Estilos para botones de edición de entradas */
@@ -119,7 +174,7 @@ p, h5, h4 {
 }
 
 .btn-edit {
-    color: var(--primary);
+    color: var(--primary-dark);
 }
 
 .btn-edit:hover {
@@ -136,6 +191,10 @@ p, h5, h4 {
     background-color: var(--canceled-dark);
     color: var(--text-light);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-delete-confirm {
+    width: 85px;
 }
 
 /* Estilos para paginación y su navegación */

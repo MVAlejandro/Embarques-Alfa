@@ -4,8 +4,6 @@
     --active-dark: #0a6b3e;
     --inactive-light: #dd989f;
     --inactive-dark: #991522;
-    --pending-light: #fcebb9;
-    --pending-dark: #a57c00;
 }
 
 /* Estilos de la página y estructura */
@@ -18,7 +16,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#clients-filter-container, .table-responsive, #clients-pages-container {
+#clients-form-container, #clients-filter-container, .table-responsive, #clients-pages-container {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -45,19 +43,14 @@ th {
     display: inline-block;
 }
 
-.active {
+.client-active {
     background-color: var(--active-light) !important;
     color: var(--active-dark) !important;
 }
 
-.inactive {
+.client-inactive {
     background-color: var(--inactive-light) !important;
     color: var(--inactive-dark) !important;
-}
-
-.pending {
-    background-color: var(--pending-light) !important;
-    color: var(--pending-dark) !important;
 }
 
 .client-buttons {

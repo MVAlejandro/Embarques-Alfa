@@ -1,3 +1,8 @@
+/* Ocultar avbar */
+.navbar-nav, .navbar-toggler {
+    display: none !important;
+}
+
 /* Banner principal */
 #banner {
     position: relative;
@@ -90,21 +95,6 @@
 
 #ship-cards-container:hover .order-card:hover {
   filter: brightness(1.0); /* Pero si una card está en hover, se ilumina */
-}
-
-#order-card-1 {
-    border-radius: 10px 10px 0 0;
-    background: linear-gradient(to top, var(--primary) 65%, var(--primary-light) 65%);
-}
-
-#order-card-2 {
-    border-radius: 10px 10px 0 0;
-    background: linear-gradient(to top, var(--primary) 100%, var(--primary-light) 100%);
-}
-
-#order-card-3 {
-    border-radius: 10px 10px 0 0;
-    background: linear-gradient(to top, var(--primary) 30%, var(--primary-light) 30%);
 }
 
 .ship-cant {
