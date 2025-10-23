@@ -8,3 +8,4 @@ import '../css/components/footer.css'
 
 // Componentes JS
 import './components/navbar.js';
+import './components/orders/orders-form.js'

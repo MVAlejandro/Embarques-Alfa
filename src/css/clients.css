@@ -1,9 +1,3 @@
-/* Variables de colores de estado */
-:root {
-    --danger-light: #dd989f;
-    --danger-dark: #991522;
-}
-
 /* Estilos de la página y estructura */
 #clients-header {
     margin-top: 0;
@@ -18,16 +12,6 @@
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-table {
-    font-size: 15px;
-}
-
-@media (max-width: 430px) {
-    table {
-        font-size: 13px;
-    }
 }
 
 th {

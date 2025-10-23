@@ -1,13 +1,17 @@
 /* Variables de colores de estado */
 :root {
-    --completed-light: #a4dbc2;
-    --completed-dark: #0b5231;
-    --canceled-light: #dd989f;
-    --canceled-dark: #79111c;
-    --pending-light: #95a9d6;
-    --pending-dark: #0a2a6e;
+    --planning-light: #95a9d6;
+    --planning-dark: #0a2a6e;
+    --ready-light: #3cb17c;
+    --ready-dark: #0b5231;
     --process-light: #fcebb9;
     --process-dark: #7e6009;
+    --partial-light: #bce0c8;
+    --partial-dark: #0c6e40;
+    --canceled-light: #dd989f;
+    --canceled-dark: #79111c;
+    --reprogramed-light: #afafaf;
+    --reprogramed-dark: #505050;
 }
 
 /* Estilos de la página y estructura */
@@ -20,7 +24,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#orders-filter-container, .table-responsive, #orders-pages-container {
+#orders-form-container, #orders-filter-container, .table-responsive, #orders-pages-container {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -31,7 +35,7 @@ th {
 }
 
 /* Estilos de texto para la tabla */
-.order-client-email, #orders-pages-results {
+.order-contract, .order-client-email, #orders-pages-results {
     font-size: 13px;
     color: var(--secondary) !important;
 }
@@ -40,21 +44,21 @@ th {
     color: var(--secondary) !important;
 }
 
-.order-status {
+.order-condition {
     padding: 5px 12px 5px 12px;
     border-radius: 50px;
     font-weight: bold;
     display: inline-block;
 }
 
-.completed {
-    background-color: var(--completed-light) !important;
-    color: var(--completed-dark) !important;
+.planning {
+    background-color: var(--planning-light) !important;
+    color: var(--planning-dark) !important;
 }
 
-.canceled {
-    background-color: var(--canceled-light) !important;
-    color: var(--canceled-dark) !important;
+.ready {
+    background-color: var(--ready-light) !important;
+    color: var(--ready-dark) !important;
 }
 
 .process {
@@ -62,9 +66,19 @@ th {
     color: var(--process-dark) !important;
 }
 
-.pending {
-    background-color: var(--pending-light) !important;
-    color: var(--pending-dark) !important;
+.partial {
+    background-color: var(--partial-light) !important;
+    color: var(--partial-dark) !important;
+}
+
+.canceled {
+    background-color: var(--canceled-light) !important;
+    color: var(--canceled-dark) !important;
+}
+
+.reprogramed {
+    background-color: var(--reprogramed-light) !important;
+    color: var(--reprogramed-dark) !important;
 }
 
 .order-buttons {

@@ -11,6 +11,8 @@
     --background-dark: #222222;
     --background-light: #fff;
     --text-light: #fff;
+    --danger-light: #dd989f;
+    --danger-dark: #991522;
 }
 
 /* Estilos generales de la página y estructura */
@@ -34,6 +36,16 @@ section {
 
 p, h5, h4 {
     margin-bottom: 0px;
+}
+
+table {
+    font-size: 15px;
+}
+
+@media (max-width: 430px) {
+    table {
+        font-size: 13px;
+    }
 }
 
 /* Contenedores de figuras para los iconos */

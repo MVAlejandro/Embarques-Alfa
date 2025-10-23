@@ -1,5 +1,3 @@
-/* plan de dia azul, proceso amarillo, parcial verde claro, listo verde fuerte, 
-   stock out, reprogramado y cancelado rojo */
 /* Variables de colores de estado */
 :root {
     --planning-light: #95a9d6;
@@ -16,8 +14,7 @@
     --reprogramed-dark: #505050;
 }
 
-/* embarcado verde, preparacion amarillo, plan azul, cancelado y rechazado rojo, reprogramado gris */
-
+/* Estilos de la página y estructura */
 #shipments-header {
     margin-top: 0;
 }
@@ -64,10 +61,6 @@ th {
 }
 
 /* Estilos de texto para la tabla */
-table {
-    font-size: 15px;
-}
-
 .shipment-contract, .shipment-cant {
     font-size: 13px;
     color: var(--secondary) !important;
