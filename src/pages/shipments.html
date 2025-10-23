@@ -93,7 +93,7 @@
         <!-- SECCIÓN DE REGISTROS -->
         <section id="shipments-register" class="pb-4">
             <div id="shipments-table-container" class="container table-responsive p-0">
-                <table id="shipments-table" class="table table-hover align-middle">
+                <table id="shipments-table" class="table table-hover">
                     <thead>
                         <tr class="table-light">
                             <th class="p-3 ps-4">DÍA</th>
@@ -117,6 +117,12 @@
                             <td class="p-2">
                                 <p class="shipment-product">TARSTD01</p>
                                 <p class="shipment-cant fw-bold">Cant. 150</p>
+                                <hr>
+                                <p class="shipment-product">TARESP02</p>
+                                <p class="shipment-cant fw-bold">Cant. 250</p>
+                                <hr>
+                                <p class="shipment-product">TARCUS12</p>
+                                <p class="shipment-cant fw-bold">Cant. 50</p>
                             </td>
                             <td class="text-center p-2">
                                 <p class="shipment-condition process">En proceso</p>
@@ -126,7 +132,7 @@
                             </td>
                             <td class="shipment-observation p-2">Entrega en plan</td>
                             <td class="shipment-control text-center">
-                                <button class="btn btn-primary btn-update">Actualizar</button>
+                                <button class="btn btn-primary btn-update" data-bs-target="#edit-modal" data-bs-toggle="modal">Actualizar</button>
                             </td>
                         </tr>
                         <tr>
@@ -249,12 +255,108 @@
                                 <button class="btn btn-primary btn-update">Actualizar</button>
                             </td>
                         </tr>
+                        <tr class="fw-bold">
+                            <td class="text-center" colspan="3">Tarimas Totales</td>
+                            <td class="p-2">1,350</td>
+                            <td colspan="4"></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         </section>
+    </main>
 
-     </main>
+     <!-- Modal de edición para cada registro -->
+    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content pt-3 pb-3">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col d-flex align-items-center">
+                            <div class="ms-4 me-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" style="color:var(--primary)">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                </svg>
+                            </div>
+                            <h5 class="modal-title" id="edit-modalLabel">Actualizar orden de compra</h5>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="form-editar-producto">
+                            <input type="hidden" id="edit_id_producto">
+                            <!-- Campos editables -->
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-6 label-over-border">
+                                    <label for="edit-cliente" class="form-label m-2">Cliente</label>
+                                    <input type="text" class="form-control" id="edit-cliente" disabled>
+                                    <p class="error invalid-feedback" id="error-editCliente" style="color: red;"></p>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-6 label-over-border">
+                                    <label for="edit-oc" class="form-label m-2">Orden de compra</label>
+                                    <input type="text" class="form-control" id="edit-oc" disabled>
+                                    <p class="error invalid-feedback" id="error-editOc" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-6 label-over-border">
+                                    <label for="edit-contrato" class="form-label m-2">Contrato</label>
+                                    <input type="text" class="form-control" id="edit-contrato" disabled>
+                                    <p class="error invalid-feedback" id="error-editContrato" style="color: red;"></p>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-3 label-over-border">
+                                    <label for="edit-fecha" class="form-label m-2">Fecha</label>
+                                    <input type="date" class="form-control" id="edit-fecha" disabled>
+                                    <p class="error invalid-feedback" id="error-editFecha" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-9 label-over-border">
+                                    <label for="edit-observaciones" class="form-label m-2">Observaciones</label>
+                                    <input type="text" class="form-control" id="edit-observaciones">
+                                    <p class="error invalid-feedback" id="error-editObservaciones" style="color: red;"></p>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-6 label-over-border">
+                                    <label for="edit-condicion" class="form-label m-2">Condición</label>
+                                    <select id="edit-condicion" class="form-select" aria-label="Default select example">
+                                        <option class="fw-bold" value="En plan diario" style="background-color: var(--planning-light); color: var(--planning-dark);">En plan diario</option>
+                                        <option class="fw-bold" value="En proceso" style="background-color: var(--process-light); color: var(--process-dark);">En proceso</option>
+                                        <option class="fw-bold" value="PT Parcial" style="background-color: var(--partial-light); color: var(--partial-dark);">PT Parcial</option>
+                                        <option class="fw-bold" value="PT Listo" style="background-color: var(--ready-light); color: var(--ready-dark);">PT Listo</option>
+                                        <option class="fw-bold" value="Stock Out" style="background-color: var(--canceled-light); color: var(--canceled-dark);">Stock Out</option>
+                                        <option class="fw-bold" value="Reprogramado" style="background-color: var(--reprogramed-light); color: var(--reprogramed-dark);">Reprogramado</option>
+                                        <option class="fw-bold" value="Cancelado" style="background-color: var(--canceled-light); color: var(--canceled-dark);">Cancelado</option>
+                                    </select>
+                                    <p class="error invalid-feedback" id="error-editCondicion" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-6 label-over-border">
+                                    <label for="edit-acuerdo" class="form-label m-2">Acuerdo</label>
+                                    <select id="edit-acuerdo" class="form-select" aria-label="Default select example">
+                                        <option class="fw-bold" value="En plan diario" style="background-color: var(--planning-light); color: var(--planning-dark);">En plan diario</option>
+                                        <option class="fw-bold" value="En preparación" style="background-color: var(--process-light); color: var(--process-dark);">En preparación</option>
+                                        <option class="fw-bold" value="Embarcado" style="background-color: var(--ready-light); color: var(--ready-dark);">Embarcado</option>
+                                        <option class="fw-bold" value="Cancelado" style="background-color: var(--canceled-light); color: var(--canceled-dark);">Cancelado</option>
+                                        <option class="fw-bold" value="Reprogramado" style="background-color: var(--reprogramed-light); color: var(--reprogramed-dark);">Reprogramado</option>
+                                        <option class="fw-bold" value="Rechazado" style="background-color: var(--canceled-light); color: var(--canceled-dark);">Rechazado</option>
+                                    </select>
+                                    <p class="error invalid-feedback" id="error-editAcuerdo" style="color: red;"></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer me-4">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="btn_guardar_cambios">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- FOOTER -->
     <footer id="site-footer">

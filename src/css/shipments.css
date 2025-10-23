@@ -60,6 +60,11 @@ th {
     color: var(--secondary) !important;
 }
 
+input:disabled {
+    background-color: var(--background-light) !important;
+    color: var(--primary-dark) !important;
+}
+
 /* Estilos de texto para la tabla */
 .shipment-contract, .shipment-cant {
     font-size: 13px;
