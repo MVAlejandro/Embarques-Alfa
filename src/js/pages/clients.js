@@ -21,15 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
 // Declarar los botones de editar
 document.addEventListener('click', function(e) {
     if (e.target.classList.contains('btn-edit')) {
-        const clientData = JSON.parse(e.target.getAttribute('data-cliente'));
+        const clientData = JSON.parse(e.target.getAttribute('client-data'));
         renderClientsEditModal(clientData);
     }
 });
 
 // Declarar los botones de eliminar
-// Eliminar entrada al dar click en el botón del segundo modal
-document.getElementById('btn-delete-entry').addEventListener('click', async () => {
-    const clientId = JSON.parse(e.target.getAttribute('data-cliente')).id_cliente;
-
-    // deleteClient(clientId)
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('btn-delete')) {
+        const idClient = e.target.dataset.id;
+        document.getElementById('delete-id-cliente').value = idClient;
+    }
 });

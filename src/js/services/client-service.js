@@ -22,3 +22,35 @@ export async function getClients() {
         correo: cliente.correo
     }));
 }
+
+// Función para editar clientes de la base
+export async function updateClient(id_cliente, updatedData) {
+    const { data, error } = await supabase
+        .from('clientes')
+        .update(updatedData)
+        .eq('id_cliente', id_cliente);
+
+    if (error) {
+        console.error('Error al actualizar:', error);
+        alert('Error al actualizar el cliente: ' + error.message);
+    }
+}
+
+// Función para eliminar clientes de la base
+export async function deleteClient(idClient) {
+    if (!idClient) {
+        alert('No se pudo obtener el ID del cliente a eliminar.');
+        return;
+    }
+
+    const { error } = await supabase
+        .from('clientes')
+        .delete()
+        .eq('id_cliente', idClient);
+
+    if (error) {
+        console.error('Error eliminando cliente:', error);
+        alert('Ocurrió un error al eliminar el cliente.');
+        return;
+    }
+};

@@ -58,12 +58,6 @@
             <div id="clients-filter-container" class="container pt-4 pb-3">
                 <div class="row ms-2 me-2">
                     <div class="col-md-4 col-lg-3 d-flex align-items-center label-over-border">
-                        <label for="status-filter" class="form-label m-2">Filtrar por Estado</label>
-                        <select class="form-select" id="status-filter">
-                            <option value="">Todos</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4 col-lg-3 d-flex align-items-center label-over-border">
                         <label for="search-filter" class="form-label m-2">Buscar por cliente</label>    
                         <input id="search-filter" class="form-control" type="search" placeholder="Buscar..." aria-label="Search"/>
                     </div>
@@ -149,7 +143,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <form id="form-editar-producto">
+                        <form id="product-edit-form">
                             <input type="hidden" id="edit-id-cliente">
                             <!-- Campos editables -->
                             <div class="row ms-2 me-2 pt-3 pb-3">
@@ -198,7 +192,7 @@
                 </div>
                 <div class="modal-footer me-4">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="btn_guardar_cambios">Guardar cambios</button>
+                    <button id="btn-edit-entry" class="btn btn-primary">Guardar cambios</button>
                 </div>
             </div>
         </div>
@@ -223,11 +217,12 @@
                     <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body m-auto pt-4 pb-4">
-                    ¿Está seguro de querer eliminar el registro seleccionado?
+                    <input type="hidden" id="delete-id-cliente">
+                    <p>¿Está seguro de querer eliminar el registro seleccionado?</p>
                 </div>
                 <div class="modal-footer me-4">
-                    <button type="button" class="btn btn-secondary btn-delete-confirm" data-bs-dismiss="modal">No</button>
-                    <button id="btn-delete-entry" class="btn btn-primary btn-delete-confirm">Sí</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button id="btn-delete-entry" class="btn btn-primary">Sí</button>
                 </div>
             </div>
         </div>
