@@ -1,15 +1,31 @@
 import supabase from '../../supabase/supabase-client.js'
 import { getClients } from '../../services/client-service.js';
 
+const perPage = 5;
+let currentPage = 1;
+let allClients = [];
+
+// Función para crear la tabla y la paginación
 export async function renderClientsTable() {
-    const clients = await getClients();
+    // Obtener clientes 
+    allClients = await getClients();
+    
     const tbody = document.querySelector('#clients-table tbody');
+    const pagination = document.querySelector('#clients-pages .pagination');
+    const resultsText = document.getElementById('clients-pages-results');
+
+    // Calcular clientes de la página actual
+    const pageStart = (currentPage - 1) * perPage;
+    const pageEnd = pageStart + perPage;
+    const clients = allClients.slice(pageStart, pageEnd);
 
     // Limpiar tabla antes de insertar
     tbody.innerHTML = '';
 
     if (!clients || clients.length === 0) {
         tbody.innerHTML = `<tr><td colspan="8">No hay clientes registrados</td></tr>`;
+        resultsText.textContent = `Mostrando 0 de ${allClients.length} resultados`;
+        pagination.innerHTML = '';
         return;
     }
 
@@ -28,7 +44,7 @@ export async function renderClientsTable() {
                 <p class="client-ubication">${cliente.ubicacion}</p>
                 <p class="client-cp">CP: ${cliente.codigo_postal}</p>
             </td>
-            <td class="client-controls text-end p-3 pe-4">
+            <td class="client-controls text-pageEnd p-3 pe-4">
                 <div class="client-buttons">
                     <button class="btn btn-edit" 
                         data-bs-target="#edit-modal" 
@@ -49,5 +65,51 @@ export async function renderClientsTable() {
                 </div>
             </td>
         </tr>`;
+    });
+
+    // Actualizar texto de resultados
+    const total = allClients.length;
+    resultsText.textContent = `Mostrando ${Math.min(pageStart + 1, total)} a ${Math.min(pageEnd, total)} de ${total} resultados`;
+
+    // Crear paginación
+    const totalPages = Math.ceil(total / perPage);
+    pagination.innerHTML = '';
+
+    // Botón Anterior
+    pagination.innerHTML += 
+        `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}" data-page="prev">
+            <a class="page-link" href="#">&laquo;</a>
+        </li>`;
+
+    // Números de página
+    for (let i = 1; i <= totalPages; i++) {
+        pagination.innerHTML += 
+        `<li class="page-item ${i === currentPage ? 'active' : ''}" data-page="${i}">
+            <a class="page-link" href="#">${i}</a>
+        </li>`;
+    }
+
+    // Botón Siguiente
+    pagination.innerHTML += 
+        `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}" data-page="next">
+            <a class="page-link" href="#">&raquo;</a>
+        </li>`;
+
+    // Añadir los eventos de clic a la paginación
+    pagination.querySelectorAll('.page-item').forEach(item => {
+        item.addEventListener('click', e => {
+            e.preventDefault();
+            const type = item.dataset.page;
+
+            if (type === 'prev' && currentPage > 1) {
+                currentPage--;
+            } else if (type === 'next' && currentPage < totalPages) {
+                currentPage++;
+            } else if (!isNaN(parseInt(type))) {
+                currentPage = parseInt(type);
+            }
+
+            renderClientsTable();
+        });
     });
 }

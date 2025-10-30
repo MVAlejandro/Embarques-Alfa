@@ -1,6 +1,18 @@
 import supabase from '../supabase/supabase-client.js'
 
-// Función centralizada para obtener clientes
+// Función para insertar nuevos clientes
+export async function createClient(clientData) {
+    const { data, error } = await supabase
+        .from('clientes')
+        .insert([clientData]);
+
+    if (error) {
+        console.error(error);
+        throw error;
+    } 
+}
+
+// Función para obtener clientes
 export async function getClients() {
     const { data, error } = await supabase
         .from('clientes')

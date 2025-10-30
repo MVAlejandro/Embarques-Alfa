@@ -16,16 +16,13 @@ export function textValidate(data, error) {
     if (data.value.length < 3) {
         error.textContent = `El campo debe de tener al menos 3 caracteres`;
         data.classList.add('is-invalid');
-        return; 
-    }
-
-    if (!textRegex.test(data.value)) {
+    } else if (!textRegex.test(data.value)) {
         error.textContent = `El campo no acepta esos caracteres especiales`;
         data.classList.add('is-invalid');
-        return; 
+    } else {
+        error.textContent = '';
+        data.classList.add('is-valid');
     }
-
-    data.classList.add('is-valid');
 }
 
 // Función que valida que los campos sean solo letras y que haya al menos 3 caracteres
@@ -36,16 +33,13 @@ export function nameValidate(data, error) {
     if (data.value.length < 3) {
         error.textContent = `El campo debe de tener al menos 3 caracteres`;
         data.classList.add('is-invalid');
-        return; 
-    }
-
-    if (!nameRegex.test(data.value)) {
+    } else if (!nameRegex.test(data.value)) {
         error.textContent = `El campo no acepta caracteres especiales ni números`;
         data.classList.add('is-invalid');
-        return; 
+    } else {
+        error.textContent = '';
+        data.classList.add('is-valid');
     }
-
-    data.classList.add('is-valid');
 }
 
 // Función que valida que el rfc tenga un formato válido
