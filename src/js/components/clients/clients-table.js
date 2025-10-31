@@ -1,4 +1,5 @@
 import supabase from '../../supabase/supabase-client.js'
+// Servicios Supabase
 import { getClients } from '../../services/client-service.js';
 
 const perPage = 5;
@@ -6,9 +7,13 @@ let currentPage = 1;
 let allClients = [];
 
 // Función para crear la tabla y la paginación
-export async function renderClientsTable() {
-    // Obtener clientes 
-    allClients = await getClients();
+export async function renderClientsTable(clientsParam = null) {
+    // Obtener clientes si no se pasa una lista filtrada
+    if (clientsParam) {
+        allClients = clientsParam;
+    } else {
+        allClients = await getClients();
+    }
     
     const tbody = document.querySelector('#clients-table tbody');
     const pagination = document.querySelector('#clients-pages .pagination');

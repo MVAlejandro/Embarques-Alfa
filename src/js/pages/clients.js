@@ -12,11 +12,19 @@ import '../components/clients/generate-form.js'
 
 // Servicios Supabase
 import { addManualClient, addExcelClient } from '../components/clients/clients-form.js';
+import { searchFilter } from '../components/clients/clients-filter.js';
 import { renderClientsTable } from '../components/clients/clients-table.js';
 import { renderClientsEditModal } from '../components/clients/clients-modal.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     renderClientsTable();
+});
+
+// Declarar el botón de filtrado
+document.addEventListener('click', function(e) {
+    if (e.target.id === 'filter-btn' || e.target.closest('#filter-btn')) {
+        searchFilter(e);
+    }
 });
 
 // Declarar el botón del formulario manual
@@ -33,17 +41,29 @@ document.addEventListener('click', function(e) {
 });
 
 // Declarar los botones de editar
-document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('btn-edit')) {
-        const clientData = JSON.parse(e.target.getAttribute('client-data'));
-        renderClientsEditModal(clientData);
-    }
+const editModal = document.getElementById('edit-modal');
+
+editModal.addEventListener('shown.bs.modal', event => {
+    const button = event.relatedTarget;
+    const clientData = JSON.parse(button.getAttribute('client-data'));
+    renderClientsEditModal(clientData);
+
+    // Limpiar el modal al cerrarlo
+    editModal.addEventListener('hidden.bs.modal', () => {
+        document.querySelectorAll('#edit-modal input').forEach(input => (input.value = ''));
+    });
 });
 
 // Declarar los botones de eliminar
-document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('btn-delete')) {
-        const idClient = e.target.dataset.id;
-        document.getElementById('delete-id-cliente').value = idClient;
-    }
+const deleteModal = document.getElementById('delete-modal');
+
+deleteModal.addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget;
+    const idClient = button.dataset.id;
+    document.getElementById('delete-id-cliente').value = idClient;
+
+    // Limpiar información al cerrar modal
+    deleteModal.addEventListener('hidden.bs.modal', () => {
+        document.getElementById('delete-id-cliente').value = '';
+    });
 });

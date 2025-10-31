@@ -9,7 +9,7 @@ import { nameValidate, textValidate, rfcValidate, emailValidate, phoneValidate, 
 export async function addManualClient(event) {
     event.preventDefault()
 
-    const formulario = document.getElementById('form-manual');
+    const form = document.getElementById('form-manual');
     // Referencias para validación
     const nombreIn = document.getElementById("nombre");
     const razon_socialIn = document.getElementById("razon_social");
@@ -36,7 +36,7 @@ export async function addManualClient(event) {
     cpValidate(codigo_postalIn, codigo_postalError)
     textValidate(ubicacionIn, ubicacionError)
 
-    const campos = formulario.querySelectorAll('input')
+    const campos = form.querySelectorAll('input')
     if (!inputValidate(campos)) {
         alert('Corrige los errores antes de guardar.')
         return
@@ -56,7 +56,7 @@ export async function addManualClient(event) {
     try {
         await createClient(newClientData);
         alert('Cliente agregado con éxito.');
-        formulario.reset();
+        form.reset();
     
         // Recarga la tabla con los datos actualizados
         await renderClientsTable();
@@ -70,7 +70,7 @@ export async function addManualClient(event) {
 export async function addExcelClient(event) {
     event.preventDefault();
 
-    const formulario = document.getElementById('form-excel');
+    const form = document.getElementById('form-excel');
     // Referencias para validación y errores
     const excelData = document.getElementById('excel-data').value
     const excelDataIn = document.getElementById('excel-data')
@@ -84,7 +84,7 @@ export async function addExcelClient(event) {
         return
     }
 
-    const campos = formulario.querySelectorAll('input')
+    const campos = form.querySelectorAll('input')
     if (!inputValidate(campos)) {
         alert('Corrige los errores antes de guardar.')
         return
@@ -126,7 +126,7 @@ export async function addExcelClient(event) {
     }
 
     alert(`Se agregaron ${insertedClients} clientes.`);
-    formulario.reset();
+    form.reset();
 
     // Recarga la tabla con los datos actualizados
     await renderClientsTable();
