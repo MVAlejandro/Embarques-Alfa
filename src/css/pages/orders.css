@@ -87,3 +87,10 @@ th {
     display: flex;
     justify-content: flex-end;
 }
+
+@media (max-width: 768px) {
+    .label-over-border {
+        margin-bottom: 1.5rem;
+        padding-left: 0;
+    }
+}

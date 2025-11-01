@@ -11,7 +11,7 @@ export async function searchFilter(event) {
     const searchText = document.getElementById('search-filter').value.trim().toLowerCase();
     // Obtener clientes
     allClients = await getClients();
-    if (!allClients) return;
+        if (!allClients) return;
 
     // Si no hay filtros activos, mostrar todo
     if (searchText === '') {

@@ -6,7 +6,7 @@ const rfcRegex = /^([A-Z&Ñ]{3,4})\d{6}[A-Z0-9]{3}$/; // RFC
 const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+$/; // Email
 const phoneRegex = /^[1-9]\d{9}$/; // Número telefónico
 const cpRegex = /^\d{5}$/ // Código postal
-const amountRegex = /^\d+(\.\d{1,2})?$/ // Cantidades y precios
+const amountRegex = /^\d+([-\.]\d{1,2})?$/ // Cantidades y precios
 
 // Función que valida que los campos sean solo letras, algunos caracteres especiales y que haya al menos 3 caracteres
 export function textValidate(data, error) {
@@ -107,12 +107,12 @@ export function cpValidate (data, error){
 }
 
 // Función que valida que el costo sea válido
-export function amountValidate (data, error, tipo){
+export function amountValidate (data, error){
     error.textContent = '';
     data.classList.remove('is-invalid', 'is-valid');
 
     if(!amountRegex.test(data.value)){
-        error.textContent=`${tipo} no es válida`;
+        error.textContent=`El dato no es válido`;
         data.classList.add('is-invalid');
         data.classList.remove('is-valid');
     } else {
