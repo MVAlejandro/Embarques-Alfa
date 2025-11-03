@@ -1,43 +1,51 @@
 // Servicios Supabase
 import { getOrders } from '../../services/order-service.js'; 
 import { renderOrdersTable } from './orders-table.js';
+// Utilidades
+import { loadOptions } from '../../utils/load-select.js';
 
 let allOrders = [];
+
+// Cargar las opciones de filtrado al iniciar la página
+document.addEventListener('DOMContentLoaded', async () => {
+    loadOptions('client-filter', 'clientes', 'id_cliente', 'nombre')
+})
 
 // Función de filtrado por valores seleccionados
 export async function ordersFilter(event) {
     event.preventDefault();
 
-    const typeFilter = document.getElementById('filtro_typeFilter').value;
-    const valueFiltered = document.getElementById('filtro_orden').value;
+    const dateStartIn = document.getElementById('date-start-filter').value;
+    const dateEndIn = document.getElementById('date-end-filter').value;
+    const clientFiltered = document.getElementById('client-filter').value;
+    const statusFiltered = document.getElementById('status-filter').value;
 
     // Obtener órdenes
     allOrders = await getOrders();
         if (!allOrders) return;
 
     // Si no hay filtros activos, mostrar todo
-    const filterClean = typeFilter === '0' && (!valueFiltered || valueFiltered === '0');
+    const filterClean = !dateStartIn && !dateEndIn && clientFiltered === '0' && statusFiltered === '0';
 
     if (filterClean) {
         renderOrdersTable(allOrders);
         return;
     }
 
+    const dateStart = dateStartIn ? new Date(dateStartIn) : new Date(NaN);
+    const dateEnd = dateEndIn ? new Date(dateEndIn) : new Date(NaN);
+
+    // Ordenar por fecha
+    allOrders.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
     // Aplicar filtros
     const filtered = allOrders.filter(o => {
-        let filterOk = true;
-
-        // Filtro por select dinámico
-        if (typeFilter !== '0' && valueFiltered !== '0') {
-            const campo = o[typeFilter]?.toString().toLowerCase();
-            filterOk = campo === valueFiltered.toLowerCase();
-        }
-
-        return filterOk;
+        const cumpleFechas = (!isNaN(dateStart) ? new Date(o.fecha) >= dateStart : true) &&
+                             (!isNaN(dateEnd) ? new Date(o.fecha) <= dateEnd : true);
+        const cumpleCliente = clientFiltered === '0' || o.id_cliente == clientFiltered;
+        const cumpleEstado = statusFiltered === '0' || o.condicion == statusFiltered;
+        return cumpleFechas && cumpleCliente && cumpleEstado;
     });
 
     renderOrdersTable(filtered);
 }
-
-// Función de generación de options en select de filtro
-    
