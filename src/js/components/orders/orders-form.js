@@ -8,8 +8,8 @@ import { textValidate, amountValidate, inputValidate, selectValidate } from '../
 
 // Cargar los clientes en los formularios al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
-    loadOptions('cliente-excel', 'clientes', 'id_cliente', 'nombre')
-    loadOptions('cliente', 'clientes', 'id_cliente', 'nombre')
+    loadOptions('cliente-excel', 'emb_clientes', 'id_cliente', 'nombre')
+    loadOptions('cliente', 'emb_clientes', 'id_cliente', 'nombre')
 })
 
 // Función para agregar orden de forma manual
@@ -42,8 +42,8 @@ export async function addManualOrder(event) {
         return
     }
 
-    let condicion = "plan_dia";
-    let acuerdo = "plan_dia";
+    let condicion = "En plan diario";
+    let acuerdo = "En plan diario";
 
 
     // Guardar valores
@@ -61,6 +61,9 @@ export async function addManualOrder(event) {
         await createOrder(newOrderData);
         alert('Orden agregada con éxito.');
         form.reset();
+        form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+            e.classList.remove('is-valid', 'is-invalid');
+        });
     
         // Recarga la tabla con los datos actualizados
         await renderOrdersTable();
@@ -113,8 +116,8 @@ export async function addExcelOrder(event) {
         const fecha = columns[2].trim();
         const observaciones = columns[3].trim();
 
-        let condicion = "plan_dia";
-        let acuerdo = "plan_dia";
+        let condicion = "En plan diario";
+        let acuerdo = "En plan diario";
 
         // Insertar en Supabase
         const newOrderData = {
@@ -137,6 +140,9 @@ export async function addExcelOrder(event) {
 
     alert(`Se agregaron ${insertedOrders} órdenes.`);
     form.reset();
+    form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+        e.classList.remove('is-valid', 'is-invalid');
+    });
 
     // Recarga la tabla con los datos actualizados
     await renderOrdersTable();

@@ -3,7 +3,7 @@ import supabase from '../supabase/supabase-client.js'
 // Función para insertar nuevas órdenes
 export async function createOrder(orderData) {
     const { data, error } = await supabase
-        .from('ordenes_compra')
+        .from('emb_ordenes_compra')
         .insert([orderData]);
 
     if (error) {
@@ -15,7 +15,7 @@ export async function createOrder(orderData) {
 // Función para obtener órdenes
 export async function getOrders() {
     const { data, error } = await supabase
-        .from('ordenes_compra')
+        .from('emb_ordenes_compra')
         .select(`
             id_orden,
             numero_orden,
@@ -25,7 +25,7 @@ export async function getOrders() {
             acuerdo,
             observaciones,
             id_cliente,
-            clientes (nombre, correo)
+            emb_clientes (nombre, correo)
             `);
     
     if (error) {
@@ -42,15 +42,15 @@ export async function getOrders() {
         acuerdo: orden.acuerdo,
         observaciones: orden.observaciones,
         id_cliente: orden.id_cliente,
-        cliente: orden.clientes?.nombre,
-        correo: orden.clientes?.correo
+        cliente: orden.emb_clientes?.nombre,
+        correo: orden.emb_clientes?.correo
     }));
 }
 
 // Función para editar órdenes de la base
 export async function updateOrder(id_orden, updatedData) {
     const { data, error } = await supabase
-        .from('ordenes_compra')
+        .from('emb_ordenes_compra')
         .update(updatedData)
         .eq('id_orden', id_orden);
 
@@ -68,7 +68,7 @@ export async function deleteOrder(idOrder) {
     }
 
     const { error } = await supabase
-        .from('ordenes_compra')
+        .from('emb_ordenes_compra')
         .delete()
         .eq('id_orden', idOrder);
 

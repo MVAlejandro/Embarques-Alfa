@@ -57,6 +57,9 @@ export async function addManualClient(event) {
         await createClient(newClientData);
         alert('Cliente agregado con éxito.');
         form.reset();
+        form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+            e.classList.remove('is-valid', 'is-invalid');
+        });
     
         // Recarga la tabla con los datos actualizados
         await renderClientsTable();
@@ -127,6 +130,9 @@ export async function addExcelClient(event) {
 
     alert(`Se agregaron ${insertedClients} clientes.`);
     form.reset();
+    form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+        e.classList.remove('is-valid', 'is-invalid');
+    });
 
     // Recarga la tabla con los datos actualizados
     await renderClientsTable();

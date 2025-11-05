@@ -8,7 +8,7 @@ let allOrders = [];
 
 // Cargar las opciones de filtrado al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
-    loadOptions('client-filter', 'clientes', 'id_cliente', 'nombre')
+    loadOptions('client-filter', 'emb_clientes', 'id_cliente', 'nombre')
 })
 
 // Función de filtrado por valores seleccionados
@@ -18,14 +18,13 @@ export async function ordersFilter(event) {
     const dateStartIn = document.getElementById('date-start-filter').value;
     const dateEndIn = document.getElementById('date-end-filter').value;
     const clientFiltered = document.getElementById('client-filter').value;
-    const statusFiltered = document.getElementById('status-filter').value;
 
     // Obtener órdenes
     allOrders = await getOrders();
         if (!allOrders) return;
 
     // Si no hay filtros activos, mostrar todo
-    const filterClean = !dateStartIn && !dateEndIn && clientFiltered === '0' && statusFiltered === '0';
+    const filterClean = !dateStartIn && !dateEndIn && clientFiltered === '0';
 
     if (filterClean) {
         renderOrdersTable(allOrders);
@@ -43,8 +42,7 @@ export async function ordersFilter(event) {
         const cumpleFechas = (!isNaN(dateStart) ? new Date(o.fecha) >= dateStart : true) &&
                              (!isNaN(dateEnd) ? new Date(o.fecha) <= dateEnd : true);
         const cumpleCliente = clientFiltered === '0' || o.id_cliente == clientFiltered;
-        const cumpleEstado = statusFiltered === '0' || o.condicion == statusFiltered;
-        return cumpleFechas && cumpleCliente && cumpleEstado;
+        return cumpleFechas && cumpleCliente;
     });
 
     renderOrdersTable(filtered);

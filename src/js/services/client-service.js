@@ -3,7 +3,7 @@ import supabase from '../supabase/supabase-client.js'
 // Función para insertar nuevos clientes
 export async function createClient(clientData) {
     const { data, error } = await supabase
-        .from('clientes')
+        .from('emb_clientes')
         .insert([clientData]);
 
     if (error) {
@@ -15,7 +15,7 @@ export async function createClient(clientData) {
 // Función para obtener clientes
 export async function getClients() {
     const { data, error } = await supabase
-        .from('clientes')
+        .from('emb_clientes')
         .select("*");
     
     if (error) {
@@ -38,7 +38,7 @@ export async function getClients() {
 // Función para editar clientes de la base
 export async function updateClient(id_cliente, updatedData) {
     const { data, error } = await supabase
-        .from('clientes')
+        .from('emb_clientes')
         .update(updatedData)
         .eq('id_cliente', id_cliente);
 
@@ -56,7 +56,7 @@ export async function deleteClient(idClient) {
     }
 
     const { error } = await supabase
-        .from('clientes')
+        .from('emb_clientes')
         .delete()
         .eq('id_cliente', idClient);
 

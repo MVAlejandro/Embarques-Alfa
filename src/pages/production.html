@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Programa de Embarques - Pallets Alfa</title>
+    <title>Programa de Producción - Pallets Alfa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
@@ -22,32 +22,32 @@
     <!-- CONTENEDOR PRINCIPAL -->
      <main>
         <!-- SECCIÓN DEL ENCABEZADO -->
-        <section id="shipments-header">
-            <div id="shipments-header-container" class="container-fluid p-3">
+        <section id="production-header">
+            <div id="production-header-container" class="container-fluid p-3">
                 <div class="row">
                     <div class="col d-flex align-items-center">
                         <div class="icon-square ms-3 me-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
-                                <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16">
+                                <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z"/>
                             </svg>
                         </div>
-                        <h4 class="fw-bold">Planeación de Embarques</h4>
+                        <h4 class="fw-bold">Planeación de Producción</h4>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- SECCIÓN INFORMATIVA DE LA SEMANA -->
-        <section id="shipments-info">
-            <div id="shipments-info-container" class="container p-4">
-                <h5 id="shipments-info-week" class="fw-bold">Semana del 20 al 26 de octubre del 2025</h5>
-                <p id="shipments-info-text" class="pt-2">Esta tabla muestra el planograma de embarques.</p>
+        <section id="production-info">
+            <div id="production-info-container" class="container p-4">
+                <h5 id="production-info-week" class="fw-bold">Semana del 20 al 26 de octubre del 2025</h5>
+                <p id="production-info-text" class="pt-2">Esta tabla muestra el planograma de producción.</p>
             </div>
         </section>
 
         <!-- SECCIÓN DE FILTROS -->
-        <section id="shipments-filter pt-3 pb-3">
-            <div id="shipments-filter-container" class="container pt-4 pb-3">
+        <section id="production-filter pt-3 pb-3">
+            <div id="production-filter-container" class="container pt-4 pb-3">
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <button id="btn-prev" class="btn me-3 week-buttons">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
@@ -95,123 +95,123 @@
         </section>
 
         <!-- SECCIÓN DE REGISTROS -->
-        <section id="shipments-register" class="pb-4">
-            <div id="shipments-table-container" class="container table-responsive p-0">
-                <table id="shipments-table" class="table table-hover">
+        <section id="production-register" class="pb-4">
+            <div id="production-table-container" class="container table-responsive p-0">
+                <table id="production-table" class="table table-hover">
                     <thead>
                         <tr class="table-light">
                             <th class="p-3 ps-4">DÍA</th>
                             <th class="p-3 ps-2">CLIENTE</th>
                             <th class="p-3 ps-2">CLAVE</th>
-                            <th class="text-center p-3">ACUERDO</th>
+                            <th class="text-center p-3">CONDICIÓN</th>
                             <th class="p-3 ps-2">OBSERVACIONES</th>
                             <th class="text-center p-3">ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="shipment-date fw-bold p-2 ps-4">Lunes 20</p></td>
-                            <td class="shipment-client p-2">Maderas del Norte S.A.</td>
+                            <td class="production-date fw-bold p-2 ps-4">Lunes 20</p></td>
+                            <td class="production-client p-2">Maderas del Norte S.A.</td>
                             <td class="p-2">
-                                <p class="shipment-product">TARSTD01</p>
-                                <p class="shipment-cant fw-bold">Cant. 150</p>
+                                <p class="production-product">TARSTD01</p>
+                                <p class="production-cant fw-bold">Cant. 150</p>
                                 <hr>
-                                <p class="shipment-product">TARESP02</p>
-                                <p class="shipment-cant fw-bold">Cant. 250</p>
+                                <p class="production-product">TARESP02</p>
+                                <p class="production-cant fw-bold">Cant. 250</p>
                                 <hr>
-                                <p class="shipment-product">TARCUS12</p>
-                                <p class="shipment-cant fw-bold">Cant. 50</p>
+                                <p class="production-product">TARCUS12</p>
+                                <p class="production-cant fw-bold">Cant. 50</p>
                             </td>
                             <td class="text-center p-2">
-                                <p class="shipment-agree planning">En plan diario</p>
+                                <p class="production-condition process">En proceso</p>
                             </td>
-                            <td class="shipment-observation p-2">Entrega en plan</td>
-                            <td class="shipment-control text-center">
+                            <td class="production-observation p-2">Entrega en plan</td>
+                            <td class="production-control text-center">
                                 <button class="btn btn-primary btn-update" data-bs-target="#edit-modal" data-bs-toggle="modal">Actualizar</button>
                             </td>
                         </tr>
                         <tr>
-                            <td class="shipment-date fw-bold p-2 ps-4">Martes 21</td>
+                            <td class="production-date fw-bold p-2 ps-4">Martes 21</td>
                             <td class="p-2">
-                                <p class="shipment-client">Carpintería Fina Ltda.</p>
+                                <p class="production-client">Carpintería Fina Ltda.</p>
                             </td>
                             <td class="p-2">
-                                <p class="shipment-product">TARESP05</p>
-                                <p class="shipment-cant fw-bold">Cant. 200</p>
+                                <p class="production-product">TARESP05</p>
+                                <p class="production-cant fw-bold">Cant. 200</p>
                             </td>
                             <td class="text-center p-2">
-                                <p class="shipment-agree preparation">En preparación</p>
+                                <p class="production-condition ready">PT Listo</p>
                             </td>
-                            <td class="shipment-observation p-2">Entrega en plan</td>
-                            <td class="shipment-control text-center">
+                            <td class="production-observation p-2">Entrega en plan</td>
+                            <td class="production-control text-center">
                                 <button class="btn btn-primary btn-update">Actualizar</button>
                             </td>
                         </tr>
                         <tr>
-                            <td class="shipment-date fw-bold p-2 ps-4">Miércoles 22</td>
+                            <td class="production-date fw-bold p-2 ps-4">Miércoles 22</td>
                             <td class="p-2">
-                                <p class="shipment-client">Constructora El Roble</p>
+                                <p class="production-client">Constructora El Roble</p>
                             </td>
                             <td class="p-2">
-                                <p class="shipment-product">TARSTD02</p>
-                                <p class="shipment-cant fw-bold">Cant. 100</p>
+                                <p class="production-product">TARSTD02</p>
+                                <p class="production-cant fw-bold">Cant. 100</p>
                             </td>
                             <td class="text-center p-2">
-                                <p class="shipment-agree preparation">En preparación</p>
+                                <p class="production-condition partial">PT Parcial</p>
                             </td>
-                            <td class="shipment-observation p-2">Entrega en plan</td>
-                            <td class="shipment-control text-center">
+                            <td class="production-observation p-2">Entrega en plan</td>
+                            <td class="production-control text-center">
                                 <button class="btn btn-primary btn-update">Actualizar</button>
                             </td>
                         </tr>
                         <tr>
-                            <td class="shipment-date fw-bold p-2 ps-4">Jueves 23</td>
+                            <td class="production-date fw-bold p-2 ps-4">Jueves 23</td>
                             <td class="p-2">
-                                <p class="shipment-client">Diseños de Madera S.C.</p>
+                                <p class="production-client">Diseños de Madera S.C.</p>
                             </td>
                             <td class="p-2">
-                                <p class="shipment-product">TARSTD01</p>
-                                <p class="shipment-cant fw-bold">Cant. 300</p>
+                                <p class="production-product">TARSTD01</p>
+                                <p class="production-cant fw-bold">Cant. 300</p>
                             </td>
                             <td class="text-center p-2">
-                                <p class="shipment-agree send">Embarcado</p>
+                                <p class="production-condition ready">PT Listo</p>
                             </td>
-                            <td class="shipment-observation p-2">Sin observaciones</td>
-                            <td class="shipment-control text-center">
+                            <td class="production-observation p-2">Sin observaciones</td>
+                            <td class="production-control text-center">
                                 <button class="btn btn-primary btn-update" disabled>Actualizar</button>
                             </td>
                         </tr>
                         <tr>
-                            <td class="shipment-date fw-bold p-2 ps-4">Viernes 24</td>
+                            <td class="production-date fw-bold p-2 ps-4">Viernes 24</td>
                             <td class="p-2">
-                                <p class="shipment-client">Maderas del Norte S.A.</p>
+                                <p class="production-client">Maderas del Norte S.A.</p>
                             </td>
                             <td class="p-2">
-                                <p class="shipment-product">TARCUS12</p>
-                                <p class="shipment-cant fw-bold">Cant. 50</p>
+                                <p class="production-product">TARCUS12</p>
+                                <p class="production-cant fw-bold">Cant. 50</p>
                             </td>
                             <td class="text-center p-2">
-                                <p class="shipment-agree canceled">Cancelado</p>
+                                <p class="production-condition canceled">Cancelado</p>
                             </td>
-                            <td class="shipment-observation p-2">Entrega cancelada</td>
-                            <td class="shipment-control text-center">
+                            <td class="production-observation p-2">Entrega cancelada</td>
+                            <td class="production-control text-center">
                                 <button class="btn btn-primary btn-update">Actualizar</button>
                             </td>
                         </tr>
                         <tr>
-                            <td class="shipment-date fw-bold p-2 ps-4">Sábado 25</td>
+                            <td class="production-date fw-bold p-2 ps-4">Sábado 25</td>
                             <td class="p-2">
-                                <p class="shipment-client">Maderas del Norte S.A.</p>
+                                <p class="production-client">Maderas del Norte S.A.</p>
                             </td>
                             <td class="p-2">
-                                <p class="shipment-product">TARESP02</p>
-                                <p class="shipment-cant fw-bold">Cant. 250</p>
+                                <p class="production-product">TARESP02</p>
+                                <p class="production-cant fw-bold">Cant. 250</p>
                             </td>
                             <td class="text-center p-2">
-                                <p class="shipment-agree reprogramed">Reprogramado</p>
+                                <p class="production-condition ready">PT Listo</p>
                             </td>
-                            <td class="shipment-observation p-2">Cargado para entrega martes</td>
-                            <td class="shipment-control text-center">
+                            <td class="production-observation p-2">Cargado para entrega martes</td>
+                            <td class="production-control text-center">
                                 <button class="btn btn-primary btn-update">Actualizar</button>
                             </td>
                         </tr>
@@ -268,16 +268,17 @@
                                 </div>
                                 <!-- Campos editables -->
                                 <div class="col-md-6 label-over-border">
-                                    <label for="edit-acuerdo" class="form-label m-2">Acuerdo</label>
-                                    <select id="edit-acuerdo" class="form-select" aria-label="Default select example">
+                                    <label for="edit-condicion" class="form-label m-2">Condición</label>
+                                    <select id="edit-condicion" class="form-select" aria-label="Default select example">
                                         <option class="fw-bold" value="En plan diario" style="background-color: var(--planning-light); color: var(--planning-dark);">En plan diario</option>
-                                        <option class="fw-bold" value="En preparación" style="background-color: var(--process-light); color: var(--process-dark);">En preparación</option>
-                                        <option class="fw-bold" value="Embarcado" style="background-color: var(--ready-light); color: var(--ready-dark);">Embarcado</option>
-                                        <option class="fw-bold" value="Cancelado" style="background-color: var(--canceled-light); color: var(--canceled-dark);">Cancelado</option>
+                                        <option class="fw-bold" value="En proceso" style="background-color: var(--process-light); color: var(--process-dark);">En proceso</option>
+                                        <option class="fw-bold" value="PT Parcial" style="background-color: var(--partial-light); color: var(--partial-dark);">PT Parcial</option>
+                                        <option class="fw-bold" value="PT Listo" style="background-color: var(--ready-light); color: var(--ready-dark);">PT Listo</option>
+                                        <option class="fw-bold" value="Stock Out" style="background-color: var(--canceled-light); color: var(--canceled-dark);">Stock Out</option>
                                         <option class="fw-bold" value="Reprogramado" style="background-color: var(--reprogramed-light); color: var(--reprogramed-dark);">Reprogramado</option>
-                                        <option class="fw-bold" value="Rechazado" style="background-color: var(--canceled-light); color: var(--canceled-dark);">Rechazado</option>
+                                        <option class="fw-bold" value="Cancelado" style="background-color: var(--canceled-light); color: var(--canceled-dark);">Cancelado</option>
                                     </select>
-                                    <p class="error invalid-feedback" id="error-editAcuerdo" style="color: red;"></p>
+                                    <p class="error invalid-feedback" id="error-editCondicion" style="color: red;"></p>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
@@ -309,6 +310,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script type="module" src="/src/js/pages/shipments.js"></script>
+    <script type="module" src="/src/js/pages/production.js"></script>
 </body>
 </html>

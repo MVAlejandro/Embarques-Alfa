@@ -10,7 +10,7 @@ import { textValidate, amountValidate, inputValidate, selectValidate } from '../
 export async function renderOrdersEditModal(orden) {
     // Insertar valores en los inputs
     document.getElementById('edit-id-orden').value = orden.id_orden;
-    loadOptions('edit-cliente', 'clientes', 'id_cliente', 'nombre', orden.id_cliente)
+    document.getElementById('edit-cliente').value = orden.cliente;
     document.getElementById('edit-oc').value = orden.numero_orden;
     document.getElementById('edit-contrato').value = orden.numero_contrato;
     document.getElementById('edit-fecha').value = orden.fecha;

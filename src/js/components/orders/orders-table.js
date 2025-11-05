@@ -35,54 +35,15 @@ export async function renderOrdersTable(ordersParam = null) {
     }
 
     orders.forEach(orden => {
-        // Determinar el color en base a la condición de la orden
-        let statusClass = '';
-        let statusName = '';
-        switch (orden.condicion) {
-            case 'plan_dia':
-                statusClass = 'planning';
-                statusName = "En plan diario"
-                break
-            case 'en_proceso':
-                statusClass = 'process';
-                statusName = "En proceso"
-                break
-            case 'pt_parcial':
-                statusClass = 'partial';
-                statusName = "PT Parcial"
-                break
-            case 'pt_listo':
-                statusClass = 'ready';
-                statusName = "PT Listo"
-                break
-            case 'stock_out':
-                statusClass = 'canceled';
-                statusName = "Stock Out"
-                break
-            case 'reprogramado':
-                statusClass = 'reprogramed';
-                statusName = "En plan diario"
-                break
-            case 'cancelado':
-                statusClass = 'canceled';
-                statusName = "Cancelado"
-                break
-        }
-
         tbody.innerHTML += 
         `<tr>
-            <td class="p-3 ps-4">
-                <p class="order-id fw-bold">OC-${orden.numero_orden}</p>
-                <p class="order-contract">#${orden.numero_contrato}</p>
-            </td>
+            <td class="order-id fw-bold p-3 ps-4">OC-${orden.numero_orden}</td>
+            <td class="order-contract p-3">#${orden.numero_contrato}</td>
             <td class="p-3">
                 <p class="order-client">${orden.cliente}</p>
                 <p class="order-client-email">${orden.correo}</p>
             </td>
             <td class="order-date p-3">${orden.fecha}</td>
-            <td class="text-center p-3">
-                <p class="order-condition ${statusClass}">${statusName}</p>
-            </td>
             <td class="order-controls text-end p-3 pe-4">
                 <div class="order-buttons">
                     <button class="btn btn-edit" 
