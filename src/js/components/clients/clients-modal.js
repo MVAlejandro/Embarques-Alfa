@@ -1,6 +1,6 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
-import { updateClient, deleteClient } from '../../services/client-service.js';
+import { updateClient, deleteClient } from '../../services/clients-service.js';
 import { renderClientsTable } from './clients-table.js';
 // Utilidades
 import { nameValidate, textValidate, rfcValidate, emailValidate, phoneValidate, cpValidate, inputValidate } from '../../utils/form-validations.js';
@@ -8,34 +8,34 @@ import { nameValidate, textValidate, rfcValidate, emailValidate, phoneValidate, 
 // Función para cargar datos en el modal
 export async function renderClientsEditModal(cliente) {
     // Insertar valores en los inputs
-    document.getElementById('edit-id-cliente').value = cliente.id_cliente;
-    document.getElementById('edit-nombre').value = cliente.nombre;
-    document.getElementById('edit-razon').value = cliente.razon_social;
+    document.getElementById('edit-id-client').value = cliente.id_cliente;
+    document.getElementById('edit-name').value = cliente.nombre;
+    document.getElementById('edit-company').value = cliente.razon_social;
     document.getElementById('edit-rfc').value = cliente.rfc;
-    document.getElementById('edit-telefono').value = cliente.numero_telefono;
-    document.getElementById('edit-correo').value = cliente.correo;
+    document.getElementById('edit-phone').value = cliente.numero_telefono;
+    document.getElementById('edit-email').value = cliente.correo;
     document.getElementById('edit-cp').value = cliente.codigo_postal;
-    document.getElementById('edit-ubicacion').value = cliente.ubicacion;
+    document.getElementById('edit-location').value = cliente.ubicacion;
 }
 
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     // Referencias para validación
-    const nombreIn = document.getElementById('edit-nombre');
-    const razon_socialIn = document.getElementById('edit-razon');
+    const nombreIn = document.getElementById('edit-name');
+    const razon_socialIn = document.getElementById('edit-company');
     const rfcIn = document.getElementById('edit-rfc');
-    const numero_telefonoIn = document.getElementById('edit-telefono');
-    const correoIn = document.getElementById('edit-correo');
+    const numero_telefonoIn = document.getElementById('edit-phone');
+    const correoIn = document.getElementById('edit-email');
     const codigo_postalIn = document.getElementById('edit-cp');
-    const ubicacionIn = document.getElementById('edit-ubicacion');
+    const ubicacionIn = document.getElementById('edit-location');
 
-    const nombreError = document.getElementById('error-editNombre');
-    const razon_socialError = document.getElementById('error-editRazon');
+    const nombreError = document.getElementById('error-editName');
+    const razon_socialError = document.getElementById('error-editCompany');
     const rfcError = document.getElementById('error-editRfc');
-    const numero_telefonoError = document.getElementById('error-editTelefono');
-    const correoError = document.getElementById('error-editCorreo');
+    const numero_telefonoError = document.getElementById('error-editPhone');
+    const correoError = document.getElementById('error-editEmail');
     const codigo_postalError = document.getElementById('error-editCp');
-    const ubicacionError = document.getElementById('error-editUbicacion');
+    const ubicacionError = document.getElementById('error-editLocation');
 
     // Validaciones
     nameValidate(nombreIn, nombreError)
@@ -52,7 +52,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         return
     }
 
-    const id_cliente = document.getElementById('edit-id-cliente').value;
+    const id_cliente = document.getElementById('edit-id-client').value;
     const updatedData = {
         razon_social: razon_socialIn.value,
         rfc: rfcIn.value,
@@ -80,7 +80,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
 // Eliminar entrada al dar click en el botón del modal
 document.getElementById('btn-delete-entry').addEventListener('click', async () => {
-    const idClient = document.getElementById('delete-id-cliente').value;
+    const idClient = document.getElementById('delete-id-client').value;
     await deleteClient(idClient);
 
     // Cerrar el modal y mostrar alerta

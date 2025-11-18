@@ -1,5 +1,5 @@
 // Servicios Supabase
-import { getOrders } from '../../services/order-service.js'; 
+import { getOrders } from '../../services/orders-service.js'; 
 import { renderOrdersTable } from './orders-table.js';
 // Utilidades
 import { loadOptions } from '../../utils/load-select.js';

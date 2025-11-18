@@ -15,16 +15,16 @@
 }
 
 /* Estilos de la página y estructura */
-#production-header {
+#bills-header {
     margin-top: 0;
 }
 
-#production-header-container {
+#bills-header-container {
     background-color: var(--background-light) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#production-filter-container, .table-responsive, #production-pages-container {
+#bills-filter-container, .table-responsive, #bills-pages-container {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -51,12 +51,12 @@ input:disabled {
 }
 
 /* Estilos de texto para la tabla */
-.production-time, .production-cant {
+.bill-contract, .bill-cant {
     font-size: 13px;
     color: var(--secondary) !important;
 }
 
-.production-status {
+.bill-condition, .bill-agree {
     padding: 5px 12px 5px 12px;
     border-radius: 50px;
     font-weight: bold;

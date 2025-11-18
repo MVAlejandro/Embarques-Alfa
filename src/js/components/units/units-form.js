@@ -1,19 +1,12 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
-import { createOrder } from '../../services/orders-service.js'; 
-import { renderOrdersTable } from './orders-table.js'; 
+import { createUnit } from '../../services/units-service.js';
+import { renderUnitsTable } from './units-table.js';
 // Utilidades
-import { loadOptions } from '../../utils/load-select.js';
-import { textValidate, amountValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
+import { textValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
 
-// Cargar los clientes en los formularios al iniciar la página
-document.addEventListener('DOMContentLoaded', async () => {
-    loadOptions('cliente-excel', 'emb_clientes', 'id_cliente', 'nombre')
-    loadOptions('cliente', 'emb_clientes', 'id_cliente', 'nombre')
-})
-
-// Función para agregar orden de forma manual
-export async function addManualOrder(event) {
+// Función para agregar un unidad de forma manual
+export async function addManualUnit(event) {
     event.preventDefault()
 
     // Capturar el botón que disparó el evento
@@ -25,23 +18,18 @@ export async function addManualOrder(event) {
 
     const form = document.getElementById('form-manual');
     // Referencias para validación
-    const id_clienteIn = document.getElementById("cliente");
-    const numero_ordenIn = document.getElementById("numero_orden");
-    const numero_contratoIn = document.getElementById("numero_contrato");
-    const fechaIn = document.getElementById("fecha");
-    const observacionesIn = document.getElementById("observaciones");
+    const nombreIn = document.getElementById("nombre");
+    const tipoIn = document.getElementById("tipo");
+    const descripcionIn = document.getElementById("descripcion");
     // Referencias para errores
-    const id_clienteError = document.getElementById('cliente-error');
-    const numero_ordenError = document.getElementById('numero_orden-error');
-    const numero_contratoError = document.getElementById('numero_contrato-error');
-    const fechaError = document.getElementById('fecha-error');
-    const observacionesError = document.getElementById('observaciones-error');
+    const nombreError = document.getElementById('error-nombre');
+    const tipoError = document.getElementById('error-tipo');
+    const descripcionError = document.getElementById('error-descripcion');
 
     // Validaciones
-    selectValidate(id_clienteIn, id_clienteError)
-    amountValidate(numero_ordenIn, numero_ordenError)
-    amountValidate(numero_contratoIn, numero_contratoError)
-    textValidate(observacionesIn, observacionesError)
+    textValidate(nombreIn, nombreError)
+    selectValidate(tipoIn, tipoError)
+    textValidate(descripcionIn, descripcionError)
 
     const campos = form.querySelectorAll('input, select')
     if (!inputValidate(campos)) {
@@ -60,37 +48,26 @@ export async function addManualOrder(event) {
         return
     }
 
-    let facturacion = "En proceso";
-    let embarque = "En proceso";
-    let planta = "En proceso";
-    let transporte = "En proceso";
-
     // Guardar valores
-    const newOrderData = {
-        id_cliente: id_clienteIn.value,
-        numero_orden: numero_ordenIn.value,
-        numero_contrato: numero_contratoIn.value,
-        fecha: fechaIn.value,
-        facturacion,
-        embarque,
-        planta,
-        transporte,
-        observaciones: observacionesIn.value
+    const newUnitData = {
+        nombre: nombreIn.value,
+        tipo: tipoIn.value,
+        descripcion: descripcionIn.value
     };
 
     try {
-        await createOrder(newOrderData);
-        alert('Orden agregada con éxito.');
+        await createUnit(newUnitData);
+        alert('Unidad agregada con éxito.');
         form.reset();
         form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
             e.classList.remove('is-valid', 'is-invalid');
         });
     
         // Recarga la tabla con los datos actualizados
-        await renderOrdersTable();
+        await renderUnitsTable();
     } catch (err) {
-        console.error('Error al agregar orden:', err);
-        alert('Ocurrió un error al agregar la orden de compra.');
+        console.error('Error al agregar unidad:', err);
+        alert('Ocurrió un error al agregar la unidad.');
     } finally {
         // Restaurar estado del botón
         if (btn) {
@@ -105,8 +82,8 @@ export async function addManualOrder(event) {
     }
 }
 
-// Función para agregar orden con el formato de Excel
-export async function addExcelOrder(event) {
+// Función para agregar unidads con el formato de Excel
+export async function addExcelUnit(event) {
     event.preventDefault();
 
     // Capturar el botón que disparó el evento
@@ -118,17 +95,11 @@ export async function addExcelOrder(event) {
 
     const form = document.getElementById('form-excel');
     // Referencias para validación y errores
-    const id_cliente = document.getElementById("cliente-excel").value
     const excelData = document.getElementById('excel-data').value
-
-    const id_clienteIn = document.getElementById("cliente-excel")
     const excelDataIn = document.getElementById('excel-data')
-
-    const clienteError = document.getElementById("cliente-excel-error")
     const excelDataError = document.getElementById('error-excel-data')
 
     // Validaciones
-    selectValidate(id_clienteIn, clienteError)
     textValidate(excelDataIn, excelDataError)
 
     if (!excelData) {
@@ -155,44 +126,32 @@ export async function addExcelOrder(event) {
 
     // Dividir las filas y columnas
     const rows = excelData.split('\n');
-    let insertedOrders = 0;
+    let insertedUnits = 0;
 
     for (let row of rows) {
         const columns = row.split('\t');
-        if (columns.length < 4) continue;
+        if (columns.length < 3) continue;
 
-        const numero_orden = columns[0].trim();
-        const numero_contrato = columns[1].trim();
-        const fecha = columns[2].trim();
-        const observaciones = columns[3].trim();
-
-        let facturacion = "En proceso";
-        let embarque = "En proceso";
-        let planta = "En proceso";
-        let transporte = "En proceso";
+        const nombre = columns[0].trim();
+        const tipo = columns[1].trim().toUpperCase();
+        const descripcion = columns[2].trim();
 
         // Insertar en Supabase
-        const newOrderData = {
-            id_cliente,
-            numero_orden,
-            numero_contrato,
-            fecha,
-            facturacion,
-            embarque,
-            planta,
-            transporte,
-            observaciones
+        const newUnitData = {
+            nombre,
+            tipo,
+            descripcion
         };
 
         try {
-            await createOrder(newOrderData);
-            insertedOrders++;
+            await createUnit(newUnitData);
+            insertedUnits++;
         } catch (err) {
-            console.error('Error al insertar orden:', newOrderData, err);
+            console.error('Error al insertar unidad:', newUnitData, err);
         }
     }
 
-    alert(`Se agregaron ${insertedOrders} órdenes.`);
+    alert(`Se agregaron ${insertedUnits} unidades.`);
     form.reset();
     form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
         e.classList.remove('is-valid', 'is-invalid');
@@ -210,5 +169,5 @@ export async function addExcelOrder(event) {
     }
 
     // Recarga la tabla con los datos actualizados
-    await renderOrdersTable();
+    await renderUnitsTable();
 };

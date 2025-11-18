@@ -8,5 +8,4 @@ import './css/components/footer.css';
 
 // Componentes JS
 import './js/components/navbar.js';
-import './js/components/index/pending-cards.js';
 import './js/components/index/shipment-cards.js';

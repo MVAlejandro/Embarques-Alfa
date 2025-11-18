@@ -18,6 +18,12 @@ th {
     color: var(--secondary) !important;
 }
 
+@media (min-width: 500px) and (max-width: 768px) {
+    #filter-btn {
+        margin-top: 1rem;
+    }
+}
+
 /* Estilos de texto para la tabla */
 .order-client-email, #orders-pages-results {
     font-size: 13px;
@@ -26,11 +32,4 @@ th {
 
 .order-date {
     color: var(--secondary) !important;
-}
-
-.order-buttons {
-    padding: 0px;
-    gap: 8px;
-    display: flex;
-    justify-content: flex-end;
 }

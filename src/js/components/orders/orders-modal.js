@@ -1,36 +1,35 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
-import { updateOrder, deleteOrder } from '../../services/order-service.js';
+import { updateOrder, deleteOrder } from '../../services/orders-service.js';
 import { renderOrdersTable } from './orders-table.js'; 
 // Utilidades
-import { loadOptions } from '../../utils/load-select.js';
 import { textValidate, amountValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
 
 // Función para cargar datos en el modal
 export async function renderOrdersEditModal(orden) {
     // Insertar valores en los inputs
-    document.getElementById('edit-id-orden').value = orden.id_orden;
-    document.getElementById('edit-cliente').value = orden.cliente;
+    document.getElementById('edit-id-order').value = orden.id_orden;
+    document.getElementById('edit-client').value = orden.cliente;
     document.getElementById('edit-oc').value = orden.numero_orden;
-    document.getElementById('edit-contrato').value = orden.numero_contrato;
-    document.getElementById('edit-fecha').value = orden.fecha;
-    document.getElementById('edit-observaciones').value = orden.observaciones;
+    document.getElementById('edit-contract').value = orden.numero_contrato;
+    document.getElementById('edit-date').value = orden.fecha;
+    document.getElementById('edit-observations').value = orden.observaciones;
 }
 
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     // Referencias para validación
-    const id_clienteIn = document.getElementById('edit-cliente');
+    const id_clienteIn = document.getElementById('edit-client');
     const numero_ordenIn = document.getElementById('edit-oc');
-    const numero_contratoIn = document.getElementById('edit-contrato');
-    const fechaIn = document.getElementById('edit-fecha');
-    const observacionesIn = document.getElementById('edit-observaciones');
+    const numero_contratoIn = document.getElementById('edit-contract');
+    const fechaIn = document.getElementById('edit-date');
+    const observacionesIn = document.getElementById('edit-observations');
 
-    const id_clienteError = document.getElementById('error-editCliente');
+    const id_clienteError = document.getElementById('error-editClient');
     const numero_ordenError = document.getElementById('error-editOc');
-    const numero_contratoError = document.getElementById('error-editContrato');
-    const fechaError = document.getElementById('error-editContrato');
-    const observacionesError = document.getElementById('error-editObservaciones');
+    const numero_contratoError = document.getElementById('error-editContract');
+    const fechaError = document.getElementById('error-editDate');
+    const observacionesError = document.getElementById('error-editObservations');
 
     // Validaciones
     selectValidate(id_clienteIn, id_clienteError)
@@ -44,7 +43,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         return
     }
 
-    const id_orden = document.getElementById('edit-id-orden').value;
+    const id_orden = document.getElementById('edit-id-order').value;
     const updatedData = {
         id_cliente: id_clienteIn.value,
         numero_orden: numero_ordenIn.value,
@@ -70,7 +69,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
 // Eliminar entrada al dar click en el botón del modal
 document.getElementById('btn-delete-entry').addEventListener('click', async () => {
-    const idOrder = document.getElementById('delete-id-orden').value;
+    const idOrder = document.getElementById('delete-id-order').value;
     await deleteOrder(idOrder);
 
     // Cerrar el modal y mostrar alerta

@@ -1,5 +1,5 @@
 // Servicios Supabase
-import { getClients } from '../../services/client-service.js';
+import { getClients } from '../../services/clients-service.js';
 import { renderClientsTable } from './clients-table.js';
 
 let allClients = [];
@@ -21,14 +21,8 @@ export async function searchFilter(event) {
 
     // Aplicar filtros
     const filtered = allClients.filter(c => {
-        let searchOk = true;
-
-        // Filtro por búsqueda libre
-        if (searchText) {
-            searchOk = Object.values(c).some(valor =>
-                valor?.toString().toLowerCase().includes(searchText)
-            );
-        }
+        // Filtro por búsqueda de nombre
+        const searchOk = searchText === '' || c.razon_social?.toString().toLowerCase().includes(searchText);
 
         return searchOk;
     });

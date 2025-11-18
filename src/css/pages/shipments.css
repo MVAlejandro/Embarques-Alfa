@@ -24,36 +24,15 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#shipments-info-container, #shipments-filter-container, .table-responsive, #shipments-pages-container {
+#shipments-filter-container, .table-responsive, #shipments-pages-container {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#shipments-info-container {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), -4px 0px var(--primary);
-    animation: fadeInUp 0.8s ease-in-out;
-}
-
 .week-buttons {
     border: none;
     padding: 0px;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-#shipments-info-text {
-    font-size: 13px;
-    color: var(--secondary) !important;
 }
 
 th {
@@ -65,13 +44,19 @@ input:disabled {
     color: var(--primary-dark) !important;
 }
 
+@media (min-width: 500px) and (max-width: 768px) {
+    #filter-btn {
+        margin-top: 1rem;
+    }
+}
+
 /* Estilos de texto para la tabla */
-.shipment-contract, .shipment-cant {
+.shipment-time, .shipment-cant {
     font-size: 13px;
     color: var(--secondary) !important;
 }
 
-.shipment-condition, .shipment-agree {
+.shipment-status {
     padding: 5px 12px 5px 12px;
     border-radius: 50px;
     font-weight: bold;

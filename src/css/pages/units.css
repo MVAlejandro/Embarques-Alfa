@@ -1,14 +1,14 @@
 /* Estilos de la página y estructura */
-#clients-header {
+#units-header {
     margin-top: 0;
 }
 
-#clients-header-container {
+#units-header-container {
     background-color: var(--background-light) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#clients-form-container, #clients-filter-container, .table-responsive, #clients-pages-container {
+#units-form-container, #units-filter-container, .table-responsive, #units-pages-container {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -19,11 +19,11 @@ th {
 }
 
 /* Estilos de texto para la tabla */
-.client-company {
+.unit-type {
     font-weight: bold;
 }
 
-.client-rfc, .client-phone, .client-cp, #clients-pages-results {
+#units-pages-results {
     font-size: 13px;
     color: var(--secondary) !important;
 }

@@ -21,8 +21,10 @@ export async function getOrders() {
             numero_orden,
             numero_contrato,
             fecha,
-            condicion,
-            acuerdo,
+            facturacion,
+            embarque,
+            planta,
+            transporte,
             observaciones,
             id_cliente,
             emb_clientes (nombre, correo)

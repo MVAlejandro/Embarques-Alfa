@@ -15,16 +15,16 @@
 }
 
 /* Estilos de la página y estructura */
-#production-header {
+#transport-header {
     margin-top: 0;
 }
 
-#production-header-container {
+#transport-header-container {
     background-color: var(--background-light) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#production-filter-container, .table-responsive, #production-pages-container {
+#transport-filter-container, .table-responsive, #transport-pages-container {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -51,12 +51,16 @@ input:disabled {
 }
 
 /* Estilos de texto para la tabla */
-.production-time, .production-cant {
+.transport-time {
     font-size: 13px;
     color: var(--secondary) !important;
 }
 
-.production-status {
+.transport-cant {
+    color: var(--secondary) !important;
+}
+
+.transport-status {
     padding: 5px 12px 5px 12px;
     border-radius: 50px;
     font-weight: bold;

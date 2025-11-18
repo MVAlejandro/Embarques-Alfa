@@ -25,17 +25,10 @@ function createBar(bar) {
 
 // Crear navbar
 function createNavbar(navbar) {
-    const currentLocation = window.location.href;
-    let logoHref = "./index.html"; // Valor por defecto
-
-    if (currentLocation.includes("login.html")) {
-        logoHref.disabled = true;
-    }
-
     navbar.insertAdjacentHTML(
         "beforeend",
         `<div class="container-fluid">
-            <a id="nav-logo" class="navbar-brand" href="${logoHref}">
+            <a id="nav-logo" class="navbar-brand" href="./index.html">
                 <img src="/favicon.png" alt="Pallets Alfa logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -44,10 +37,13 @@ function createNavbar(navbar) {
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="/src/pages/clients.html">Clientes</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="/src/pages/orders.html">Órdenes</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="/src/pages/production.html">Producción</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="/src/pages/shipments.html">Embarques</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./clients.html">Clientes</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./units.html">Unidades</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./orders.html">Órdenes</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./bills.html">Facturación</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./shipments.html">Embarques</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./production.html">Producción</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./transport.html">Transporte</a></li>
                 </ul>
             </div>
             <svg id="nav-fill" xmlns="http://www.w3.org/2000/svg" width="62" height="62" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">

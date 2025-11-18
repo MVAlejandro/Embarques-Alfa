@@ -1,6 +1,6 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
-import { getClients } from '../../services/client-service.js';
+import { getClients } from '../../services/clients-service.js';
 
 const perPage = 5;
 let currentPage = 1;
@@ -14,6 +14,9 @@ export async function renderClientsTable(clientsParam = null) {
     } else {
         allClients = await getClients();
     }
+
+    // Ordenar el arreglo completo antes de paginar
+    allClients.sort((a, b) => a.id_cliente - b.id_cliente);
     
     const tbody = document.querySelector('#clients-table tbody');
     const pagination = document.querySelector('#clients-pages .pagination');
@@ -50,7 +53,7 @@ export async function renderClientsTable(clientsParam = null) {
                 <p class="client-cp">CP: ${cliente.codigo_postal}</p>
             </td>
             <td class="client-controls text-pageEnd p-3 pe-4">
-                <div class="client-buttons">
+                <div class="action-buttons">
                     <button class="btn btn-edit" 
                         data-bs-target="#edit-modal" 
                         data-bs-toggle="modal"
@@ -80,18 +83,46 @@ export async function renderClientsTable(clientsParam = null) {
     const totalPages = Math.ceil(total / perPage);
     pagination.innerHTML = '';
 
+    const maxVisible = 4; // máximo de botones visibles
+    let startPage = Math.max(currentPage - Math.floor(maxVisible / 2), 1);
+    let endPage = startPage + maxVisible - 1;
+    if (endPage > totalPages) {
+        endPage = totalPages;
+        startPage = Math.max(endPage - maxVisible + 1, 1);
+    }
+
     // Botón Anterior
     pagination.innerHTML += 
         `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}" data-page="prev">
             <a class="page-link" href="#">&laquo;</a>
         </li>`;
 
-    // Números de página
-    for (let i = 1; i <= totalPages; i++) {
+    // Primera página + ...
+    if (startPage > 1) {
         pagination.innerHTML += 
-        `<li class="page-item ${i === currentPage ? 'active' : ''}" data-page="${i}">
-            <a class="page-link" href="#">${i}</a>
-        </li>`;
+            `<li class="page-item" data-page="1"><a class="page-link" href="#">1</a></li>`;
+        if (startPage > 2) {
+            pagination.innerHTML += 
+                `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        }
+    }
+
+    // Botones centrales
+    for (let i = startPage; i <= endPage; i++) {
+        pagination.innerHTML += 
+            `<li class="page-item ${i === currentPage ? 'active' : ''}" data-page="${i}">
+                <a class="page-link" href="#">${i}</a>
+            </li>`;
+    }
+
+    // Última página + ...
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            pagination.innerHTML += 
+                `<li class="page-item disabled"><span class="page-link">...</span></li>`;
+        }
+        pagination.innerHTML += 
+            `<li class="page-item" data-page="${totalPages}"><a class="page-link" href="#">${totalPages}</a></li>`;
     }
 
     // Botón Siguiente

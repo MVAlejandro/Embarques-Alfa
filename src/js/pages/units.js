@@ -1,6 +1,6 @@
 // Estilos generales
 import '../../css/style.css'
-import '../../css/pages/clients.css'
+import '../../css/pages/units.css'
 
 // Estilos de componentes
 import '../../css/components/navbar.css'
@@ -8,35 +8,35 @@ import '../../css/components/footer.css'
 
 // Componentes JS
 import '../components/navbar.js';
-import '../components/clients/generate-form.js'
+import '../components/units/generate-form.js'
 
 // Servicios Supabase
-import { addManualClient, addExcelClient } from '../components/clients/clients-form.js';
-import { searchFilter } from '../components/clients/clients-filter.js';
-import { renderClientsTable } from '../components/clients/clients-table.js';
-import { renderClientsEditModal } from '../components/clients/clients-modal.js';
+import { addManualUnit, addExcelUnit } from '../components/units/units-form.js';
+import { unitsFilter } from '../components/units/units-filter.js'; 
+import { renderUnitsTable } from '../components/units/units-table.js';
+import { renderUnitsEditModal } from '../components/units/units-modal.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    renderClientsTable();
+    renderUnitsTable();
 });
 
 // Declarar el botón de filtrado
 document.addEventListener('click', function(e) {
     if (e.target.id === 'filter-btn' || e.target.closest('#filter-btn')) {
-        searchFilter(e);
+        unitsFilter(e);
     }
 });
 
 // Declarar el botón del formulario manual
 document.addEventListener('click', function(e) {
     if (e.target.id === 'btn-add-manual' || e.target.closest('#btn-add-manual')) {
-        addManualClient(e);
+        addManualUnit(e);
     }
 });
 // Declarar el botón del formulario Excel
 document.addEventListener('click', function(e) {
     if (e.target.id === 'btn-add-excel' || e.target.closest('#btn-add-excel')) {
-        addExcelClient(e);
+        addExcelUnit(e);
     }
 });
 
@@ -45,8 +45,8 @@ const editModal = document.getElementById('edit-modal');
 
 editModal.addEventListener('shown.bs.modal', event => {
     const button = event.relatedTarget;
-    const clientData = JSON.parse(button.getAttribute('client-data'));
-    renderClientsEditModal(clientData);
+    const unitData = JSON.parse(button.getAttribute('unit-data'));
+    renderUnitsEditModal(unitData);
 
     // Limpiar el modal al cerrarlo
     editModal.addEventListener('hidden.bs.modal', () => {
@@ -59,11 +59,11 @@ const deleteModal = document.getElementById('delete-modal');
 
 deleteModal.addEventListener('show.bs.modal', event => {
     const button = event.relatedTarget;
-    const idClient = button.dataset.id;
-    document.getElementById('delete-id-client').value = idClient;
+    const idUnit = button.dataset.id;
+    document.getElementById('delete-id-unit').value = idUnit;
 
     // Limpiar información al cerrar modal
     deleteModal.addEventListener('hidden.bs.modal', () => {
-        document.getElementById('delete-id-client').value = '';
+        document.getElementById('delete-id-unit').value = '';
     });
 });
