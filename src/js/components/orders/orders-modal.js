@@ -1,9 +1,11 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
 import { updateOrder, deleteOrder } from '../../services/orders-service.js';
+import { getOrderProducts, addOrderProducts } from '../../services/order-product-service.js';
 import { renderOrdersTable } from './orders-table.js'; 
 // Utilidades
-import { textValidate, amountValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
+import { textValidate, amountValidate, inputValidate } from '../../utils/form-validations.js';
+import { loadOptionsFilter } from '../../utils/load-select.js';
 
 // Función para cargar datos en el modal
 export async function renderOrdersEditModal(orden) {
@@ -14,30 +16,77 @@ export async function renderOrdersEditModal(orden) {
     document.getElementById('edit-contract').value = orden.numero_contrato;
     document.getElementById('edit-date').value = orden.fecha;
     document.getElementById('edit-observations').value = orden.observaciones;
+
+    // Limpiar filas anteriores
+    const container = document.getElementById("order-products-container");
+    container.innerHTML = '';
+
+    // Obtener productos de la orden
+    const productos = await getOrderProducts(orden.id_orden);
+
+    // Agregar una fila por cada producto
+    for (const product of productos) {
+        await addProductRow(product.id_producto, product.cantidad);
+    }
 }
+
+// Función para agregar campos de productos
+async function addProductRow(selectedProductId = '0', cantidadValue = '') {
+    const container = document.getElementById("order-products-container");
+    const index = container.children.length;
+    // Colocar id único
+    const uniqueId = `product-${index}`;
+
+    const newProduct = document.createElement("div");
+    newProduct.className = "row ms-2 me-2 pt-2 pb-2 product-item";
+    newProduct.innerHTML = 
+        `<div class="col-6">
+            <select class="form-select product-select" id="${uniqueId}-select" data-index="${index}">
+                <option value="0">Seleccionar producto</option>
+            </select>
+        </div>
+        <div class="col-4">
+            <input type="number" id="${uniqueId}-cantidad" class="form-control product-input" placeholder="Cantidad" data-index="${index}" value="${cantidadValue}">
+        </div>
+        <div class="col-2 d-flex align-items-center justify-content-center">
+            <button type="button" class="btn btn-remove" data-index="${index}">X</button>
+        </div>`;
+
+    container.appendChild(newProduct);
+
+    // Cargar opciones en el select
+    await loadOptionsFilter(`${uniqueId}-select`, 'codigo', 'Seleccionar producto', selectedProductId);
+}
+
+// Agregar entrada de producto
+document.getElementById('btn-add-product').addEventListener('click', addProductRow);
+
+// Eliminar entrada de producto
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.btn-remove')) {
+        e.target.closest('.product-item').remove();
+    }
+});
 
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     // Referencias para validación
-    const id_clienteIn = document.getElementById('edit-client');
     const numero_ordenIn = document.getElementById('edit-oc');
     const numero_contratoIn = document.getElementById('edit-contract');
     const fechaIn = document.getElementById('edit-date');
     const observacionesIn = document.getElementById('edit-observations');
 
-    const id_clienteError = document.getElementById('error-editClient');
     const numero_ordenError = document.getElementById('error-editOc');
     const numero_contratoError = document.getElementById('error-editContract');
     const fechaError = document.getElementById('error-editDate');
     const observacionesError = document.getElementById('error-editObservations');
 
     // Validaciones
-    selectValidate(id_clienteIn, id_clienteError)
     amountValidate(numero_ordenIn, numero_ordenError)
     amountValidate(numero_contratoIn, numero_contratoError)
     textValidate(observacionesIn, observacionesError)
 
-    const campos = document.querySelectorAll('input', 'select')
+    const campos = document.querySelectorAll('input, select')
     if (!inputValidate(campos)) {
         alert('Corrige los errores antes de guardar.')
         return
@@ -45,7 +94,6 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
     const id_orden = document.getElementById('edit-id-order').value;
     const updatedData = {
-        id_cliente: id_clienteIn.value,
         numero_orden: numero_ordenIn.value,
         numero_contrato: numero_contratoIn.value,
         fecha: fechaIn.value,
@@ -54,6 +102,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
     try {
         await updateOrder(id_orden, updatedData);
+        await addOrderProducts(id_orden);
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();

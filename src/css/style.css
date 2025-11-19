@@ -43,6 +43,10 @@ table {
 }
 
 @media (max-width: 430px) {
+    p {
+        font-size: 15px;
+    }
+
     table {
         font-size: 13px;
     }
