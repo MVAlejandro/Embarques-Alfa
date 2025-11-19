@@ -8,7 +8,7 @@ import { textValidate, inputValidate } from '../../utils/form-validations.js';
 // Función para cargar datos en el modal
 export async function renderUnitsEditModal(unidad) {
     // Insertar valores en los inputs
-    document.getElementById('edit-id-unit').value = unidad.id_unidad;
+    document.getElementById('edit-id-unit').value = unidad.id_unidad || unidad.id_caja;
     document.getElementById('edit-name').value = unidad.nombre;
     document.getElementById('edit-type').value = unidad.tipo;
     document.getElementById('edit-description').value = unidad.descripcion;
@@ -16,6 +16,7 @@ export async function renderUnitsEditModal(unidad) {
 
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
+    const form = document.getElementById('unit-edit-form');
     // Referencias para validación
     const nombreIn = document.getElementById('edit-name');
     const descripcionIn = document.getElementById('edit-description');
@@ -34,13 +35,22 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     }
 
     const id_unidad = document.getElementById('edit-id-unit').value;
+    const tipo = document.getElementById('edit-type').value;
     const updatedData = {
         nombre: nombreIn.value,
         descripcion: descripcionIn.value
     };
 
     try {
-        await updateUnit(id_unidad, updatedData);
+        if (tipo === 'Unidad') {
+            await updateUnit(id_unidad, updatedData);
+        } else {
+            await updateBox(id_unidad, updatedData);
+        }
+
+        form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+            e.classList.remove('is-valid', 'is-invalid');
+        });
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
@@ -56,8 +66,14 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
 // Eliminar entrada al dar click en el botón del modal
 document.getElementById('btn-delete-entry').addEventListener('click', async () => {
-    const idClient = document.getElementById('delete-id-unit').value;
-    await deleteUnit(idClient);
+    const idUnit = document.getElementById('delete-id-unit').value;
+    const tipo = document.getElementById('delete-type').value;
+
+    if (tipo === 'Unidad') {
+        await deleteUnit(idUnit);
+    } else {
+        await deleteBox(idUnit);
+    }
 
     // Cerrar el modal y mostrar alerta
     bootstrap.Modal.getInstance(document.getElementById('delete-modal')).hide();

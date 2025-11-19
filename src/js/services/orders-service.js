@@ -27,7 +27,11 @@ export async function getOrders() {
             transporte,
             observaciones,
             id_cliente,
-            emb_clientes (nombre, correo)
+            emb_clientes (nombre, correo),
+            id_unidad,
+            emb_unidades (nombre),
+            id_caja,
+            emb_cajas (nombre)
             `);
     
     if (error) {
@@ -40,12 +44,18 @@ export async function getOrders() {
         numero_orden: orden.numero_orden,
         numero_contrato: orden.numero_contrato,
         fecha: orden.fecha,
-        condicion: orden.condicion,
-        acuerdo: orden.acuerdo,
+        facturacion: orden.facturacion,
+        embarque: orden.embarque,
+        planta: orden.planta,
+        transporte: orden.transporte,
         observaciones: orden.observaciones,
         id_cliente: orden.id_cliente,
         cliente: orden.emb_clientes?.nombre,
-        correo: orden.emb_clientes?.correo
+        correo: orden.emb_clientes?.correo,
+        id_unidad: orden.id_unidad,
+        unidad: orden.emb_unidades?.nombre,
+        id_caja: orden.id_caja,
+        caja: orden.emb_cajas?.nombre
     }));
 }
 

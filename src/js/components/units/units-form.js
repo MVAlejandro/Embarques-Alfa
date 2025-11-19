@@ -1,6 +1,6 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
-import { createUnit } from '../../services/units-service.js';
+import { createUnit, createBox } from '../../services/units-service.js';
 import { renderUnitsTable } from './units-table.js';
 // Utilidades
 import { textValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
@@ -49,14 +49,20 @@ export async function addManualUnit(event) {
     }
 
     // Guardar valores
+    let tipo = tipoIn.value;
+
     const newUnitData = {
         nombre: nombreIn.value,
-        tipo: tipoIn.value,
         descripcion: descripcionIn.value
     };
 
     try {
-        await createUnit(newUnitData);
+        if (tipo === 'Unidad') {
+            await createUnit(newUnitData);
+        } else {
+            await createBox(newUnitData);
+        }
+
         alert('Unidad agregada con éxito.');
         form.reset();
         form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
@@ -139,12 +145,16 @@ export async function addExcelUnit(event) {
         // Insertar en Supabase
         const newUnitData = {
             nombre,
-            tipo,
             descripcion
         };
 
         try {
-            await createUnit(newUnitData);
+            if (tipo === 'UNIDAD') {
+                await createUnit(newUnitData);
+            } else {
+                await createBox(newUnitData);
+            }
+
             insertedUnits++;
         } catch (err) {
             console.error('Error al insertar unidad:', newUnitData, err);

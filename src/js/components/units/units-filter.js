@@ -1,5 +1,5 @@
 // Servicios Supabase
-import { getUnits } from '../../services/units-service.js';
+import { getUnits, getBoxes } from '../../services/units-service.js';
 import { renderUnitsTable } from './units-table.js';
 
 let allUnits = [];
@@ -12,8 +12,12 @@ export async function unitsFilter(event) {
     const searchText = document.getElementById('search-filter').value.trim().toLowerCase();
 
     // Obtener unidades
-    allUnits = await getUnits();
-        if (!allUnits) return;
+    const [units, boxes] = await Promise.all([ getUnits(), getBoxes() ]);
+    
+    allUnits = [
+        ...units.map(u => ({ ...u, tipo: "Unidad" })),
+        ...boxes.map(b => ({ ...b, tipo: "Caja" }))
+    ];
 
     // Si no hay filtros activos, mostrar todo
     const filterClean = typeFilter === '0' && searchText === '';

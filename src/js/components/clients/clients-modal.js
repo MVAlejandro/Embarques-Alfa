@@ -20,6 +20,7 @@ export async function renderClientsEditModal(cliente) {
 
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
+    const form = document.getElementById('client-edit-form');
     // Referencias para validación
     const nombreIn = document.getElementById('edit-name');
     const razon_socialIn = document.getElementById('edit-company');
@@ -66,6 +67,10 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     try {
         await updateClient(id_cliente, updatedData);
 
+        form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+            e.classList.remove('is-valid', 'is-invalid');
+        });
+        
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
         alert('Cliente actualizado correctamente.');

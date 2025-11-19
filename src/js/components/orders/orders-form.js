@@ -60,21 +60,12 @@ export async function addManualOrder(event) {
         return
     }
 
-    let facturacion = "En proceso";
-    let embarque = "En proceso";
-    let planta = "En proceso";
-    let transporte = "En proceso";
-
     // Guardar valores
     const newOrderData = {
         id_cliente: id_clienteIn.value,
         numero_orden: numero_ordenIn.value,
         numero_contrato: numero_contratoIn.value,
         fecha: fechaIn.value,
-        facturacion,
-        embarque,
-        planta,
-        transporte,
         observaciones: observacionesIn.value
     };
 
@@ -166,21 +157,12 @@ export async function addExcelOrder(event) {
         const fecha = columns[2].trim();
         const observaciones = columns[3].trim();
 
-        let facturacion = "En proceso";
-        let embarque = "En proceso";
-        let planta = "En proceso";
-        let transporte = "En proceso";
-
         // Insertar en Supabase
         const newOrderData = {
             id_cliente,
             numero_orden,
             numero_contrato,
             fecha,
-            facturacion,
-            embarque,
-            planta,
-            transporte,
             observaciones
         };
 

@@ -52,8 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <label for="tipo" class="form-label m-2">Tipo</label>
                                 <select id="tipo" class="form-select" aria-label="Default select example">
                                     <option value="0">Seleccione...</option>
-                                    <option value="UNIDAD">Unidad</option>
-                                    <option value="CAJA">Caja</option>
+                                    <option value="Unidad">Unidad</option>
+                                    <option value="Caja">Caja</option>
                                 </select>
                                 <p class="error invalid-feedback" id="error-tipo" style="color: red;"></p>
                             </div>

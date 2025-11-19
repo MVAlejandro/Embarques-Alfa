@@ -1,6 +1,7 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
 import { getOrders } from '../../services/orders-service.js' 
+import { getOrderProducts } from '../../services/order-product-service.js';
 
 const perPage = 10;
 let currentPage = 1;
@@ -37,7 +38,13 @@ export async function renderOrdersTable(ordersParam = null) {
         return;
     }
 
-    orders.forEach(orden => {
+    for (const orden of orders) {
+        // Obtener productos de la orden
+        const productos = await getOrderProducts(orden.id_orden);
+
+        // Calcular total de cantidades
+        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad || 0), 0);
+
         tbody.innerHTML += 
         `<tr>
             <td class="order-id fw-bold p-3 ps-4">OC-${orden.numero_orden}</td>
@@ -47,6 +54,7 @@ export async function renderOrdersTable(ordersParam = null) {
                 <p class="order-client-email">${orden.correo}</p>
             </td>
             <td class="order-date p-3">${orden.fecha}</td>
+            <td class="order-amount fw-bold p-3">Cant. ${totalAmount}</td>
             <td class="order-controls text-end p-3 pe-4">
                 <div class="action-buttons">
                     <button class="btn btn-edit" 
@@ -68,7 +76,7 @@ export async function renderOrdersTable(ordersParam = null) {
                 </div>
             </td>
         </tr>`;
-    });
+    };
 
     // Actualizar texto de resultados
     const total = allOrders.length;

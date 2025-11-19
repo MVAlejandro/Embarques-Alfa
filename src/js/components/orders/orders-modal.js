@@ -70,6 +70,7 @@ document.addEventListener('click', function(e) {
 
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
+    const form = document.getElementById('order-edit-form');
     // Referencias para validación
     const numero_ordenIn = document.getElementById('edit-oc');
     const numero_contratoIn = document.getElementById('edit-contract');
@@ -104,6 +105,10 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         await updateOrder(id_orden, updatedData);
         await addOrderProducts(id_orden);
 
+        form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+            e.classList.remove('is-valid', 'is-invalid');
+        });
+        
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
         alert('Orden de compra actualizada correctamente.');
