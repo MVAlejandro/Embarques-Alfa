@@ -40,30 +40,34 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Declarar los botones de editar
+// Acciones del modal de edición
 const editModal = document.getElementById('edit-modal');
-
+// Al abrir modal
 editModal.addEventListener('shown.bs.modal', event => {
     const button = event.relatedTarget;
     const orderData = JSON.parse(button.getAttribute('order-data'));
     renderOrdersEditModal(orderData);
+});
+// Al cerrar modal
+editModal.addEventListener('hidden.bs.modal', () => {
+    editModal.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+        e.classList.remove('is-valid', 'is-invalid');
+    });
 
-    // Limpiar el modal al cerrarlo
-    editModal.addEventListener('hidden.bs.modal', () => {
-        document.querySelectorAll('#edit-modal input').forEach(input => (input.value = ''));
+    editModal.querySelectorAll('input, select').forEach(el => {
+        el.value = '';
     });
 });
 
-// Declarar los botones de eliminar
+// Acciones del modal de eliminación
 const deleteModal = document.getElementById('delete-modal');
-
-deleteModal.addEventListener('show.bs.modal', event => {
+// Al abrir modal
+deleteModal.addEventListener('shown.bs.modal', event => {
     const button = event.relatedTarget;
     const idOrder = button.dataset.id;
     document.getElementById('delete-id-order').value = idOrder;
-
-    // Limpiar información al cerrar modal
-    deleteModal.addEventListener('hidden.bs.modal', () => {
-        document.getElementById('delete-id-order').value = '';
-    });
+});
+// Al cerrar modal
+deleteModal.addEventListener('hidden.bs.modal', () => {
+    document.getElementById('delete-id-order').value = '';
 });

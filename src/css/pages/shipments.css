@@ -1,13 +1,9 @@
 /* Variables de colores de estado */
 :root {
-    --planning-light: #95a9d6;
-    --planning-dark: #0a2a6e;
     --ready-light: #3cb17c;
     --ready-dark: #0b5231;
     --process-light: #fcebb9;
     --process-dark: #7e6009;
-    --partial-light: #bce0c8;
-    --partial-dark: #0c6e40;
     --canceled-light: #dd989f;
     --canceled-dark: #79111c;
     --reprogramed-light: #afafaf;
@@ -63,24 +59,14 @@ input:disabled {
     display: inline-block;
 }
 
-.planning {
-    background-color: var(--planning-light) !important;
-    color: var(--planning-dark) !important;
-}
-
-.ready, .send {
+.ready {
     background-color: var(--ready-light) !important;
     color: var(--ready-dark) !important;
 }
 
-.process, .preparation {
+.preparation {
     background-color: var(--process-light) !important;
     color: var(--process-dark) !important;
-}
-
-.partial {
-    background-color: var(--partial-light) !important;
-    color: var(--partial-dark) !important;
 }
 
 .canceled {

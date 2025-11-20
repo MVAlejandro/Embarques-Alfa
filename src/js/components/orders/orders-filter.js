@@ -8,7 +8,7 @@ let allOrders = [];
 
 // Cargar las opciones de filtrado al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
-    loadOptions('client-filter', 'emb_clientes', 'id_cliente', 'nombre')
+    loadOptions('client-filter', 'emb_clientes', 'id_cliente', 'nombre', 'Todos')
 })
 
 // Función de filtrado por valores seleccionados

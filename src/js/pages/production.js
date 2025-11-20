@@ -8,3 +8,30 @@ import '../../css/components/footer.css'
 
 // Componentes JS
 import '../components/navbar.js';
+
+// Servicios Supabase
+import { renderProductionTable } from '../components/production/production-table.js'; 
+import { renderProductionEditModal } from '../components/production/production-modal.js'; 
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderProductionTable();
+});
+
+// Acciones del modal de edición
+const editModal = document.getElementById('edit-modal');
+// Al abrir modal
+editModal.addEventListener('shown.bs.modal', event => {
+    const button = event.relatedTarget;
+    const orderData = JSON.parse(button.getAttribute('order-data'));
+    renderProductionEditModal(orderData);
+});
+// Al cerrar modal
+editModal.addEventListener('hidden.bs.modal', () => {
+    editModal.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+        e.classList.remove('is-valid', 'is-invalid');
+    });
+
+    editModal.querySelectorAll('input, select').forEach(el => {
+        el.value = '';
+    });
+});

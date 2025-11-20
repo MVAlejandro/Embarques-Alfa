@@ -1,17 +1,11 @@
 /* Variables de colores de estado */
 :root {
-    --planning-light: #95a9d6;
-    --planning-dark: #0a2a6e;
     --ready-light: #3cb17c;
     --ready-dark: #0b5231;
     --process-light: #fcebb9;
     --process-dark: #7e6009;
-    --partial-light: #bce0c8;
-    --partial-dark: #0c6e40;
     --canceled-light: #dd989f;
     --canceled-dark: #79111c;
-    --reprogramed-light: #afafaf;
-    --reprogramed-dark: #505050;
 }
 
 /* Estilos de la página y estructura */
@@ -56,41 +50,26 @@ input:disabled {
     color: var(--secondary) !important;
 }
 
-.bill-condition, .bill-agree {
+.bill-status {
     padding: 5px 12px 5px 12px;
     border-radius: 50px;
     font-weight: bold;
     display: inline-block;
 }
 
-.planning {
-    background-color: var(--planning-light) !important;
-    color: var(--planning-dark) !important;
-}
-
-.ready, .send {
+.ready {
     background-color: var(--ready-light) !important;
     color: var(--ready-dark) !important;
 }
 
-.process, .preparation {
+.preparation {
     background-color: var(--process-light) !important;
     color: var(--process-dark) !important;
-}
-
-.partial {
-    background-color: var(--partial-light) !important;
-    color: var(--partial-dark) !important;
 }
 
 .canceled {
     background-color: var(--canceled-light) !important;
     color: var(--canceled-dark) !important;
-}
-
-.reprogramed {
-    background-color: var(--reprogramed-light) !important;
-    color: var(--reprogramed-dark) !important;
 }
 
 .btn-update {

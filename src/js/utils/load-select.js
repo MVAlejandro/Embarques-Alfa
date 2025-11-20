@@ -3,33 +3,40 @@ import supabase from "../supabase/supabase-client";
 import { getProducts } from "../services/order-product-service";
 
 // Función para cargar datos en los select del formulario
-export async function loadOptions(selectId, table, valueKey, textKey, selectedValue = '0') {
-    const select = document.getElementById(selectId)
-    if (!select) return
+export async function loadOptions(selectId, table, valueKey, textKey, defaultOption, selectedValue = '0') {
+    const select = document.getElementById(selectId);
+    if (selectedValue == null) selectedValue = '0';
 
-    if (selectedValue !== '0') {
-        select.innerHTML = '';
-    }
-    
-    const { data, error } = await supabase.from(table).select(`${valueKey}, ${textKey}`)
+    select.innerHTML = '';
+
+    // Crear opción por defecto 
+    const defaultOptionEl = document.createElement('option');
+    defaultOptionEl.value = 0;
+    defaultOptionEl.textContent = defaultOption;
+    select.appendChild(defaultOptionEl);
+
+    const { data, error } = await supabase
+        .from(table)
+        .select(`${valueKey}, ${textKey}`);
 
     if (error) {
-        console.error(`Error cargando ${table}:`, error)
-        return
+        console.error(`Error cargando ${table}:`, error);
+        return;
     }
 
+    // Crear y seleccionar opciones
     data.forEach(item => {
-        const option = document.createElement('option')
-        option.value = item[valueKey]
-        option.textContent = item[textKey]
+        const option = document.createElement('option');
+        option.value = item[valueKey];
+        option.textContent = item[textKey];
 
         // Si el valor coincide, marcar como seleccionado
-        if (selectedValue && item[valueKey] === selectedValue) {
-            option.selected = true
+        if (option.value == selectedValue) {
+            option.selected = true;
         }
 
-        select.appendChild(option)
-    })
+        select.appendChild(option);
+    });
 }
 
 // Función para cargar datos en relación a los productos registrados

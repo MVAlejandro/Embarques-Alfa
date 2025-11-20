@@ -40,33 +40,37 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Declarar los botones de editar
+// Acciones del modal de edición
 const editModal = document.getElementById('edit-modal');
-
+// Al abrir modal
 editModal.addEventListener('shown.bs.modal', event => {
     const button = event.relatedTarget;
     const unitData = JSON.parse(button.getAttribute('unit-data'));
     renderUnitsEditModal(unitData);
+});
+// Al cerrar modal
+editModal.addEventListener('hidden.bs.modal', () => {
+    editModal.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+        e.classList.remove('is-valid', 'is-invalid');
+    });
 
-    // Limpiar el modal al cerrarlo
-    editModal.addEventListener('hidden.bs.modal', () => {
-        document.querySelectorAll('#edit-modal input').forEach(input => (input.value = ''));
+    editModal.querySelectorAll('input, select').forEach(el => {
+        el.value = '';
     });
 });
 
-// Declarar los botones de eliminar
+// Acciones del modal de eliminación
 const deleteModal = document.getElementById('delete-modal');
-
-deleteModal.addEventListener('show.bs.modal', event => {
+// Al abrir modal
+deleteModal.addEventListener('shown.bs.modal', event => {
     const button = event.relatedTarget;
     const idUnit = button.dataset.id;
     const type = button.dataset.type;
     document.getElementById('delete-id-unit').value = idUnit;
     document.getElementById('delete-type').value = type;
-
-    // Limpiar información al cerrar modal
-    deleteModal.addEventListener('hidden.bs.modal', () => {
-        document.getElementById('delete-id-unit').value = '';
-        document.getElementById('delete-type').value = '';
-    });
+});
+// Al cerrar modal
+deleteModal.addEventListener('hidden.bs.modal', () => {
+    document.getElementById('delete-id-unit').value = '';
+    document.getElementById('delete-type').value = '';
 });

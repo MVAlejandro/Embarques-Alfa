@@ -117,7 +117,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         await renderOrdersTable();
     } catch (err) {
         console.error('Error al actualizar orden:', err);
-        alert('Ocurrió un error al actualizar la ordend e compra.');
+        alert('Ocurrió un error al actualizar la orden de compra.');
     }
 });
 
