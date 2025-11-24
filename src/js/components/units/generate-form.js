@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="row ms-2 me-2 pb-3">
                             <div class="col label-over-border">
                                 <label for="excel-data" class="m-2">Datos de la unidad</label>
-                                <textarea id="excel-data" class="form-control" rows="4" placeholder="Ingrese los datos desde Excel con formato:  'Tipo, Nombre, Descripción'"></textarea>
+                                <textarea id="excel-data" class="form-control" rows="4" placeholder="Ingrese los datos desde Excel con formato:  'Tipo, Nombre, Placas, Póliza, Descripción'"></textarea>
                                 <p class="error invalid-feedback" id="error-excel-data" style="color: red;"></p>
                             </div>
                         </div>
@@ -52,19 +52,30 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <label for="tipo" class="form-label m-2">Tipo</label>
                                 <select id="tipo" class="form-select" aria-label="Default select example">
                                     <option value="0">Seleccione...</option>
-                                    <option value="Unidad">Unidad</option>
+                                    <option value="Camión">Camión</option>
+                                    <option value="Tracto">Tracto</option>
                                     <option value="Caja">Caja</option>
                                 </select>
                                 <p class="error invalid-feedback" id="error-tipo" style="color: red;"></p>
                             </div>
-                            <div class="col-md-5 label-over-border">
+                            <div class="col-md-3 label-over-border">
                                 <label for="nombre" class="form-label m-2">Nombre</label>
                                 <input type="text" id="nombre" class="form-control" placeholder="Camión UNI-001">
                                 <p class="error invalid-feedback" id="error-nombre" style="color: red;"></p>
                             </div>
-                            <div class="col-md-5 label-over-border">
+                            <div class="col-md-2 label-over-border">
+                                <label for="placas" class="form-label m-2">Placas</label>
+                                <input type="text" id="placas" class="form-control" placeholder="ABC-DEF1">
+                                <p class="error invalid-feedback" id="error-placas" style="color: red;"></p>
+                            </div>
+                            <div class="col-md-2 label-over-border">
+                                <label for="poliza" class="form-label m-2">Póliza</label>
+                                <input type="text" id="poliza" class="form-control" placeholder="XX-12345">
+                                <p class="error invalid-feedback" id="error-poliza" style="color: red;"></p>
+                            </div>
+                            <div class="col-md-3 label-over-border">
                                 <label for="descripcion" class="form-label m-2">Descripción</label>
-                                <input type="text" id="descripcion" class="form-control" placeholder="Camión de 2.5 toneladas, color blanco">
+                                <input type="text" id="descripcion" class="form-control" placeholder="Unidad de 2.5 toneladas, color blanco">
                                 <p class="error invalid-feedback" id="error-descripcion" style="color: red;"></p>
                             </div>
                         </div>

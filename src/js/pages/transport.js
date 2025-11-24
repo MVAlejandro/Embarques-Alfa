@@ -10,11 +10,17 @@ import '../../css/components/footer.css'
 import '../components/navbar.js';
 
 // Servicios Supabase
-import { renderTransportTable } from '../components/transport/transport-table.js'; 
-import { renderTransportEditModal } from '../components/transport/transport-modal.js'; 
+import { initPageFilters, planningFilter } from '../utils/planning-filters.js'; 
+import { renderTransportTable } from '../components/transport/transport-table.js';
+import { renderTransportEditModal } from '../components/transport/transport-modal.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-    renderTransportTable();
+document.addEventListener('DOMContentLoaded', async () => {
+    // Generar tabla con semana actual
+    initPageFilters(renderTransportTable, "transporte");
+    // Declarar el botón de filtrado
+    document.getElementById("filter-btn").addEventListener("click", () => {
+        planningFilter(renderProductionTable, "planta");
+    });
 });
 
 // Acciones del modal de edición

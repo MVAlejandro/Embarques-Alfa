@@ -13,7 +13,7 @@ export async function renderBillsEditModal(orden) {
 
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
-    // Referencias para validación
+    // Referencias para actualizar información
     const facturacion = document.getElementById('edit-status').value;
     const id_orden = document.getElementById('edit-id-order').value;
     const updatedData = { facturacion };

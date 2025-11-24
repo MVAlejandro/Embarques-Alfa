@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Declarar el botón de filtrado
 document.addEventListener('click', function(e) {
     if (e.target.id === 'filter-btn' || e.target.closest('#filter-btn')) {
-        ordersFilter(e);
+        ordersFilter();
     }
 });
 

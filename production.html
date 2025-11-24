@@ -40,14 +40,31 @@
         <!-- SECCIÓN DE FILTROS -->
         <section id="production-filter pt-3 pb-3">
             <div id="production-filter-container" class="container pt-4 pb-3">
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <button id="btn-prev" class="btn me-3 week-buttons">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                        </svg>
+                    </button>
+                    <h5 id="weekHeader">Semana -</h5>
+                    <button id="btn-next" class="btn ms-3 week-buttons">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                        </svg>
+                    </button>
+                </div>
                 <div class="row ms-2 me-2">
                     <div class="col-lg col-md-6 d-flex align-items-center label-over-border">
-                        <label for="date-start-filter" class="form-label m-2">Fecha inicio</label>
-                        <input type="date" id="date-start-filter" class="form-control" placeholder="Fecha">
+                        <label for="year-filter" class="form-label m-2">Filtrar por Año</label>
+                        <select class="form-select" id="year-filter">
+                            <option value="0">Todos</option>
+                        </select>
                     </div>
                     <div class="col-lg col-md-6 d-flex align-items-center label-over-border">
-                        <label for="date-end-filter" class="form-label m-2">Fecha fin</label>
-                        <input type="date" id="date-end-filter" class="form-control" placeholder="Fecha">
+                        <label for="week-filter" class="form-label m-2">Filtrar por Semana</label>
+                        <select class="form-select" id="week-filter">
+                            <option value="0">Todas</option>
+                        </select>
                     </div>
                     <div class="col-lg col-md-6 d-flex align-items-center label-over-border filter">
                         <label for="client-filter" class="form-label m-2">Filtrar por Cliente</label>
@@ -59,6 +76,13 @@
                         <label for="status-filter" class="form-label m-2">Filtrar por Estado</label>
                         <select class="form-select" id="status-filter">
                             <option value="0">Todos</option>
+                            <option value="En proceso">Planeado</option>
+                            <option value="En proceso">En proceso</option>
+                            <option value="PT parcial">PT parcial</option>
+                            <option value="En secado">En secado</option>
+                            <option value="Terminado">Terminado</option>
+                            <option value="Cancelado">Cancelado</option>
+                            <option value="Reprogramado">Reprogramado</option>
                         </select>
                     </div>
                     <div class="col-md d-flex align-items-center justify-content-end">
@@ -79,7 +103,7 @@
                 <table id="production-table" class="table table-hover">
                     <thead>
                         <tr class="table-light">
-                            <th class="p-3 ps-4">DÍA</th>
+                            <th class="p-3 ps-4">FECHA</th>
                             <th class="p-3 ps-2">CLIENTE</th>
                             <th class="p-3 ps-2">CLAVE</th>
                             <th class="text-center p-3">ESTADO</th>

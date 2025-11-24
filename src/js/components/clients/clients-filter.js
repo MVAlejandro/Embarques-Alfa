@@ -5,9 +5,7 @@ import { renderClientsTable } from './clients-table.js';
 let allClients = [];
 
 // Función de filtrado por búsqueda
-export async function searchFilter(event) {
-    event.preventDefault();
-    
+export async function searchFilter() {
     const searchText = document.getElementById('search-filter').value.trim().toLowerCase();
     // Obtener clientes
     allClients = await getClients();

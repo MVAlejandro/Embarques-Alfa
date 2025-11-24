@@ -61,7 +61,8 @@
                         <label for="type-filter" class="form-label m-2">Filtrar por Tipo</label>
                         <select class="form-select" id="type-filter">
                             <option value="0">Todos</option>
-                            <option value="Unidad">Unidad</option>
+                            <option value="Camión">Camión</option>
+                            <option value="Tracto">Tracto</option>
                             <option value="Caja">Caja</option>
                         </select>
                     </div>
@@ -89,6 +90,8 @@
                         <tr class="table-light">
                             <th class="p-3 ps-4">TIPO</th>
                             <th class="p-3">NOMBRE</th>
+                            <th class="p-3">PLACAS</th>
+                            <th class="p-3">PÓLIZA</th>
                             <th class="p-3">DESCRIPCIÓN</th>
                             <th></th>
                         </tr>
@@ -143,10 +146,20 @@
                             <input type="hidden" id="edit-id-unit">
                             <!-- Campos editables -->
                              <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-4 ms-auto label-over-border">
+                                <div class="col-md-4 label-over-border">
                                     <label for="edit-type" class="form-label m-2">Tipo</label>
                                     <input type="text" class="form-control" id="edit-type" disabled>
                                     <p class="error invalid-feedback" id="error-editType" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-4 label-over-border">
+                                    <label for="edit-license" class="form-label m-2">Placas</label>
+                                    <input type="text" class="form-control" id="edit-license">
+                                    <p class="error invalid-feedback" id="error-editLicense" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-4 label-over-border">
+                                    <label for="edit-policy" class="form-label m-2">Póliza</label>
+                                    <input type="text" class="form-control" id="edit-policy">
+                                    <p class="error invalid-feedback" id="error-editPolicy" style="color: red;"></p>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">

@@ -17,7 +17,9 @@ export async function renderShipmentsTable(ordersParam = null) {
     allOrders.sort((a, b) => a.fecha - b.fecha);
     
     const tbody = document.querySelector('#shipments-table tbody');
-    // Limpiar tabla antes de insertar
+    const weekText = document.getElementById('weekHeader');
+    // Limpiar elementos antes de insertar
+    weekText.innerHTML = "";
     tbody.innerHTML = '';
 
     if (!allOrders || allOrders.length === 0) {
@@ -27,8 +29,10 @@ export async function renderShipmentsTable(ordersParam = null) {
 
     let totalGeneral = 0;
 
+    weekText.innerHTML = `Semana ${allOrders[0].semana}`;
+
     for (const orden of allOrders) {
-        // Determinar clase CSS para la diferencia
+        // Determinar clase CSS para el estatus
         let statusClass = '';
         if (orden.embarque == 'En preparación') {
             statusClass = 'preparation';
@@ -77,8 +81,8 @@ export async function renderShipmentsTable(ordersParam = null) {
 
         for (const producto of productos) {
             container.innerHTML += 
-            `<p class="shipment-product">${producto.codigo}</p>
-            <p class="shipment-cant fw-bold">Cant. ${producto.cantidad.toLocaleString('en-US')}</p>
+            `<p class="shipment-product">${producto.codigo} - <b> Cant. ${producto.cantidad.toLocaleString('en-US')}</b></p>
+            <p class="shipment-cant">${producto.producto}</p>
             <hr>`;
         };
     };

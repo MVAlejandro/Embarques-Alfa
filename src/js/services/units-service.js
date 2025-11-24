@@ -27,6 +27,9 @@ export async function getUnits() {
     return data.map(unidad => ({
         id_unidad: unidad.id_unidad,
         nombre: unidad.nombre,
+        tipo: unidad.tipo,
+        placas: unidad.placas,
+        numero_poliza: unidad.numero_poliza,
         descripcion: unidad.descripcion
     }));
 }
@@ -92,6 +95,8 @@ export async function getBoxes() {
     return data.map(caja => ({
         id_caja: caja.id_caja,
         nombre: caja.nombre,
+        placas: caja.placas,
+        numero_poliza: caja.numero_poliza,
         descripcion: caja.descripcion
     }));
 }

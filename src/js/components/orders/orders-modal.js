@@ -2,6 +2,7 @@ import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
 import { updateOrder, deleteOrder } from '../../services/orders-service.js';
 import { getOrderProducts, addOrderProducts } from '../../services/order-product-service.js';
+import { getProducts } from '../../services/order-product-service.js';
 import { renderOrdersTable } from './orders-table.js'; 
 // Utilidades
 import { textValidate, amountValidate, inputValidate } from '../../utils/form-validations.js';
@@ -55,7 +56,7 @@ async function addProductRow(selectedProductId = '0', cantidadValue = '') {
     container.appendChild(newProduct);
 
     // Cargar opciones en el select
-    await loadOptionsFilter(`${uniqueId}-select`, 'codigo', 'Seleccionar producto', selectedProductId);
+    await loadOptionsFilter(`${uniqueId}-select`, getProducts, 'codigo', 'id_producto', selectedProductId);
 }
 
 // Agregar entrada de producto
@@ -74,12 +75,10 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     // Referencias para validación
     const numero_ordenIn = document.getElementById('edit-oc');
     const numero_contratoIn = document.getElementById('edit-contract');
-    const fechaIn = document.getElementById('edit-date');
     const observacionesIn = document.getElementById('edit-observations');
 
     const numero_ordenError = document.getElementById('error-editOc');
     const numero_contratoError = document.getElementById('error-editContract');
-    const fechaError = document.getElementById('error-editDate');
     const observacionesError = document.getElementById('error-editObservations');
 
     // Validaciones
@@ -97,7 +96,6 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const updatedData = {
         numero_orden: numero_ordenIn.value,
         numero_contrato: numero_contratoIn.value,
-        fecha: fechaIn.value,
         observaciones: observacionesIn.value
     };
 

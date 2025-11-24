@@ -20,15 +20,21 @@ export async function addManualUnit(event) {
     // Referencias para validación
     const nombreIn = document.getElementById("nombre");
     const tipoIn = document.getElementById("tipo");
+    const placasIn = document.getElementById("placas");
+    const polizaIn = document.getElementById("poliza");
     const descripcionIn = document.getElementById("descripcion");
     // Referencias para errores
     const nombreError = document.getElementById('error-nombre');
     const tipoError = document.getElementById('error-tipo');
+    const placasIError = document.getElementById("error-placas");
+    const polizaError = document.getElementById("error-poliza");
     const descripcionError = document.getElementById('error-descripcion');
 
     // Validaciones
     textValidate(nombreIn, nombreError)
     selectValidate(tipoIn, tipoError)
+    textValidate(placasIn, placasIError)
+    textValidate(polizaIn, polizaError)
     textValidate(descripcionIn, descripcionError)
 
     const campos = form.querySelectorAll('input, select')
@@ -53,14 +59,17 @@ export async function addManualUnit(event) {
 
     const newUnitData = {
         nombre: nombreIn.value,
+        placas: placasIn.value,
+        numero_poliza: polizaIn.value,
         descripcion: descripcionIn.value
     };
 
     try {
-        if (tipo === 'Unidad') {
-            await createUnit(newUnitData);
-        } else {
+        if (tipo === 'Caja') {
             await createBox(newUnitData);
+        } else {
+            newUnitData.tipo = tipo;
+            await createUnit(newUnitData);
         }
 
         alert('Unidad agregada con éxito.');
@@ -88,7 +97,7 @@ export async function addManualUnit(event) {
     }
 }
 
-// Función para agregar unidads con el formato de Excel
+// Función para agregar unidades con el formato de Excel
 export async function addExcelUnit(event) {
     event.preventDefault();
 
@@ -136,23 +145,28 @@ export async function addExcelUnit(event) {
 
     for (let row of rows) {
         const columns = row.split('\t');
-        if (columns.length < 3) continue;
+        if (columns.length < 5) continue;
 
         const nombre = columns[0].trim();
-        const tipo = columns[1].trim().toUpperCase();
-        const descripcion = columns[2].trim();
+        const tipo = columns[1].trim();
+        const placas = columns[2].trim();
+        const numero_poliza = columns[3].trim();
+        const descripcion = columns[4].trim();
 
         // Insertar en Supabase
         const newUnitData = {
             nombre,
+            placas,
+            numero_poliza,
             descripcion
         };
 
         try {
-            if (tipo === 'UNIDAD') {
-                await createUnit(newUnitData);
-            } else {
+            if (tipo === 'Caja') {
                 await createBox(newUnitData);
+            } else {
+                newUnitData.tipo = tipo;
+                await createUnit(newUnitData);
             }
 
             insertedUnits++;

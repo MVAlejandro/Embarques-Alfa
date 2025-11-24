@@ -13,12 +13,10 @@ export async function renderProductionEditModal(orden) {
 
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
-    // Referencias para validación
+    // Referencias para actualizar información
     const planta = document.getElementById('edit-status').value;
     const id_orden = document.getElementById('edit-id-order').value;
-    const updatedData = {
-        planta
-    };
+    const updatedData = { planta };
 
     try {
         await updateOrder(id_orden, updatedData);

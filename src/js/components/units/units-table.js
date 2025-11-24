@@ -15,7 +15,7 @@ export async function renderUnitsTable(unitsParam = null) {
         const [units, boxes] = await Promise.all([ getUnits(), getBoxes() ]);
 
         allUnits = [
-            ...units.map(u => ({ ...u, tipo: "Unidad" })),
+            ...units.map(u => ({ ...u, tipo: u.tipo })),
             ...boxes.map(b => ({ ...b, tipo: "Caja" }))
         ];
     }
@@ -47,6 +47,8 @@ export async function renderUnitsTable(unitsParam = null) {
         `<tr>
             <td class="unit-type p-3 ps-4">${unidad.tipo}</td>
             <td class="unit-name p-3">${unidad.nombre}</td>
+            <td class="unit-license p-3">${unidad.placas}</td>
+            <td class="unit-policy p-3">#${unidad.numero_poliza}</td>
             <td class="unit-description p-3">${unidad.descripcion}</td>
             <td class="unit-controls text-pageEnd p-3 pe-4">
                 <div class="action-buttons">

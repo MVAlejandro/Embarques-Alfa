@@ -17,7 +17,9 @@ export async function renderBillsTable(ordersParam = null) {
     allOrders.sort((a, b) => a.fecha - b.fecha);
     
     const tbody = document.querySelector('#bills-table tbody');
-    // Limpiar tabla antes de insertar
+    const weekText = document.getElementById('weekHeader');
+    // Limpiar elementos antes de insertar
+    weekText.innerHTML = "";
     tbody.innerHTML = '';
 
     if (!allOrders || allOrders.length === 0) {
@@ -27,8 +29,10 @@ export async function renderBillsTable(ordersParam = null) {
 
     let totalGeneral = 0;
 
+    weekText.innerHTML = `Semana ${allOrders[0].semana}`;
+    
     for (const orden of allOrders) {
-        // Determinar clase CSS para la diferencia
+        // Determinar clase CSS para el estatus
         let statusClass = '';
         if (orden.facturacion == 'Pendiente') {
             statusClass = 'preparation';
@@ -50,7 +54,7 @@ export async function renderBillsTable(ordersParam = null) {
             <td class="bill-date fw-bold p-2 ps-4">${new Date(orden.fecha).toLocaleDateString('es-MX')}</td>
             <td class="p-2">
                 <p class="bill-oc fw-bold">OC-${orden.numero_orden}</p>
-                <p class="bill-contract">#${orden.numero_contrato}</p>
+                <p class="bill-contract">Contrato #${orden.numero_contrato}</p>
             </td>
             <td class="bill-client p-2">${orden.cliente}</td>
             <td id="bill-products-${orden.id_orden}" class="p-2">
@@ -75,8 +79,8 @@ export async function renderBillsTable(ordersParam = null) {
 
         for (const producto of productos) {
             container.innerHTML += 
-            `<p class="bill-product">${producto.codigo}</p>
-            <p class="bill-cant fw-bold">Cant. ${producto.cantidad.toLocaleString('en-US')}</p>
+            `<p class="bill-product">${producto.codigo} - <b> Cant. ${producto.cantidad.toLocaleString('en-US')}</b></p>
+            <p class="bill-cant">${producto.producto}</p>
             <hr>`;
         };
     };

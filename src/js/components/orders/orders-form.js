@@ -8,9 +8,22 @@ import { textValidate, amountValidate, inputValidate, selectValidate } from '../
 
 // Cargar los clientes en los formularios al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
-    loadOptions('cliente-excel', 'emb_clientes', 'id_cliente', 'nombre')
-    loadOptions('cliente', 'emb_clientes', 'id_cliente', 'nombre')
+    loadOptions('cliente-excel', 'emb_clientes', 'id_cliente', 'nombre', 'Todos')
+    loadOptions('cliente', 'emb_clientes', 'id_cliente', 'nombre', 'Todos')
 })
+
+// Función para calcular y asignar semana_conteo y año
+function getWeekAndYear(date = new Date()) {
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const dayNum = d.getUTCDay() || 7; // lunes=1, domingo=7
+
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    
+    return { semana: week, anio: d.getUTCFullYear() };
+}
 
 // Función para agregar orden de forma manual
 export async function addManualOrder(event) {
@@ -28,13 +41,11 @@ export async function addManualOrder(event) {
     const id_clienteIn = document.getElementById("cliente");
     const numero_ordenIn = document.getElementById("numero_orden");
     const numero_contratoIn = document.getElementById("numero_contrato");
-    const fechaIn = document.getElementById("fecha");
     const observacionesIn = document.getElementById("observaciones");
     // Referencias para errores
     const id_clienteError = document.getElementById('cliente-error');
     const numero_ordenError = document.getElementById('numero_orden-error');
     const numero_contratoError = document.getElementById('numero_contrato-error');
-    const fechaError = document.getElementById('fecha-error');
     const observacionesError = document.getElementById('observaciones-error');
 
     // Validaciones
@@ -60,12 +71,17 @@ export async function addManualOrder(event) {
         return
     }
 
+    const fecha = new Date();
+    const { semana, anio } = getWeekAndYear(fecha);
+
     // Guardar valores
     const newOrderData = {
         id_cliente: id_clienteIn.value,
         numero_orden: numero_ordenIn.value,
         numero_contrato: numero_contratoIn.value,
-        fecha: fechaIn.value,
+        fecha: fecha.toISOString().split('T')[0],
+        semana,
+        anio,
         observaciones: observacionesIn.value
     };
 
@@ -154,15 +170,18 @@ export async function addExcelOrder(event) {
 
         const numero_orden = columns[0].trim();
         const numero_contrato = columns[1].trim();
-        const fecha = columns[2].trim();
-        const observaciones = columns[3].trim();
+        const observaciones = columns[2].trim();
+        const fecha = new Date();
+        const { semana, anio } = getWeekAndYear(fecha);
 
         // Insertar en Supabase
         const newOrderData = {
             id_cliente,
             numero_orden,
             numero_contrato,
-            fecha,
+            fecha: fecha.toISOString().split('T')[0],
+            semana,
+            anio,
             observaciones
         };
 

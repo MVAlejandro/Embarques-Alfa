@@ -10,11 +10,17 @@ import '../../css/components/footer.css'
 import '../components/navbar.js';
 
 // Servicios Supabase
+import { initPageFilters, planningFilter } from '../utils/planning-filters.js'; 
 import { renderProductionTable } from '../components/production/production-table.js'; 
 import { renderProductionEditModal } from '../components/production/production-modal.js'; 
 
-document.addEventListener('DOMContentLoaded', () => {
-    renderProductionTable();
+document.addEventListener('DOMContentLoaded', async () => {
+    // Generar tabla con semana actual
+    initPageFilters(renderProductionTable, "planta");
+    // Declarar el botón de filtrado
+    document.getElementById("filter-btn").addEventListener("click", () => {
+        planningFilter(renderProductionTable, "planta");
+    });
 });
 
 // Acciones del modal de edición

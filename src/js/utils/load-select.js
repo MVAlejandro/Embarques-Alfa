@@ -1,8 +1,8 @@
 import supabase from "../supabase/supabase-client";
 // Servicios Supabase
-import { getProducts } from "../services/order-product-service";
+import { getOrders } from "../services/orders-service";
 
-// Función para cargar datos en los select del formulario
+// Función para cargar datos completos en los select del formulario
 export async function loadOptions(selectId, table, valueKey, textKey, defaultOption, selectedValue = '0') {
     const select = document.getElementById(selectId);
     if (selectedValue == null) selectedValue = '0';
@@ -39,17 +39,17 @@ export async function loadOptions(selectId, table, valueKey, textKey, defaultOpt
     });
 }
 
-// Función para cargar datos en relación a los productos registrados
-export async function loadOptionsFilter(selectId, displayFields, defaultOption, selectedId = 0) {
+// Función para cargar datos en relación a campos registrados
+export async function loadOptionsFilter(selectId, getFunction, displayFields, idField, defaultOption, selectedId = 0) {
     const select = document.getElementById(selectId);
     if (!select) return;
 
     // Limpiar contenido previo
     select.innerHTML = '';
 
-    // Obtener productos
-    const allProducts = await getProducts();
-    if (!allProducts) return;
+    // Obtener datos externos
+    const data = await getFunction();
+    if (!data) return;
 
     // Opción por defecto
     const defaultOptionEl = document.createElement('option');
@@ -57,30 +57,63 @@ export async function loadOptionsFilter(selectId, displayFields, defaultOption, 
     defaultOptionEl.textContent = defaultOption;
     select.appendChild(defaultOptionEl);
 
-    // Eliminar duplicados
+    // Eliminar duplicados por texto
     const seenTexts = new Set();
 
     // Agregar opciones al select
-    allProducts.forEach(prod => {
+    data.forEach(item => {
         let text;
         if (Array.isArray(displayFields)) {
-            text = displayFields.map(f => prod[f]).filter(Boolean).join(' - ');
+            text = displayFields.map(f => item[f]).filter(Boolean).join(' - ');
         } else {
-            text = prod[displayFields];
+            text = item[displayFields];
         }
 
         if (!text || seenTexts.has(text)) return;
         seenTexts.add(text);
 
         const optionEl = document.createElement('option');
-        optionEl.value = prod.id_producto;
+        optionEl.value = item[idField];
         optionEl.textContent = text;
 
-        // Marcar como seleccionado si coincide con selectedValue
-        if (prod.id_producto == selectedId) {
+        // Marcar como seleccionado si coincide con selectedId
+        if (item[idField] == selectedId) {
             optionEl.selected = true;
         }
 
+        select.appendChild(optionEl);
+    });
+}
+
+// Función para cargar semanas en relación a las órdenes registradas
+export async function loadWeeksFilter(selectId, fields) {
+    const select = document.getElementById(selectId)
+    if (!select) return;
+    select.innerHTML = '';
+    
+    // Obtener órdenes
+    const allOrders = await getOrders();
+    if (!allOrders) return;
+
+    const opciones = allOrders.map(c => {
+        if (Array.isArray(fields)) {
+            // Combinar varios campos
+            return fields.map(f => c[f]).filter(Boolean).join(' - ');
+        } else {
+            // Solo un campo
+            return c[fields];
+        }
+    });
+
+    // Eliminar duplicados y valores vacíos
+    const uniqueOptions = [...new Set(opciones)].filter(v => v);
+
+    // Agregar opciones al select
+    select.innerHTML = '<option value="0">Todas</option>';
+    uniqueOptions.forEach(opcion => {
+        const optionEl = document.createElement('option');
+        optionEl.value = opcion;
+        optionEl.textContent = opcion;
         select.appendChild(optionEl);
     });
 }

@@ -10,11 +10,17 @@ import '../../css/components/footer.css'
 import '../components/navbar.js';
 
 // Servicios Supabase
+import { initPageFilters, planningFilter } from '../utils/planning-filters.js'; 
 import { renderShipmentsTable } from '../components/shipments/shipments-table.js'; 
 import { renderShipmentsEditModal } from '../components/shipments/shipments-modal.js'; 
 
-document.addEventListener('DOMContentLoaded', () => {
-    renderShipmentsTable();
+document.addEventListener('DOMContentLoaded', async () => {
+    // Generar tabla con semana actual
+    initPageFilters(renderShipmentsTable, "embarque");
+    // Declarar el botón de filtrado
+    document.getElementById("filter-btn").addEventListener("click", () => {
+        planningFilter(renderProductionTable, "planta");
+    });
 });
 
 // Acciones del modal de edición

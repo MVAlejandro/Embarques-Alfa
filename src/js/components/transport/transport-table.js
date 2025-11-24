@@ -17,7 +17,9 @@ export async function renderTransportTable(ordersParam = null) {
     allOrders.sort((a, b) => a.fecha - b.fecha);
     
     const tbody = document.querySelector('#transport-table tbody');
-    // Limpiar tabla antes de insertar
+    const weekText = document.getElementById('weekHeader');
+    // Limpiar elementos antes de insertar
+    weekText.innerHTML = "";
     tbody.innerHTML = '';
 
     if (!allOrders || allOrders.length === 0) {
@@ -27,8 +29,10 @@ export async function renderTransportTable(ordersParam = null) {
 
     let totalGeneral = 0;
 
+    weekText.innerHTML = `Semana ${allOrders[0].semana}`;
+
     for (const orden of allOrders) {
-        // Determinar clase CSS para la diferencia
+        // Determinar clase CSS para el estatus
         let statusClass = '';
         if (orden.transporte == 'Sin asignar') {
             statusClass = 'canceled';

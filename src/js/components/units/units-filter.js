@@ -5,9 +5,7 @@ import { renderUnitsTable } from './units-table.js';
 let allUnits = [];
 
 // Función de filtrado por búsqueda
-export async function unitsFilter(event) {
-    event.preventDefault();
-    
+export async function unitsFilter() {
     const typeFilter = document.getElementById('type-filter').value;
     const searchText = document.getElementById('search-filter').value.trim().toLowerCase();
 
@@ -15,7 +13,7 @@ export async function unitsFilter(event) {
     const [units, boxes] = await Promise.all([ getUnits(), getBoxes() ]);
     
     allUnits = [
-        ...units.map(u => ({ ...u, tipo: "Unidad" })),
+        ...units.map(u => ({ ...u, tipo: u.tipo })),
         ...boxes.map(b => ({ ...b, tipo: "Caja" }))
     ];
 

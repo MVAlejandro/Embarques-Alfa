@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             </div>
                             <div class="col-md-9 label-over-border">
                                 <label for="excel-data" class="m-2">Datos del producto</label>
-                                <textarea id="excel-data" class="form-control" rows="4" placeholder="Ingrese los datos desde Excel con formato:  'Orden, Contrato, Fecha, Observaciones'"></textarea>
+                                <textarea id="excel-data" class="form-control" rows="4" placeholder="Ingrese los datos desde Excel con formato:  'Orden, Contrato, Observaciones'"></textarea>
                                 <p class="error invalid-feedback" id="error-excel-data" style="color: red;"></p>
                             </div>
                         </div>
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="tab-pane fade show active" id="tab-form-manual" role="tabpanel">
                     <form id="form-manual">
                         <div class="row ms-2 me-2 pt-3 pb-3">
-                            <div class="col-md-4 label-over-border">
+                            <div class="col-md-3 label-over-border">
                                 <label for="cliente" class="form-label m-2">Cliente</label>
                                 <select id="cliente" class="form-select" aria-label="Default select example">
                                     <option value="0">Seleccione...</option>
@@ -65,24 +65,17 @@ document.addEventListener("DOMContentLoaded", () => {
                                 </select>
                                 <p class="error invalid-feedback" id="cliente-error" style="color: red;"></p>
                             </div>
-                            <div class="col-md-4 label-over-border">
+                            <div class="col-md-3 label-over-border">
                                 <label for="numero_orden" class="form-label m-2">Número de Orden</label>
                                 <input type="number" id="numero_orden" class="form-control no-arrows" placeholder="0011223344">
                                 <p class="error invalid-feedback" id="numero_orden-error" style="color: red;"></p>
                             </div>
-                            <div class="col-md-4 label-over-border">
+                            <div class="col-md-3 label-over-border">
                                 <label for="numero_contrato" class="form-label m-2">Número de Contrato</label>
                                 <input type="number" id="numero_contrato" class="form-control no-arrows" placeholder="0000">
                                 <p class="error invalid-feedback" id="numero_contrato-error" style="color: red;"></p>
                             </div>
-                        </div>
-                        <div class="row ms-2 me-2 pt-3 pb-3">
-                            <div class="col-md-4 label-over-border">
-                                <label for="fecha" class="form-label m-2">Fecha</label>
-                                <input type="date" id="fecha" class="form-control">
-                                <p class="error invalid-feedback" id="fecha-error" style="color: red;"></p>
-                            </div>
-                            <div class="col-md-8 label-over-border">
+                            <div class="col-md-3 label-over-border">
                                 <label for="observaciones" class="form-label m-2">Observaciones</label>
                                 <input type="text" id="observaciones" class="form-control" placeholder="Observaciones adicionales">    
                                 <p class="error invalid-feedback" id="observaciones-error" style="color: red;"></p>
