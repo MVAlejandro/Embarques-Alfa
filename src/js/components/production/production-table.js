@@ -1,84 +1,95 @@
 // Servicios Supabase
-import { getOrders } from '../../services/orders-service.js' 
-import { getOrderProducts } from '../../services/order-product-service.js';
+import { getPartitions } from '../../services/partitions-service.js'; 
+import { getPartitionProducts } from '../../services/partition-product-service.js'; 
 
-let allOrders = [];
+let allPartitions = [];
 
 // Función para crear la tabla y la paginación
-export async function renderProductionTable(ordersParam = null) {
-    // Obtener órdenes si no se pasa una lista filtrada
-    if (ordersParam) {
-        allOrders = ordersParam;
+export async function renderProductionTable(partitionsParam = null) {
+    // Obtener partidas si no se pasa una lista filtrada
+    if (partitionsParam) {
+        allPartitions = partitionsParam;
     } else {
-        allOrders = await getOrders();
+        allPartitions = await getPartitions();
     }
 
-    // Ordenar el arreglo completo antes de paginar
-    allOrders.sort((a, b) => a.fecha - b.fecha);
+    // Ordenar el arreglo completo antes de generar la tabla
+    allPartitions.sort((a, b) => {
+        const dateA = new Date(`${a.fecha_programada}T${a.hora_programada}`);
+        const dateB = new Date(`${b.fecha_programada}T${b.hora_programada}`);
+        return dateA - dateB;
+    });
     
     const tbody = document.querySelector('#production-table tbody');
     const weekText = document.getElementById('weekHeader');
     // Limpiar elementos antes de insertar
-    weekText.innerHTML = "";
+    weekText.innerHTML = "Semana 0";
     tbody.innerHTML = '';
 
-    if (!allOrders || allOrders.length === 0) {
-        tbody.innerHTML = `<tr><td class="text-center" colspan="8">No hay órdenes registradas</td></tr>`;
+    if (!allPartitions || allPartitions.length === 0) {
+        tbody.innerHTML = `<tr><td class="text-center" colspan="8">No hay partidas registradas</td></tr>`;
         return;
     }
 
     let totalGeneral = 0;
 
-    weekText.innerHTML = `Semana ${allOrders[0].semana}`;
+    weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
     
-    for (const orden of allOrders) {
+    for (const partida of allPartitions) {
         // Determinar clase CSS para el estatus
         let statusClass = '';
-        if (orden.planta == 'En proceso') {
-            statusClass = 'preparation';
-        } else if (orden.planta == 'Terminado') {
+        if (partida.planta == 'En proceso') {
+            statusClass = 'process';
+        } else if (partida.planta == 'PT parcial') {
+            statusClass = 'partial';
+        } else if (partida.planta == 'En secado') {
+            statusClass = 'planning';
+        } else if (partida.planta == 'Terminado') {
             statusClass = 'ready';
-        } else {
+        } else if (partida.planta == 'Cancelado') {
             statusClass = 'canceled';
+        } else {
+            statusClass = 'reprogramed';
         }
 
-        // Obtener productos de la orden
-        const productos = await getOrderProducts(orden.id_orden);
+        // Obtener productos de la partida
+        const productos = await getPartitionProducts(partida.id_partida);
         // Calcular total de cantidades
-        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad || 0), 0);
+        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_partida || 0), 0);
 
         totalGeneral += totalAmount;
 
         tbody.innerHTML += 
         `<tr>
             <td class="p-2 ps-4">
-                <p class="production-date fw-bold">${orden.fecha}</p>
-                <p class="production-time">Sin asignar</p>
+                <p class="production-date fw-bold">${partida.fecha_programada}</p>
+                <p class="production-time">${partida.hora_programada}</p>
             </td>
-            <td class="production-client p-2">${orden.cliente}</td>
-            <td id="production-products-${orden.id_orden}" class="p-2">
+            <td class="production-client p-2">${partida.cliente}</td>
+            <td id="production-products-${partida.id_partida}" class="p-2">
 
             </td>
             <td class="text-center p-2">
-                <p class="production-status ${statusClass}">${orden.planta}</p>
+                <p class="production-status ${statusClass}">${partida.planta}</p>
             </td>
             <td class="production-control text-center">
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
-                    order-data='${JSON.stringify(orden)}'>
-                    Actualizar
+                    ${partida.planta === "Terminado" ? "disabled" : ""}
+                    partition-data='${JSON.stringify(partida)}'>
+                    ${partida.planta === "Terminado" ? "Completado" : "Actualizar"}
                 </button>
             </td>
         </tr>`;
 
-        // Insertar productos de esta orden
-        const container = document.getElementById(`production-products-${orden.id_orden}`);
+        // Insertar productos de esta partida
+        const container = document.getElementById(`production-products-${partida.id_partida}`);
         container.innerHTML = '';
 
         for (const producto of productos) {
             container.innerHTML += 
-            `<p class="production-product">${producto.codigo} - <b> Cant. ${producto.cantidad.toLocaleString('en-US')}</b></p>
+            `<p class="production-product">${producto.codigo} - <b> Cant. ${producto.cantidad_partida.toLocaleString('en-US')}</b></p>
             <p class="production-cant">${producto.producto}</p>
             <hr>`;
         };

@@ -8,8 +8,10 @@ import '../../css/components/footer.css'
 
 // Componentes JS
 import '../components/navbar.js';
+import '../components/production/generate-form.js'
 
 // Servicios Supabase
+import { addPartition } from '../components/production/production-form.js';
 import { initPageFilters, planningFilter } from '../utils/planning-filters.js'; 
 import { renderProductionTable } from '../components/production/production-table.js'; 
 import { renderProductionEditModal } from '../components/production/production-modal.js'; 
@@ -23,13 +25,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
+// Declarar el botón del formulario
+document.addEventListener('click', function(e) {
+    if (e.target.id === 'btn-add' || e.target.closest('#btn-add')) {
+        addPartition(e);
+    }
+});
+
 // Acciones del modal de edición
 const editModal = document.getElementById('edit-modal');
 // Al abrir modal
 editModal.addEventListener('shown.bs.modal', event => {
     const button = event.relatedTarget;
-    const orderData = JSON.parse(button.getAttribute('order-data'));
-    renderProductionEditModal(orderData);
+    const partitionData = JSON.parse(button.getAttribute('partition-data'));
+    
+    renderProductionEditModal(partitionData);
 });
 // Al cerrar modal
 editModal.addEventListener('hidden.bs.modal', () => {

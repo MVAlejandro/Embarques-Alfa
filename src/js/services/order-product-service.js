@@ -7,7 +7,7 @@ export async function getOrderProducts(idOrder) {
         .select(`
             id_orden_producto,
             id_orden,
-            cantidad,
+            cantidad_orden,
             id_producto,
             inv_productos (codigo, nombre)
             `)
@@ -21,7 +21,7 @@ export async function getOrderProducts(idOrder) {
     return data.map(ordenP => ({
         id_orden_producto: ordenP.id_orden_producto,
         id_orden: ordenP.id_orden,
-        cantidad: ordenP.cantidad,
+        cantidad_orden: ordenP.cantidad_orden,
         id_producto: ordenP.id_producto,
         codigo: ordenP.inv_productos?.codigo,
         producto: ordenP.inv_productos?.nombre
@@ -39,9 +39,9 @@ export async function addOrderProducts(idOrder) {
         const input = item.querySelector('.product-input');
 
         const id_producto = select?.value?.trim();
-        const cantidad = parseFloat(input?.value);
+        const cantidad_orden = parseFloat(input?.value);
 
-        if (!id_producto || isNaN(cantidad) || cantidad <= 0) {
+        if (!id_producto || isNaN(cantidad_orden) || cantidad_orden <= 0) {
             console.warn("Fila ignorada por datos inválidos");
             continue;
         }
@@ -49,7 +49,7 @@ export async function addOrderProducts(idOrder) {
         productsData.push({
             id_orden: idOrder,
             id_producto,
-            cantidad
+            cantidad_orden
         });
     }
 

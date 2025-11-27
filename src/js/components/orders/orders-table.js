@@ -43,7 +43,7 @@ export async function renderOrdersTable(ordersParam = null) {
         const productos = await getOrderProducts(orden.id_orden);
 
         // Calcular total de cantidades
-        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad || 0), 0);
+        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_orden || 0), 0);
 
         tbody.innerHTML += 
         `<tr>

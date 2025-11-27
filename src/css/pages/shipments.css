@@ -1,9 +1,13 @@
 /* Variables de colores de estado */
 :root {
+    --process-light: #95a9d6;
+    --process-dark: #0a2a6e;
     --ready-light: #3cb17c;
     --ready-dark: #0b5231;
-    --process-light: #fcebb9;
-    --process-dark: #7e6009;
+    --planning-light: #fcebb9;
+    --planning-dark: #7e6009;
+    --partial-light: #bce0c8;
+    --partial-dark: #0c6e40;
     --canceled-light: #dd989f;
     --canceled-dark: #79111c;
     --reprogramed-light: #afafaf;
@@ -47,7 +51,7 @@ input:disabled {
 }
 
 /* Estilos de texto para la tabla */
-.shipment-time, .shipment-cant {
+.shipment-time, .shipment-time-final, .shipment-cant {
     font-size: 13px;
     color: var(--secondary) !important;
 }
@@ -59,9 +63,9 @@ input:disabled {
     display: inline-block;
 }
 
-.ready {
-    background-color: var(--ready-light) !important;
-    color: var(--ready-dark) !important;
+.planning {
+    background-color: var(--planning-light) !important;
+    color: var(--planning-dark) !important;
 }
 
 .preparation {
@@ -69,14 +73,14 @@ input:disabled {
     color: var(--process-dark) !important;
 }
 
-.canceled {
-    background-color: var(--canceled-light) !important;
-    color: var(--canceled-dark) !important;
+.process {
+    background-color: var(--partial-light) !important;
+    color: var(--partial-dark) !important;
 }
 
-.reprogramed {
-    background-color: var(--reprogramed-light) !important;
-    color: var(--reprogramed-dark) !important;
+.ready {
+    background-color: var(--ready-light) !important;
+    color: var(--ready-dark) !important;
 }
 
 .btn-update {

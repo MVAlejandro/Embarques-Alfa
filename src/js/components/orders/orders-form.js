@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadOptions('cliente', 'emb_clientes', 'id_cliente', 'nombre', 'Todos')
 })
 
-// Función para calcular y asignar semana_conteo y año
+// Función para calcular y asignar semana y año
 function getWeekAndYear(date = new Date()) {
     const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     const dayNum = d.getUTCDay() || 7; // lunes=1, domingo=7

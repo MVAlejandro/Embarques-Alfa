@@ -1,17 +1,18 @@
 // Servicios Supabase
-import { updateOrder } from '../../services/orders-service.js';
+import { updatePartition } from '../../services/partitions-service.js';
 import { renderShipmentsTable } from './shipments-table.js'; 
 // Utilidades
 import { textValidate, inputValidate } from '../../utils/form-validations.js';
 
 // Función para cargar datos en el modal
-export async function renderShipmentsEditModal(orden) {
+export async function renderShipmentsEditModal(partida) {
     // Insertar valores en los inputs
-    document.getElementById('edit-id-order').value = orden.id_orden;
-    document.getElementById('edit-date').value = orden.fecha;
-    document.getElementById('edit-oc').value = orden.numero_orden;
-    document.getElementById('edit-status').value = orden.embarque;
-    document.getElementById('edit-observations').value = orden.observaciones;
+    document.getElementById('edit-id-partition').value = partida.id_partida;
+    document.getElementById('edit-date').value = partida.fecha_programada;
+    document.getElementById('edit-time').value = partida.hora_programada;
+    document.getElementById('edit-oc').value = partida.numero_orden;
+    document.getElementById('edit-status').value = partida.embarque;
+    document.getElementById('edit-observations').value = partida.observaciones;
 }
 
 // Función para guardar cambios
@@ -32,14 +33,21 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         return
     }
 
-    const id_orden = document.getElementById('edit-id-order').value;
+    // Registrar la hora de embarque real
+    let hora_realizada = null;
+    if (embarqueIn.value == "Cargado") {
+        hora_realizada = new Date().toTimeString().slice(0, 8);
+    }
+
+    const id_partida = document.getElementById('edit-id-partition').value;
     const updatedData = { 
-        embarque: embarqueIn.value, 
+        hora_realizada,
+        embarque: embarqueIn.value,
         observaciones: observacionesIn.value
     };
 
     try {
-        await updateOrder(id_orden, updatedData);
+        await updatePartition(id_partida, updatedData);
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
@@ -48,7 +56,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         // Recarga la tabla con los datos actualizados
         await renderShipmentsTable();
     } catch (err) {
-        console.error('Error al actualizar orden:', err);
-        alert('Ocurrió un error al actualizar la orden de compra.');
+        console.error('Error al actualizar partida:', err);
+        alert('Ocurrió un error al actualizar la partida.');
     }
 });

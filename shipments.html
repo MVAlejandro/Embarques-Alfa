@@ -139,32 +139,29 @@
                 <div class="modal-body">
                     <div class="container">
                         <form id="shipment-edit-form">
-                            <input type="hidden" id="edit-id-order">
+                            <input type="hidden" id="edit-id-partition">
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-6 col-lg-3 label-over-border">
                                     <label for="edit-time" class="form-label m-2">Hora</label>
-                                    <input type="time" class="form-control" id="edit-time">
-                                    <p class="error invalid-feedback" id="error-editTime" style="color: red;"></p>
+                                    <input type="time" class="form-control" id="edit-time" disabled>
                                 </div>
                                 <div class="col-md-6 col-lg-3 ms-auto label-over-border">
                                     <label for="edit-date" class="form-label m-2">Fecha</label>
                                     <input type="date" class="form-control" id="edit-date" disabled>
-                                    <p class="error invalid-feedback" id="error-editDate" style="color: red;"></p>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-6 label-over-border">
                                     <label for="edit-oc" class="form-label m-2">Orden de compra</label>
                                     <input type="text" class="form-control" id="edit-oc" disabled>
-                                    <p class="error invalid-feedback" id="error-editOc" style="color: red;"></p>
                                 </div>
                                 <div class="col-md-6 label-over-border">
                                     <label for="edit-status" class="form-label m-2">Estado</label>
                                     <select id="edit-status" class="form-select" aria-label="Default select example">
+                                        <option value="Planeado">Seleccione...</option>
                                         <option value="En preparación">En preparación</option>
-                                        <option value="Embarcado">Embarcado</option>
-                                        <option value="Reprogramado">Reprogramado</option>
-                                        <option value="Cancelado">Cancelado</option>
+                                        <option value="Proceso de carga">Proceso de carga</option>
+                                        <option value="Cargado">Cargado</option>
                                     </select>
                                     <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
                                 </div>

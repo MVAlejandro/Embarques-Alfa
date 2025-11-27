@@ -33,6 +33,7 @@ document.addEventListener('click', function(e) {
         addManualOrder(e);
     }
 });
+
 // Declarar el botón del formulario Excel
 document.addEventListener('click', function(e) {
     if (e.target.id === 'btn-add-excel' || e.target.closest('#btn-add-excel')) {

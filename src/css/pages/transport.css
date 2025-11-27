@@ -51,7 +51,7 @@ input:disabled {
 }
 
 /* Estilos de texto para la tabla */
-.transport-time {
+.transport-time, .transport-license {
     font-size: 13px;
     color: var(--secondary) !important;
 }
@@ -67,29 +67,19 @@ input:disabled {
     display: inline-block;
 }
 
-.planning {
+.route {
     background-color: var(--planning-light) !important;
     color: var(--planning-dark) !important;
 }
 
-.ready, .send {
+.ready {
     background-color: var(--ready-light) !important;
     color: var(--ready-dark) !important;
 }
 
-.process, .preparation {
-    background-color: var(--process-light) !important;
-    color: var(--process-dark) !important;
-}
-
-.partial {
+.asigned {
     background-color: var(--partial-light) !important;
     color: var(--partial-dark) !important;
-}
-
-.canceled {
-    background-color: var(--canceled-light) !important;
-    color: var(--canceled-dark) !important;
 }
 
 .reprogramed {

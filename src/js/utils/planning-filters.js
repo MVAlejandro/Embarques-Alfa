@@ -1,21 +1,26 @@
 // Servicios Supabase
-import { getOrders } from '../services/orders-service.js';  
+import { getPartitions } from '../services/partitions-service.js'; 
 // Utilidades
 import { loadOptions, loadOptionsFilter } from './load-select.js';
 import { obtainLastWeek, buildWeeksByYear, weekNavigation } from '../utils/week-functions.js';
 
 let weeksByYear = {};
-let allOrders = [];
+let allPartitions = [];
 
 // Función para cargar las opciones de filtrado
 export async function initPageFilters(renderTable, statusField) {
-    const lastWeek = await obtainLastWeek();
+    let lastWeek = await obtainLastWeek();
+    // Manejar tabla vacía
+    if (!lastWeek || !lastWeek.anio || !lastWeek.semana) {
+        lastWeek = { anio: 0, semana: 0 };
+    }
+
     const btnPrev = document.getElementById('btn-prev');
     const btnNext = document.getElementById('btn-next');
 
     // Cargar filtros con valores iniciales
-    loadOptionsFilter('year-filter', getOrders, 'anio', 'anio', "Seleccione...", lastWeek.anio);
-    loadOptionsFilter('week-filter', getOrders, 'semana', 'semana', "Seleccione...", lastWeek.semana);
+    loadOptionsFilter('year-filter', getPartitions, 'anio', 'anio', "Seleccione...", lastWeek.anio);
+    loadOptionsFilter('week-filter', getPartitions, 'semana', 'semana', "Seleccione...", lastWeek.semana);
     loadOptions('client-filter', 'emb_clientes', 'id_cliente', 'nombre', 'Todos');
 
     // Construir semanas por año
@@ -52,11 +57,11 @@ export async function planningFilter(renderTable, statusField) {
     }
 
     // Obtener órdenes
-    allOrders = await getOrders();
-        if (!allOrders) return;
+    allPartitions = await getPartitions();
+        if (!allPartitions) return;
 
     // Filtrar por semana y año seleccionados
-    const weeklyOrders = allOrders.filter(o => o.semana == weekFilter && o.anio == yearFilter);
+    const weeklyOrders = allPartitions.filter(o => o.semana == weekFilter && o.anio == yearFilter);
     // Si se selecciona un almacén, aplicarlo
     const filtered = weeklyOrders.filter(o => 
         (clientFilter === '0' || o.id_cliente == clientFilter) &&

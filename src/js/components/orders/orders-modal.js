@@ -16,7 +16,6 @@ export async function renderOrdersEditModal(orden) {
     document.getElementById('edit-oc').value = orden.numero_orden;
     document.getElementById('edit-contract').value = orden.numero_contrato;
     document.getElementById('edit-date').value = orden.fecha;
-    document.getElementById('edit-observations').value = orden.observaciones;
 
     // Limpiar filas anteriores
     const container = document.getElementById("order-products-container");
@@ -27,7 +26,7 @@ export async function renderOrdersEditModal(orden) {
 
     // Agregar una fila por cada producto
     for (const product of productos) {
-        await addProductRow(product.id_producto, product.cantidad);
+        await addProductRow(product.id_producto, product.cantidad_orden);
     }
 }
 
@@ -56,7 +55,7 @@ async function addProductRow(selectedProductId = '0', cantidadValue = '') {
     container.appendChild(newProduct);
 
     // Cargar opciones en el select
-    await loadOptionsFilter(`${uniqueId}-select`, getProducts, 'codigo', 'id_producto', selectedProductId);
+    await loadOptionsFilter(`${uniqueId}-select`, getProducts, 'codigo', 'id_producto', "Seleccione Producto...", selectedProductId);
 }
 
 // Agregar entrada de producto
@@ -75,16 +74,13 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     // Referencias para validación
     const numero_ordenIn = document.getElementById('edit-oc');
     const numero_contratoIn = document.getElementById('edit-contract');
-    const observacionesIn = document.getElementById('edit-observations');
 
     const numero_ordenError = document.getElementById('error-editOc');
     const numero_contratoError = document.getElementById('error-editContract');
-    const observacionesError = document.getElementById('error-editObservations');
 
     // Validaciones
     amountValidate(numero_ordenIn, numero_ordenError)
     amountValidate(numero_contratoIn, numero_contratoError)
-    textValidate(observacionesIn, observacionesError)
 
     const campos = document.querySelectorAll('input, select')
     if (!inputValidate(campos)) {
@@ -95,8 +91,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const id_orden = document.getElementById('edit-id-order').value;
     const updatedData = {
         numero_orden: numero_ordenIn.value,
-        numero_contrato: numero_contratoIn.value,
-        observaciones: observacionesIn.value
+        numero_contrato: numero_contratoIn.value
     };
 
     try {

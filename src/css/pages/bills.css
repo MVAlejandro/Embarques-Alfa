@@ -1,11 +1,17 @@
 /* Variables de colores de estado */
 :root {
+    --planning-light: #95a9d6;
+    --planning-dark: #0a2a6e;
     --ready-light: #3cb17c;
     --ready-dark: #0b5231;
     --process-light: #fcebb9;
     --process-dark: #7e6009;
+    --partial-light: #bce0c8;
+    --partial-dark: #0c6e40;
     --canceled-light: #dd989f;
     --canceled-dark: #79111c;
+    --reprogramed-light: #afafaf;
+    --reprogramed-dark: #505050;
 }
 
 /* Estilos de la página y estructura */
@@ -57,12 +63,12 @@ input:disabled {
     display: inline-block;
 }
 
-.ready {
+.documented {
     background-color: var(--ready-light) !important;
     color: var(--ready-dark) !important;
 }
 
-.preparation {
+.pending {
     background-color: var(--process-light) !important;
     color: var(--process-dark) !important;
 }

@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initPageFilters(renderTransportTable, "transporte");
     // Declarar el botón de filtrado
     document.getElementById("filter-btn").addEventListener("click", () => {
-        planningFilter(renderProductionTable, "planta");
+        planningFilter(renderTransportTable, "transporte");
     });
 });
 
@@ -28,8 +28,8 @@ const editModal = document.getElementById('edit-modal');
 // Al abrir modal
 editModal.addEventListener('shown.bs.modal', event => {
     const button = event.relatedTarget;
-    const orderData = JSON.parse(button.getAttribute('order-data'));
-    renderTransportEditModal(orderData);
+    const partitionData = JSON.parse(button.getAttribute('partition-data'));
+    renderTransportEditModal(partitionData);
 });
 // Al cerrar modal
 editModal.addEventListener('hidden.bs.modal', () => {

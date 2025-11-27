@@ -23,13 +23,8 @@ export async function getOrders() {
             fecha,
             semana,
             anio,
-            observaciones,
             id_cliente,
-            emb_clientes (nombre, correo),
-            id_unidad,
-            emb_unidades (nombre),
-            id_caja,
-            emb_cajas (nombre)
+            emb_clientes (nombre, correo)
             `);
     
     if (error) {
@@ -44,14 +39,9 @@ export async function getOrders() {
         fecha: orden.fecha,
         semana: orden.semana,
         anio: orden.anio,
-        observaciones: orden.observaciones,
         id_cliente: orden.id_cliente,
         cliente: orden.emb_clientes?.nombre,
-        correo: orden.emb_clientes?.correo,
-        id_unidad: orden.id_unidad,
-        unidad: orden.emb_unidades?.nombre,
-        id_caja: orden.id_caja,
-        caja: orden.emb_cajas?.nombre
+        correo: orden.emb_clientes?.correo
     }));
 }
 
@@ -82,7 +72,7 @@ export async function deleteOrder(idOrder) {
 
     if (error) {
         console.error('Error eliminando orden:', error);
-        alert('Ocurrió un error al eliminar la ordend e compra.');
+        alert('Ocurrió un error al eliminar la orden de compra.');
         return;
     }
 };

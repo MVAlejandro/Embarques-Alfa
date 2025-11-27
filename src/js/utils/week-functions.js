@@ -1,12 +1,12 @@
 import supabase from "../supabase/supabase-client.js";
 // Servicios Supabase
-import { getOrders } from "../services/orders-service.js";
+import { getPartitions } from "../services/partitions-service.js"; 
 import { planningFilter } from "./planning-filters.js";
 
 // Función para obtener la última semana registrada de órdenes
 export async function obtainLastWeek() {
     const { data, error } = await supabase
-        .from('emb_ordenes_compra')
+        .from('emb_partidas')
         .select('semana, anio')
         .order('anio', { ascending: false })
         .order('semana', { ascending: false })
@@ -22,10 +22,10 @@ export async function obtainLastWeek() {
 
 // Función para obtener las semanas disponibles por año
 export async function buildWeeksByYear() {
-    const allCounts = await getOrders();
+    const allPartitions = await getPartitions();
     const weeksByYear = {};
 
-    allCounts.forEach(c => {
+    allPartitions.forEach(c => {
         const { anio, semana } = c;
         if (!weeksByYear[anio]) weeksByYear[anio] = new Set();
         weeksByYear[anio].add(semana);

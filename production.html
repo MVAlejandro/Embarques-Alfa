@@ -25,7 +25,7 @@
         <section id="production-header">
             <div id="production-header-container" class="container-fluid p-3">
                 <div class="row">
-                    <div class="col d-flex align-items-center">
+                    <div class="col-8 col-md-9 col-lg-10 d-flex align-items-center">
                         <div class="icon-square ms-3 me-3">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16">
                                 <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z"/>
@@ -33,8 +33,21 @@
                         </div>
                         <h4 class="fw-bold">Planeación de Producción</h4>
                     </div>
+                    <div class="col-4 col-md-3 col-lg-2 d-flex align-items-center">
+                        <button id="btn-add-partition" class="btn btn-primary d-flex align-items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                            </svg>
+                            <p class="ps-1">Nueva Partida</p>
+                        </button>
+                    </div>
                 </div>
             </div>
+        </section>
+
+        <!-- SECCIÓN DE FORMULARIO PARA AGREGAR REGISTRO -->
+        <section id="partitions-form">
+            
         </section>
 
         <!-- SECCIÓN DE FILTROS -->
@@ -118,7 +131,7 @@
         </section>
     </main>
 
-     <!-- Modal de edición para cada registro -->
+    <!-- Modal de edición para cada registro -->
     <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content pt-3 pb-3">
@@ -139,31 +152,43 @@
                 <div class="modal-body">
                     <div class="container">
                         <form id="production-edit-form">
-                            <input type="hidden" id="edit-id-order">
+                            <input type="hidden" id="edit-id-partition">
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-6 col-lg-3 ms-auto label-over-border">
                                     <label for="edit-date" class="form-label m-2">Fecha</label>
                                     <input type="date" class="form-control" id="edit-date" disabled>
-                                    <p class="error invalid-feedback" id="error-editDate" style="color: red;"></p>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-6 label-over-border">
                                     <label for="edit-oc" class="form-label m-2">Orden de compra</label>
                                     <input type="text" class="form-control" id="edit-oc" disabled>
-                                    <p class="error invalid-feedback" id="error-editOc" style="color: red;"></p>
                                 </div>
                                 <div class="col-md-6 label-over-border">
                                     <label for="edit-status" class="form-label m-2">Estado</label>
                                     <select id="edit-status" class="form-select" aria-label="Default select example">
+                                        <option value="Pendiente">Seleccione...</option>
                                         <option value="En proceso">En proceso</option>
+                                        <option value="PT parcial">PT parcial</option>
+                                        <option value="En secado">En secado</option>
                                         <option value="Terminado">Terminado</option>
                                         <option value="Cancelado">Cancelado</option>
+                                        <option value="Reprogramado">Reprogramado</option>
                                     </select>
                                     <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
                                 </div>
                             </div>
                         </form>
+                        <div id="partition-products">
+                            <div class="row ms-2 me-2 pt-2 pb-2">
+                                <div class="col d-flex align-items-center">
+                                    <p class="fw-bold">Productos asignados</p>
+                                </div>
+                            </div>
+                            <div id="partition-products-container" class="mb-4">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer me-4">

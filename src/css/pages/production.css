@@ -24,7 +24,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#production-filter-container, .table-responsive, #production-pages-container {
+#partitions-form-container, #production-filter-container, .table-responsive, #production-pages-container {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -68,12 +68,12 @@ input:disabled {
     color: var(--planning-dark) !important;
 }
 
-.ready, .send {
+.ready {
     background-color: var(--ready-light) !important;
     color: var(--ready-dark) !important;
 }
 
-.process, .preparation {
+.process {
     background-color: var(--process-light) !important;
     color: var(--process-dark) !important;
 }

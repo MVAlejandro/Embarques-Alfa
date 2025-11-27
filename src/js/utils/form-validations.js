@@ -9,116 +9,138 @@ const cpRegex = /^\d{5}$/ // Código postal
 const amountRegex = /^\d+([-\.]\d{1,2})?$/ // Cantidades y precios
 
 // Función que valida que los campos sean solo letras, algunos caracteres especiales y que haya al menos 3 caracteres
-export function textValidate(data, error) {
+export function textValidate(input, error) {
     error.textContent = '';
-    data.classList.remove('is-invalid', 'is-valid');
+    input.classList.remove('is-invalid', 'is-valid');
 
-    if (data.value.length < 3) {
+    if (input.value.length < 3) {
         error.textContent = `El campo debe de tener al menos 3 caracteres`;
-        data.classList.add('is-invalid');
-    } else if (!textRegex.test(data.value)) {
+        input.classList.add('is-invalid');
+    } else if (!textRegex.test(input.value)) {
         error.textContent = `El campo no acepta esos caracteres especiales`;
-        data.classList.add('is-invalid');
+        input.classList.add('is-invalid');
     } else {
         error.textContent = '';
-        data.classList.add('is-valid');
+        input.classList.add('is-valid');
     }
 }
 
 // Función que valida que los campos sean solo letras y que haya al menos 3 caracteres
-export function nameValidate(data, error) {
+export function nameValidate(input, error) {
     error.textContent = '';
-    data.classList.remove('is-invalid', 'is-valid');
+    input.classList.remove('is-invalid', 'is-valid');
 
-    if (data.value.length < 3) {
+    if (input.value.length < 3) {
         error.textContent = `El campo debe de tener al menos 3 caracteres`;
-        data.classList.add('is-invalid');
-    } else if (!nameRegex.test(data.value)) {
+        input.classList.add('is-invalid');
+    } else if (!nameRegex.test(input.value)) {
         error.textContent = `El campo no acepta caracteres especiales ni números`;
-        data.classList.add('is-invalid');
+        input.classList.add('is-invalid');
     } else {
         error.textContent = '';
-        data.classList.add('is-valid');
+        input.classList.add('is-valid');
     }
 }
 
 // Función que valida que el rfc tenga un formato válido
-export  function rfcValidate(data, error) {
+export  function rfcValidate(input, error) {
     error.textContent = '';
-    data.classList.remove('is-invalid', 'is-valid');
+    input.classList.remove('is-invalid', 'is-valid');
 
-    if (!rfcRegex.test(data.value)) {
+    if (!rfcRegex.test(input.value)) {
         error.textContent=`El RFC debe de cumplir con el formato válido`;
-        data.classList.add('is-invalid');
-        data.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        input.classList.remove('is-valid');
     } else {
         error.textContent = '';
-        data.classList.remove('is-invalid');
-        data.classList.add('is-valid');
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
     }
 }
 
 // Función que valida que el correo tenga un formato válido
-export  function emailValidate(data, error) {
+export  function emailValidate(input, error) {
     error.textContent = '';
-    data.classList.remove('is-invalid', 'is-valid');
+    input.classList.remove('is-invalid', 'is-valid');
 
-    if (!emailRegex.test(data.value)) {
+    if (!emailRegex.test(input.value)) {
         error.textContent=`El correo debe de cumplir con el formato example@example.com`;
-        data.classList.add('is-invalid');
-        data.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        input.classList.remove('is-valid');
     } else {
         error.textContent = '';
-        data.classList.remove('is-invalid');
-        data.classList.add('is-valid');
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
     }
 }
 
 // Función que valida que sea un número telefónico
-export function phoneValidate(data, error) {
+export function phoneValidate(input, error) {
     error.textContent = '';
-    data.classList.remove('is-invalid', 'is-valid');
+    input.classList.remove('is-invalid', 'is-valid');
 
-    if (!phoneRegex.test(data.value.trim())) {
+    if (!phoneRegex.test(input.value.trim())) {
         error.textContent=`El número telefónico no es válido`;
-        data.classList.add('is-invalid');
-        data.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        input.classList.remove('is-valid');
     } else {
         error.textContent = '';
-        data.classList.remove('is-invalid');
-        data.classList.add('is-valid');
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
     }
 }
 
 // Función que valida que el código postal sea correcto
-export function cpValidate (data, error){
+export function cpValidate (input, error){
     error.textContent = '';
-    data.classList.remove('is-invalid', 'is-valid');
+    input.classList.remove('is-invalid', 'is-valid');
 
-    if(!cpRegex.test(data.value)){
+    if(!cpRegex.test(input.value)){
         error.textContent=`El código postal no es válido`;
-        data.classList.add('is-invalid');
-        data.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        input.classList.remove('is-valid');
     } else {
         error.textContent = '';
-        data.classList.remove('is-invalid');
-        data.classList.add('is-valid');
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
     }
 }
 
 // Función que valida que el costo sea válido
-export function amountValidate (data, error){
+export function amountValidate (input, error){
     error.textContent = '';
-    data.classList.remove('is-invalid', 'is-valid');
+    input.classList.remove('is-invalid', 'is-valid');
 
-    if(!amountRegex.test(data.value)){
+    if(!amountRegex.test(input.value)){
         error.textContent=`El dato no es válido`;
-        data.classList.add('is-invalid');
-        data.classList.remove('is-valid');
+        input.classList.add('is-invalid');
+        input.classList.remove('is-valid');
     } else {
         error.textContent = '';
-        data.classList.remove('is-invalid');
-        data.classList.add('is-valid');
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
+    }
+}
+
+// Función que valida que la cantidad sea menor al máximo establecido
+export function quantityValidate(input, error, maxValue) {
+    error.textContent = "";
+    input.classList.remove("is-invalid", "is-valid");
+
+    if(!amountRegex.test(input.value)){
+        error.textContent=`El dato no es válido`;
+        input.classList.add('is-invalid');
+        input.classList.remove('is-valid');
+    } else if (input.value > maxValue) {
+        error.textContent = `No puede exceder ${maxValue} unidades`;
+        input.classList.add("is-invalid");
+        input.classList.remove('is-valid');
+
+        input.value = maxValue;
+    } else {
+        error.textContent = '';
+        input.classList.remove('is-invalid');
+        input.classList.add('is-valid');
     }
 }
 
@@ -133,21 +155,21 @@ export function inputValidate(campos) {
 } 
 
 // Función que valida la selección de una opción en selects
-export function selectValidate(selectElement, errorElement) {
+export function selectValidate(selectElement, errorement) {
     const valor = selectElement.value;
 
     if (valor === '0') {
         selectElement.classList.add('is-invalid');
         selectElement.classList.remove('is-valid');
-        if (errorElement) {
-            errorElement.textContent = 'Se debe seleccionar una opción';
+        if (errorement) {
+            errorement.textContent = 'Se debe seleccionar una opción';
         }
         return false;
     } else {
         selectElement.classList.remove('is-invalid');
         selectElement.classList.add('is-valid');
-        if (errorElement) {
-            errorElement.textContent = '';
+        if (errorement) {
+            errorement.textContent = '';
         }
         return true;
     }

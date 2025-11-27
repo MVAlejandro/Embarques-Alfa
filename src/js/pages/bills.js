@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initPageFilters(renderBillsTable, "facturacion");
     // Declarar el botón de filtrado
     document.getElementById("filter-btn").addEventListener("click", () => {
-        planningFilter(renderProductionTable, "planta");
+        planningFilter(renderBillsTable, "facturacion");
     });
 });
 
@@ -28,7 +28,7 @@ const editModal = document.getElementById('edit-modal');
 // Al abrir modal
 editModal.addEventListener('shown.bs.modal', event => {
     const button = event.relatedTarget;
-    const orderData = JSON.parse(button.getAttribute('order-data'));
+    const orderData = JSON.parse(button.getAttribute('partition-data'));
     renderBillsEditModal(orderData);
 });
 // Al cerrar modal
