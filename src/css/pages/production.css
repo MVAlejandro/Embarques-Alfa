@@ -1,11 +1,11 @@
 /* Variables de colores de estado */
 :root {
-    --planning-light: #95a9d6;
-    --planning-dark: #0a2a6e;
+    --process-light: #95a9d6;
+    --process-dark: #0a2a6e;
     --ready-light: #3cb17c;
     --ready-dark: #0b5231;
-    --process-light: #fcebb9;
-    --process-dark: #7e6009;
+    --planning-light: #fcebb9;
+    --planning-dark: #7e6009;
     --partial-light: #bce0c8;
     --partial-dark: #0c6e40;
     --canceled-light: #dd989f;
@@ -24,7 +24,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#partitions-form-container, #production-filter-container, .table-responsive, #production-pages-container {
+#partitions-form-container, #production-filter-container, .table-responsive {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -63,32 +63,32 @@ input:disabled {
     display: inline-block;
 }
 
-.planning {
-    background-color: var(--planning-light) !important;
-    color: var(--planning-dark) !important;
-}
-
-.ready {
-    background-color: var(--ready-light) !important;
-    color: var(--ready-dark) !important;
-}
-
-.process {
+.blue {
     background-color: var(--process-light) !important;
     color: var(--process-dark) !important;
 }
 
-.partial {
+.yellow {
+    background-color: var(--planning-light) !important;
+    color: var(--planning-dark) !important;
+}
+
+.greenL {
     background-color: var(--partial-light) !important;
     color: var(--partial-dark) !important;
 }
 
-.canceled {
+.greenD {
+    background-color: var(--ready-light) !important;
+    color: var(--ready-dark) !important;
+}
+
+.red {
     background-color: var(--canceled-light) !important;
     color: var(--canceled-dark) !important;
 }
 
-.reprogramed {
+.grey {
     background-color: var(--reprogramed-light) !important;
     color: var(--reprogramed-dark) !important;
 }

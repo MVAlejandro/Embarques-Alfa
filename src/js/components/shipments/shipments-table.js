@@ -39,13 +39,13 @@ export async function renderShipmentsTable(partitionsParam = null) {
         // Determinar clase CSS para el estatus
         let statusClass = '';
         if (partida.embarque == 'En preparación') {
-            statusClass = 'preparation';
+            statusClass = 'yellow';
         } else if (partida.embarque == 'Proceso de carga') {
-            statusClass = 'process';
+            statusClass = 'greenL';
         } else if (partida.embarque == 'Cargado') {
-            statusClass = 'ready';
+            statusClass = 'greenD';
         } else {
-            statusClass = 'planning';
+            statusClass = 'blue';
         }
 
         // Obtener productos de la partida

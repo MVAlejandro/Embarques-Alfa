@@ -39,13 +39,13 @@ export async function renderTransportTable(partitionsParam = null) {
         // Determinar clase CSS para el estatus
         let statusClass = '';
         if (partida.transporte == 'Asignado') {
-            statusClass = 'asigned';
+            statusClass = 'greenL';
         } else if (partida.transporte == 'En ruta') {
-            statusClass = 'route';
+            statusClass = 'yellow';
         } else if (partida.transporte == 'Entregado') {
-            statusClass = 'ready';
+            statusClass = 'greenD';
         } else {
-            statusClass = 'reprogramed';
+            statusClass = 'blue';
         }
 
         // Obtener productos de la partida

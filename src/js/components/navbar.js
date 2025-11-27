@@ -44,6 +44,7 @@ function createNavbar(navbar) {
                     <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./transport.html">Transporte</a></li>
                     <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./shipments.html">Embarques</a></li>
                     <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./bills.html">Facturación</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./planning.html">General</a></li>
                 </ul>
             </div>
             <svg id="nav-fill" xmlns="http://www.w3.org/2000/svg" width="62" height="62" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">

@@ -39,17 +39,17 @@ export async function renderProductionTable(partitionsParam = null) {
         // Determinar clase CSS para el estatus
         let statusClass = '';
         if (partida.planta == 'En proceso') {
-            statusClass = 'process';
+            statusClass = 'yellow';
         } else if (partida.planta == 'PT parcial') {
-            statusClass = 'partial';
+            statusClass = 'greenL';
         } else if (partida.planta == 'En secado') {
-            statusClass = 'planning';
+            statusClass = 'blue';
         } else if (partida.planta == 'Terminado') {
-            statusClass = 'ready';
+            statusClass = 'greenD';
         } else if (partida.planta == 'Cancelado') {
-            statusClass = 'canceled';
+            statusClass = 'red';
         } else {
-            statusClass = 'reprogramed';
+            statusClass = 'grey';
         }
 
         // Obtener productos de la partida

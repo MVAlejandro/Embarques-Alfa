@@ -39,9 +39,9 @@ export async function renderBillsTable(partitionsParam = null) {
         // Determinar clase CSS para el estatus
         let statusClass = '';
         if (partida.facturacion == 'Documentado') {
-            statusClass = 'documented';
+            statusClass = 'greenD';
         } else {
-            statusClass = 'pending';
+            statusClass = 'yellow';
         }
 
         // Obtener productos de la partida
