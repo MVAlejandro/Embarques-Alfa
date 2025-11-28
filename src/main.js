@@ -8,4 +8,10 @@ import './css/components/footer.css';
 
 // Componentes JS
 import './js/components/navbar.js';
-import './js/components/index/shipment-cards.js';
+
+// Servicios Supabase
+import { renderTable } from './js/components/index/index-content.js';
+
+document.addEventListener('DOMContentLoaded', async () => {
+    renderTable()
+})

@@ -1,10 +1,11 @@
 // Servicios Supabase
+import { getUnits } from '../../services/units-service.js'
 import { updatePartition } from '../../services/partitions-service.js'; 
 import { renderTransportTable } from './transport-table.js';
 
 // Utilidades
 import { selectValidate, inputValidate } from '../../utils/form-validations.js';
-import { loadOptions } from '../../utils/load-select.js';
+import { loadOptions, loadOptionsFilter } from '../../utils/load-select.js';
 
 // Función para cargar datos en el modal
 export async function renderTransportEditModal(partida) {
@@ -18,7 +19,7 @@ export async function renderTransportEditModal(partida) {
     document.getElementById('edit-box').value = partida.id_caja;
 
     // Cargar opciones en el select
-    await loadOptions('edit-unit', 'emb_unidades', 'id_unidad', 'nombre', "Seleccione...", partida.id_unidad);
+    await loadOptionsFilter('edit-unit', getUnits, ['tipo', 'nombre'], 'id_unidad', "Seleccione...", partida.id_unidad);
     await loadOptions('edit-box', 'emb_cajas', 'id_caja', 'nombre', "Seleccione...", partida.id_caja);
 }
 

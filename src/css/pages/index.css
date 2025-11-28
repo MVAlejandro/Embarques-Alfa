@@ -50,6 +50,39 @@
   }
 }
 
+/* Estilos de sección de planeación */
+table {
+  font-size: 13px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+#planning-container {
+    background-color: var(--background-light) !important;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    animation: fadeInUp 1s ease-in-out;
+}
+
+#weekHeader {
+  color: var(--primary-dark);
+}
+
+.planning-time, .planning-cant {
+    font-size: 13px;
+    color: var(--secondary) !important;
+}
+
+.planning-status {
+    padding: 5px 12px 5px 12px;
+    border-radius: 50px;
+    font-weight: bold;
+    display: inline-block;
+}
+
 /* Estilos generales para cards */
 .card {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
@@ -59,50 +92,6 @@
 
 .card:hover {
     transform: translateY(-5px);
-}
-
-/* Cards de sección de pendientes */
-.pending-card {
-    box-shadow: -5px 0px var(--primary) ;
-}
-
-.pending-cant {
-    font-size: 30px;
-    font-weight: bold;
-    padding-top: 0px;
-}
-
-/* Cards de sección de envíos */
-#ship-status-container {
-    background-color: var(--background-light) !important;
-    border-radius: 1rem;
-}
-
-.order-card {
-    height: 130px;
-    background-color: var(--primary-light);
-    border-radius: 10px 10px 0 0;
-    transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.order-card:hover {
-  filter: brightness(1.0); /* Hover individual: subir e iluminar */
-}
-
-#ship-cards-container:hover .order-card {
-  filter: opacity(0.5); /* Cuando el contenedor tiene hover, todas las cards se oscurecen */
-}
-
-#ship-cards-container:hover .order-card:hover {
-  filter: brightness(1.0); /* Pero si una card está en hover, se ilumina */
-}
-
-.ship-cant {
-    font-size: 20px;
-}
-
-.ship-text {
-    font-size: 13px;
 }
 
 /* Cards de sección de accesos directos */

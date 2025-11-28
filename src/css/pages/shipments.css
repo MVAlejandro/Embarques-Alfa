@@ -1,18 +1,3 @@
-/* Variables de colores de estado */
-:root {
-    --process-light: #95a9d6;
-    --process-dark: #0a2a6e;
-    --ready-light: #3cb17c;
-    --ready-dark: #0b5231;
-    --planning-light: #fcebb9;
-    --planning-dark: #7e6009;
-    --partial-light: #bce0c8;
-    --partial-dark: #0c6e40;
-    --canceled-light: #dd989f;
-    --canceled-dark: #79111c;
-    --reprogramed-light: #afafaf;
-    --reprogramed-dark: #505050;
-}
 
 /* Estilos de la página y estructura */
 #shipments-header {
@@ -61,36 +46,6 @@ input:disabled {
     border-radius: 50px;
     font-weight: bold;
     display: inline-block;
-}
-
-.blue {
-    background-color: var(--process-light) !important;
-    color: var(--process-dark) !important;
-}
-
-.yellow {
-    background-color: var(--planning-light) !important;
-    color: var(--planning-dark) !important;
-}
-
-.greenL {
-    background-color: var(--partial-light) !important;
-    color: var(--partial-dark) !important;
-}
-
-.greenD {
-    background-color: var(--ready-light) !important;
-    color: var(--ready-dark) !important;
-}
-
-.red {
-    background-color: var(--canceled-light) !important;
-    color: var(--canceled-dark) !important;
-}
-
-.grey {
-    background-color: var(--reprogramed-light) !important;
-    color: var(--reprogramed-dark) !important;
 }
 
 .btn-update {

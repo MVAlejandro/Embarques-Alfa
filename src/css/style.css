@@ -5,14 +5,23 @@
     --primary-dark: #6c9639;
     --secondary: #7B7B7B;
     --secondary-light: #b6b6b6;
-    --canceled-light: #dd989f;
-    --canceled-dark: #79111c;
     --background: #F5F5F5;
     --background-dark: #222222;
     --background-light: #fff;
     --text-light: #fff;
-    --danger-light: #dd989f;
-    --danger-dark: #991522;
+    /* Colores para estados de las tablas */
+    --table-blue-light: #95a9d6;
+    --table-blue-dark: #0a2a6e;
+    --table-greenD-light: #3cb17c;
+    --table-greenD-dark: #0b5231;
+    --table-yellow-light: #fcebb9;
+    --table-yellow-dark: #7e6009;
+    --table-greenL-light: #bce0c8;
+    --table-greenL-dark: #0c6e40;
+    --table-red-light: #dd989f;
+    --table-red-dark: #79111c;
+    --table-grey-light: #afafaf;
+    --table-grey-dark: #505050;
 }
 
 /* Estilos generales de la página y estructura */
@@ -50,6 +59,37 @@ table {
     table {
         font-size: 13px;
     }
+}
+
+/* Estados de las tablas de planeación */
+.blue {
+    background-color: var(--table-blue-light) !important;
+    color: var(--table-blue-dark) !important;
+}
+
+.yellow {
+    background-color: var(--table-yellow-light) !important;
+    color: var(--table-yellow-dark) !important;
+}
+
+.greenL {
+    background-color: var(--table-greenL-light) !important;
+    color: var(--table-greenL-dark) !important;
+}
+
+.greenD {
+    background-color: var(--table-greenD-light) !important;
+    color: var(--table-greenD-dark) !important;
+}
+
+.red {
+    background-color: var(--table-red-light) !important;
+    color: var(--table-red-dark) !important;
+}
+
+.grey {
+    background-color: var(--table-grey-light) !important;
+    color: var(--table-grey-dark) !important;
 }
 
 /* Contenedores de figuras para los iconos */
@@ -216,12 +256,12 @@ input::placeholder, textarea::placeholder, #default-option {
 }
 
 .btn-delete {
-    color: var(--canceled-dark);
+    color: var(--table-red-dark);
     box-shadow: 0 2px 4px rgba(121, 17, 28, 0.3);
 }
 
 .btn-delete:hover {
-    background-color: var(--canceled-dark);
+    background-color: var(--table-red-dark);
     color: var(--text-light);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
