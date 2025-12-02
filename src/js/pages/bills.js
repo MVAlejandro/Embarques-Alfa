@@ -10,17 +10,15 @@ import '../../css/components/footer.css'
 import '../components/navbar.js';
 
 // Servicios Supabase
-import { initPageFilters, planningFilter } from '../utils/planning-filters.js'; 
+import { initPage } from '../utils/session-validate.js'; 
+import { initPageFilters } from '../utils/planning-filters.js'; 
 import { renderBillsTable } from '../components/bills/bills-table.js';
 import { renderBillsEditModal } from '../components/bills/bills-modal.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
+    // await initPage()
     // Generar tabla con semana actual
-    initPageFilters(renderBillsTable, "facturacion");
-    // Declarar el botón de filtrado
-    document.getElementById("filter-btn").addEventListener("click", () => {
-        planningFilter(renderBillsTable, "facturacion");
-    });
+    initPageFilters(renderBillsTable);
 });
 
 // Acciones del modal de edición

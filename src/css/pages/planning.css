@@ -36,8 +36,7 @@ input:disabled {
 }
 
 /* Estilos de texto para la tabla */
-.planning-time, .planning-cant {
-    font-size: 13px;
+.planning-time {
     color: var(--secondary) !important;
 }
 

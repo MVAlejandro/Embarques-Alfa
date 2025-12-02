@@ -1,22 +1,48 @@
 // Servicios Supabase
 import { updatePartition } from '../../services/partitions-service.js';
 import { renderBillsTable } from './bills-table.js'; 
+// Utilidades
+import { textValidate, inputValidate } from '../../utils/form-validations.js';
 
 // Función para cargar datos en el modal
 export async function renderBillsEditModal(partida) {
     // Insertar valores en los inputs
     document.getElementById('edit-id-partition').value = partida.id_partida;
-    document.getElementById('edit-date').value = partida.fecha_programada;
     document.getElementById('edit-oc').value = partida.numero_orden;
+    document.getElementById('edit-date').value = partida.fecha_programada;
+    document.getElementById('edit-factura').value = partida.numero_facturacion;
     document.getElementById('edit-status').value = partida.facturacion;
 }
 
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
-    // Referencias para actualizar información
-    const facturacion = document.getElementById('edit-status').value;
+    // Referencias para validación
+    const numero_facturaIn = document.getElementById('edit-factura');
+    const statusIn = document.getElementById('edit-status');
+
+    const facturaError = document.getElementById('error-editFactura');
+    const statusError = document.getElementById('error-editStatus');
+
+    // Validaciones
+    textValidate(numero_facturaIn, facturaError)
+
+    const campos = document.querySelectorAll('input')
+    if (!inputValidate(campos)) {
+        alert('Corrige los errores antes de guardar.')
+        return
+    } 
+    
+    if (statusIn.value === 'Pendiente') {
+        statusIn.classList.add('is-invalid');
+        statusError.textContent = 'Se debe seleccionar una opción';
+        return
+    }
+
     const id_partida = document.getElementById('edit-id-partition').value;
-    const updatedData = { facturacion };
+    const updatedData = { 
+        numero_factura: numero_facturaIn.value, 
+        facturacion: statusIn.value 
+    };
 
     try {
         await updatePartition(id_partida, updatedData);

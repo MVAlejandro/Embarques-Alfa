@@ -11,18 +11,16 @@ import '../components/navbar.js';
 import '../components/production/generate-form.js'
 
 // Servicios Supabase
+import { initPage } from '../utils/session-validate.js'; 
 import { addPartition } from '../components/production/production-form.js';
-import { initPageFilters, planningFilter } from '../utils/planning-filters.js'; 
+import { initPageFilters } from '../utils/planning-filters.js'; 
 import { renderProductionTable } from '../components/production/production-table.js'; 
 import { renderProductionEditModal } from '../components/production/production-modal.js'; 
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
+    // await initPage()
     // Generar tabla con semana actual
-    initPageFilters(renderProductionTable, "planta");
-    // Declarar el botón de filtrado
-    document.getElementById("filter-btn").addEventListener("click", () => {
-        planningFilter(renderProductionTable, "planta");
-    });
+    initPageFilters(renderProductionTable);
 });
 
 // Declarar el botón del formulario

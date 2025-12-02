@@ -2,7 +2,7 @@
 import { getPartitions } from '../../services/partitions-service.js';
 import { renderPlanningTable } from './planning-table.js';
 // Utilidades
-import { loadOptions, loadOptionsFilter } from '../../utils/load-select.js';
+import { loadOptions, loadOptionsFilter, loadDaysFilter } from '../../utils/load-select.js';
 import { obtainLastWeek, buildWeeksByYear, weekNavigation } from '../../utils/week-functions.js';
 
 let weeksByYear = {};
@@ -29,10 +29,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Render inicial
     await planningFilter();
+    loadDaysFilter();
 
     // Navegación entre semanas
-    if (btnPrev) btnPrev.addEventListener('click', () => weekNavigation(-1, weeksByYear, renderPlanningTable, statusField));
-    if (btnNext) btnNext.addEventListener('click', () => weekNavigation(1, weeksByYear, renderPlanningTable, statusField));
+    if (btnPrev) btnPrev.addEventListener('click', () => {
+        weekNavigation(-1, weeksByYear);
+        planningFilter();
+        loadDaysFilter();
+    });
+    if (btnNext) btnNext.addEventListener('click', () => {
+        weekNavigation(1, weeksByYear);
+        planningFilter();
+        loadDaysFilter();
+    });
+
+    const filterBtn = document.getElementById('filter-btn');
+    if (filterBtn) filterBtn.addEventListener('click', () => {
+        planningFilter();
+        loadDaysFilter();
+    });
 });
 
 // Función de filtrado por valores seleccionados
@@ -40,17 +55,19 @@ export async function planningFilter() {
     // Verificar que existen los elementos
     const yearFilterEl = document.getElementById('year-filter');
     const weekFilterEl = document.getElementById('week-filter');
+    const dayFilterEl = document.getElementById('day-filter');
     const clientFilterEl = document.getElementById('client-filter');
 
-    if (!yearFilterEl || !weekFilterEl || !clientFilterEl) return;
+    if (!yearFilterEl || !weekFilterEl || !clientFilterEl || !dayFilterEl) return;
 
     // Tomar valores de los selects
     const yearFilter = parseInt(yearFilterEl.value);
     const weekFilter = parseInt(weekFilterEl.value);
+    const dayFilter = dayFilterEl.value;
     const clientFilter = clientFilterEl.value;
 
     // Si no se selecciona una semana y un año generar tabla vacía
-    if (!weekFilter || !yearFilter) {
+    if (!weekFilter || !yearFilter ) {
         renderTable([]);
         return;
     }
@@ -63,7 +80,8 @@ export async function planningFilter() {
     const weeklyOrders = allPartitions.filter(o => o.semana == weekFilter && o.anio == yearFilter);
     // Si se selecciona un almacén, aplicarlo
     const filtered = weeklyOrders.filter(o => 
-        (clientFilter === '0' || o.id_cliente == clientFilter));
+        (clientFilter === '0' || o.id_cliente == clientFilter) &&
+        (dayFilter === '0' || o.fecha_programada === dayFilter));
 
     renderPlanningTable(filtered);
 }

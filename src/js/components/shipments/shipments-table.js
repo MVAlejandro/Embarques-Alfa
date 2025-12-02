@@ -36,16 +36,32 @@ export async function renderShipmentsTable(partitionsParam = null) {
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
 
     for (const partida of allPartitions) {
-        // Determinar clase CSS para el estatus
-        let statusClass = '';
-        if (partida.embarque == 'En preparación') {
-            statusClass = 'yellow';
-        } else if (partida.embarque == 'Proceso de carga') {
-            statusClass = 'greenL';
-        } else if (partida.embarque == 'Cargado') {
-            statusClass = 'greenD';
+        // Determinar clase CSS para el estatus de producción
+        let productionStatusClass = '';
+        if (partida.planta == 'En proceso') {
+            productionStatusClass = 'yellow';
+        } else if (partida.planta == 'PT parcial') {
+            productionStatusClass = 'greenL';
+        } else if (partida.planta == 'En secado') {
+            productionStatusClass = 'blue';
+        } else if (partida.planta == 'Terminado') {
+            productionStatusClass = 'greenD';
+        } else if (partida.planta == 'Cancelado') {
+            productionStatusClass = 'red';
         } else {
-            statusClass = 'blue';
+            productionStatusClass = 'grey';
+        }
+
+        // Determinar clase CSS para el estatus de embarque
+        let shipmentStatusClass = '';
+        if (partida.embarque == 'En preparación') {
+            shipmentStatusClass = 'yellow';
+        } else if (partida.embarque == 'Proceso de carga') {
+            shipmentStatusClass = 'greenL';
+        } else if (partida.embarque == 'Cargado') {
+            shipmentStatusClass = 'greenD';
+        } else {
+            shipmentStatusClass = 'blue';
         }
 
         // Obtener productos de la partida
@@ -59,15 +75,22 @@ export async function renderShipmentsTable(partitionsParam = null) {
         `<tr>
             <td class="p-2 ps-4">
                 <p class="shipment-date fw-bold">${partida.fecha_programada}</p>
-                <p class="shipment-time">${partida.hora_programada}</p>
-                <p class="shipment-time-final">${partida.hora_realizada || "-"}</p>
+                <p class="shipment-time">${partida.hora_programada.slice(0, 5)}</p>
+                <p class="shipment-time-final">${partida.hora_realizada?.slice(0, 5) || "-"}</p>
             </td>
             <td class="shipment-client p-2">${partida.cliente}</td>
             <td id="shipment-products-${partida.id_partida}" class="p-2">
 
             </td>
             <td class="text-center p-2">
-                <p class="shipment-status ${statusClass}">${partida.embarque}</p>
+                <p class="shipment-status ${productionStatusClass}">${partida.planta}</p>
+            </td>
+            <td class="text-center p-2">
+                <p class="shipment-status ${shipmentStatusClass}">${partida.embarque}</p>
+            </td>
+            <td class="p-2">
+                <p class="shipment-unit">${partida.unidad || "Sin Asignar"}</p>
+                <p class="shipment-license">${partida.placas || "-"}</p>
             </td>
             <td class="shipment-observation p-2">${partida.observaciones}</td>
             <td class="shipment-control text-center">
@@ -98,6 +121,6 @@ export async function renderShipmentsTable(partitionsParam = null) {
     `<tr class="table-active fw-bold">
         <td colspan="2" class="text-center">Tarimas Totales</td>
         <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
-        <td colspan="3"></td>
+        <td colspan="5"></td>
     </tr>`;
 }

@@ -69,19 +69,15 @@
                         </select>
                     </div>
                     <div class="col-lg col-md-6 d-flex align-items-center label-over-border filter">
-                        <label for="client-filter" class="form-label m-2">Filtrar por Cliente</label>
-                        <select class="form-select" id="client-filter">
+                        <label for="day-filter" class="form-label m-2">Filtrar por Día</label>
+                        <select class="form-select" id="day-filter">
                             <option value="0">Todos</option>
                         </select>
                     </div>
                     <div class="col-lg col-md-6 d-flex align-items-center label-over-border filter">
-                        <label for="status-filter" class="form-label m-2">Filtrar por Estado</label>
-                        <select class="form-select" id="status-filter">
+                        <label for="client-filter" class="form-label m-2">Filtrar por Cliente</label>
+                        <select class="form-select" id="client-filter">
                             <option value="0">Todos</option>
-                            <option value="Planeado">Planeado</option>
-                            <option value="En preparación">En preparación</option>
-                            <option value="Proceso de carga">Proceso de carga</option>
-                            <option value="Cargado">Cargado</option>
                         </select>
                     </div>
                     <div class="col-md d-flex align-items-center justify-content-end">
@@ -105,7 +101,9 @@
                             <th class="p-3 ps-4">DÍA</th>
                             <th class="p-3 ps-2">CLIENTE</th>
                             <th class="p-3 ps-2">CLAVE</th>
-                            <th class="text-center p-3">ESTADO</th>
+                            <th class="text-center p-3">PLANTA</th>
+                            <th class="text-center p-3">EMBARQUE</th>
+                            <th class="p-3 ps-2">UNIDAD</th>
                             <th class="p-3 ps-2">OBSERVACIONES</th>
                             <th class="text-center p-3">ACCIONES</th>
                         </tr>
@@ -141,13 +139,19 @@
                         <form id="shipment-edit-form">
                             <input type="hidden" id="edit-id-partition">
                             <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-6 col-lg-3 label-over-border">
-                                    <label for="edit-time" class="form-label m-2">Hora</label>
-                                    <input type="time" class="form-control" id="edit-time" disabled>
-                                </div>
                                 <div class="col-md-6 col-lg-3 ms-auto label-over-border">
                                     <label for="edit-date" class="form-label m-2">Fecha</label>
                                     <input type="date" class="form-control" id="edit-date" disabled>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-6 col-lg-3 ms-auto label-over-border">
+                                    <label for="edit-time" class="form-label m-2">Hora planeada</label>
+                                    <input type="time" class="form-control" id="edit-time" disabled>
+                                </div>
+                                <div class="col-md-6 col-lg-3 label-over-border">
+                                    <label for="edit-real-time" class="form-label m-2">Hora programada</label>
+                                    <input type="time" class="form-control" id="edit-real-time">
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">

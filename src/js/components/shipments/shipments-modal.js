@@ -10,6 +10,7 @@ export async function renderShipmentsEditModal(partida) {
     document.getElementById('edit-id-partition').value = partida.id_partida;
     document.getElementById('edit-date').value = partida.fecha_programada;
     document.getElementById('edit-time').value = partida.hora_programada;
+    document.getElementById('edit-real-time').value = partida.hora_realizada;
     document.getElementById('edit-oc').value = partida.numero_orden;
     document.getElementById('edit-status').value = partida.embarque;
     document.getElementById('edit-observations').value = partida.observaciones;
@@ -19,9 +20,11 @@ export async function renderShipmentsEditModal(partida) {
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     const form = document.getElementById('bill-edit-form');
     // Referencias para validación
-    const embarqueIn = document.getElementById('edit-status');
+    const horaRealIn = document.getElementById('edit-real-time');
+    const statusIn = document.getElementById('edit-status');
     const observacionesIn = document.getElementById('edit-observations');
     
+    const statusError = document.getElementById('error-editStatus');
     const observacionesError = document.getElementById('error-editObservations');
 
     // Validaciones
@@ -33,16 +36,21 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         return
     }
 
+    if (statusIn.value === 'Planeado') {
+        statusIn.classList.add('is-invalid');
+        statusError.textContent = 'Se debe seleccionar una opción';
+        return
+    }
+
     // Registrar la hora de embarque real
-    let hora_realizada = null;
-    if (embarqueIn.value == "Cargado") {
-        hora_realizada = new Date().toTimeString().slice(0, 8);
+    if (statusIn.value === 'Cargado') {
+        horaRealIn.value = new Date().toTimeString().slice(0, 8);
     }
 
     const id_partida = document.getElementById('edit-id-partition').value;
     const updatedData = { 
-        hora_realizada,
-        embarque: embarqueIn.value,
+        hora_realizada: horaRealIn.value,
+        embarque: statusIn.value,
         observaciones: observacionesIn.value
     };
 

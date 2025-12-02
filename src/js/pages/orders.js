@@ -11,12 +11,14 @@ import '../components/navbar.js';
 import '../components/orders/generate-form.js'
 
 // Servicios Supabase
+import { initPage } from '../utils/session-validate.js'; 
 import { addManualOrder, addExcelOrder } from '../components/orders/orders-form.js';
 import { ordersFilter } from '../components/orders/orders-filter.js';
 import { renderOrdersTable } from '../components/orders/orders-table.js';
 import { renderOrdersEditModal } from '../components/orders/orders-modal.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // await initPage()
     renderOrdersTable();
 });
 

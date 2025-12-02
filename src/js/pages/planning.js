@@ -10,11 +10,9 @@ import '../../css/components/footer.css'
 import '../components/navbar.js';
 
 // Servicios Supabase
+import { initPage } from '../utils/session-validate.js'; 
 import { planningFilter } from '../components/planning/planning-filters.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Declarar el botón de filtrado
-    document.getElementById("filter-btn").addEventListener("click", () => {
-        planningFilter();
-    });
+    // await initPage()
 });

@@ -36,7 +36,7 @@ input:disabled {
 }
 
 /* Estilos de texto para la tabla */
-.shipment-time, .shipment-time-final, .shipment-cant {
+.shipment-time, .shipment-time-final, .shipment-cant, .shipment-license {
     font-size: 13px;
     color: var(--secondary) !important;
 }

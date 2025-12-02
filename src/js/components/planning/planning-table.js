@@ -59,28 +59,21 @@ export async function renderPlanningTable(partitionsParam = null) {
 
         tbody.innerHTML += 
         `<tr>
-            <td class="p-2 ps-4">
-                <p class="planning-date fw-bold">${partida.fecha_programada}</p>
-                <p class="planning-time">${partida.hora_programada} - ${partida.hora_realizada || "-"}</p>
-            </td>
-
-            <td class="planning-client p-2">${partida.cliente}</td>
-
+            <td class="planning-client p-2 ps-4">${partida.cliente}</td>
+            <td class="planning-date p-2 fw-bold">${partida.fecha_programada}</td>
             <td class="text-center p-2">
                 <p class="planning-status ${plantaClass}">${partida.planta}</p>
             </td>
-
             <td class="text-center p-2">
                 <p class="planning-status ${transporteClass}">${partida.transporte}</p>
             </td>
-
             <td class="text-center p-2">
                 <p class="planning-status ${embarqueClass}">${partida.embarque}</p>
             </td>
-
             <td class="text-center p-2">
                 <p class="planning-status ${facturacionClass}">${partida.facturacion}</p>
             </td>
+            <td class="planning-time p-2">${partida.hora_programada} - ${partida.hora_realizada || "-"}</td>
         </tr>`;
     }
 }

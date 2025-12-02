@@ -10,17 +10,15 @@ import '../../css/components/footer.css'
 import '../components/navbar.js';
 
 // Servicios Supabase
-import { initPageFilters, planningFilter } from '../utils/planning-filters.js'; 
+import { initPage } from '../utils/session-validate.js'; 
+import { initPageFilters } from '../utils/planning-filters.js'; 
 import { renderTransportTable } from '../components/transport/transport-table.js';
 import { renderTransportEditModal } from '../components/transport/transport-modal.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
+    // await initPage()
     // Generar tabla con semana actual
-    initPageFilters(renderTransportTable, "transporte");
-    // Declarar el botón de filtrado
-    document.getElementById("filter-btn").addEventListener("click", () => {
-        planningFilter(renderTransportTable, "transporte");
-    });
+    initPageFilters(renderTransportTable);
 });
 
 // Acciones del modal de edición

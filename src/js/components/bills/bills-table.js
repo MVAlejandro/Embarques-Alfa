@@ -36,12 +36,24 @@ export async function renderBillsTable(partitionsParam = null) {
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
     
     for (const partida of allPartitions) {
-        // Determinar clase CSS para el estatus
-        let statusClass = '';
-        if (partida.facturacion == 'Documentado') {
-            statusClass = 'greenD';
+        // Determinar clase CSS para el estatus de embarque
+        let shipmentStatusClass = '';
+        if (partida.embarque == 'En preparación') {
+            shipmentStatusClass = 'yellow';
+        } else if (partida.embarque == 'Proceso de carga') {
+            shipmentStatusClass = 'greenL';
+        } else if (partida.embarque == 'Cargado') {
+            shipmentStatusClass = 'greenD';
         } else {
-            statusClass = 'yellow';
+            shipmentStatusClass = 'blue';
+        }
+
+        // Determinar clase CSS para el estatus de facturación
+        let BillStatusClass = '';
+        if (partida.facturacion == 'Documentado') {
+            BillStatusClass = 'greenD';
+        } else {
+            BillStatusClass = 'yellow';
         }
 
         // Obtener productos de la partida
@@ -63,13 +75,17 @@ export async function renderBillsTable(partitionsParam = null) {
                 
             </td>
             <td class="text-center p-2">
-                <p class="bill-status ${statusClass}">${partida.facturacion}</p>
+                <p class="bill-status ${shipmentStatusClass}">${partida.embarque}</p>
             </td>
+            <td class="text-center p-2">
+                <p class="bill-status ${BillStatusClass}">${partida.facturacion}</p>
+            </td>
+            <td class="bill-number p-2">${partida.numero_factura || "Sin Registro"}</td>
             <td class="bill-control text-center">
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
-                    ${partida.facturacion === "Documentado" ? "disabled" : ""}
+                    ${partida.facturacion === "Documentado" || partida.embarque !== "Cargado" ? "disabled" : ""}
                     partition-data='${JSON.stringify(partida)}'>
                     ${partida.facturacion === "Documentado" ? "Completado" : "Actualizar"}
                 </button>
@@ -93,6 +109,6 @@ export async function renderBillsTable(partitionsParam = null) {
     `<tr class="table-active fw-bold">
         <td colspan="3" class="text-center">Tarimas Totales</td>
         <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
-        <td colspan="2"></td>
+        <td colspan="4"></td>
     </tr>`;
 }

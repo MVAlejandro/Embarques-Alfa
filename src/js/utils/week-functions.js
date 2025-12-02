@@ -34,6 +34,29 @@ export async function buildWeeksByYear() {
     return weeksByYear;
 }
 
+// Función para calcular los días de la semana seleccionada
+export function getDaysOfWeek(year, week) {
+    const simple = new Date(year, 0, 1 + (week - 1) * 7);
+    const dayOfWeek = simple.getDay(); // 0 = Dom,1 = Lun,... 6 = Sab
+    const monday = new Date(simple);
+    // Ignorar domingo
+    const diff = dayOfWeek <= 0 ? 1 - dayOfWeek : 1 - dayOfWeek;
+    monday.setDate(simple.getDate() + diff);
+
+    const days = [];
+    for (let i = 0; i < 6; i++) { // Lunes a Sábado
+        const d = new Date(monday);
+        d.setDate(monday.getDate() + i);
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        const formatted = `${yyyy}-${mm}-${dd}`;
+        const dayName = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][i];
+        days.push({ date: formatted, name: dayName });
+    }
+    return days;
+}
+
 export function weekNavigation(direction, weeksByYear, renderTable, statusField) {
     const yearFilter = document.getElementById('year-filter');
     const weekFilter = document.getElementById('week-filter');

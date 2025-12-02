@@ -63,7 +63,7 @@ export async function renderProductionTable(partitionsParam = null) {
         `<tr>
             <td class="p-2 ps-4">
                 <p class="production-date fw-bold">${partida.fecha_programada}</p>
-                <p class="production-time">${partida.hora_programada}</p>
+                <p class="production-time">${partida.hora_programada.slice(0, 5)}</p>
             </td>
             <td class="production-client p-2">${partida.cliente}</td>
             <td id="production-products-${partida.id_partida}" class="p-2">

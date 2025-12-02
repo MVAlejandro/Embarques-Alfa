@@ -7,6 +7,7 @@ const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+$/; // Email
 const phoneRegex = /^[1-9]\d{9}$/; // Número telefónico
 const cpRegex = /^\d{5}$/ // Código postal
 const amountRegex = /^\d+([-\.]\d{1,2})?$/ // Cantidades y precios
+const passRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s.,()\/\-–—_!@#$%^&*+=?:;'"{}[\]<>\|~`]+$/; // Contraseñas con signos comunes
 
 // Función que valida que los campos sean solo letras, algunos caracteres especiales y que haya al menos 3 caracteres
 export function textValidate(input, error) {
@@ -141,6 +142,25 @@ export function quantityValidate(input, error, maxValue) {
         error.textContent = '';
         input.classList.remove('is-invalid');
         input.classList.add('is-valid');
+    }
+}
+
+// Función que valida los caracteres permitidos en contraseñas
+export function passValidate(data, error) {
+    error.textContent = '';
+    data.classList.remove('is-invalid', 'is-valid');
+
+    if (data.value.length < 3) {
+        error.textContent = `El campo debe de tener al menos 3 caracteres`;
+        data.classList.add('is-invalid');
+    } else if (!passRegex.test(data.value)) {
+        error.textContent=`La contraseña no puede incluir esos caracteres especiales`;
+        data.classList.add('is-invalid');
+        data.classList.remove('is-valid');
+    } else {
+        error.textContent = '';
+        data.classList.remove('is-invalid');
+        data.classList.add('is-valid');
     }
 }
 

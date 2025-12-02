@@ -8,8 +8,8 @@ import { textValidate, amountValidate, inputValidate, selectValidate } from '../
 
 // Cargar los clientes en los formularios al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
-    loadOptions('cliente-excel', 'emb_clientes', 'id_cliente', 'nombre', 'Todos')
-    loadOptions('cliente', 'emb_clientes', 'id_cliente', 'nombre', 'Todos')
+    loadOptions('cliente-excel', 'emb_clientes', 'id_cliente', 'nombre', 'Seleccione...')
+    loadOptions('cliente', 'emb_clientes', 'id_cliente', 'nombre', 'Seleccione...')
 })
 
 // Función para calcular y asignar semana y año

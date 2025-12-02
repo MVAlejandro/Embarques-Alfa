@@ -25,12 +25,8 @@ th {
 }
 
 /* Estilos de texto para la tabla */
-.order-client-email, #orders-pages-results {
+.order-client-email, .order-cant, #orders-pages-results {
     font-size: 13px;
-    color: var(--secondary) !important;
-}
-
-.order-amount {
     color: var(--secondary) !important;
 }
 

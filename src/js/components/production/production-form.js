@@ -1,15 +1,16 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
+import { getOrders } from '../../services/orders-service.js';
 import { createPartition } from '../../services/partitions-service.js'; 
 import { initPageFilters } from '../../utils/planning-filters.js'; 
 import { renderProductionTable } from './production-table.js'; 
 // Utilidades
-import { loadOptions } from '../../utils/load-select.js';
+import { loadOptionsFilter } from '../../utils/load-select.js';
 import { textValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
 
 // Cargar las órdenes en el formulario al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
-    loadOptions('orden', 'emb_ordenes_compra', 'id_orden', 'numero_orden', 'Seleccione...')
+    loadOptionsFilter('orden', getOrders, ['numero_orden', 'cliente'], 'id_orden', 'Seleccione...')
 })
 
 // Función para calcular y asignar semana y año

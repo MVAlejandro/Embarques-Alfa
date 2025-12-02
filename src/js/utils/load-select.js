@@ -1,6 +1,8 @@
 import supabase from "../supabase/supabase-client";
 // Servicios Supabase
 import { getOrders } from "../services/orders-service";
+// Utilidades
+import { getDaysOfWeek } from "./week-functions";
 
 // Función para cargar datos completos en los select del formulario
 export async function loadOptions(selectId, table, valueKey, textKey, defaultOption, selectedValue = '0') {
@@ -115,5 +117,32 @@ export async function loadWeeksFilter(selectId, fields) {
         optionEl.value = opcion;
         optionEl.textContent = opcion;
         select.appendChild(optionEl);
+    });
+}
+
+// Función para cargar los días de la semana en el filtro
+export function loadDaysFilter() {
+    const yearEl = document.getElementById('year-filter');
+    const weekEl = document.getElementById('week-filter');
+    const dayEl = document.getElementById('day-filter');
+
+    if (!yearEl || !weekEl || !dayEl) return;
+
+    const year = parseInt(yearEl.value);
+    const week = parseInt(weekEl.value);
+
+    if (!year || !week) {
+        dayEl.innerHTML = '<option value="0">Todos</option>';
+        return;
+    }
+
+    const days = getDaysOfWeek(year, week);
+
+    dayEl.innerHTML = '<option value="0">Todos</option>';
+    days.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d.date;
+        opt.textContent = d.name;
+        dayEl.appendChild(opt);
     });
 }

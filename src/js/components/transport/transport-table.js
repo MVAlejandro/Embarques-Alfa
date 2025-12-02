@@ -59,7 +59,7 @@ export async function renderTransportTable(partitionsParam = null) {
         `<tr>
             <td class="p-2 ps-4">
                 <p class="transport-date fw-bold">${partida.fecha_programada}</p>
-                <p class="transport-time">${partida.hora_programada}</p>
+                <p class="transport-time">${partida.hora_programada.slice(0, 5)}</p>
             </td>
             <td class="transport-client p-2">${partida.cliente}</td>
             <td class="transport-cant fw-bold p-2">Cant. ${totalAmount}</td>
@@ -70,6 +70,7 @@ export async function renderTransportTable(partitionsParam = null) {
                 <p class="transport-unit">${partida.unidad || "Sin Asignar"}</p>
                 <p class="transport-license">${partida.placas || "-"}</p>
             </td>
+            <td class="transport-operator p-2">${partida.operador || "Sin Asignar"}</td>
             <td class="transport-control text-center">
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
@@ -87,6 +88,6 @@ export async function renderTransportTable(partitionsParam = null) {
     `<tr class="table-active fw-bold">
         <td colspan="2" class="text-center">Tarimas Totales</td>
         <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
-        <td colspan="3"></td>
+        <td colspan="4"></td>
     </tr>`;
 }

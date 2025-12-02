@@ -54,7 +54,9 @@ export async function renderOrdersTable(ordersParam = null) {
                 <p class="order-client-email">${orden.correo}</p>
             </td>
             <td class="order-date p-3">${orden.fecha}</td>
-            <td class="order-amount fw-bold p-3">Cant. ${totalAmount}</td>
+            <td id="order-products-${orden.id_orden}" class="p-2">
+                
+            </td>
             <td class="order-controls text-end p-3 pe-4">
                 <div class="action-buttons">
                     <button class="btn btn-edit" 
@@ -76,6 +78,20 @@ export async function renderOrdersTable(ordersParam = null) {
                 </div>
             </td>
         </tr>`;
+
+        // Insertar productos de esta orden
+        const container = document.getElementById(`order-products-${orden.id_orden}`);
+        container.innerHTML = '';
+
+        for (const producto of productos) {
+            container.innerHTML += 
+            `<p class="order-product">${producto.codigo} - <b> Cant. ${producto.cantidad_orden.toLocaleString('en-US')}</b></p>
+            <p class="order-cant">${producto.producto}</p>
+            <hr>`;
+        };
+
+        container.innerHTML += 
+        `<p class="order-amount fw-bold">TOTAL: ${totalAmount}</p>`;
     };
 
     // Actualizar texto de resultados

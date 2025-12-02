@@ -93,9 +93,16 @@ export async function renderProductionEditModal(partida) {
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     // Referencias para actualizar información
-    const plantaIn = document.getElementById('edit-status');
+    const statusIn = document.getElementById('edit-status');
+    const statusError = document.getElementById('error-editStatus');
+    if (statusIn.value === 'Pendiente') {
+        statusIn.classList.add('is-invalid');
+        statusError.textContent = 'Se debe seleccionar una opción';
+        return
+    }
+
     const id_partida = document.getElementById('edit-id-partition').value;
-    const updatedData = { planta:plantaIn.value };
+    const updatedData = { planta:statusIn.value };
 
     try {
         await updatePartition(id_partida, updatedData);

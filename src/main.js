@@ -10,8 +10,10 @@ import './css/components/footer.css';
 import './js/components/navbar.js';
 
 // Servicios Supabase
+import { initPage } from './js/utils/session-validate.js';
 import { renderTable } from './js/components/index/index-content.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // await initPage()
     renderTable()
 })

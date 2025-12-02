@@ -11,12 +11,14 @@ import '../components/navbar.js';
 import '../components/clients/generate-form.js'
 
 // Servicios Supabase
+import { initPage } from '../utils/session-validate.js'; 
 import { addManualClient, addExcelClient } from '../components/clients/clients-form.js';
 import { searchFilter } from '../components/clients/clients-filter.js';
 import { renderClientsTable } from '../components/clients/clients-table.js';
 import { renderClientsEditModal } from '../components/clients/clients-modal.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // await initPage()
     renderClientsTable();
 });
 

@@ -11,12 +11,14 @@ import '../components/navbar.js';
 import '../components/units/generate-form.js'
 
 // Servicios Supabase
+import { initPage } from '../utils/session-validate.js'; 
 import { addManualUnit, addExcelUnit } from '../components/units/units-form.js';
 import { unitsFilter } from '../components/units/units-filter.js'; 
 import { renderUnitsTable } from '../components/units/units-table.js';
 import { renderUnitsEditModal } from '../components/units/units-modal.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // await initPage()
     renderUnitsTable();
 });
 

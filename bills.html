@@ -68,17 +68,15 @@
                         </select>
                     </div>
                     <div class="col-lg col-md-6 d-flex align-items-center label-over-border filter">
-                        <label for="client-filter" class="form-label m-2">Filtrar por Cliente</label>
-                        <select class="form-select" id="client-filter">
+                        <label for="day-filter" class="form-label m-2">Filtrar por Día</label>
+                        <select class="form-select" id="day-filter">
                             <option value="0">Todos</option>
                         </select>
                     </div>
                     <div class="col-lg col-md-6 d-flex align-items-center label-over-border filter">
-                        <label for="status-filter" class="form-label m-2">Filtrar por Estado</label>
-                        <select class="form-select" id="status-filter">
+                        <label for="client-filter" class="form-label m-2">Filtrar por Cliente</label>
+                        <select class="form-select" id="client-filter">
                             <option value="0">Todos</option>
-                            <option value="Pendiente">Pendiente</option>
-                            <option value="Documentado">Documentado</option>
                         </select>
                     </div>
                     <div class="col-md d-flex align-items-center justify-content-end">
@@ -103,7 +101,9 @@
                             <th class="p-3 ps-2">OC</th>
                             <th class="p-3 ps-2">CLIENTE</th>
                             <th class="p-3 ps-2">CLAVE</th>
-                            <th class="text-center p-3">ESTADO</th>
+                            <th class="text-center p-3">EMBARQUE</th>
+                            <th class="text-center p-3">FACTURACIÓN</th>
+                            <th class="p-3 ps-2"># FACTURA</th>
                             <th class="text-center p-3">ACCIONES</th>
                         </tr>
                     </thead>
@@ -138,6 +138,10 @@
                         <form id="bill-edit-form">
                             <input type="hidden" id="edit-id-partition">
                             <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-6 col-lg-3 label-over-border">
+                                    <label for="edit-oc" class="form-label m-2">Orden de compra</label>
+                                    <input type="text" class="form-control" id="edit-oc" disabled>
+                                </div>
                                 <div class="col-md-6 col-lg-3 ms-auto label-over-border">
                                     <label for="edit-date" class="form-label m-2">Fecha</label>
                                     <input type="date" class="form-control" id="edit-date" disabled>
@@ -145,8 +149,9 @@
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-6 label-over-border">
-                                    <label for="edit-oc" class="form-label m-2">Orden de compra</label>
-                                    <input type="text" class="form-control" id="edit-oc" disabled>
+                                    <label for="edit-factura" class="form-label m-2">Número de Factura</label>
+                                    <input type="text" class="form-control" id="edit-factura" placeholder="012345">
+                                    <p class="error invalid-feedback" id="error-editFactura" style="color: red;"></p>
                                 </div>
                                 <div class="col-md-6 label-over-border">
                                     <label for="edit-status" class="form-label m-2">Estado</label>

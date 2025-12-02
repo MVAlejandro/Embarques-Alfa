@@ -14,11 +14,13 @@ export async function renderTransportEditModal(partida) {
     document.getElementById('edit-date').value = partida.fecha_programada;
     document.getElementById('edit-time').value = partida.hora_programada;
     document.getElementById('edit-oc').value = partida.numero_orden;
+    document.getElementById('edit-operator').value = partida.id_operador;
     document.getElementById('edit-status').value = partida.transporte;
     document.getElementById('edit-unit').value = partida.id_unidad;
     document.getElementById('edit-box').value = partida.id_caja;
 
     // Cargar opciones en el select
+    await loadOptions('edit-operator', 'emb_operadores', 'id_operador', 'nombre', "Seleccione...", partida.id_operador);
     await loadOptionsFilter('edit-unit', getUnits, ['tipo', 'nombre'], 'id_unidad', "Seleccione...", partida.id_unidad);
     await loadOptions('edit-box', 'emb_cajas', 'id_caja', 'nombre', "Seleccione...", partida.id_caja);
 }
@@ -27,14 +29,18 @@ export async function renderTransportEditModal(partida) {
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     const form = document.getElementById('transport-edit-form');
     // Referencias para validación
-    const transporteIn = document.getElementById('edit-status');
+    const operadorIn = document.getElementById('edit-operator');
+    const statusIn = document.getElementById('edit-status');
     const unidadIn = document.getElementById('edit-unit');
     const cajaIn = document.getElementById('edit-box');
     
+    const operadorError = document.getElementById('error-editOperator');
+    const statusError = document.getElementById('error-editStatus');
     const unidadError = document.getElementById('error-editUnit');
     const cajaError = document.getElementById('error-editBox');
     
     // Validaciones
+    selectValidate(operadorIn, operadorError)
     selectValidate(unidadIn, unidadError)
     selectValidate(cajaIn, cajaError)
     
@@ -44,11 +50,18 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         return
     } 
 
+    if (statusIn.value === 'Planeado') {
+        statusIn.classList.add('is-invalid');
+        statusError.textContent = 'Se debe seleccionar una opción';
+        return
+    }
+
     const id_partida = document.getElementById('edit-id-partition').value;
     const updatedData = { 
+        id_operador: operadorIn.value,
         id_unidad: unidadIn.value, 
         id_caja: cajaIn.value, 
-        transporte: transporteIn.value
+        transporte: statusIn.value
     };
 
     try {
