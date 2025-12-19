@@ -15,8 +15,8 @@ import { initPageFilters } from '../utils/planning-filters.js';
 import { renderShipmentsTable } from '../components/shipments/shipments-table.js'; 
 import { renderShipmentsEditModal } from '../components/shipments/shipments-modal.js'; 
 
-document.addEventListener('DOMContentLoaded', () => {
-    // await initPage()
+document.addEventListener('DOMContentLoaded', async () => {
+    await initPage()
     // Generar tabla con semana actual
     initPageFilters(renderShipmentsTable);
 });

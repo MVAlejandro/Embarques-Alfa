@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
                         </svg>
                     </div>
-                    <h5>Registrar Nueva Orden de Compra</h5>
+                    <h5>Registrar Nuevo Contrato</h5>
                 </div>
                 <div class="col d-flex justify-content-end controls btn-group me-3 mb-3">
                     <div class="nav nav-pills" id="ganttTabs" role="tablist">

@@ -14,6 +14,6 @@ import { initPage } from './js/utils/session-validate.js';
 import { renderTable } from './js/components/index/index-content.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // await initPage()
+    await initPage()
     renderTable()
 })

@@ -73,7 +73,7 @@ export async function renderPlanningTable(partitionsParam = null) {
             <td class="text-center p-2">
                 <p class="planning-status ${facturacionClass}">${partida.facturacion}</p>
             </td>
-            <td class="planning-time p-2">${partida.hora_programada} - ${partida.hora_realizada || "-"}</td>
+            <td class="planning-time text-center p-2">${partida.hora_programada} - ${partida.hora_realizada || "-"}</td>
         </tr>`;
     }
 }

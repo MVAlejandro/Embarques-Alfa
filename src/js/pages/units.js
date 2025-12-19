@@ -18,8 +18,8 @@ import { renderUnitsTable } from '../components/units/units-table.js';
 import { renderUnitsEditModal } from '../components/units/units-modal.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // await initPage()
-    renderUnitsTable();
+    await renderUnitsTable();
+    await initPage()
 });
 
 // Declarar el botón de filtrado

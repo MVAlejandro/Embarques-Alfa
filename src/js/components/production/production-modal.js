@@ -3,6 +3,7 @@ import { updatePartition } from '../../services/partitions-service.js';
 import { getPartitionProducts, addPartitionProducts, getAllPartitionProductsByOrder } from '../../services/partition-product-service.js';
 import { getOrderProducts } from '../../services/order-product-service.js';
 import { renderProductionTable } from './production-table.js'; 
+import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
 import { quantityValidate } from '../../utils/form-validations.js';
 
@@ -21,7 +22,7 @@ async function addProductRow(idOrdenProducto, productoValue = '', cantidadValue 
         <input type="text" id="${uniqueId}-producto" class="form-control product-code" placeholder="Producto" value="${productoValue}" disabled>
         </div>
         <div class="col-5">
-            <input type="number" id="${uniqueId}-cantidad" class="form-control product-amount" placeholder="Cantidad" value="${cantidadValue}" data-max="${maxValue}">
+            <input type="number" id="${uniqueId}-cantidad" class="form-control product-amount" placeholder="Cantidad" value="${cantidadValue}" data-max="${maxValue}" disabled data-vent-only data-prod-only>
             <p class="error invalid-feedback" id="${uniqueId}-cantidad-error" style="color: red;"></p>
         </div>`;
 
@@ -88,6 +89,8 @@ export async function renderProductionEditModal(partida) {
 
         await addProductRow(orderProductId, product.codigo, visibleQuantity, maxValue,);
     }
+
+    validateUserRole()
 }
 
 // Función para guardar cambios

@@ -2,6 +2,7 @@ import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
 import { getOrders } from '../../services/orders-service.js' 
 import { getOrderProducts } from '../../services/order-product-service.js';
+import { validateUserRole } from '../../utils/session-validate.js';
 
 const perPage = 10;
 let currentPage = 1;
@@ -57,7 +58,7 @@ export async function renderOrdersTable(ordersParam = null) {
             <td id="order-products-${orden.id_orden}" class="p-2">
                 
             </td>
-            <td class="order-controls text-end p-3 pe-4">
+            <td class="order-controls text-end p-3 pe-4 d-none" data-vent-only>
                 <div class="action-buttons">
                     <button class="btn btn-edit" 
                         data-bs-target="#edit-modal" 
@@ -167,4 +168,6 @@ export async function renderOrdersTable(ordersParam = null) {
             renderOrdersTable();
         });
     });
+    
+    validateUserRole()
 }

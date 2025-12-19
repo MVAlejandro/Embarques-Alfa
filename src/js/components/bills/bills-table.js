@@ -1,6 +1,7 @@
 // Servicios Supabase
 import { getPartitions } from '../../services/partitions-service.js'; 
 import { getPartitionProducts } from '../../services/partition-product-service.js';
+import { validateUserRole } from '../../utils/session-validate.js';
 
 let allPartitions = [];
 
@@ -81,7 +82,7 @@ export async function renderBillsTable(partitionsParam = null) {
                 <p class="bill-status ${BillStatusClass}">${partida.facturacion}</p>
             </td>
             <td class="bill-number p-2">${partida.numero_factura || "Sin Registro"}</td>
-            <td class="bill-control text-center">
+            <td class="bill-control text-center d-none" data-fact-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
@@ -111,4 +112,6 @@ export async function renderBillsTable(partitionsParam = null) {
         <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
         <td colspan="4"></td>
     </tr>`;
+
+    validateUserRole()
 }

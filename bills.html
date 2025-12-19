@@ -104,7 +104,7 @@
                             <th class="text-center p-3">EMBARQUE</th>
                             <th class="text-center p-3">FACTURACIÓN</th>
                             <th class="p-3 ps-2"># FACTURA</th>
-                            <th class="text-center p-3">ACCIONES</th>
+                            <th class="text-center p-3 d-none" data-fact-only>ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -149,11 +149,17 @@
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-6 label-over-border">
-                                    <label for="edit-factura" class="form-label m-2">Número de Factura</label>
-                                    <input type="text" class="form-control" id="edit-factura" placeholder="012345">
-                                    <p class="error invalid-feedback" id="error-editFactura" style="color: red;"></p>
+                                    <label for="edit-remision" class="form-label m-2">Número de remisión</label>
+                                    <input type="text" class="form-control" id="edit-remision" disabled>
                                 </div>
                                 <div class="col-md-6 label-over-border">
+                                    <label for="edit-bill" class="form-label m-2">Número de Factura</label>
+                                    <input type="text" class="form-control" id="edit-bill" placeholder="012345">
+                                    <p class="error invalid-feedback" id="error-editBill" style="color: red;"></p>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-6 ms-auto label-over-border">
                                     <label for="edit-status" class="form-label m-2">Estado</label>
                                     <select id="edit-status" class="form-select" aria-label="Default select example">
                                         <option value="Pendiente">Pendiente</option>

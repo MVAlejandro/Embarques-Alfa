@@ -17,10 +17,10 @@ import { initPageFilters } from '../utils/planning-filters.js';
 import { renderProductionTable } from '../components/production/production-table.js'; 
 import { renderProductionEditModal } from '../components/production/production-modal.js'; 
 
-document.addEventListener('DOMContentLoaded', () => {
-    // await initPage()
+document.addEventListener('DOMContentLoaded', async () => {
     // Generar tabla con semana actual
-    initPageFilters(renderProductionTable);
+    await initPageFilters(renderProductionTable);
+    await initPage()
 });
 
 // Declarar el botón del formulario

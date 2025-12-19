@@ -10,7 +10,7 @@ let allPartitions = [];
 
 // Función para cargar las opciones de filtrado
 document.addEventListener('DOMContentLoaded', async () => {
-    const lastWeek = await obtainLastWeek();
+    let lastWeek = await obtainLastWeek();
     // Manejar tabla vacía
     if (!lastWeek || !lastWeek.anio || !lastWeek.semana) {
         lastWeek = { anio: 0, semana: 0 };
@@ -68,8 +68,16 @@ export async function planningFilter() {
 
     // Si no se selecciona una semana y un año generar tabla vacía
     if (!weekFilter || !yearFilter ) {
-        renderTable([]);
-        return;
+        const tbody = document.querySelector('#planning-table tbody');
+        const weekText = document.getElementById('weekHeader');
+        // Limpiar elementos antes de insertar
+        weekText.innerHTML = "Semana 0";
+        tbody.innerHTML = '';
+
+        if (!allPartitions || allPartitions.length === 0) {
+            tbody.innerHTML = `<tr><td class="text-center" colspan="8">No hay partidas registradas</td></tr>`;
+            return;
+        }
     }
 
     // Obtener partidas

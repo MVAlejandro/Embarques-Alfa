@@ -53,7 +53,7 @@ async function validateAuth() {
 }
 
 // Función para validar el rol del usuario
-async function validateUserRole() {
+export async function validateUserRole() {
     try {
         // Si no hay sesión, no hacer nada
         const session = await getSession();
@@ -63,15 +63,23 @@ async function validateUserRole() {
         const rol = await getUserRole(session);
         if (!rol) return;
 
-        if (rol !== 'admin') {
-            // Ocultar todos los elementos que tengan el atributo "data-admin-only"
-            document.querySelectorAll('[data-admin-only]').forEach(el => {
-                el.style.setProperty('display', 'none', 'important');
+        if (rol === 'admin') {
+            // Mostrar todos los elementos ocultos
+            document.querySelectorAll('.d-none').forEach(el => {
+                el.classList.remove('d-none');
             });
-
-            // Mostrar los elementos "data-colab-only"
-            document.querySelectorAll('[data-colab-only]').forEach(el => {
-                el.style.setProperty('display', 'block', 'important');
+            // Habilitar todos los controles desactivados
+            document.querySelectorAll('input:disabled, select:disabled, button:disabled').forEach(el => {
+                el.disabled = false;
+            });
+        } else {
+            // Mostrar solo los elementos correspondientes
+            document.querySelectorAll(`[data-${rol}-only]`).forEach(el => {
+                el.classList.remove('d-none');
+            });
+            // Habilitar solo controles permitidos por rol
+            document.querySelectorAll(`input[data-${rol}-only]:disabled, select[data-${rol}-only]:disabled, button[data-${rol}-only]:disabled`).forEach(el => {
+                el.disabled = false;
             });
         }
 

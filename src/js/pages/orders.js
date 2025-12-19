@@ -18,8 +18,8 @@ import { renderOrdersTable } from '../components/orders/orders-table.js';
 import { renderOrdersEditModal } from '../components/orders/orders-modal.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // await initPage()
-    renderOrdersTable();
+    await renderOrdersTable();
+    await initPage()
 });
 
 // Declarar el botón de filtrado

@@ -13,6 +13,7 @@ export async function renderShipmentsEditModal(partida) {
     document.getElementById('edit-real-time').value = partida.hora_realizada;
     document.getElementById('edit-oc').value = partida.numero_orden;
     document.getElementById('edit-status').value = partida.embarque;
+    document.getElementById('edit-remision').value = partida.numero_remision;
     document.getElementById('edit-observations').value = partida.observaciones;
 }
 
@@ -22,12 +23,15 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     // Referencias para validación
     const horaRealIn = document.getElementById('edit-real-time');
     const statusIn = document.getElementById('edit-status');
+    const remisionIn = document.getElementById('edit-remision');
     const observacionesIn = document.getElementById('edit-observations');
     
     const statusError = document.getElementById('error-editStatus');
+    const remisionError = document.getElementById('error-editRemision');
     const observacionesError = document.getElementById('error-editObservations');
 
     // Validaciones
+    textValidate(remisionIn, remisionError)
     textValidate(observacionesIn, observacionesError)
 
     const campos = document.querySelectorAll('input')
@@ -51,6 +55,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const updatedData = { 
         hora_realizada: horaRealIn.value,
         embarque: statusIn.value,
+        numero_remision: remisionIn.value,
         observaciones: observacionesIn.value
     };
 

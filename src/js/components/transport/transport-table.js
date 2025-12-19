@@ -1,6 +1,7 @@
 // Servicios Supabase
 import { getPartitions } from '../../services/partitions-service.js'; 
 import { getPartitionProducts } from '../../services/partition-product-service.js'; 
+import { validateUserRole } from '../../utils/session-validate.js';
 
 let allPartitions = [];
 
@@ -31,7 +32,10 @@ export async function renderTransportTable(partitionsParam = null) {
         return;
     }
 
+    // Calcular total de cantidades
     let totalGeneral = 0;
+    const totalDistance = allPartitions.reduce((acc, part) => acc + (part.distancia || 0), 0);
+    const totalFuel = allPartitions.reduce((acc, part) => acc + (part.combustible || 0), 0);
 
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
 
@@ -63,7 +67,9 @@ export async function renderTransportTable(partitionsParam = null) {
             </td>
             <td class="transport-client p-2">${partida.cliente}</td>
             <td class="transport-cant fw-bold p-2">Cant. ${totalAmount}</td>
-            <td class="text-center p-2">
+            <td class="transport-distance p-2 d-none d-print-table-cell">${partida.distancia || "Sin Asignar"} Km</td>
+            <td class="transport-fuel p-2 d-none d-print-table-cell">${partida.combustible || "Sin Asignar"} Lts</td>
+            <td class="text-center p-2 d-print-none">
                 <p class="transport-status ${statusClass}">${partida.transporte}</p>
             </td>
             <td class="p-2">
@@ -71,7 +77,7 @@ export async function renderTransportTable(partitionsParam = null) {
                 <p class="transport-license">${partida.placas || "-"}</p>
             </td>
             <td class="transport-operator p-2">${partida.operador || "Sin Asignar"}</td>
-            <td class="transport-control text-center">
+            <td class="transport-control text-center d-print-none d-none" data-trans-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
@@ -86,8 +92,13 @@ export async function renderTransportTable(partitionsParam = null) {
     // Agregar fila de total al final
     tbody.innerHTML += 
     `<tr class="table-active fw-bold">
-        <td colspan="2" class="text-center">Tarimas Totales</td>
+        <td colspan="2" class="text-center d-print-none">Tarimas Totales</td>
+        <td colspan="2" class="text-center d-none d-print-table-cell">Totales</td>
         <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
+        <td class="p-2 d-none d-print-table-cell">${totalDistance.toLocaleString('en-US')} Km</td>
+        <td class="p-2 d-none d-print-table-cell">${totalFuel.toLocaleString('en-US')} Lts</td>
         <td colspan="4"></td>
     </tr>`;
+
+    validateUserRole()
 }

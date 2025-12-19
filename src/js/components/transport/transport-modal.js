@@ -4,7 +4,7 @@ import { updatePartition } from '../../services/partitions-service.js';
 import { renderTransportTable } from './transport-table.js';
 
 // Utilidades
-import { selectValidate, inputValidate } from '../../utils/form-validations.js';
+import { amountValidate, selectValidate, inputValidate } from '../../utils/form-validations.js';
 import { loadOptions, loadOptionsFilter } from '../../utils/load-select.js';
 
 // Función para cargar datos en el modal
@@ -18,6 +18,8 @@ export async function renderTransportEditModal(partida) {
     document.getElementById('edit-status').value = partida.transporte;
     document.getElementById('edit-unit').value = partida.id_unidad;
     document.getElementById('edit-box').value = partida.id_caja;
+    document.getElementById('edit-distance').value = partida.distancia;
+    document.getElementById('edit-fuel').value = partida.combustible;
 
     // Cargar opciones en el select
     await loadOptions('edit-operator', 'emb_operadores', 'id_operador', 'nombre', "Seleccione...", partida.id_operador);
@@ -33,18 +35,24 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const statusIn = document.getElementById('edit-status');
     const unidadIn = document.getElementById('edit-unit');
     const cajaIn = document.getElementById('edit-box');
+    const distanciaIn = document.getElementById('edit-distance');
+    const combustibleIn = document.getElementById('edit-fuel');
     
     const operadorError = document.getElementById('error-editOperator');
     const statusError = document.getElementById('error-editStatus');
     const unidadError = document.getElementById('error-editUnit');
     const cajaError = document.getElementById('error-editBox');
+    const distanciaError = document.getElementById('error-editDistance');
+    const combustibleError = document.getElementById('error-editFuel');
     
     // Validaciones
     selectValidate(operadorIn, operadorError)
     selectValidate(unidadIn, unidadError)
     selectValidate(cajaIn, cajaError)
+    amountValidate(distanciaIn, distanciaError)
+    amountValidate(combustibleIn, combustibleError)
     
-    const campos = document.querySelectorAll('select')
+    const campos = document.querySelectorAll('input, select')
     if (!inputValidate(campos)) {
         alert('Corrige los errores antes de guardar.')
         return
@@ -61,7 +69,9 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         id_operador: operadorIn.value,
         id_unidad: unidadIn.value, 
         id_caja: cajaIn.value, 
-        transporte: statusIn.value
+        transporte: statusIn.value,
+        distancia: distanciaIn.value,
+        combustible: combustibleIn.value
     };
 
     try {

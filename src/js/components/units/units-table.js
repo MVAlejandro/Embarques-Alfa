@@ -1,6 +1,7 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
 import { getUnits, getBoxes } from '../../services/units-service.js';
+import { validateUserRole } from '../../utils/session-validate.js';
 
 const perPage = 5;
 let currentPage = 1;
@@ -50,7 +51,7 @@ export async function renderUnitsTable(unitsParam = null) {
             <td class="unit-license p-3">${unidad.placas}</td>
             <td class="unit-policy p-3">#${unidad.numero_poliza}</td>
             <td class="unit-description p-3">${unidad.descripcion}</td>
-            <td class="unit-controls text-pageEnd p-3 pe-4">
+            <td class="unit-controls text-pageEnd p-3 pe-4 d-none" data-trans-only>
                 <div class="action-buttons">
                     <button class="btn btn-edit" 
                         data-bs-target="#edit-modal" 
@@ -147,4 +148,6 @@ export async function renderUnitsTable(unitsParam = null) {
             renderUnitsTable();
         });
     });
+    
+    validateUserRole()
 }

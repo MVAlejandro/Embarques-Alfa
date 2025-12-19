@@ -15,8 +15,8 @@ import { initPageFilters } from '../utils/planning-filters.js';
 import { renderBillsTable } from '../components/bills/bills-table.js';
 import { renderBillsEditModal } from '../components/bills/bills-modal.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-    // await initPage()
+document.addEventListener('DOMContentLoaded', async () => {
+    await initPage()
     // Generar tabla con semana actual
     initPageFilters(renderBillsTable);
 });

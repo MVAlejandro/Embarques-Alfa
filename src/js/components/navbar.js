@@ -61,9 +61,9 @@ function createNavbar(navbar) {
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./clients.html">Clientes</a></li>
                     <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./units.html">Unidades</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./orders.html">Órdenes</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./production.html">Producción</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./transport.html">Transporte</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./orders.html">Contratos</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./production.html">Plan semanal</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./transport.html">Transportes</a></li>
                     <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./shipments.html">Embarques</a></li>
                     <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./bills.html">Facturación</a></li>
                     <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./planning.html">General</a></li>

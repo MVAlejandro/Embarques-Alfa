@@ -1,6 +1,7 @@
 // Servicios Supabase
 import { getPartitions } from '../../services/partitions-service.js'; 
 import { getPartitionProducts } from '../../services/partition-product-service.js';
+import { validateUserRole } from '../../utils/session-validate.js';
 
 let allPartitions = [];
 
@@ -93,7 +94,7 @@ export async function renderShipmentsTable(partitionsParam = null) {
                 <p class="shipment-license">${partida.placas || "-"}</p>
             </td>
             <td class="shipment-observation p-2">${partida.observaciones}</td>
-            <td class="shipment-control text-center">
+            <td class="shipment-control text-center d-none" data-prod-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
@@ -123,4 +124,6 @@ export async function renderShipmentsTable(partitionsParam = null) {
         <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
         <td colspan="5"></td>
     </tr>`;
+
+    validateUserRole()
 }

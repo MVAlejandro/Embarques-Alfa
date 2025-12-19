@@ -15,10 +15,10 @@ import { initPageFilters } from '../utils/planning-filters.js';
 import { renderTransportTable } from '../components/transport/transport-table.js';
 import { renderTransportEditModal } from '../components/transport/transport-modal.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-    // await initPage()
+document.addEventListener('DOMContentLoaded', async () => {
     // Generar tabla con semana actual
-    initPageFilters(renderTransportTable);
+    await initPageFilters(renderTransportTable);
+    await initPage()
 });
 
 // Acciones del modal de edición

@@ -14,5 +14,5 @@ import { initPage } from '../utils/session-validate.js';
 import { planningFilter } from '../components/planning/planning-filters.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // await initPage()
+    await initPage()
 });

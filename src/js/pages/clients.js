@@ -18,8 +18,8 @@ import { renderClientsTable } from '../components/clients/clients-table.js';
 import { renderClientsEditModal } from '../components/clients/clients-modal.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // await initPage()
-    renderClientsTable();
+    await renderClientsTable();
+    await initPage()
 });
 
 // Declarar el botón de filtrado

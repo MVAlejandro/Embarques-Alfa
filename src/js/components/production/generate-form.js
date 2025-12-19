@@ -55,8 +55,22 @@ document.addEventListener("DOMContentLoaded", () => {
             </form> 
         </div>`;
 
-    const partitionsContainer = document.getElementById('partitions-form-container');
+    //Limitar fecha programada
+    const actualDate = new Date();
+    // Inicio de la semana actual (Lunes)
+    const minDate = new Date(actualDate);
+    minDate.setDate(actualDate.getDate() - ((actualDate.getDay() + 6) % 7));
 
+    // Fin de la próxima semana (Sábado)
+    const maxDate = new Date(minDate);
+    maxDate.setDate(minDate.getDate() + 12);
+
+    // Aplicar min y max al input
+    document.getElementById("fecha_programada").min = minDate.toISOString().split("T")[0];
+    document.getElementById("fecha_programada").max = maxDate.toISOString().split("T")[0];
+
+
+    const partitionsContainer = document.getElementById('partitions-form-container');
     // Crear instancia única de Collapse
     const collapseInstance = new bootstrap.Collapse(partitionsContainer, { toggle: false });
 

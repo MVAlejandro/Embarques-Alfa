@@ -121,7 +121,7 @@ export async function loadWeeksFilter(selectId, fields) {
 }
 
 // Función para cargar los días de la semana en el filtro
-export function loadDaysFilter() {
+export function loadDaysFilter(selectedValue = null) {
     const yearEl = document.getElementById('year-filter');
     const weekEl = document.getElementById('week-filter');
     const dayEl = document.getElementById('day-filter');
@@ -131,6 +131,10 @@ export function loadDaysFilter() {
     const year = parseInt(yearEl.value);
     const week = parseInt(weekEl.value);
 
+    if (selectedValue === null) {
+        selectedValue = dayEl.value;
+    }
+
     if (!year || !week) {
         dayEl.innerHTML = '<option value="0">Todos</option>';
         return;
@@ -138,11 +142,23 @@ export function loadDaysFilter() {
 
     const days = getDaysOfWeek(year, week);
 
-    dayEl.innerHTML = '<option value="0">Todos</option>';
+    // Limpiar contenido previo
+    dayEl.innerHTML = '';
+
+    const defaultOptionEl = document.createElement('option');
+    defaultOptionEl.value = "0";
+    defaultOptionEl.textContent = "Todos";
+    dayEl.appendChild(defaultOptionEl);
+
     days.forEach(d => {
-        const opt = document.createElement('option');
-        opt.value = d.date;
-        opt.textContent = d.name;
-        dayEl.appendChild(opt);
+        const option = document.createElement('option');
+        option.value = d.date;
+        option.textContent = d.name;
+
+        if (option.value === selectedValue) {
+            option.selected = true;
+        }
+
+        dayEl.appendChild(option);
     });
 }

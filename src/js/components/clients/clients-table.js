@@ -1,6 +1,7 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
 import { getClients } from '../../services/clients-service.js';
+import { validateUserRole } from '../../utils/session-validate.js';
 
 const perPage = 5;
 let currentPage = 1;
@@ -52,7 +53,7 @@ export async function renderClientsTable(clientsParam = null) {
                 <p class="client-ubication">${cliente.ubicacion}</p>
                 <p class="client-cp">CP: ${cliente.codigo_postal}</p>
             </td>
-            <td class="client-controls text-pageEnd p-3 pe-4">
+            <td class="client-controls text-pageEnd p-3 pe-4 d-none" data-vent-only>
                 <div class="action-buttons">
                     <button class="btn btn-edit" 
                         data-bs-target="#edit-modal" 
@@ -148,4 +149,6 @@ export async function renderClientsTable(clientsParam = null) {
             renderClientsTable();
         });
     });
+    
+    validateUserRole()
 }

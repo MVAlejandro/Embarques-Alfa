@@ -10,17 +10,18 @@ export async function renderBillsEditModal(partida) {
     document.getElementById('edit-id-partition').value = partida.id_partida;
     document.getElementById('edit-oc').value = partida.numero_orden;
     document.getElementById('edit-date').value = partida.fecha_programada;
-    document.getElementById('edit-factura').value = partida.numero_facturacion;
+    document.getElementById('edit-remision').value = partida.numero_remision;
+    document.getElementById('edit-bill').value = partida.numero_facturacion;
     document.getElementById('edit-status').value = partida.facturacion;
 }
 
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     // Referencias para validación
-    const numero_facturaIn = document.getElementById('edit-factura');
+    const numero_facturaIn = document.getElementById('edit-bill');
     const statusIn = document.getElementById('edit-status');
 
-    const facturaError = document.getElementById('error-editFactura');
+    const facturaError = document.getElementById('error-editBill');
     const statusError = document.getElementById('error-editStatus');
 
     // Validaciones
