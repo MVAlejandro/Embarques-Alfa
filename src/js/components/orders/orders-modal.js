@@ -55,7 +55,7 @@ async function addProductRow(selectedProductId = '0', cantidadValue = '') {
     container.appendChild(newProduct);
 
     // Cargar opciones en el select
-    await loadOptionsFilter(`${uniqueId}-select`, getProducts, 'codigo', 'id_producto', "Seleccione Producto...", selectedProductId);
+    await loadOptionsFilter(`${uniqueId}-select`, getProducts, ['codigo', 'nombre'], 'id_producto', "Seleccione Producto...", selectedProductId);
 }
 
 // Agregar entrada de producto

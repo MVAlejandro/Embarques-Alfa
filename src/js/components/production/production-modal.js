@@ -8,7 +8,7 @@ import { validateUserRole } from '../../utils/session-validate.js';
 import { quantityValidate } from '../../utils/form-validations.js';
 
 // Función para agregar campos de productos
-async function addProductRow(idOrdenProducto, productoValue = '', cantidadValue = '', maxValue) {
+async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombre = '', cantidadValue = '', maxValue) {
     const container = document.getElementById("partition-products-container");
     const index = container.children.length;
     // Colocar id único
@@ -19,7 +19,7 @@ async function addProductRow(idOrdenProducto, productoValue = '', cantidadValue 
     newProduct.dataset.idOrdenProducto = idOrdenProducto;
     newProduct.innerHTML = 
         `<div class="col-7">
-        <input type="text" id="${uniqueId}-producto" class="form-control product-code" placeholder="Producto" value="${productoValue}" disabled>
+        <input type="text" id="${uniqueId}-producto" class="form-control product-code" placeholder="Producto" value="${productoCodigo} - ${productoNombre}" disabled>
         </div>
         <div class="col-5">
             <input type="number" id="${uniqueId}-cantidad" class="form-control product-amount" placeholder="Cantidad" value="${cantidadValue}" data-max="${maxValue}" disabled data-vent-only data-prod-only>
@@ -87,7 +87,7 @@ export async function renderProductionEditModal(partida) {
         // Valor a mostrar
         const visibleQuantity = currentPartitionQuantity || 0;
 
-        await addProductRow(orderProductId, product.codigo, visibleQuantity, maxValue,);
+        await addProductRow(orderProductId, product.codigo, product.producto, visibleQuantity, maxValue,);
     }
 
     validateUserRole()

@@ -4,7 +4,7 @@ import { createOrder } from '../../services/orders-service.js';
 import { renderOrdersTable } from './orders-table.js'; 
 // Utilidades
 import { loadOptions } from '../../utils/load-select.js';
-import { textValidate, amountValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
+import { textValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
 
 // Cargar los clientes en los formularios al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
@@ -41,18 +41,15 @@ export async function addManualOrder(event) {
     const id_clienteIn = document.getElementById("cliente");
     const numero_ordenIn = document.getElementById("numero_orden");
     const numero_contratoIn = document.getElementById("numero_contrato");
-    const observacionesIn = document.getElementById("observaciones");
     // Referencias para errores
     const id_clienteError = document.getElementById('cliente-error');
     const numero_ordenError = document.getElementById('numero_orden-error');
     const numero_contratoError = document.getElementById('numero_contrato-error');
-    const observacionesError = document.getElementById('observaciones-error');
 
     // Validaciones
     selectValidate(id_clienteIn, id_clienteError)
-    amountValidate(numero_ordenIn, numero_ordenError)
-    amountValidate(numero_contratoIn, numero_contratoError)
-    textValidate(observacionesIn, observacionesError)
+    textValidate(numero_ordenIn, numero_ordenError)
+    textValidate(numero_contratoIn, numero_contratoError)
 
     const campos = form.querySelectorAll('input, select')
     if (!inputValidate(campos)) {
@@ -81,8 +78,7 @@ export async function addManualOrder(event) {
         numero_contrato: numero_contratoIn.value,
         fecha: fecha.toISOString().split('T')[0],
         semana,
-        anio,
-        observaciones: observacionesIn.value
+        anio
     };
 
     try {
@@ -166,11 +162,10 @@ export async function addExcelOrder(event) {
 
     for (let row of rows) {
         const columns = row.split('\t');
-        if (columns.length < 4) continue;
+        if (columns.length < 2) continue;
 
         const numero_orden = columns[0].trim();
         const numero_contrato = columns[1].trim();
-        const observaciones = columns[2].trim();
         const fecha = new Date();
         const { semana, anio } = getWeekAndYear(fecha);
 
@@ -181,8 +176,7 @@ export async function addExcelOrder(event) {
             numero_contrato,
             fecha: fecha.toISOString().split('T')[0],
             semana,
-            anio,
-            observaciones
+            anio
         };
 
         try {
