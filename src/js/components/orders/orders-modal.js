@@ -5,7 +5,7 @@ import { getOrderProducts, addOrderProducts } from '../../services/order-product
 import { getProducts } from '../../services/order-product-service.js';
 import { renderOrdersTable } from './orders-table.js'; 
 // Utilidades
-import { textValidate, amountValidate, inputValidate } from '../../utils/form-validations.js';
+import { amountValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
 import { loadOptionsFilter } from '../../utils/load-select.js';
 
 // Función para cargar datos en el modal
@@ -16,6 +16,7 @@ export async function renderOrdersEditModal(orden) {
     document.getElementById('edit-oc').value = orden.numero_orden;
     document.getElementById('edit-contract').value = orden.numero_contrato;
     document.getElementById('edit-date').value = orden.fecha;
+    document.getElementById('edit-status').value = orden.estado;
 
     // Limpiar filas anteriores
     const container = document.getElementById("order-products-container");
@@ -74,13 +75,16 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     // Referencias para validación
     const numero_ordenIn = document.getElementById('edit-oc');
     const numero_contratoIn = document.getElementById('edit-contract');
+    const estadoIn = document.getElementById('edit-status');
 
     const numero_ordenError = document.getElementById('error-editOc');
     const numero_contratoError = document.getElementById('error-editContract');
+    const estadoError = document.getElementById('error-editStatus');
 
     // Validaciones
     amountValidate(numero_ordenIn, numero_ordenError)
     amountValidate(numero_contratoIn, numero_contratoError)
+    selectValidate(estadoIn, estadoError)
 
     const campos = document.querySelectorAll('input, select')
     if (!inputValidate(campos)) {
@@ -91,7 +95,8 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const id_orden = document.getElementById('edit-id-order').value;
     const updatedData = {
         numero_orden: numero_ordenIn.value,
-        numero_contrato: numero_contratoIn.value
+        numero_contrato: numero_contratoIn.value,
+        estado: estadoIn.value
     };
 
     try {

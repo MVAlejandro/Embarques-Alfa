@@ -34,6 +34,13 @@ th {
     color: var(--secondary) !important;
 }
 
+.order-status {
+    padding: 5px 12px 5px 12px;
+    border-radius: 50px;
+    font-weight: bold;
+    display: inline-block;
+}
+
 /* Estilos de los botones */
 .btn-remove{
     border-radius: 12px;

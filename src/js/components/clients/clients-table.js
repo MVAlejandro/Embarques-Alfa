@@ -3,7 +3,7 @@ import supabase from '../../supabase/supabase-client.js'
 import { getClients } from '../../services/clients-service.js';
 import { validateUserRole } from '../../utils/session-validate.js';
 
-const perPage = 5;
+const perPage = 10;
 let currentPage = 1;
 let allClients = [];
 
@@ -41,8 +41,9 @@ export async function renderClientsTable(clientsParam = null) {
     clients.forEach(cliente => {
         tbody.innerHTML += 
         `<tr>
-            <td class="p-3 ps-4">
-                <p class="client-company">${cliente.razon_social}</p>
+            <td class="client-name p-3 ps-4 fw-bold">${cliente.nombre}</td>
+            <td class="p-3">
+                <p class="client-company fst-italic">${cliente.razon_social}</p>
                 <p class="client-rfc">${cliente.rfc}</p>
             </td>
             <td class="p-3">

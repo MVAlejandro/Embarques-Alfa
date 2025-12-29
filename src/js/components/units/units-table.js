@@ -3,7 +3,7 @@ import supabase from '../../supabase/supabase-client.js'
 import { getUnits, getBoxes } from '../../services/units-service.js';
 import { validateUserRole } from '../../utils/session-validate.js';
 
-const perPage = 5;
+const perPage = 10;
 let currentPage = 1;
 let allUnits = [];
 

@@ -23,6 +23,7 @@ export async function getOrders() {
             fecha,
             semana,
             anio,
+            estado,
             id_cliente,
             emb_clientes (nombre, correo)
             `);
@@ -39,9 +40,37 @@ export async function getOrders() {
         fecha: orden.fecha,
         semana: orden.semana,
         anio: orden.anio,
+        estado: orden.estado,
         id_cliente: orden.id_cliente,
         cliente: orden.emb_clientes?.nombre,
         correo: orden.emb_clientes?.correo
+    }));
+}
+
+// Función para obtener órdenes activas
+export async function getActiveOrders() {
+    const { data, error } = await supabase
+        .from('emb_ordenes_compra')
+        .select(`
+            id_orden,
+            numero_orden,
+            estado,
+            id_cliente,
+            emb_clientes (nombre)
+            `)
+        .eq('estado', 'Vigente');
+    
+    if (error) {
+        console.error('Error obteniendo órdenes activas:', error);
+        throw error;
+    }
+    
+    return data.map(orden => ({
+        id_orden: orden.id_orden,
+        numero_orden: orden.numero_orden,
+        estado: orden.estado,
+        id_cliente: orden.id_cliente,
+        cliente: orden.emb_clientes?.nombre
     }));
 }
 

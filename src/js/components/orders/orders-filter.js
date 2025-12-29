@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Función de filtrado por valores seleccionados
 export async function ordersFilter() {
-    const weekFilter = document.getElementById('week-filter').value;
     const clientFiltered = document.getElementById('client-filter').value;
+    const statusFilter = document.getElementById('status-filter').value;
     const searchText = document.getElementById('search-filter').value.trim().toLowerCase();
 
     // Obtener órdenes
@@ -26,7 +26,7 @@ export async function ordersFilter() {
     allOrders.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
     // Si no hay filtros activos, mostrar todo
-    const filterClean = weekFilter === '0' && clientFiltered === '0' && searchText === '';
+    const filterClean = clientFiltered === '0' && statusFilter === '0' && searchText === '';
 
     if (filterClean) {
         renderOrdersTable(allOrders);
@@ -35,10 +35,10 @@ export async function ordersFilter() {
 
     // Aplicar filtros
     const filtered = allOrders.filter(o => {
-        const weekOk = weekFilter === '0' || `${o.anio} - ${o.semana}` == weekFilter;
         const clientOk = clientFiltered === '0' || o.id_cliente == clientFiltered;
+        const statusOk = statusFilter === '0' || o.estado == statusFilter;
         const textOk = searchText === '' || o.numero_orden?.toString().includes(searchText) 
-        return weekOk && clientOk && textOk;
+        return statusOk && clientOk && textOk;
     });
 
     renderOrdersTable(filtered);

@@ -58,15 +58,17 @@
             <div id="orders-filter-container" class="container pt-4 pb-3">
                 <div class="row ms-2 me-2">
                     <div class="col-lg col-md-6 d-flex align-items-center label-over-border">
-                        <label for="week-filter" class="form-label m-2">Filtrar por Semana</label>
-                        <select class="form-select" id="week-filter">
-                            <option value="0">Todas</option>
-                        </select>
-                    </div>
-                    <div class="col-lg col-md-6 d-flex align-items-center label-over-border">
                         <label for="client-filter" class="form-label m-2">Filtrar por Cliente</label>
                         <select class="form-select" id="client-filter">
                             <option value="0">Todos</option>
+                        </select>
+                    </div>
+                    <div class="col-lg col-md-6 d-flex align-items-center label-over-border">
+                        <label for="status-filter" class="form-label m-2">Filtrar por Estado</label>
+                        <select class="form-select" id="status-filter">
+                            <option value="0">Todas</option>
+                            <option value="Vigente">Vigente</option>
+                            <option value="Terminado">Terminado</option>
                         </select>
                     </div>
                     <div class="col-lg col-md-6 d-flex align-items-center label-over-border filter">
@@ -96,6 +98,7 @@
                             <th class="p-3">CLIENTE</th>
                             <th class="p-3">CREACIÓN</th>
                             <th class="p-3">CLAVE</th>
+                            <th class="text-center p-3">ESTADO</th>
                             <th class="d-none" data-vent-only></th>
                         </tr>
                     </thead>
@@ -169,6 +172,18 @@
                                     <label for="edit-contract" class="form-label m-2">Contrato</label>
                                     <input type="text" class="form-control" id="edit-contract">
                                     <p class="error invalid-feedback" id="error-editContract" style="color: red;"></p>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                
+                                <div class="col-md-6 col-lg-4 ms-auto label-over-border">
+                                    <label for="edit-client" class="form-label m-2">Estado</label>
+                                    <select id="edit-status" class="form-select" aria-label="Default select example">
+                                        <option value="0">Seleccione...</option>
+                                        <option value="Vigente">Vigente</option>
+                                        <option value="Terminado">Terminado</option>
+                                    </select>
+                                    <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
                                 </div>
                             </div>
                         </form>

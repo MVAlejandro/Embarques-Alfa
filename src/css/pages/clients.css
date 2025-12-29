@@ -19,11 +19,12 @@ th {
 }
 
 /* Estilos de texto para la tabla */
-.client-company {
-    font-weight: bold;
-}
-
 .client-rfc, .client-phone, .client-cp, #clients-pages-results {
     font-size: 13px;
     color: var(--secondary) !important;
+}
+
+.client-email {
+    color: var(--table-blue-dark);
+    text-decoration: underline;
 }
