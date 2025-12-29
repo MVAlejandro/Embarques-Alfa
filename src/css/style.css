@@ -155,6 +155,11 @@ input::placeholder, textarea::placeholder, #default-option {
     .filter {
         margin-top: 1.5rem;
     }
+
+    .label-over-border label {
+        top: -1.2rem;
+        font-size: 12px;
+    }
 }
 
 @media (max-width: 430px) {

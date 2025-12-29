@@ -2,10 +2,11 @@
 import { updatePartition } from '../../services/partitions-service.js'; 
 import { getPartitionProducts, addPartitionProducts, getAllPartitionProductsByOrder } from '../../services/partition-product-service.js';
 import { getOrderProducts } from '../../services/order-product-service.js';
+import { initPageFilters } from '../../utils/planning-filters.js'; 
 import { renderProductionTable } from './production-table.js'; 
 import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
-import { quantityValidate } from '../../utils/form-validations.js';
+import { textValidate, inputValidate } from '../../utils/form-validations.js';
 
 // Función para agregar campos de productos
 async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombre = '', cantidadValue = '', maxValue) {
@@ -44,6 +45,8 @@ export async function renderProductionEditModal(partida) {
     document.getElementById('edit-date').value = partida.fecha_programada;
     document.getElementById('edit-oc').value = partida.numero_orden;
     document.getElementById('edit-status').value = partida.planta;
+    document.getElementById('edit-destination').value = partida.destino || partida.ubicacion;
+    document.getElementById('edit-observations').value = partida.observaciones;
 
     // Limpiar filas anteriores
     const container = document.getElementById("partition-products-container");
@@ -97,15 +100,35 @@ export async function renderProductionEditModal(partida) {
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     // Referencias para actualizar información
     const statusIn = document.getElementById('edit-status');
+    const destinationIn = document.getElementById('edit-destination');
+    const observationsIn = document.getElementById('edit-observations');
+
     const statusError = document.getElementById('error-editStatus');
+    const destinationError = document.getElementById('error-editDestination');
+    const observationsError = document.getElementById('error-editObservations');
+
     if (statusIn.value === 'Pendiente') {
         statusIn.classList.add('is-invalid');
         statusError.textContent = 'Se debe seleccionar una opción';
         return
     }
 
+    // Validaciones
+    textValidate(destinationIn, destinationError)
+    textValidate(observationsIn, observationsError)
+
+    const campos = document.querySelectorAll('input')
+    if (!inputValidate(campos)) {
+        alert('Corrige los errores antes de guardar.')
+        return
+    }
+
     const id_partida = document.getElementById('edit-id-partition').value;
-    const updatedData = { planta:statusIn.value };
+    const updatedData = { 
+        planta: statusIn.value,
+        destino: destinationIn.value,
+        observaciones: observationsIn.value
+    };
 
     try {
         await updatePartition(id_partida, updatedData);
@@ -116,7 +139,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         alert('Estado de producción actualizado correctamente.');
 
         // Recarga la tabla con los datos actualizados
-        await renderProductionTable();
+        initPageFilters(renderProductionTable, "planta");
     } catch (err) {
         console.error('Error al actualizar partida:', err);
         alert('Ocurrió un error al actualizar la partida.');

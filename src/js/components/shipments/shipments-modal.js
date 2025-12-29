@@ -14,6 +14,7 @@ export async function renderShipmentsEditModal(partida) {
     document.getElementById('edit-oc').value = partida.numero_orden;
     document.getElementById('edit-status').value = partida.embarque;
     document.getElementById('edit-remision').value = partida.numero_remision;
+    document.getElementById('edit-destination').value = partida.destino || partida.ubicacion;
     document.getElementById('edit-observations').value = partida.observaciones;
 }
 
@@ -31,7 +32,6 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const observacionesError = document.getElementById('error-editObservations');
 
     // Validaciones
-    textValidate(remisionIn, remisionError)
     textValidate(observacionesIn, observacionesError)
 
     const campos = document.querySelectorAll('input')

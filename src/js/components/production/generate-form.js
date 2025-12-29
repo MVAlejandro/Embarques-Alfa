@@ -36,6 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p class="error invalid-feedback" id="hora_programada-error" style="color: red;"></p>
                     </div>
                     <div class="col-md-3 label-over-border">
+                        <label for="destino" class="form-label m-2">Destino</label>
+                        <input type="text" id="destino" class="form-control" placeholder="Destino de la entrega">    
+                        <p class="error invalid-feedback" id="destino-error" style="color: red;"></p>
+                    </div>
+                </div>
+                <div class="row ms-2 me-2 pt-3 pb-3">
+                    <div class="col-md-6 ms-auto label-over-border">
                         <label for="observaciones" class="form-label m-2">Observaciones</label>
                         <input type="text" id="observaciones" class="form-control" placeholder="Observaciones adicionales">    
                         <p class="error invalid-feedback" id="observaciones-error" style="color: red;"></p>

@@ -113,6 +113,7 @@
                             <th class="p-3 ps-2">CLIENTE</th>
                             <th class="p-3 ps-2">CLAVE</th>
                             <th class="text-center p-3">ESTADO</th>
+                            <th class="p-3 ps-2">DESTINO</th>
                             <th class="text-center p-3 d-none" data-vent-only data-prod-only>ACCIONES</th>
                         </tr>
                     </thead>
@@ -170,6 +171,18 @@
                                         <option value="Reprogramado">Reprogramado</option>
                                     </select>
                                     <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-6 label-over-border">
+                                    <label for="edit-destination" class="form-label m-2">Destino</label>
+                                    <input type="text" class="form-control" id="edit-destination" disabled data-vent-only>
+                                    <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-6 label-over-border">
+                                    <label for="edit-observations" class="form-label m-2">Observaciones</label>
+                                    <input type="text" class="form-control" id="edit-observations" disabled data-vent-only>
+                                    <p class="error invalid-feedback" id="error-editObservations" style="color: red;"></p>
                                 </div>
                             </div>
                         </form>

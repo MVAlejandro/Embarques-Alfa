@@ -67,6 +67,7 @@ export async function renderTransportTable(partitionsParam = null) {
             </td>
             <td class="transport-client p-2">${partida.cliente}</td>
             <td class="transport-cant fw-bold p-2">Cant. ${totalAmount}</td>
+            <td class="production-destination p-2">${partida.destino || partida.ubicacion}</td>
             <td class="transport-distance p-2 d-none d-print-table-cell">${partida.distancia || "Sin Asignar"} Km</td>
             <td class="transport-fuel p-2 d-none d-print-table-cell">${partida.combustible || "Sin Asignar"} Lts</td>
             <td class="text-center p-2 d-print-none">

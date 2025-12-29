@@ -31,6 +31,7 @@ export async function getPartitions() {
             combustible,
             numero_remision,
             numero_facturacion,
+            destino,
             observaciones,
             id_unidad,
             emb_unidades (nombre, placas),
@@ -43,7 +44,7 @@ export async function getPartitions() {
                 numero_orden,
                 numero_contrato,
                 id_cliente,
-                emb_clientes (nombre, correo)
+                emb_clientes (nombre, correo, ubicacion)
             )
             `);
     
@@ -67,6 +68,7 @@ export async function getPartitions() {
         combustible: partida.combustible,
         numero_remision: partida.numero_remision,
         numero_facturacion: partida.numero_facturacion,
+        destino: partida.destino,
         observaciones: partida.observaciones,
         id_unidad: partida.id_unidad,
         unidad: partida.emb_unidades?.nombre,
@@ -80,7 +82,8 @@ export async function getPartitions() {
         numero_contrato: partida.emb_ordenes_compra?.numero_contrato,
         id_cliente: partida.emb_ordenes_compra?.id_cliente,
         cliente: partida.emb_ordenes_compra?.emb_clientes?.nombre,
-        correo: partida.emb_ordenes_compra?.emb_clientes?.correo
+        correo: partida.emb_ordenes_compra?.emb_clientes?.correo,
+        ubicacion: partida.emb_ordenes_compra?.emb_clientes?.ubicacion
     }));
 }
 

@@ -77,12 +77,13 @@ export async function renderShipmentsTable(partitionsParam = null) {
             <td class="p-2 ps-4">
                 <p class="shipment-date fw-bold">${partida.fecha_programada}</p>
                 <p class="shipment-time">${partida.hora_programada.slice(0, 5)}</p>
-                <p class="shipment-time-final">${partida.hora_realizada?.slice(0, 5) || "-"}</p>
+                <p class="shipment-time-final">${partida.hora_realizada?.slice(0, 5) || "Pendiente"}</p>
             </td>
             <td class="shipment-client p-2">${partida.cliente}</td>
             <td id="shipment-products-${partida.id_partida}" class="p-2">
 
             </td>
+            <td class="production-destination p-2">${partida.destino || partida.ubicacion}</td>
             <td class="text-center p-2">
                 <p class="shipment-status ${productionStatusClass}">${partida.planta}</p>
             </td>

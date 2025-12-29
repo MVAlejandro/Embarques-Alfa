@@ -55,3 +55,25 @@ input:disabled {
 .btn-update {
     padding: 4px 8px 4px 8px;
 }
+
+/* Estilos para impresión */
+@media print {
+    .container {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    #transport-table-container {
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 auto !important;
+        font-size: 12px !important;
+    }
+
+    /* Asegurar que no se corten filas entre páginas */
+    tr {
+        page-break-inside: avoid !important;
+    }
+}

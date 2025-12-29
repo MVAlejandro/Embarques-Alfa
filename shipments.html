@@ -101,6 +101,7 @@
                             <th class="p-3 ps-4">DÍA</th>
                             <th class="p-3 ps-2">CLIENTE</th>
                             <th class="p-3 ps-2">CLAVE</th>
+                            <th class="p-3 ps-2">DESTINO</th>
                             <th class="text-center p-3">PLANTA</th>
                             <th class="text-center p-3">EMBARQUE</th>
                             <th class="p-3 ps-2">UNIDAD</th>
@@ -139,17 +140,15 @@
                         <form id="shipment-edit-form">
                             <input type="hidden" id="edit-id-partition">
                             <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-6 col-lg-3 ms-auto label-over-border">
+                                <div class="col-md-4 col-lg-3 label-over-border">
                                     <label for="edit-date" class="form-label m-2">Fecha</label>
                                     <input type="date" class="form-control" id="edit-date" disabled>
                                 </div>
-                            </div>
-                            <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-6 col-lg-3 ms-auto label-over-border">
+                                <div class="col-md-4 col-lg-3 ms-auto label-over-border">
                                     <label for="edit-time" class="form-label m-2">Hora planeada</label>
                                     <input type="time" class="form-control" id="edit-time" disabled>
                                 </div>
-                                <div class="col-md-6 col-lg-3 label-over-border">
+                                <div class="col-md-4 col-lg-3 label-over-border">
                                     <label for="edit-real-time" class="form-label m-2">Hora programada</label>
                                     <input type="time" class="form-control" id="edit-real-time">
                                 </div>
@@ -171,12 +170,19 @@
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-6 col-lg-3 label-over-border">
+                                <div class="col-md-6 label-over-border">
                                     <label for="edit-remision" class="form-label m-2">Número de remisión</label>
                                     <input type="text" class="form-control" id="edit-remision" placeholder="000000">
                                     <p class="error invalid-feedback" id="error-editRemision" style="color: red;"></p>
                                 </div>
-                                <div class="col-md-6 col-lg-9 label-over-border">
+                                <div class="col-md-6 label-over-border">
+                                    <label for="edit-destination" class="form-label m-2">Destino</label>
+                                    <input type="text" class="form-control" id="edit-destination" disabled>
+                                    <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col label-over-border">
                                     <label for="edit-observations" class="form-label m-2">Observaciones</label>
                                     <input type="text" class="form-control" id="edit-observations">
                                     <p class="error invalid-feedback" id="error-editObservations" style="color: red;"></p>

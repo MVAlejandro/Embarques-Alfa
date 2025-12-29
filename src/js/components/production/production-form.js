@@ -42,11 +42,13 @@ export async function addPartition(event) {
     const id_ordenIn = document.getElementById("orden");
     const fecha_programadaIn = document.getElementById("fecha_programada");
     const hora_programadaIn = document.getElementById("hora_programada");
+    const destinoIn = document.getElementById("destino");
     const observacionesIn = document.getElementById("observaciones");
     // Referencias para errores
     const id_ordenError = document.getElementById('orden-error');
     const fecha_programadaError = document.getElementById('fecha_programada-error');
     const hora_programadaError = document.getElementById('hora_programada-error');
+    const destinoError = document.getElementById('destino-error');
     const observacionesError = document.getElementById('observaciones-error');
 
     // Validaciones
@@ -84,6 +86,7 @@ export async function addPartition(event) {
         fecha_programada: fechaDate.toISOString().split('T')[0],
         semana,
         anio,
+        destino: destinoIn.value,
         observaciones: observacionesIn.value
     };
 
