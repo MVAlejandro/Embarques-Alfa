@@ -96,6 +96,7 @@ export async function renderTransportTable(partitionsParam = null) {
         <td colspan="2" class="text-center d-print-none">Tarimas Totales</td>
         <td colspan="2" class="text-center d-none d-print-table-cell">Totales</td>
         <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
+        <td class="d-none"></td>
         <td class="p-2 d-none d-print-table-cell">${totalDistance.toLocaleString('en-US')} Km</td>
         <td class="p-2 d-none d-print-table-cell">${totalFuel.toLocaleString('en-US')} Lts</td>
         <td colspan="4"></td>

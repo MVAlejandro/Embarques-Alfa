@@ -1,4 +1,5 @@
 // Servicios Supabase
+import { getSession, getUserRole } from '../../services/login-service.js';
 import { getPartitions } from '../../services/partitions-service.js'; 
 import { getPartitionProducts } from '../../services/partition-product-service.js'; 
 import { validateUserRole } from '../../utils/session-validate.js';
@@ -106,4 +107,24 @@ export async function renderProductionTable(partitionsParam = null) {
     </tr>`;
 
     validateUserRole()
+
+    try {
+        // Si no hay sesión, no hacer nada
+        const session = await getSession();
+        if (!session) return;
+        
+        // Obtener el rol "admin", "colab", etc.
+        const rol = await getUserRole(session);
+        if (!rol) return;
+    
+        if (rol === 'vent') {
+            // Habilitar todos los botones desactivados
+            document.querySelectorAll('button:disabled').forEach(el => {
+                el.disabled = false;
+            });
+        } 
+        
+    } catch (error) {
+        console.error('Error validando rol del usuario:', error);
+    }
 }

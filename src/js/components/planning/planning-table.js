@@ -9,9 +9,9 @@ const statusColorMap = {
     // Amarillo
     "Pendiente": "yellow", "En proceso": "yellow", "En preparación": "yellow", "En ruta": "yellow",
     // Verde claro
-    "PT parcial": "greenL", "Proceso de carga": "greenL", "Asignado": "greenL",
+    "PT parcial": "greenL", "Proceso de carga": "greenL", "Asignado": "greenL", "Documentado": "greenL",
     // Verde oscuro
-    "Documentado": "greenD", "Terminado": "greenD", "Cargado": "greenD", "Entregado": "greenD",
+    "Terminado": "greenD", "Cargado": "greenD", "Entregado": "greenD",
     // Rojo
     "Cancelado": "red",
     // Gris

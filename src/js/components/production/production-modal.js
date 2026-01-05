@@ -23,7 +23,7 @@ async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombr
         <input type="text" id="${uniqueId}-producto" class="form-control product-code" placeholder="Producto" value="${productoCodigo} - ${productoNombre}" disabled>
         </div>
         <div class="col-5">
-            <input type="number" id="${uniqueId}-cantidad" class="form-control product-amount" placeholder="Cantidad" value="${cantidadValue}" data-max="${maxValue}" disabled data-vent-only data-prod-only>
+            <input type="number" id="${uniqueId}-cantidad" class="form-control product-amount" placeholder="Cantidad" value="${cantidadValue}" data-max="${maxValue}" disabled data-vent-only>
             <p class="error invalid-feedback" id="${uniqueId}-cantidad-error" style="color: red;"></p>
         </div>`;
 
@@ -44,6 +44,7 @@ export async function renderProductionEditModal(partida) {
     document.getElementById('edit-id-partition').value = partida.id_partida;
     document.getElementById('edit-date').value = partida.fecha_programada;
     document.getElementById('edit-oc').value = partida.numero_orden;
+    document.getElementById('edit-contract').value = partida.numero_contrato;
     document.getElementById('edit-status').value = partida.planta;
     document.getElementById('edit-destination').value = partida.destino || partida.ubicacion;
     document.getElementById('edit-observations').value = partida.observaciones;
@@ -99,6 +100,7 @@ export async function renderProductionEditModal(partida) {
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     // Referencias para actualizar información
+    const dateIn = document.getElementById('edit-date');
     const statusIn = document.getElementById('edit-status');
     const destinationIn = document.getElementById('edit-destination');
     const observationsIn = document.getElementById('edit-observations');
@@ -125,6 +127,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
     const id_partida = document.getElementById('edit-id-partition').value;
     const updatedData = { 
+        fecha_programada: dateIn.value,
         planta: statusIn.value,
         destino: destinationIn.value,
         observaciones: observationsIn.value

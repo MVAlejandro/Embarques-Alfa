@@ -54,6 +54,7 @@ export async function getActiveOrders() {
         .select(`
             id_orden,
             numero_orden,
+            numero_contrato,
             estado,
             id_cliente,
             emb_clientes (nombre)
@@ -68,6 +69,7 @@ export async function getActiveOrders() {
     return data.map(orden => ({
         id_orden: orden.id_orden,
         numero_orden: orden.numero_orden,
+        numero_contrato: orden.numero_contrato,
         estado: orden.estado,
         id_cliente: orden.id_cliente,
         cliente: orden.emb_clientes?.nombre

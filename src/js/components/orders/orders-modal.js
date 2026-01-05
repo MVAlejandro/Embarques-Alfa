@@ -5,7 +5,7 @@ import { getOrderProducts, addOrderProducts } from '../../services/order-product
 import { getProducts } from '../../services/order-product-service.js';
 import { renderOrdersTable } from './orders-table.js'; 
 // Utilidades
-import { amountValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
+import { textValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
 import { loadOptionsFilter } from '../../utils/load-select.js';
 
 // Función para cargar datos en el modal
@@ -82,8 +82,8 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const estadoError = document.getElementById('error-editStatus');
 
     // Validaciones
-    amountValidate(numero_ordenIn, numero_ordenError)
-    amountValidate(numero_contratoIn, numero_contratoError)
+    textValidate(numero_ordenIn, numero_ordenError)
+    textValidate(numero_contratoIn, numero_contratoError)
     selectValidate(estadoIn, estadoError)
 
     const campos = document.querySelectorAll('input, select')

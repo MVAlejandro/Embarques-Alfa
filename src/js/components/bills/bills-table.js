@@ -81,7 +81,7 @@ export async function renderBillsTable(partitionsParam = null) {
             <td class="text-center p-2">
                 <p class="bill-status ${BillStatusClass}">${partida.facturacion}</p>
             </td>
-            <td class="bill-number p-2">${partida.numero_factura || "Sin Registro"}</td>
+            <td class="bill-number p-2">${partida.numero_facturacion || "Sin Registro"}</td>
             <td class="bill-control text-center d-none" data-fact-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 

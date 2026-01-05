@@ -41,7 +41,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
     const id_partida = document.getElementById('edit-id-partition').value;
     const updatedData = { 
-        numero_factura: numero_facturaIn.value, 
+        numero_facturacion: numero_facturaIn.value, 
         facturacion: statusIn.value 
     };
 

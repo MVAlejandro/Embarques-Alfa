@@ -10,7 +10,7 @@ import { textValidate, inputValidate, selectValidate } from '../../utils/form-va
 
 // Cargar las órdenes en el formulario al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
-    loadOptionsFilter('orden', getActiveOrders, ['numero_orden', 'cliente'], 'id_orden', 'Seleccione...')
+    loadOptionsFilter('contrato', getActiveOrders, ['numero_contrato', 'cliente'], 'id_orden', 'Seleccione...')
 })
 
 // Función para calcular y asignar semana y año
@@ -39,13 +39,13 @@ export async function addPartition(event) {
 
     const form = document.getElementById('form-partition');
     // Referencias para validación
-    const id_ordenIn = document.getElementById("orden");
+    const id_ordenIn = document.getElementById("contrato");
     const fecha_programadaIn = document.getElementById("fecha_programada");
     const hora_programadaIn = document.getElementById("hora_programada");
     const destinoIn = document.getElementById("destino");
     const observacionesIn = document.getElementById("observaciones");
     // Referencias para errores
-    const id_ordenError = document.getElementById('orden-error');
+    const id_ordenError = document.getElementById('contrato-error');
     const fecha_programadaError = document.getElementById('fecha_programada-error');
     const hora_programadaError = document.getElementById('hora_programada-error');
     const destinoError = document.getElementById('destino-error');

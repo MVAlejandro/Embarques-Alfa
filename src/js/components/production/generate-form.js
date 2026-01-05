@@ -18,12 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
             <form id="form-partition">
                 <div class="row ms-2 me-2 pt-3 pb-3">
                     <div class="col-md-3 label-over-border">
-                        <label for="orden" class="form-label m-2">Orden de Compra</label>
-                        <select id="orden" class="form-select" aria-label="Default select example">
+                        <label for="contrato" class="form-label m-2">Contrato</label>
+                        <select id="contrato" class="form-select" aria-label="Default select example">
                             <option value="0">Seleccione...</option>
 
                         </select>
-                        <p class="error invalid-feedback" id="orden-error" style="color: red;"></p>
+                        <p class="error invalid-feedback" id="contrato-error" style="color: red;"></p>
                     </div>
                     <div class="col-md-3 label-over-border">
                         <label for="fecha_programada" class="form-label m-2">Fecha Programada</label>

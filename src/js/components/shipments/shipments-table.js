@@ -99,7 +99,7 @@ export async function renderShipmentsTable(partitionsParam = null) {
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
-                    ${partida.embarque === "Cargado" ? "disabled" : ""}
+                    ${partida.embarque === "Cargado" || partida.planta !== "Terminado" || partida.unidad === undefined ? "disabled" : ""}
                     partition-data='${JSON.stringify(partida)}'>
                     ${partida.embarque === "Cargado" ? "Completado" : "Actualizar"}
                 </button>
@@ -123,7 +123,7 @@ export async function renderShipmentsTable(partitionsParam = null) {
     `<tr class="table-active fw-bold">
         <td colspan="2" class="text-center">Tarimas Totales</td>
         <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
-        <td colspan="5"></td>
+        <td colspan="6"></td>
     </tr>`;
 
     validateUserRole()

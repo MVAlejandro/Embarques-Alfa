@@ -59,6 +59,7 @@ document.getElementById("btn-login").addEventListener("click", async function ()
 
     } catch (error) {
         let errorMessage = 'Error al iniciar sesión';
+
         if (error.message?.includes('Invalid login credentials')) {
             errorMessage = 'Email o contraseña incorrectos';
         } else if (error.message?.includes('Email not confirmed')) {
@@ -69,10 +70,12 @@ document.getElementById("btn-login").addEventListener("click", async function ()
             console.error(error);
         }
 
-        document.getElementById('error-passwordLog').textContent = errorMessage;
-        emailError.classList.add('is-invalid');
-        passwordError.classList.add('is-invalid');
+        // Mostrar mensaje
+        passwordError.textContent = errorMessage;
 
+        // Marcar inputs como inválidos
+        emailIn.classList.add('is-invalid');
+        passwordIn.classList.add('is-invalid');
     } finally {
         this.innerHTML = 'Ingresar';
         this.disabled = false;

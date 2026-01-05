@@ -154,10 +154,21 @@
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-6 label-over-border">
+                                <div class="col-md-12 col-lg-6 label-over-border">
+                                    <label for="edit-destination" class="form-label m-2">Destino</label>
+                                    <input type="text" class="form-control" id="edit-destination" disabled data-vent-only>
+                                    <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-6 col-lg-3 label-over-border filter">
                                     <label for="edit-oc" class="form-label m-2">Orden de compra</label>
                                     <input type="text" class="form-control" id="edit-oc" disabled>
                                 </div>
+                                <div class="col-md-6 col-lg-3 label-over-border filter">
+                                    <label for="edit-contract" class="form-label m-2">Contrato</label>
+                                    <input type="text" class="form-control" id="edit-contract" disabled>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-6 label-over-border">
                                     <label for="edit-status" class="form-label m-2">Estado</label>
                                     <select id="edit-status" class="form-select" aria-label="Default select example">
@@ -171,13 +182,6 @@
                                         <option value="Reprogramado">Reprogramado</option>
                                     </select>
                                     <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
-                                </div>
-                            </div>
-                            <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-6 label-over-border">
-                                    <label for="edit-destination" class="form-label m-2">Destino</label>
-                                    <input type="text" class="form-control" id="edit-destination" disabled data-vent-only>
-                                    <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
                                 </div>
                                 <div class="col-md-6 label-over-border">
                                     <label for="edit-observations" class="form-label m-2">Observaciones</label>
