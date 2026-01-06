@@ -61,16 +61,3 @@ editModal.addEventListener('hidden.bs.modal', () => {
         el.value = '';
     });
 });
-
-// Acciones del modal de eliminación
-const deleteModal = document.getElementById('delete-modal');
-// Al abrir modal
-deleteModal.addEventListener('shown.bs.modal', event => {
-    const button = event.relatedTarget;
-    const idOrder = button.dataset.id;
-    document.getElementById('delete-id-order').value = idOrder;
-});
-// Al cerrar modal
-deleteModal.addEventListener('hidden.bs.modal', () => {
-    document.getElementById('delete-id-order').value = '';
-});

@@ -20,7 +20,7 @@ export async function searchFilter() {
     // Aplicar filtros
     const filtered = allClients.filter(c => {
         // Filtro por búsqueda de nombre
-        const searchOk = searchText === '' || c.razon_social?.toString().toLowerCase().includes(searchText);
+        const searchOk = searchText === '' || c.razon_social?.toString().toLowerCase().includes(searchText) || c.nombre?.toString().toLowerCase().includes(searchText);;
 
         return searchOk;
     });

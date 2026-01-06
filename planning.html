@@ -113,6 +113,270 @@
         </section>
     </main>
 
+    <!-- Modal de producción -->
+    <div class="modal fade" id="production-modal" tabindex="-1" aria-labelledby="production-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content pt-3 pb-3">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col d-flex align-items-center">
+                            <div class="ms-4 me-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                                    <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
+                                    <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+                                </svg>
+                            </div>
+                            <h5 class="modal-title" id="production-modalLabel">Detalles de la partida</h5>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="production-content" class="container">
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-6 col-lg-3 ms-auto label-over-border">
+                                <label for="production-date" class="form-label m-2">Fecha</label>
+                                <input type="text" class="form-control" id="production-date" disabled>
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-12 col-lg-6 label-over-border">
+                                <label for="production-destination" class="form-label m-2">Destino</label>
+                                <input type="text" class="form-control" id="production-destination" disabled>
+                            </div>
+                            <div class="col-md-6 col-lg-3 label-over-border filter">
+                                <label for="production-oc" class="form-label m-2">Orden de compra</label>
+                                <input type="text" class="form-control" id="production-oc" disabled>
+                            </div>
+                            <div class="col-md-6 col-lg-3 label-over-border filter">
+                                <label for="production-contract" class="form-label m-2">Contrato</label>
+                                <input type="text" class="form-control" id="production-contract" disabled>
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-6 label-over-border">
+                                <label for="production-status" class="form-label m-2">Estado</label>
+                                <input type="text" class="form-control" id="production-status" disabled>
+                            </div>
+                            <div class="col-md-6 label-over-border">
+                                <label for="production-observations" class="form-label m-2">Observaciones</label>
+                                <input type="text" class="form-control" id="production-observations" disabled>
+                            </div>
+                        </div>
+                        <div id="partition-products">
+                            <div class="row ms-2 me-2 pt-2 pb-2">
+                                <div class="col d-flex align-items-center">
+                                    <p class="fw-bold">Productos asignados</p>
+                                </div>
+                            </div>
+                            <div id="partition-products-container" class="mb-4">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer me-4">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de transporte -->
+    <div class="modal fade" id="transport-modal" tabindex="-1" aria-labelledby="transport-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content pt-3 pb-3">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col d-flex align-items-center">
+                            <div class="ms-4 me-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                                    <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
+                                    <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+                                </svg>
+                            </div>
+                            <h5 class="modal-title" id="transport-modalLabel">Detalles del transporte</h5>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-6 col-lg-3 label-over-border">
+                                <label for="transport-oc" class="form-label m-2">Orden de compra</label>
+                                <input type="text" class="form-control" id="transport-oc" disabled>
+                            </div>
+                            <div class="col-md-6 col-lg-3 ms-auto label-over-border">
+                                <label for="transport-date" class="form-label m-2">Fecha</label>
+                                <input type="text" class="form-control" id="transport-date" disabled>
+                            </div>
+                            <div class="col-md-6 col-lg-3 label-over-border filter">
+                                <label for="transport-time" class="form-label m-2">Hora</label>
+                                <input type="text" class="form-control" id="transport-time" disabled>
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-4 label-over-border">
+                                <label for="transport-status" class="form-label m-2">Estado</label>
+                                <input type="text" class="form-control" id="transport-status" disabled>
+                            </div>
+                            <div class="col-md-4 label-over-border">
+                                <label for="transport-unit" class="form-label m-2">Unidad</label>
+                                <input type="text" class="form-control" id="transport-unit" disabled>
+                            </div>
+                            <div class="col-md-4 label-over-border">
+                                <label for="transport-box" class="form-label m-2">Caja</label>
+                                <input type="text" class="form-control" id="transport-box" disabled>
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-4 label-over-border">
+                                <label for="transport-operator" class="form-label m-2">Operador</label>
+                                <input type="text" class="form-control" id="transport-operator" disabled>
+                            </div>
+                            <div class="col-md-4 label-over-border">
+                                <label for="transport-distance" class="form-label m-2">Distancia</label>
+                                <input type="text" class="form-control" id="transport-distance" disabled>
+                            </div>
+                            <div class="col-md-4 label-over-border">
+                                <label for="transport-fuel" class="form-label m-2">Combustible</label>
+                                <input type="text" class="form-control" id="transport-fuel" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer me-4">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de embarques -->
+    <div class="modal fade" id="shipment-modal" tabindex="-1" aria-labelledby="shipment-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content pt-3 pb-3">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col d-flex align-items-center">
+                            <div class="ms-4 me-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                                    <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
+                                    <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+                                </svg>
+                            </div>
+                            <h5 class="modal-title" id="shipment-modalLabel">Detalles del embarque</h5>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="shipment-content" class="container">
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-4 col-lg-3 label-over-border">
+                                <label for="shipment-date" class="form-label m-2">Fecha</label>
+                                <input type="text" class="form-control" id="shipment-date" disabled>
+                            </div>
+                            <div class="col-md-4 col-lg-3 ms-auto label-over-border">
+                                <label for="shipment-time" class="form-label m-2">Hora planeada</label>
+                                <input type="text" class="form-control" id="shipment-time" disabled>
+                            </div>
+                            <div class="col-md-4 col-lg-3 label-over-border">
+                                <label for="shipment-real-time" class="form-label m-2">Hora programada</label>
+                                <input type="text" class="form-control" id="shipment-real-time">
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-6 label-over-border">
+                                <label for="shipment-oc" class="form-label m-2">Orden de compra</label>
+                                <input type="text" class="form-control" id="shipment-oc" disabled>
+                            </div>
+                            <div class="col-md-6 label-over-border">
+                                <label for="shipment-status" class="form-label m-2">Estado</label>
+                                <input type="text" class="form-control" id="shipment-status" disabled>
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-6 label-over-border">
+                                <label for="shipment-remision" class="form-label m-2">Número de remisión</label>
+                                <input type="text" class="form-control" id="shipment-remision" disabled>
+                            </div>
+                            <div class="col-md-6 label-over-border">
+                                <label for="shipment-destination" class="form-label m-2">Destino</label>
+                                <input type="text" class="form-control" id="shipment-destination" disabled>
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col label-over-border">
+                                <label for="shipment-observations" class="form-label m-2">Observaciones</label>
+                                <input type="text" class="form-control" id="shipment-observations" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer me-4">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de facturación -->
+    <div class="modal fade" id="bill-modal" tabindex="-1" aria-labelledby="bill-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content pt-3 pb-3">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col d-flex align-items-center">
+                            <div class="ms-4 me-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                                    <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
+                                    <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+                                </svg>
+                            </div>
+                            <h5 class="modal-title" id="bill-modalLabel">Detalles de facturación</h5>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="bill-content" class="container">
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-6 col-lg-3 label-over-border">
+                                <label for="bill-oc" class="form-label m-2">Orden de compra</label>
+                                <input type="text" class="form-control" id="bill-oc" disabled>
+                            </div>
+                            <div class="col-md-6 col-lg-3 ms-auto label-over-border">
+                                <label for="bill-date" class="form-label m-2">Fecha</label>
+                                <input type="text" class="form-control" id="bill-date" disabled>
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-6 label-over-border">
+                                <label for="bill-remision" class="form-label m-2">Número de remisión</label>
+                                <input type="text" class="form-control" id="bill-remision" disabled>
+                            </div>
+                            <div class="col-md-6 label-over-border">
+                                <label for="bill-number" class="form-label m-2">Número de Factura</label>
+                                <input type="text" class="form-control" id="bill-number" disabled>
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-6 ms-auto label-over-border">
+                                <label for="bill-status" class="form-label m-2">Estado</label>
+                                <input type="text" class="form-control" id="bill-status" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer me-4">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer id="site-footer">
 

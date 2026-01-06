@@ -37,7 +37,7 @@ export async function ordersFilter() {
     const filtered = allOrders.filter(o => {
         const clientOk = clientFiltered === '0' || o.id_cliente == clientFiltered;
         const statusOk = statusFilter === '0' || o.estado == statusFilter;
-        const textOk = searchText === '' || o.numero_orden?.toString().includes(searchText) 
+        const textOk = searchText === '' || o.numero_orden?.toString().includes(searchText) || o.numero_contrato?.toString().includes(searchText)
         return statusOk && clientOk && textOk;
     });
 

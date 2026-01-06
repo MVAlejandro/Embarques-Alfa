@@ -18,7 +18,7 @@ async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombr
     const newProduct = document.createElement("div");
     newProduct.className = "row ms-2 me-2 pt-2 pb-2 product-item";
     newProduct.dataset.idOrdenProducto = idOrdenProducto;
-    newProduct.innerHTML = 
+    newProduct.innerHTML =
         `<div class="col-7">
         <input type="text" id="${uniqueId}-producto" class="form-control product-code" placeholder="Producto" value="${productoCodigo} - ${productoNombre}" disabled>
         </div>

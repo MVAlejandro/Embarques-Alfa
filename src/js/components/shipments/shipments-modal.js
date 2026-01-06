@@ -27,11 +27,13 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const remisionIn = document.getElementById('edit-remision');
     const observacionesIn = document.getElementById('edit-observations');
     
+    const horaRealError = document.getElementById('error-editHour');
     const statusError = document.getElementById('error-editStatus');
     const remisionError = document.getElementById('error-editRemision');
     const observacionesError = document.getElementById('error-editObservations');
 
     // Validaciones
+    textValidate(horaRealIn, horaRealError)
     textValidate(observacionesIn, observacionesError)
 
     const campos = document.querySelectorAll('input')

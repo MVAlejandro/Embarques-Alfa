@@ -60,19 +60,3 @@ editModal.addEventListener('hidden.bs.modal', () => {
         el.value = '';
     });
 });
-
-// Acciones del modal de eliminación
-const deleteModal = document.getElementById('delete-modal');
-// Al abrir modal
-deleteModal.addEventListener('shown.bs.modal', event => {
-    const button = event.relatedTarget;
-    const idUnit = button.dataset.id;
-    const type = button.dataset.type;
-    document.getElementById('delete-id-unit').value = idUnit;
-    document.getElementById('delete-type').value = type;
-});
-// Al cerrar modal
-deleteModal.addEventListener('hidden.bs.modal', () => {
-    document.getElementById('delete-id-unit').value = '';
-    document.getElementById('delete-type').value = '';
-});

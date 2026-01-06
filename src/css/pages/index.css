@@ -81,6 +81,7 @@ a {
     border-radius: 50px;
     font-weight: bold;
     display: inline-block;
+    pointer-events: none !important;
 }
 
 /* Estilos generales para cards */

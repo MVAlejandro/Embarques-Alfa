@@ -82,16 +82,3 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         alert('Ocurrió un error al actualizar el cliente.');
     }
 });
-
-// Eliminar entrada al dar click en el botón del modal
-document.getElementById('btn-delete-entry').addEventListener('click', async () => {
-    const idClient = document.getElementById('delete-id-client').value;
-    await deleteClient(idClient);
-
-    // Cerrar el modal y mostrar alerta
-    bootstrap.Modal.getInstance(document.getElementById('delete-modal')).hide();
-    alert('Cliente eliminado correctamente.');
-
-    // Recarga la tabla con los datos actualizados
-    await renderClientsTable();
-});

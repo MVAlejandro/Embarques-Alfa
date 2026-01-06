@@ -73,22 +73,3 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         alert('Ocurrió un error al actualizar la unidad.');
     }
 });
-
-// Eliminar entrada al dar click en el botón del modal
-document.getElementById('btn-delete-entry').addEventListener('click', async () => {
-    const idUnit = document.getElementById('delete-id-unit').value;
-    const tipo = document.getElementById('delete-type').value;
-
-    if (tipo === 'Caja') {
-        await deleteBox(idUnit);
-    } else {
-        await deleteUnit(idUnit);
-    }
-
-    // Cerrar el modal y mostrar alerta
-    bootstrap.Modal.getInstance(document.getElementById('delete-modal')).hide();
-    alert('Unidad eliminada correctamente.');
-
-    // Recarga la tabla con los datos actualizados
-    await renderUnitsTable();
-});

@@ -1,6 +1,6 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
-import { updateOrder, deleteOrder } from '../../services/orders-service.js';
+import { updateOrder } from '../../services/orders-service.js';
 import { getOrderProducts, addOrderProducts } from '../../services/order-product-service.js';
 import { getProducts } from '../../services/order-product-service.js';
 import { renderOrdersTable } from './orders-table.js'; 
@@ -117,17 +117,4 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         console.error('Error al actualizar orden:', err);
         alert('Ocurrió un error al actualizar la orden de compra.');
     }
-});
-
-// Eliminar entrada al dar click en el botón del modal
-document.getElementById('btn-delete-entry').addEventListener('click', async () => {
-    const idOrder = document.getElementById('delete-id-order').value;
-    await deleteOrder(idOrder);
-
-    // Cerrar el modal y mostrar alerta
-    bootstrap.Modal.getInstance(document.getElementById('delete-modal')).hide();
-    alert('Orden de compra eliminada correctamente.');
-
-    // Recarga la tabla con los datos actualizados
-    await renderOrdersTable();
 });

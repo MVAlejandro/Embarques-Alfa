@@ -22,6 +22,11 @@ function getColor(status) {
     return statusColorMap[status];
 }
 
+// Función para buscar la partida por id
+export function getPartitionById(id) {
+    return allPartitions.find(p => p.id_partida == id);
+}
+
 // Función para crear la tabla y la paginación
 export async function renderPlanningTable(partitionsParam = null) {
     // Obtener partidas si no se pasa una lista filtrada
@@ -58,20 +63,36 @@ export async function renderPlanningTable(partitionsParam = null) {
         const facturacionClass = getColor(partida.facturacion);
 
         tbody.innerHTML += 
-        `<tr>
+        `<tr data-partition-id="${partida.id_partida}">
             <td class="planning-client p-2 ps-4">${partida.cliente}</td>
             <td class="planning-date p-2 fw-bold">${partida.fecha_programada}</td>
             <td class="text-center p-2">
-                <p class="planning-status ${plantaClass}">${partida.planta}</p>
+                <button class="btn-primary planning-status ${plantaClass}"
+                    data-bs-target="#production-modal" 
+                    data-bs-toggle="modal">
+                        ${partida.planta}
+                </button>
             </td>
             <td class="text-center p-2">
-                <p class="planning-status ${transporteClass}">${partida.transporte}</p>
+                <button class="btn-primary planning-status ${transporteClass}"
+                    data-bs-target="#transport-modal" 
+                    data-bs-toggle="modal">
+                        ${partida.transporte}
+                </button>
             </td>
             <td class="text-center p-2">
-                <p class="planning-status ${embarqueClass}">${partida.embarque}</p>
+                <button class="btn-primary planning-status ${embarqueClass}"
+                    data-bs-target="#shipment-modal" 
+                    data-bs-toggle="modal">
+                        ${partida.embarque}
+                </button>
             </td>
             <td class="text-center p-2">
-                <p class="planning-status ${facturacionClass}">${partida.facturacion}</p>
+                <button class="btn-primary planning-status ${facturacionClass}"
+                    data-bs-target="#bill-modal" 
+                    data-bs-toggle="modal">
+                        ${partida.facturacion}
+                </button>
             </td>
             <td class="planning-time text-center p-2">${partida.hora_programada.slice(0, 5)} - ${partida.hora_realizada?.slice(0, 5) || "Pendiente"}</td>
         </tr>`;
