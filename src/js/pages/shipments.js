@@ -17,7 +17,7 @@ import { renderShipmentsEditModal } from '../components/shipments/shipments-moda
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initPage()
-    // Generar tabla con semana actual
+    // Generar tabla con el día actual
     initPageFilters(renderShipmentsTable);
 });
 

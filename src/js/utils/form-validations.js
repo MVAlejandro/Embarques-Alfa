@@ -1,7 +1,7 @@
 
 // Expresiones regulares para validación de datos
 const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; // Nombres y el apellidos
-const textRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s.,()\/\-–—]+$/; // Texto con algunos caracteres especiales
+const textRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ0-9\s.,:()\/\-–—]+$/; // Texto con algunos caracteres especiales
 const rfcRegex = /^([A-Z&Ñ]{3,4})\d{6}[A-Z0-9]{3}$/; // RFC
 const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+$/; // Email
 const phoneRegex = /^[1-9]\d{9}$/; // Número telefónico

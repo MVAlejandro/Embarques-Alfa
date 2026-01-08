@@ -16,9 +16,9 @@ import { renderTransportTable } from '../components/transport/transport-table.js
 import { renderTransportEditModal } from '../components/transport/transport-modal.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Generar tabla con semana actual
-    await initPageFilters(renderTransportTable);
     await initPage()
+    // Generar tabla con el día actual
+    await initPageFilters(renderTransportTable);
 });
 
 // Acciones del modal de edición

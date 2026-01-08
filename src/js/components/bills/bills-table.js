@@ -86,9 +86,9 @@ export async function renderBillsTable(partitionsParam = null) {
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
-                    ${partida.facturacion === "Documentado" || partida.embarque !== "Cargado" ? "disabled" : ""}
+                    ${partida.facturacion === "Documentado" || partida.embarque !== "Cargado" || partida.planta === "Cancelado" ? "disabled" : ""}
                     partition-data='${JSON.stringify(partida)}'>
-                    ${partida.facturacion === "Documentado" ? "Completado" : "Actualizar"}
+                    ${partida.facturacion === "Documentado" ? "Completado" : partida.planta === "Cancelado" ? "Cancelado" : "Actualizar"}
                 </button>
             </td>
         </tr>`;

@@ -16,8 +16,9 @@ import { renderPlanningTable, getPartitionById } from '../components/planning/pl
 import { renderProductionModal, renderTransportModal, renderShipmentsModal, renderBillsModal } from '../components/planning/planning-modal.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    await initPageFilters(renderPlanningTable);
     await initPage()
+    // Generar tabla con el día actual
+    await initPageFilters(renderPlanningTable);
 });
 
 // Recargar la página cada cierto tiempo de forma automática

@@ -18,9 +18,9 @@ import { renderProductionTable } from '../components/production/production-table
 import { renderProductionEditModal } from '../components/production/production-modal.js'; 
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Generar tabla con semana actual
-    await initPageFilters(renderProductionTable);
     await initPage()
+    // Generar tabla con el día actual
+    await initPageFilters(renderProductionTable);
 });
 
 // Declarar el botón del formulario

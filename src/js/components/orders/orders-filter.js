@@ -2,13 +2,12 @@
 import { getOrders } from '../../services/orders-service.js'; 
 import { renderOrdersTable } from './orders-table.js';
 // Utilidades
-import { loadOptions, loadWeeksFilter } from '../../utils/load-select.js';
+import { loadOptions } from '../../utils/load-select.js';
 
 let allOrders = [];
 
 // Cargar las opciones de filtrado al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
-    loadWeeksFilter('week-filter', ['anio', 'semana']);
     loadOptions('client-filter', 'emb_clientes', 'id_cliente', 'nombre', 'Todos')
 })
 

@@ -82,9 +82,9 @@ export async function renderTransportTable(partitionsParam = null) {
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
-                    ${partida.transporte === "Entregado" ? "disabled" : ""}
+                    ${partida.transporte === "Entregado" || partida.planta === "Cancelado" ? "disabled" : ""}
                     partition-data='${JSON.stringify(partida)}'>
-                    ${partida.transporte === "Entregado" ? "Completado" : "Actualizar"}
+                    ${partida.transporte === "Entregado" ? "Completado" : partida.planta === "Cancelado" ? "Cancelado" : "Actualizar"}
                 </button>
             </td>
         </tr>`;

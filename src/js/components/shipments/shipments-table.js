@@ -99,9 +99,9 @@ export async function renderShipmentsTable(partitionsParam = null) {
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
-                    ${partida.embarque === "Cargado" || partida.planta !== "Terminado" || partida.unidad === undefined ? "disabled" : ""}
+                    ${partida.embarque === "Cargado" || partida.planta !== "Terminado" || partida.unidad === undefined || partida.planta === "Cancelado" ? "disabled" : ""}
                     partition-data='${JSON.stringify(partida)}'>
-                    ${partida.embarque === "Cargado" ? "Completado" : "Actualizar"}
+                    ${partida.embarque === "Cargado" ? "Completado" : partida.planta === "Cancelado" ? "Cancelado" : "Actualizar"}
                 </button>
             </td>
         </tr>`;

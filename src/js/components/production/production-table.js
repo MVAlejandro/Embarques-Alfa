@@ -79,9 +79,9 @@ export async function renderProductionTable(partitionsParam = null) {
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
-                    ${partida.planta === "Terminado" ? "disabled" : ""}
+                    ${partida.planta === "Terminado" || partida.planta === "Cancelado" ? "disabled" : ""}
                     partition-data='${JSON.stringify(partida)}'>
-                    ${partida.planta === "Terminado" ? "Completado" : "Actualizar"}
+                    ${partida.planta === "Terminado" ? "Completado" : partida.planta === "Cancelado" ? "Cancelado" :"Actualizar"}
                 </button>
             </td>
         </tr>`;

@@ -17,7 +17,7 @@ import { renderBillsEditModal } from '../components/bills/bills-modal.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initPage()
-    // Generar tabla con semana actual
+    // Generar tabla con el día actual
     initPageFilters(renderBillsTable);
 });
 

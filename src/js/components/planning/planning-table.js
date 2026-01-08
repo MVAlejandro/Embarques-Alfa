@@ -74,27 +74,29 @@ export async function renderPlanningTable(partitionsParam = null) {
                 </button>
             </td>
             <td class="text-center p-2">
-                <button class="btn-primary planning-status ${transporteClass}"
-                    data-bs-target="#transport-modal" 
-                    data-bs-toggle="modal">
-                        ${partida.transporte}
-                </button>
-            </td>
-            <td class="text-center p-2">
-                <button class="btn-primary planning-status ${embarqueClass}"
+                <button class="btn-primary planning-status ${partida.planta === "Cancelado" ? plantaClass : embarqueClass}"
                     data-bs-target="#shipment-modal" 
                     data-bs-toggle="modal">
-                        ${partida.embarque}
+                        ${partida.planta === "Cancelado" ? "Cancelado" : partida.embarque}
                 </button>
             </td>
             <td class="text-center p-2">
-                <button class="btn-primary planning-status ${facturacionClass}"
+                <button class="btn-primary planning-status ${partida.planta === "Cancelado" ? plantaClass : facturacionClass}"
                     data-bs-target="#bill-modal" 
                     data-bs-toggle="modal">
-                        ${partida.facturacion}
+                        ${partida.planta === "Cancelado" ? "Cancelado" : partida.facturacion}
                 </button>
             </td>
-            <td class="planning-time text-center p-2">${partida.hora_programada.slice(0, 5)} - ${partida.hora_realizada?.slice(0, 5) || "Pendiente"}</td>
+            <td class="text-center p-2">
+                <button class="btn-primary planning-status ${partida.planta === "Cancelado" ? plantaClass : transporteClass}"
+                    data-bs-target="#transport-modal" 
+                    data-bs-toggle="modal">
+                        ${partida.planta === "Cancelado" ? "Cancelado" : partida.transporte}
+                </button>
+            </td>
+            <td class="planning-time text-center p-2">
+                ${partida.planta === "Cancelado" ? "Cancelado" : `${partida.hora_programada?.slice(0, 5)} - ${partida.hora_realizada ? partida.hora_realizada.slice(0, 5) : "Pendiente"}`}
+            </td>
         </tr>`;
     }
 }

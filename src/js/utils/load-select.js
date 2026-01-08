@@ -1,8 +1,6 @@
 import supabase from "../supabase/supabase-client";
 // Servicios Supabase
 import { getOrders } from "../services/orders-service";
-// Utilidades
-import { getDaysOfWeek } from "./week-functions";
 
 // Función para cargar datos completos en los select del formulario
 export async function loadOptions(selectId, table, valueKey, textKey, defaultOption, selectedValue = '0') {
@@ -87,78 +85,18 @@ export async function loadOptionsFilter(selectId, getFunction, displayFields, id
     });
 }
 
-// Función para cargar semanas en relación a las órdenes registradas
-export async function loadWeeksFilter(selectId, fields) {
-    const select = document.getElementById(selectId)
-    if (!select) return;
-    select.innerHTML = '';
-    
-    // Obtener órdenes
-    const allOrders = await getOrders();
-    if (!allOrders) return;
-
-    const opciones = allOrders.map(c => {
-        if (Array.isArray(fields)) {
-            // Combinar varios campos
-            return fields.map(f => c[f]).filter(Boolean).join(' - ');
-        } else {
-            // Solo un campo
-            return c[fields];
-        }
-    });
-
-    // Eliminar duplicados y valores vacíos
-    const uniqueOptions = [...new Set(opciones)].filter(v => v);
-
-    // Agregar opciones al select
-    select.innerHTML = '<option value="0">Todas</option>';
-    uniqueOptions.forEach(opcion => {
-        const optionEl = document.createElement('option');
-        optionEl.value = opcion;
-        optionEl.textContent = opcion;
-        select.appendChild(optionEl);
-    });
-}
-
 // Función para cargar los días de la semana en el filtro
-export function loadDaysFilter(selectedValue = null) {
-    const yearEl = document.getElementById('year-filter');
-    const weekEl = document.getElementById('week-filter');
-    const dayEl = document.getElementById('day-filter');
-
-    if (!yearEl || !weekEl || !dayEl) return;
-
-    const year = parseInt(yearEl.value);
-    const week = parseInt(weekEl.value);
-
-    if (selectedValue === null) {
-        selectedValue = dayEl.value;
-    }
-
-    if (!year || !week) {
-        dayEl.innerHTML = '<option value="0">Todos</option>';
-        return;
-    }
-
-    const days = getDaysOfWeek(year, week);
-
-    // Limpiar contenido previo
-    dayEl.innerHTML = '';
-
-    const defaultOptionEl = document.createElement('option');
-    defaultOptionEl.value = "0";
-    defaultOptionEl.textContent = "Todos";
-    dayEl.appendChild(defaultOptionEl);
-
-    days.forEach(d => {
-        const option = document.createElement('option');
-        option.value = d.date;
-        option.textContent = d.name;
-
-        if (option.value === selectedValue) {
-            option.selected = true;
-        }
-
-        dayEl.appendChild(option);
+export function loadDaysFilter() {
+    flatpickr("#day-filter", {
+        locale: {
+            ...flatpickr.l10ns.es,
+            firstDayOfWeek: 0
+        },
+        mode: "multiple",
+        dateFormat: "Y-m-d",
+        defaultDate: new Date(),
+        disable: [
+            date => date.getDay() === 0
+        ]
     });
 }
