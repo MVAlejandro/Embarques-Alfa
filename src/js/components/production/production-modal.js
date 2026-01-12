@@ -1,12 +1,12 @@
 // Servicios Supabase
 import { updatePartition } from '../../services/partitions-service.js'; 
-import { getPartitionProducts, addPartitionProducts, getAllPartitionProductsByOrder } from '../../services/partition-product-service.js';
+import { getPartitionProducts, createPartitionProducts, updatePartitionProducts, getAllPartitionProductsByOrder } from '../../services/partition-product-service.js';
 import { getOrderProducts } from '../../services/order-product-service.js';
-import { initPageFilters } from '../../utils/planning-filters.js'; 
+import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderProductionTable } from './production-table.js'; 
 import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
-import { textValidate, inputValidate } from '../../utils/form-validations.js';
+import { textValidate, quantityValidate, inputValidate } from '../../utils/form-validations.js';
 
 // Función para agregar campos de productos
 async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombre = '', cantidadValue = '', maxValue) {
@@ -67,7 +67,7 @@ export async function renderProductionEditModal(partida) {
         const orderProductId = row.id_orden_producto;
 
         if (!asignedProductsMap[orderProductId]) asignedProductsMap[orderProductId] = 0;
-        asignedProductsMap[orderProductId] += row.cantidad_partida;
+        asignedProductsMap[orderProductId] += row.cantidad_solicitada;
     }
 
     // Cargar lo asignado en la partida actual para rellenar inputs
@@ -75,7 +75,7 @@ export async function renderProductionEditModal(partida) {
     const currentProductsMap = {};
 
     for (const row of currentPartitionProducts) {
-        currentProductsMap[row.id_orden_producto] = row.cantidad_partida;
+        currentProductsMap[row.id_orden_producto] = row.cantidad_solicitada;
     }
 
     // Mostrar productos en el modal
@@ -133,16 +133,22 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         observaciones: observationsIn.value
     };
 
+    if (statusIn.value === 'Cancelado') {
+        updatedData.facturacion = 'Cancelado';
+        updatedData.embarque = 'Cancelado';
+        updatedData.transporte = 'Cancelado';
+    }
+
     try {
         await updatePartition(id_partida, updatedData);
-        await addPartitionProducts(id_partida);
+        await updatePartitionProducts(id_partida);
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
         alert('Estado de producción actualizado correctamente.');
 
         // Recarga la tabla con los datos actualizados
-        initPageFilters(renderProductionTable, "planta");
+        planningFilter(renderProductionTable);
     } catch (err) {
         console.error('Error al actualizar partida:', err);
         alert('Ocurrió un error al actualizar la partida.');

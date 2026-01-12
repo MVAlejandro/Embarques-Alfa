@@ -7,7 +7,8 @@ export async function getPartitionProducts(idPartition) {
         .select(`
             id_partida_producto,
             id_partida,
-            cantidad_partida,
+            cantidad_solicitada,
+            cantidad_embarcada,
             id_orden_producto,
             emb_orden_producto (
                 cantidad_orden,
@@ -28,7 +29,8 @@ export async function getPartitionProducts(idPartition) {
     return data.map(partidaP => ({
         id_partida_producto: partidaP.id_partida_producto,
         id_partida: partidaP.id_partida,
-        cantidad_partida: partidaP.cantidad_partida,
+        cantidad_solicitada: partidaP.cantidad_solicitada,
+        cantidad_embarcada: partidaP.cantidad_embarcada,
         id_orden_producto: partidaP.id_orden_producto,
         cantidad_orden: partidaP.emb_orden_producto?.cantidad_orden,
         id_producto: partidaP.emb_orden_producto?.id_producto,
@@ -38,18 +40,16 @@ export async function getPartitionProducts(idPartition) {
 }
 
 // Función para asignar los productos a la partida
-export async function addPartitionProducts(idPartition) {
+export async function createPartitionProducts(idPartition) {
     const productsItems = document.querySelectorAll('.product-item');
     const productsData = [];
 
-    // Obtener los productos válidos
     for (const item of productsItems) {
         const amountInput = item.querySelector('.product-amount');
-        
         const id_orden_producto = parseInt(item.dataset.idOrdenProducto);
-        const cantidad_partida = parseInt(amountInput.value);
+        const cantidad_solicitada = parseInt(amountInput.value);
 
-        if (isNaN(cantidad_partida) || cantidad_partida <= 0) {
+        if (isNaN(cantidad_solicitada) || cantidad_solicitada <= 0) {
             console.warn("Fila ignorada por cantidad inválida");
             continue;
         }
@@ -57,29 +57,57 @@ export async function addPartitionProducts(idPartition) {
         productsData.push({
             id_partida: idPartition,
             id_orden_producto,
-            cantidad_partida
+            cantidad_solicitada
         });
     }
-
-    // Primero eliminar productos existentes de la partida
-    const { error: deleteError } = await supabase
-        .from('emb_partida_producto')
-        .delete()
-        .eq('id_partida', idPartition);
-
-    if (deleteError) throw deleteError;
 
     if (productsData.length === 0) {
         console.warn("No hay productos para insertar en la partida");
         return;
     }
 
-    // Insertar los productos en la partida
-    const { data, error: insertError } = await supabase
+    // Insertar todos los productos
+    const { data, error } = await supabase
         .from('emb_partida_producto')
         .insert(productsData);
 
-    if (insertError) throw insertError;
+    if (error) {
+        console.error('Error asignando productos:', error);
+        throw error;
+    }
+}
+
+// Función para editar los productos asignados a la partida
+export async function updatePartitionProducts(idPartition) {
+    const productsItems = document.querySelectorAll('.product-item');
+
+    for (const item of productsItems) {
+        const amountInput = item.querySelector('.product-amount');
+        const id_orden_producto = parseInt(item.dataset.idOrdenProducto);
+        const cantidad_solicitada = parseInt(amountInput.value);
+
+        if (isNaN(cantidad_solicitada) || cantidad_solicitada <= 0) {
+            console.warn("Fila ignorada por cantidad inválida");
+            continue;
+        }
+
+        // Intentar insertar y si ya existe actualizar
+        const { data, error } = await supabase
+            .from('emb_partida_producto')
+            .upsert(
+                {
+                    id_partida: idPartition,
+                    id_orden_producto,
+                    cantidad_solicitada
+                },
+                { onConflict: ['id_partida', 'id_orden_producto'] }
+            );
+
+        if (error) {
+            console.error('Error actualizando partida:', error);
+            throw error;
+        }
+    }
 }
 
 // Función para obtener todas las partidas de una orden
@@ -90,7 +118,7 @@ export async function getAllPartitionProductsByOrder(idOrder) {
             id_partida_producto,
             id_partida,
             id_orden_producto,
-            cantidad_partida,
+            cantidad_solicitada,
             emb_partidas ( id_orden )
         `)
         .eq('emb_partidas.id_orden', idOrder);

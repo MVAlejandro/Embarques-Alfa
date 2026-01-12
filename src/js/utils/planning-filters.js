@@ -33,7 +33,7 @@ export async function planningFilter(renderTable) {
     const dayFilter = dayFilterEl.value ? dayFilterEl.value.split(', ').map(d => d.trim()) : [];
 
     // Si no se selecciona un día generar tabla vacía
-    if (!dayFilterEl) {
+    if (dayFilterEl.length === 0) {
         renderTable([]);
         return;
     }

@@ -26,7 +26,7 @@ export async function renderProductionModal(partida) {
         <input type="text" id="${uniqueId}-producto" class="form-control" value="${producto.codigo} - ${producto.producto}" disabled>
         </div>
         <div class="col-5">
-            <input type="number" id="${uniqueId}-cantidad" class="form-control" value="${producto.cantidad_partida}" disabled>
+            <input type="number" id="${uniqueId}-cantidad" class="form-control" value="${producto.cantidad_solicitada}" disabled>
         </div>`;
         container.appendChild(newProduct);
     };
@@ -36,22 +36,24 @@ export async function renderProductionModal(partida) {
 export async function renderTransportModal(partida) {
     // Insertar valores en los inputs
     document.getElementById('transport-date').value = partida.fecha_programada;
-    document.getElementById('transport-time').value = partida.hora_programada;
+    document.getElementById('transport-time').value = partida.hora_programada.slice(0, 5);
     document.getElementById('transport-oc').value = partida.numero_orden;
     document.getElementById('transport-operator').value = partida.operador || "-";
     document.getElementById('transport-status').value = partida.transporte;
     document.getElementById('transport-unit').value = partida.unidad || "-";
     document.getElementById('transport-box').value = partida.caja || "-";
-    document.getElementById('transport-distance').value = partida.distancia || "-";
-    document.getElementById('transport-fuel').value = partida.combustible || "-";
+    document.getElementById('transport-distance').value = partida.distancia != null ? partida.distancia.toLocaleString('en-US') + " Km" : "-";
+    document.getElementById('transport-fuel').value = partida.combustible != null ? partida.combustible.toLocaleString('en-US') + " Lts" : "-";
+    document.getElementById('transport-price').value = partida.costo != null ? "$" + partida.costo.toLocaleString('en-US'): "-";
+    document.getElementById('transport-tag').value = partida.tag != null ? "$" + partida.tag.toLocaleString('en-US'): "-";
 }
 
 // Función para cargar datos de embarques en el modal
 export async function renderShipmentsModal(partida) {
     // Insertar valores en los inputs
     document.getElementById('shipment-date').value = partida.fecha_programada;
-    document.getElementById('shipment-time').value = partida.hora_programada;
-    document.getElementById('shipment-real-time').value = partida.hora_realizada || "-";
+    document.getElementById('shipment-time').value = partida.hora_programada.slice(0, 5);
+    document.getElementById('shipment-real-time').value = partida.hora_realizada.slice(0, 5) || "-";
     document.getElementById('shipment-oc').value = partida.numero_orden;
     document.getElementById('shipment-status').value = partida.embarque;
     document.getElementById('shipment-remision').value = partida.numero_remision || "-";

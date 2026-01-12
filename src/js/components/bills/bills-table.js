@@ -45,6 +45,8 @@ export async function renderBillsTable(partitionsParam = null) {
             shipmentStatusClass = 'greenL';
         } else if (partida.embarque == 'Cargado') {
             shipmentStatusClass = 'greenD';
+        } else if (partida.embarque == 'Cancelado') {
+            shipmentStatusClass = 'red';
         } else {
             shipmentStatusClass = 'blue';
         }
@@ -53,6 +55,8 @@ export async function renderBillsTable(partitionsParam = null) {
         let BillStatusClass = '';
         if (partida.facturacion == 'Documentado') {
             BillStatusClass = 'greenD';
+        } else if (partida.facturacion == 'Cancelado') {
+            BillStatusClass = 'red';
         } else {
             BillStatusClass = 'yellow';
         }
@@ -60,7 +64,7 @@ export async function renderBillsTable(partitionsParam = null) {
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
         // Calcular total de cantidades
-        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_partida || 0), 0);
+        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
 
         totalGeneral += totalAmount;
 
@@ -88,7 +92,7 @@ export async function renderBillsTable(partitionsParam = null) {
                     data-bs-toggle="modal"
                     ${partida.facturacion === "Documentado" || partida.embarque !== "Cargado" || partida.planta === "Cancelado" ? "disabled" : ""}
                     partition-data='${JSON.stringify(partida)}'>
-                    ${partida.facturacion === "Documentado" ? "Completado" : partida.planta === "Cancelado" ? "Cancelado" : "Actualizar"}
+                    ${partida.facturacion === "Documentado" ? "Completado" : partida.facturacion === "Cancelado" ? "Cancelado" : "Actualizar"}
                 </button>
             </td>
         </tr>`;
@@ -99,7 +103,7 @@ export async function renderBillsTable(partitionsParam = null) {
 
         for (const producto of productos) {
             container.innerHTML += 
-            `<p class="bill-product">${producto.codigo} - <b> Cant. ${producto.cantidad_partida.toLocaleString('en-US')}</b></p>
+            `<p class="bill-product">${producto.codigo} - <b> Cant. ${producto.cantidad_solicitada.toLocaleString('en-US')}</b></p>
             <p class="bill-cant">${producto.producto}</p>
             <hr>`;
         };

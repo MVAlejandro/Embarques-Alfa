@@ -1,6 +1,7 @@
 // Servicios Supabase
 import { getUnits } from '../../services/units-service.js'
 import { updatePartition } from '../../services/partitions-service.js'; 
+import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderTransportTable } from './transport-table.js';
 
 // Utilidades
@@ -20,6 +21,8 @@ export async function renderTransportEditModal(partida) {
     document.getElementById('edit-box').value = partida.id_caja;
     document.getElementById('edit-distance').value = partida.distancia;
     document.getElementById('edit-fuel').value = partida.combustible;
+    document.getElementById('edit-price').value = partida.costo;
+    document.getElementById('edit-tag').value = partida.tag;
 
     // Cargar opciones en el select
     await loadOptions('edit-operator', 'emb_operadores', 'id_operador', 'nombre', "Seleccione...", partida.id_operador);
@@ -37,6 +40,8 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const cajaIn = document.getElementById('edit-box');
     const distanciaIn = document.getElementById('edit-distance');
     const combustibleIn = document.getElementById('edit-fuel');
+    const costoIn = document.getElementById('edit-price');
+    const tagIn = document.getElementById('edit-tag');
     
     const operadorError = document.getElementById('error-editOperator');
     const statusError = document.getElementById('error-editStatus');
@@ -44,6 +49,8 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const cajaError = document.getElementById('error-editBox');
     const distanciaError = document.getElementById('error-editDistance');
     const combustibleError = document.getElementById('error-editFuel');
+    const costoError = document.getElementById('error-editPrice');
+    const tagError = document.getElementById('error-editTag');
     
     // Validaciones
     selectValidate(operadorIn, operadorError)
@@ -51,6 +58,8 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     selectValidate(cajaIn, cajaError)
     amountValidate(distanciaIn, distanciaError)
     amountValidate(combustibleIn, combustibleError)
+    amountValidate(costoIn, costoError)
+    amountValidate(tagIn, tagError)
     
     const campos = document.querySelectorAll('input, select')
     if (!inputValidate(campos)) {
@@ -71,7 +80,9 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         id_caja: cajaIn.value, 
         transporte: statusIn.value,
         distancia: distanciaIn.value,
-        combustible: combustibleIn.value
+        combustible: combustibleIn.value,
+        costo: costoIn.value,
+        tag: tagIn.value
     };
 
     try {
@@ -82,7 +93,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         alert('Unidad actualizada correctamente.');
 
         // Recarga la tabla con los datos actualizados
-        await renderTransportTable();
+        planningFilter(renderTransportTable);
     } catch (err) {
         console.error('Error al actualizar partida:', err);
         alert('Ocurrió un error al actualizar la partida.');

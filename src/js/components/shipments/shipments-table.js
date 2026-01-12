@@ -61,6 +61,8 @@ export async function renderShipmentsTable(partitionsParam = null) {
             shipmentStatusClass = 'greenL';
         } else if (partida.embarque == 'Cargado') {
             shipmentStatusClass = 'greenD';
+        } else if (partida.embarque == 'Cancelado') {
+            shipmentStatusClass = 'red';
         } else {
             shipmentStatusClass = 'blue';
         }
@@ -68,7 +70,7 @@ export async function renderShipmentsTable(partitionsParam = null) {
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
         // Calcular total de cantidades
-        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_partida || 0), 0);
+        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
 
         totalGeneral += totalAmount;
 
@@ -101,7 +103,7 @@ export async function renderShipmentsTable(partitionsParam = null) {
                     data-bs-toggle="modal"
                     ${partida.embarque === "Cargado" || partida.planta !== "Terminado" || partida.unidad === undefined || partida.planta === "Cancelado" ? "disabled" : ""}
                     partition-data='${JSON.stringify(partida)}'>
-                    ${partida.embarque === "Cargado" ? "Completado" : partida.planta === "Cancelado" ? "Cancelado" : "Actualizar"}
+                    ${partida.embarque === "Cargado" ? "Completado" : partida.embarque === "Cancelado" ? "Cancelado" : "Actualizar"}
                 </button>
             </td>
         </tr>`;
@@ -112,7 +114,7 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
         for (const producto of productos) {
             container.innerHTML += 
-            `<p class="shipment-product">${producto.codigo} - <b> Cant. ${producto.cantidad_partida.toLocaleString('en-US')}</b></p>
+            `<p class="shipment-product">${producto.codigo} - <b> Cant. ${producto.cantidad_solicitada.toLocaleString('en-US')}</b></p>
             <p class="shipment-cant">${producto.producto}</p>
             <hr>`;
         };

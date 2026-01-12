@@ -13,7 +13,7 @@ const statusColorMap = {
     // Verde oscuro
     "Terminado": "greenD", "Cargado": "greenD", "Entregado": "greenD",
     // Rojo
-    "Cancelado": "red",
+    "Cancelado": "red", "Rechazado": "red", "Rechazo parcial": "red",
     // Gris
     "Reprogramado": "grey"
 };
@@ -74,24 +74,24 @@ export async function renderPlanningTable(partitionsParam = null) {
                 </button>
             </td>
             <td class="text-center p-2">
-                <button class="btn-primary planning-status ${partida.planta === "Cancelado" ? plantaClass : embarqueClass}"
+                <button class="btn-primary planning-status ${embarqueClass}"
                     data-bs-target="#shipment-modal" 
                     data-bs-toggle="modal">
-                        ${partida.planta === "Cancelado" ? "Cancelado" : partida.embarque}
+                        ${partida.embarque}
                 </button>
             </td>
             <td class="text-center p-2">
-                <button class="btn-primary planning-status ${partida.planta === "Cancelado" ? plantaClass : facturacionClass}"
+                <button class="btn-primary planning-status ${facturacionClass}"
                     data-bs-target="#bill-modal" 
                     data-bs-toggle="modal">
-                        ${partida.planta === "Cancelado" ? "Cancelado" : partida.facturacion}
+                        ${partida.facturacion}
                 </button>
             </td>
             <td class="text-center p-2">
-                <button class="btn-primary planning-status ${partida.planta === "Cancelado" ? plantaClass : transporteClass}"
+                <button class="btn-primary planning-status ${transporteClass}"
                     data-bs-target="#transport-modal" 
                     data-bs-toggle="modal">
-                        ${partida.planta === "Cancelado" ? "Cancelado" : partida.transporte}
+                        ${partida.transporte}
                 </button>
             </td>
             <td class="planning-time text-center p-2">

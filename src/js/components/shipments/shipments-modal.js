@@ -1,5 +1,6 @@
 // Servicios Supabase
 import { updatePartition } from '../../services/partitions-service.js';
+import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderShipmentsTable } from './shipments-table.js'; 
 // Utilidades
 import { textValidate, inputValidate } from '../../utils/form-validations.js';
@@ -69,7 +70,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         alert('Estado del embarque actualizado correctamente.');
 
         // Recarga la tabla con los datos actualizados
-        await renderShipmentsTable();
+        planningFilter(renderShipmentsTable);
     } catch (err) {
         console.error('Error al actualizar partida:', err);
         alert('Ocurrió un error al actualizar la partida.');

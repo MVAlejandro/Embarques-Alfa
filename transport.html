@@ -78,7 +78,9 @@
                             <th class="p-3 ps-2">CANTIDAD</th>
                             <th class="p-3 ps-2">DESTINO</th>
                             <th class="p-3 ps-2 d-none d-print-table-cell">DISTANCIA</th>
-                            <th class="p-3 ps-2 d-none d-print-table-cell">COMBUSTIBLE</th>
+                            <th class="p-3 ps-2 d-none d-print-table-cell">LITROS</th>
+                            <th class="p-3 ps-2 d-none d-print-table-cell">COSTO</th>
+                            <th class="p-3 ps-2 d-none d-print-table-cell">TAG</th>
                             <th class="text-center p-3 d-print-none">ESTADO</th>
                             <th class="p-3 ps-2">UNIDAD</th>
                             <th class="p-3 ps-2">OPERADOR</th>
@@ -137,6 +139,8 @@
                                         <option value="Asignado">Asignado</option>
                                         <option value="En ruta">En ruta</option>
                                         <option value="Entregado">Entregado</option>
+                                        <option value="Rechazado">Rechazado</option>
+                                        <option value="Rechazo parcial">Rechazo parcial</option>
                                     </select>
                                     <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
                                 </div>
@@ -170,8 +174,20 @@
                                 </div>
                                 <div class="col-md-4 label-over-border">
                                     <label for="edit-fuel" class="form-label m-2">Combustible</label>
-                                    <input type="number" class="form-control no-arrows" id="edit-fuel" placeholder="Diesel a ustilizar">
+                                    <input type="number" class="form-control no-arrows" id="edit-fuel" placeholder="Combustible a ustilizar">
                                     <p class="error invalid-feedback" id="error-editFuel" style="color: red;"></p>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-4 ms-auto label-over-border">
+                                    <label for="edit-price" class="form-label m-2">Costo</label>
+                                    <input type="number" class="form-control no-arrows" id="edit-price" placeholder="Costo total del combustible">
+                                    <p class="error invalid-feedback" id="error-editPrice" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-4 label-over-border">
+                                    <label for="edit-tag" class="form-label m-2">Tag</label>
+                                    <input type="number" class="form-control no-arrows" id="edit-tag" placeholder="Costo del Tag">
+                                    <p class="error invalid-feedback" id="error-editTag" style="color: red;"></p>
                                 </div>
                             </div>
                         </form>
@@ -186,7 +202,7 @@
     </div>
     
     <!-- FOOTER -->
-    <footer id="site-footer">
+    <footer id="site-footer" class="d-print-none">
 
     </footer>
 

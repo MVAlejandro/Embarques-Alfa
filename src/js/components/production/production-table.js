@@ -57,7 +57,7 @@ export async function renderProductionTable(partitionsParam = null) {
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
         // Calcular total de cantidades
-        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_partida || 0), 0);
+        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
 
         totalGeneral += totalAmount;
 
@@ -92,7 +92,7 @@ export async function renderProductionTable(partitionsParam = null) {
 
         for (const producto of productos) {
             container.innerHTML += 
-            `<p class="production-product">${producto.codigo} - <b> Cant. ${producto.cantidad_partida.toLocaleString('en-US')}</b></p>
+            `<p class="production-product">${producto.codigo} - <b> Cant. ${producto.cantidad_solicitada.toLocaleString('en-US')}</b></p>
             <p class="production-cant">${producto.producto}</p>
             <hr>`;
         };
