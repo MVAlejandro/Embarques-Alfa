@@ -39,44 +39,6 @@ export async function getPartitionProducts(idPartition) {
     }));
 }
 
-// Función para asignar los productos a la partida
-export async function createPartitionProducts(idPartition) {
-    const productsItems = document.querySelectorAll('.product-item');
-    const productsData = [];
-
-    for (const item of productsItems) {
-        const amountInput = item.querySelector('.product-amount');
-        const id_orden_producto = parseInt(item.dataset.idOrdenProducto);
-        const cantidad_solicitada = parseInt(amountInput.value);
-
-        if (isNaN(cantidad_solicitada) || cantidad_solicitada <= 0) {
-            console.warn("Fila ignorada por cantidad inválida");
-            continue;
-        }
-
-        productsData.push({
-            id_partida: idPartition,
-            id_orden_producto,
-            cantidad_solicitada
-        });
-    }
-
-    if (productsData.length === 0) {
-        console.warn("No hay productos para insertar en la partida");
-        return;
-    }
-
-    // Insertar todos los productos
-    const { data, error } = await supabase
-        .from('emb_partida_producto')
-        .insert(productsData);
-
-    if (error) {
-        console.error('Error asignando productos:', error);
-        throw error;
-    }
-}
-
 // Función para editar los productos asignados a la partida
 export async function updatePartitionProducts(idPartition) {
     const productsItems = document.querySelectorAll('.product-item');
@@ -102,6 +64,34 @@ export async function updatePartitionProducts(idPartition) {
                 },
                 { onConflict: ['id_partida', 'id_orden_producto'] }
             );
+
+        if (error) {
+            console.error('Error actualizando partida:', error);
+            throw error;
+        }
+    }
+}
+
+// Función para editar los productos embarcados en la partida
+export async function updateShipmentProducts(idPartition) {
+    const productsItems = document.querySelectorAll('.product-item');
+
+    for (const item of productsItems) {
+        const amountInput = item.querySelector('.product-amount');
+        const id_orden_producto = parseInt(item.dataset.idOrdenProducto);
+        const cantidad_embarcada = parseInt(amountInput.value);
+
+        if (isNaN(cantidad_embarcada) || cantidad_embarcada <= 0) {
+            console.warn("Fila ignorada por cantidad inválida");
+            continue;
+        }
+
+        // Intentar insertar y si ya existe actualizar
+        const { data, error } = await supabase
+            .from('emb_partida_producto')
+            .update({ cantidad_embarcada })
+            .eq('id_partida', idPartition)
+            .eq('id_orden_producto', id_orden_producto);
 
         if (error) {
             console.error('Error actualizando partida:', error);

@@ -32,7 +32,8 @@ export async function renderShipmentsTable(partitionsParam = null) {
         return;
     }
 
-    let totalGeneral = 0;
+    let totalSol = 0;
+    let totalEmb = 0;
 
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
 
@@ -69,10 +70,12 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
-        // Calcular total de cantidades
-        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+        // Calcular totales de cantidades
+        const requestedTotal = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+        const shipedTotal = productos.reduce((acc, prod) => acc + (prod.cantidad_embarcada || 0), 0);
 
-        totalGeneral += totalAmount;
+        totalSol += requestedTotal;
+        totalEmb += shipedTotal;
 
         tbody.innerHTML += 
         `<tr>
@@ -82,6 +85,9 @@ export async function renderShipmentsTable(partitionsParam = null) {
                 <p class="shipment-time-final">${partida.hora_realizada?.slice(0, 5) || "Pendiente"}</p>
             </td>
             <td class="shipment-client p-2">${partida.cliente}</td>
+            <td id="production-products-${partida.id_partida}" class="p-2">
+
+            </td>
             <td id="shipment-products-${partida.id_partida}" class="p-2">
 
             </td>
@@ -108,23 +114,39 @@ export async function renderShipmentsTable(partitionsParam = null) {
             </td>
         </tr>`;
 
-        // Insertar productos de esta partida
-        const container = document.getElementById(`shipment-products-${partida.id_partida}`);
-        container.innerHTML = '';
+        // Insertar productos solicitados de esta partida
+        const requestedContainer = document.getElementById(`production-products-${partida.id_partida}`);
+        requestedContainer.innerHTML = '';
 
         for (const producto of productos) {
-            container.innerHTML += 
+            requestedContainer.innerHTML += 
             `<p class="shipment-product">${producto.codigo} - <b> Cant. ${producto.cantidad_solicitada.toLocaleString('en-US')}</b></p>
             <p class="shipment-cant">${producto.producto}</p>
             <hr>`;
         };
+
+        // Insertar productos embarcados de esta partida
+        const shipedContainer = document.getElementById(`shipment-products-${partida.id_partida}`);
+        shipedContainer.innerHTML = '';
+
+        if (partida.embarque === "Cargado") {
+            for (const producto of productos) {
+                shipedContainer.innerHTML += 
+                `<p class="shipment-product">${producto.codigo} - <b> Cant. ${producto.cantidad_embarcada?.toLocaleString('en-US') || 0}</b></p>
+                <p class="shipment-cant">${producto.producto}</p>
+                <hr>`;
+            };
+        } else {
+            shipedContainer.innerHTML = `<p class="shipment-product">Sin embarcar</p>`;
+        }
     };
 
     // Agregar fila de total al final
     tbody.innerHTML += 
     `<tr class="table-active fw-bold">
         <td colspan="2" class="text-center">Tarimas Totales</td>
-        <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
+        <td class="p-2">${totalSol.toLocaleString('en-US')}</td>
+        <td class="p-2">${totalEmb.toLocaleString('en-US')}</td>
         <td colspan="6"></td>
     </tr>`;
 

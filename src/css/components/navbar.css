@@ -2,6 +2,7 @@
 /*--- Barra de relleno superior ---*/
 #top-bar {
     background-color: var(--primary);
+    color: var(--text-light) !important;
     height: 38.4px;
 }
 

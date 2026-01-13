@@ -1,7 +1,7 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
 import { updateOrder } from '../../services/orders-service.js';
-import { getOrderProducts, addOrderProducts } from '../../services/order-product-service.js';
+import { getOrderProducts, updateOrderProducts } from '../../services/order-product-service.js';
 import { getProducts } from '../../services/order-product-service.js';
 import { renderOrdersTable } from './orders-table.js'; 
 // Utilidades
@@ -101,7 +101,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
     try {
         await updateOrder(id_orden, updatedData);
-        await addOrderProducts(id_orden);
+        await updateOrderProducts(id_orden);
 
         form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
             e.classList.remove('is-valid', 'is-invalid');

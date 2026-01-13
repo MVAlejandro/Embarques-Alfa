@@ -28,12 +28,10 @@ export async function getOrderProducts(idOrder) {
     }));
 }
 
-// Función para asignar los productos a la orden
-export async function addOrderProducts(idOrder) {
+// Función para editar los productos asignados a la orden
+export async function updateOrderProducts(idOrder) {
     const productsItems = document.querySelectorAll('.product-item');
-    const productsData = [];
 
-    // Obtener los productos válidos
     for (const item of productsItems) {
         const select = item.querySelector('.product-select');
         const input = item.querySelector('.product-input');
@@ -46,32 +44,23 @@ export async function addOrderProducts(idOrder) {
             continue;
         }
 
-        productsData.push({
-            id_orden: idOrder,
-            id_producto,
-            cantidad_orden
-        });
+        // Intentar insertar y si ya existe actualizar
+        const { data, error } = await supabase
+            .from('emb_orden_producto')
+            .upsert(
+                {
+                    id_orden: idOrder,
+                    id_producto,
+                    cantidad_orden
+                },
+                { onConflict: ['id_orden', 'id_producto'] }
+            );
+
+        if (error) {
+            console.error('Error actualizando orden:', error);
+            throw error;
+        }
     }
-
-    // Primero eliminar productos existentes de la orden
-    const { error: deleteError } = await supabase
-        .from('emb_orden_producto')
-        .delete()
-        .eq('id_orden', idOrder);
-
-    if (deleteError) throw deleteError;
-
-    if (productsData.length === 0) {
-        console.warn("No hay productos para insertar");
-        return;
-    }
-
-    // Luego insertar productos nuevos
-    const { data, error: insertError } = await supabase
-        .from('emb_orden_producto')
-        .insert(productsData)
-
-    if (insertError) throw insertError;
 }
 
 // Función para obtener productos

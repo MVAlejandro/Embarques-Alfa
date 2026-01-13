@@ -1,5 +1,5 @@
 // Servicios Supabase
-import { getSession, getUserRole } from '../../services/login-service.js';
+import { getSession, getUserProfile } from '../../services/login-service.js';
 import { getPartitions } from '../../services/partitions-service.js'; 
 import { getPartitionProducts } from '../../services/partition-product-service.js'; 
 import { validateUserRole } from '../../utils/session-validate.js';
@@ -114,7 +114,7 @@ export async function renderProductionTable(partitionsParam = null) {
         if (!session) return;
         
         // Obtener el rol "admin", "colab", etc.
-        const rol = await getUserRole(session);
+        const rol = await getUserProfile(session);
         if (!rol) return;
     
         if (rol === 'vent') {

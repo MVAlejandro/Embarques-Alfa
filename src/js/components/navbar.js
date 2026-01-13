@@ -1,6 +1,8 @@
 import supabase from '../supabase/supabase-client'
+// Servicios supabase
+import { getSession, getUserProfile } from '../services/login-service';
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const bar = document.getElementById("top-bar");
     const navbar = document.getElementById("site-navbar");
     const footer = document.getElementById("site-footer");
@@ -9,10 +11,69 @@ document.addEventListener("DOMContentLoaded", () => {
     createBar(bar);
     createNavbar(navbar);
     createFooter(footer);
-
     // Marcar la pestaña activa en la navbar
     activePage();
+    // Mostrar mensaje dirigido al usuario
+    await showUserName();
 });
+
+function getRolName(rol) {
+    switch (rol) {
+        case 'admin': return 'Administrador';
+        case 'prod': return 'Producción';
+        case 'emb': return 'Embarques';
+        case 'vent': return 'Ventas';
+        case 'trans': return 'Transportes';
+        case 'fact': return 'Facturación';
+        case 'colab': return 'Colaborador';
+        case 'view': return 'Visualización';
+        default: return rol;
+    }
+}
+
+async function showUserName() {
+    try {
+        const session = await getSession();
+        if (!session) return;
+
+        const profile = await getUserProfile(session);
+        if (!profile) return;
+
+        const { rol, nombre, apellido } = profile;
+
+        const userInfoDiv = document.getElementById("user-info");
+        if (userInfoDiv) {
+            userInfoDiv.innerHTML = `
+                <span class="small">Hola, <strong>${nombre + " " + apellido[0]}</strong></span>
+                <span class="small">Rol: <strong>${getRolName(rol)}</strong></span>
+            `;
+        }
+
+    } catch (error) {
+        console.error('Error mostrando nombre de usuario:', error);
+    }
+}
+
+// Crear barra superior
+function createBar(bar) {
+    bar.insertAdjacentHTML(
+        "beforeend",
+        `<div class="logout d-flex justify-content-between">
+            <div id="user-info" class="d-flex align-items-end gap-3 ps-3">
+                
+            </div>
+            <button id="btn-logout" class="btn d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-left me-1" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z"/>
+                    <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                </svg>
+                Salir
+            </button>
+        </div>`
+    );
+
+    document.getElementById("btn-logout").addEventListener("click", logOut);
+}
 
 // Función para cerrar sesión con Supabase
 async function logOut() {
@@ -25,24 +86,6 @@ async function logOut() {
         console.error("Error inesperado al cerrar sesión:", error);
         window.location.href = "./login.html";
     }
-}
-
-// Crear barra superior
-function createBar(bar) {
-    bar.insertAdjacentHTML(
-        "beforeend",
-        `<div class="logout d-flex align-items-center justify-content-end">
-            <button id="btn-logout" class="btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z"/>
-                    <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
-                </svg>
-                <p class="small ps-2">Salir</p>
-            </button>
-        </div>`
-    );
-
-    document.getElementById("btn-logout").addEventListener("click", logOut);
 }
 
 // Crear navbar

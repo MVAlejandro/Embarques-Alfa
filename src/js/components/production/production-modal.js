@@ -1,15 +1,15 @@
 // Servicios Supabase
 import { updatePartition } from '../../services/partitions-service.js'; 
-import { getPartitionProducts, createPartitionProducts, updatePartitionProducts, getAllPartitionProductsByOrder } from '../../services/partition-product-service.js';
+import { getPartitionProducts, updatePartitionProducts, getAllPartitionProductsByOrder } from '../../services/partition-product-service.js';
 import { getOrderProducts } from '../../services/order-product-service.js';
 import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderProductionTable } from './production-table.js'; 
 import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
-import { textValidate, quantityValidate, inputValidate } from '../../utils/form-validations.js';
+import { textValidate, amountValidate, inputValidate } from '../../utils/form-validations.js';
 
 // Función para agregar campos de productos
-async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombre = '', cantidadValue = '', maxValue) {
+async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombre = '', cantidadValue = '', data) {
     const container = document.getElementById("partition-products-container");
     const index = container.children.length;
     // Colocar id único
@@ -23,7 +23,7 @@ async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombr
         <input type="text" id="${uniqueId}-producto" class="form-control product-code" placeholder="Producto" value="${productoCodigo} - ${productoNombre}" disabled>
         </div>
         <div class="col-5">
-            <input type="number" id="${uniqueId}-cantidad" class="form-control product-amount" placeholder="Cantidad" value="${cantidadValue}" data-max="${maxValue}" disabled data-vent-only>
+            <input type="number" id="${uniqueId}-cantidad" class="form-control product-amount" placeholder="Cantidad" value="${cantidadValue}" disabled ${data}>
             <p class="error invalid-feedback" id="${uniqueId}-cantidad-error" style="color: red;"></p>
         </div>`;
 
@@ -34,7 +34,7 @@ async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombr
 
     // Validar en tiempo real
     productoIn.addEventListener("input", () => {
-        quantityValidate(productoIn, productoError, maxValue);
+        amountValidate(productoIn, productoError);
     });
 }
 
@@ -55,20 +55,6 @@ export async function renderProductionEditModal(partida) {
     
     // Obtener los productos de la orden
     const orderProducts = await getOrderProducts(partida.id_orden);
-    // Obtener todas las partidas-producto de la orden
-    const partitionProducts = await getAllPartitionProductsByOrder(partida.id_orden);
-    // Crear mapa de lo que ya se asignó en otras partidas
-    const asignedProductsMap = {};
-
-    for (const row of partitionProducts) {
-        // Ignorar la partida actual
-        if (row.id_partida === partida.id_partida) continue;
-
-        const orderProductId = row.id_orden_producto;
-
-        if (!asignedProductsMap[orderProductId]) asignedProductsMap[orderProductId] = 0;
-        asignedProductsMap[orderProductId] += row.cantidad_solicitada;
-    }
 
     // Cargar lo asignado en la partida actual para rellenar inputs
     const currentPartitionProducts = await getPartitionProducts(partida.id_partida);
@@ -81,17 +67,11 @@ export async function renderProductionEditModal(partida) {
     // Mostrar productos en el modal
     for (const product of orderProducts) {
         const orderProductId = product.id_orden_producto;
-
-        const orderQuantity = product.cantidad_orden;
-        const otherPartitionQuantity = asignedProductsMap[orderProductId] || 0;
-        const currentPartitionQuantity = currentProductsMap[orderProductId] || 0;
-
-        const maxValue = orderQuantity - otherPartitionQuantity;
-
+        
         // Valor a mostrar
-        const visibleQuantity = currentPartitionQuantity || 0;
+        const visibleQuantity = currentProductsMap[orderProductId] || 0;
 
-        await addProductRow(orderProductId, product.codigo, product.producto, visibleQuantity, maxValue,);
+        await addProductRow(orderProductId, product.codigo, product.producto, visibleQuantity, "data-vent-only",);
     }
 
     validateUserRole()

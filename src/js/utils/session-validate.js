@@ -1,5 +1,5 @@
 // Servicios supabase
-import { getSession, getUserRole } from "../services/login-service";
+import { getSession, getUserProfile } from "../services/login-service";
 
 // Función para validar sesión con Supabase con expiración por tiempo
 async function validateAuth() {
@@ -60,8 +60,11 @@ export async function validateUserRole() {
         if (!session) return;
 
         // Obtener el rol "admin", "colab", etc.
-        const rol = await getUserRole(session);
-        if (!rol) return;
+        const profile = await getUserProfile(session);
+        if (!profile) return;
+
+        const { rol, nombre, apellido } = profile;
+        console.log(`Usuario: ${nombre} ${apellido} | Rol: ${rol}`);
 
         if (rol === 'admin') {
             // Mostrar todos los elementos ocultos

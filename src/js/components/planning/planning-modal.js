@@ -53,12 +53,35 @@ export async function renderShipmentsModal(partida) {
     // Insertar valores en los inputs
     document.getElementById('shipment-date').value = partida.fecha_programada;
     document.getElementById('shipment-time').value = partida.hora_programada.slice(0, 5);
-    document.getElementById('shipment-real-time').value = partida.hora_realizada.slice(0, 5) || "-";
+    document.getElementById('shipment-real-time').value = partida.hora_realizada != null ? partida.hora_realizada.slice(0, 5) : "-";
     document.getElementById('shipment-oc').value = partida.numero_orden;
     document.getElementById('shipment-status').value = partida.embarque;
     document.getElementById('shipment-remision').value = partida.numero_remision || "-";
     document.getElementById('shipment-destination').value = partida.destino || partida.ubicacion;
     document.getElementById('shipment-observations').value = partida.observaciones;
+
+    // Limpiar filas anteriores
+    const container = document.getElementById("shipment-products-container");
+    container.innerHTML = '';
+    const productos = await getPartitionProducts(partida.id_partida);
+
+    for (const producto of productos) {
+        const index = container.children.length;
+        const uniqueId = `product-${index}`;
+        const newProduct = document.createElement("div");
+        newProduct.className = "row ms-2 me-2 pt-2 pb-2 product-item";
+        newProduct.innerHTML += 
+        `<div class="col-7">
+        <input type="text" id="${uniqueId}-producto" class="form-control" value="${producto.codigo} - ${producto.producto}" disabled>
+        </div>
+        <div class="col-5 pb-1">
+            <input type="text" id="${uniqueId}-cantidad_solicitada" class="form-control" value="${producto.cantidad_solicitada || 0} Solicitado" disabled>
+        </div>
+        <div class="col-5 ms-auto pt-1">
+            <input type="text" id="${uniqueId}-cantidad_embarcada" class="form-control" value="${producto.cantidad_embarcada || 0} Embarcado" disabled>
+        </div>`;
+        container.appendChild(newProduct);
+    };
 }
 
 // Función para cargar datos de facturación en el modal

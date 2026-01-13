@@ -59,7 +59,7 @@ export async function renderTransportTable(partitionsParam = null) {
             transporStatusClass = 'greenD';
         } else {
             transporStatusClass = 'red';
-        } 
+        }
 
         // Determinar distancia, costo, combustible y tag
         if (partida.distancia) {
