@@ -1,0 +1,30 @@
+/* Estilos de la página y estructura */
+#suppliers-header {
+    margin-top: 0;
+}
+
+#suppliers-header-container {
+    background-color: var(--background-light) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#suppliers-form-container, #suppliers-filter-container, .table-responsive, #suppliers-pages-container {
+    background-color: var(--background-light) !important;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+th {
+    color: var(--secondary) !important;
+}
+
+/* Estilos de texto para la tabla */
+.supplier-rfc, .supplier-phone, .supplier-cp, #suppliers-pages-results {
+    font-size: 13px;
+    color: var(--secondary) !important;
+}
+
+.supplier-email {
+    color: var(--table-blue-dark);
+    text-decoration: underline;
+}

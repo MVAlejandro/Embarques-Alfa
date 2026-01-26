@@ -7,7 +7,7 @@ import { validateUserRole } from '../../utils/session-validate.js';
 let allPartitions = [];
 
 // Función para crear la tabla y la paginación
-export async function renderProductionTable(partitionsParam = null) {
+export async function renderPartitionsTable(partitionsParam = null) {
     // Obtener partidas si no se pasa una lista filtrada
     if (partitionsParam) {
         allPartitions = partitionsParam;
@@ -22,7 +22,7 @@ export async function renderProductionTable(partitionsParam = null) {
         return dateA - dateB;
     });
     
-    const tbody = document.querySelector('#production-table tbody');
+    const tbody = document.querySelector('#partitions-table tbody');
     const weekText = document.getElementById('weekHeader');
     // Limpiar elementos antes de insertar
     weekText.innerHTML = "Semana 0";
@@ -38,22 +38,6 @@ export async function renderProductionTable(partitionsParam = null) {
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
     
     for (const partida of allPartitions) {
-        // Determinar clase CSS para el estatus
-        let statusClass = '';
-        if (partida.planta == 'En proceso') {
-            statusClass = 'yellow';
-        } else if (partida.planta == 'PT parcial') {
-            statusClass = 'greenL';
-        } else if (partida.planta == 'En secado') {
-            statusClass = 'blue';
-        } else if (partida.planta == 'Terminado') {
-            statusClass = 'greenD';
-        } else if (partida.planta == 'Cancelado') {
-            statusClass = 'red';
-        } else {
-            statusClass = 'grey';
-        }
-
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
         // Calcular total de cantidades
@@ -64,18 +48,15 @@ export async function renderProductionTable(partitionsParam = null) {
         tbody.innerHTML += 
         `<tr>
             <td class="p-2 ps-4">
-                <p class="production-date fw-bold">${partida.fecha_programada}</p>
-                <p class="production-time">${partida.hora_programada.slice(0, 5)}</p>
+                <p class="partition-date fw-bold">${partida.fecha_programada}</p>
+                <p class="partition-time">${partida.hora_programada.slice(0, 5)}</p>
             </td>
-            <td class="production-client p-2">${partida.cliente}</td>
-            <td id="production-products-${partida.id_partida}" class="p-2">
+            <td class="partition-client p-2">${partida.cliente}</td>
+            <td id="partition-products-${partida.id_partida}" class="p-2">
 
             </td>
-            <td class="text-center p-2">
-                <p class="production-status ${statusClass}">${partida.planta}</p>
-            </td>
-            <td class="production-observations p-2">${partida.observaciones}</td>
-            <td class="production-control text-center d-none" data-vent-only data-prod-only>
+            <td class="partition-destination p-2">${partida.destino || partida.ubicacion}</td>
+            <td class="partition-control text-center d-none" data-vent-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
@@ -87,13 +68,13 @@ export async function renderProductionTable(partitionsParam = null) {
         </tr>`;
 
         // Insertar productos de esta partida
-        const container = document.getElementById(`production-products-${partida.id_partida}`);
+        const container = document.getElementById(`partition-products-${partida.id_partida}`);
         container.innerHTML = '';
 
         for (const producto of productos) {
             container.innerHTML += 
-            `<p class="production-product">${producto.codigo} - <b> Cant. ${producto.cantidad_solicitada.toLocaleString('en-US')}</b></p>
-            <p class="production-cant">${producto.producto}</p>
+            `<p class="partition-product">${producto.codigo} - <b> Cant. ${producto.cantidad_solicitada.toLocaleString('en-US')}</b></p>
+            <p class="partition-cant">${producto.producto}</p>
             <hr>`;
         };
     };
@@ -107,4 +88,24 @@ export async function renderProductionTable(partitionsParam = null) {
     </tr>`;
 
     validateUserRole()
+
+    try {
+        // Si no hay sesión, no hacer nada
+        const session = await getSession();
+        if (!session) return;
+        
+        // Obtener el rol "admin", "colab", etc.
+        const rol = await getUserProfile(session);
+        if (!rol) return;
+    
+        if (rol === 'vent') {
+            // Habilitar todos los botones desactivados
+            document.querySelectorAll('button:disabled').forEach(el => {
+                el.disabled = false;
+            });
+        } 
+        
+    } catch (error) {
+        console.error('Error validando rol del usuario:', error);
+    }
 }

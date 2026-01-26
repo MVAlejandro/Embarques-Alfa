@@ -102,14 +102,38 @@ function createNavbar(navbar) {
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./clients.html">Clientes</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./units.html">Unidades</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./orders.html">Contratos</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./production.html">Plan semanal</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./transport.html">Transportes</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./shipments.html">Embarques</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./bills.html">Facturación</a></li>
-                    <li class="nav-item ms-2 me-2"><a class="nav-link nav-prin" href="./planning.html">General</a></li>
+                    <li class="nav-item ms-2 me-2 dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Ventas
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item nav-link ps-4" href="./clients.html">Clientes</a></li>
+                            <li><a class="dropdown-item nav-link ps-4" href="./orders.html">Contratos</a></li>
+                            <li><a class="dropdown-item nav-link ps-4" href="./partitions.html">Partidas</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item ms-2 me-2 dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Compras
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item nav-link ps-4" href="./suppliers.html">Proveedores</a></li>
+                            <li><a class="dropdown-item nav-link ps-4" href="./recolections.html">Recolecciones</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item ms-2 me-2 dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Transportes
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item nav-link ps-4" href="./units.html">Unidades</a></li>
+                            <li><a class="dropdown-item nav-link ps-4" href="./transport.html">Planeación</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link" href="./production.html">Producción</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link" href="./shipments.html">Embarques</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link" href="./bills.html">Facturación</a></li>
+                    <li class="nav-item ms-2 me-2"><a class="nav-link" href="./planning.html">General</a></li>
                 </ul>
             </div>
             <svg id="nav-fill" xmlns="http://www.w3.org/2000/svg" width="62" height="62" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">

@@ -3,40 +3,11 @@
     display: none !important;
 }
 
-/* Banner principal */
-#banner {
-    position: relative;
-    background-image: url('/assets/images/index-background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 500px;
-    color: var(--text-light); 
-    z-index: 0;
-    margin-top: 0;
-}
-
-#banner::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1;
-}
-
-#banner > * {
-  position: relative;
-  z-index: 2;
-}
-
-#banner-title {
-  font-size: 3rem;
-  font-weight: bold;
-  letter-spacing: 2px;
-  animation: fadeInUp 1s ease-in-out;
+/* Estilos del encabezado */
+#index-title {
+    font-weight: bold;
+    margin: 1.3rem 0rem 1.3rem 0rem;
+    animation: fadeInUp 1s ease-in-out;
 }
 
 @keyframes fadeInUp {
@@ -93,6 +64,23 @@ a {
 
 .card:hover {
     transform: translateY(-5px);
+}
+
+/* Cards de sección de pendientes */
+.resume-card {
+    box-shadow: -5px 0px var(--primary);
+}
+
+.general-report-cant {
+    font-size: 30px;
+    font-weight: bold;
+    padding-top: 0px;
+}
+
+@media (max-width: 768px) {
+    #tickets-resume {
+        padding-top: 0px !important;
+    }
 }
 
 /* Cards de sección de accesos directos */

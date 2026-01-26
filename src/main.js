@@ -11,9 +11,9 @@ import './js/components/navbar.js';
 
 // Servicios Supabase
 import { initPage } from './js/utils/session-validate.js';
-import { renderTable } from './js/components/index/index-content.js';
+import { createResume } from './js/components/index/index-content.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initPage()
-    renderTable()
+    createResume()
 })

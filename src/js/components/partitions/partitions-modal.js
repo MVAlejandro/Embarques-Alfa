@@ -1,9 +1,9 @@
 // Servicios Supabase
 import { updatePartition } from '../../services/partitions-service.js'; 
-import { getPartitionProducts } from '../../services/partition-product-service.js';
+import { getPartitionProducts, updatePartitionProducts } from '../../services/partition-product-service.js';
 import { getOrderProducts } from '../../services/order-product-service.js';
 import { planningFilter } from '../../utils/planning-filters.js'; 
-import { renderProductionTable } from './production-table.js'; 
+import { renderPartitionsTable } from './partitions-table.js'; 
 import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
 import { textValidate, amountValidate, inputValidate } from '../../utils/form-validations.js';
@@ -39,13 +39,13 @@ async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombr
 }
 
 // Función para cargar datos en el modal
-export async function renderProductionEditModal(partida) {
+export async function renderPartitionsEditModal(partida) {
     // Insertar valores en los inputs
     document.getElementById('edit-id-partition').value = partida.id_partida;
+    document.getElementById('edit-status').value = partida.planta;
     document.getElementById('edit-date').value = partida.fecha_programada;
     document.getElementById('edit-oc').value = partida.numero_orden;
     document.getElementById('edit-contract').value = partida.numero_contrato;
-    document.getElementById('edit-status').value = partida.planta;
     document.getElementById('edit-destination').value = partida.destino || partida.ubicacion;
     document.getElementById('edit-observations').value = partida.observaciones;
 
@@ -80,19 +80,16 @@ export async function renderProductionEditModal(partida) {
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     // Referencias para actualizar información
+    const dateIn = document.getElementById('edit-date');
     const statusIn = document.getElementById('edit-status');
+    const destinationIn = document.getElementById('edit-destination');
     const observationsIn = document.getElementById('edit-observations');
 
-    const statusError = document.getElementById('error-editStatus');
+    const destinationError = document.getElementById('error-editDestination');
     const observationsError = document.getElementById('error-editObservations');
 
-    if (statusIn.value === 'Pendiente') {
-        statusIn.classList.add('is-invalid');
-        statusError.textContent = 'Se debe seleccionar una opción';
-        return
-    }
-
     // Validaciones
+    textValidate(destinationIn, destinationError)
     textValidate(observationsIn, observationsError)
 
     const campos = document.querySelectorAll('input')
@@ -103,27 +100,27 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
     const id_partida = document.getElementById('edit-id-partition').value;
     const updatedData = { 
-        planta: statusIn.value,
+        fecha_programada: dateIn.value,
+        destino: destinationIn.value,
         observaciones: observationsIn.value
     };
 
-    if (statusIn.value === 'Cancelado') {
-        updatedData.facturacion = 'Cancelado';
-        updatedData.embarque = 'Cancelado';
-        updatedData.transporte = 'Cancelado';
+    if (statusIn.value === 'Pendiente') {
+        updatedData.planta = 'Planeado';
     }
 
     try {
         await updatePartition(id_partida, updatedData);
+        await updatePartitionProducts(id_partida);
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
-        alert('Estado de producción actualizado correctamente.');
+        alert('Estado de la partida actualizado correctamente.');
 
         // Recarga la tabla con los datos actualizados
-        planningFilter(renderProductionTable);
+        planningFilter(renderPartitionsTable);
     } catch (err) {
         console.error('Error al actualizar partida:', err);
-        alert('Ocurrió un error al actualizar la producción.');
+        alert('Ocurrió un error al actualizar la partida.');
     }
 });

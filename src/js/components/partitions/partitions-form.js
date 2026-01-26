@@ -3,7 +3,7 @@ import supabase from '../../supabase/supabase-client.js'
 import { getActiveOrders } from '../../services/orders-service.js';
 import { createPartition } from '../../services/partitions-service.js'; 
 import { initPageFilters } from '../../utils/planning-filters.js'; 
-import { renderProductionTable } from './production-table.js'; 
+import { renderPartitionsTable } from '../partitions/partitions-table.js'; 
 // Utilidades
 import { loadOptionsFilter } from '../../utils/load-select.js';
 import { textValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
@@ -99,7 +99,7 @@ export async function addPartition(event) {
         });
     
         // Recarga la tabla con los datos actualizados
-        initPageFilters(renderProductionTable, "planta");
+        initPageFilters(renderPartitionsTable, "planta");
     } catch (err) {
         console.error('Error al agregar partida:', err);
         alert('Ocurrió un error al agregar la partida.');

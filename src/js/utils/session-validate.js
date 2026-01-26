@@ -64,7 +64,7 @@ export async function validateUserRole() {
         if (!profile) return;
 
         const { rol, nombre, apellido } = profile;
-        console.log(`Usuario: ${nombre} ${apellido} | Rol: ${rol}`);
+        // console.log(`Usuario: ${nombre} ${apellido} | Rol: ${rol}`);
 
         if (rol === 'admin') {
             // Mostrar todos los elementos ocultos

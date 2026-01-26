@@ -21,9 +21,65 @@
 
     <!-- CONTENEDOR PRINCIPAL -->
     <main>
-        <section id="banner" class="mb-5">
-            <div class="text-center">
-                <h1 id="banner-title">Programa de Embarques</h1>
+        <header>
+            <div class="container">
+                <h3 id="index-title">Programa de Embarques</h3>
+            </div>
+        </header>
+
+        <!-- SECCIÓN DE RESUMEN -->
+        <section id="partitions-resume" class="pt-2">
+            <div class="container">
+                <div id="partitions-resume-container" class="row">
+                    <div class="col-md-4">
+                        <div class="card resume-card mt-2">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="icon-circle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16">
+                                        <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+                                    </svg>
+                                </div>
+                                <div class="card-text ms-3">
+                                    <p>Partidas totales</p>
+                                    <p id="partitions-text" class="general-report-cant text-muted">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card resume-card mt-2">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="icon-circle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                                    </svg>
+                                </div>
+                                <div class="card-text ms-3">
+                                    <p>Partidas completadas</p>
+                                    <p id="finished-text" class="general-report-cant text-muted">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card resume-card mt-2">
+                            <div class="card-body d-flex align-items-center">
+                                <div class="icon-circle">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-mailbox-flag" viewBox="0 0 16 16">
+                                        <path d="M10.5 8.5V3.707l.854-.853A.5.5 0 0 0 11.5 2.5v-2A.5.5 0 0 0 11 0H9.5a.5.5 0 0 0-.5.5v8zM5 7c0 .334-.164.264-.415.157C4.42 7.087 4.218 7 4 7s-.42.086-.585.157C3.164 7.264 3 7.334 3 7a1 1 0 0 1 2 0"/>
+                                        <path d="M4 3h4v1H6.646A4 4 0 0 1 8 7v6h7V7a3 3 0 0 0-3-3V3a4 4 0 0 1 4 4v6a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V7a4 4 0 0 1 4-4m0 1a3 3 0 0 0-3 3v6h6V7a3 3 0 0 0-3-3"/>
+                                    </svg>
+                                </div>
+                                <div class="card-text ms-3">
+                                    <p>Partidas entregadas</p>
+                                    <p id="delivered-text" class="general-report-cant text-muted">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
             </div>
         </section>
 
@@ -32,7 +88,7 @@
             <div id="planning-container" class="container pt-3">
                 <div class="row ps-3 pe-3 pb-3">
                     <div class="col-6 col-md-9 col-lg-10">
-                        <h4><a href="./planning.html">Resúmen de partidas</a></h4>
+                        <h4><a href="./planning.html">Partidas de hoy</a></h4>
                     </div>
                     <!-- Filtro de semana -->
                     <div class="col-6 col-md-3 col-lg-2 d-flex justify-content-end">
@@ -77,6 +133,16 @@
                             <p class="fw-bold">Gestionar clientes</p>
                         </div>
                     </a>
+                    <a href="./suppliers.html" class="card access-card mt-3 text-decoration-none">
+                        <div id="client-access" class="card-body d-flex align-items-center">
+                            <div class="icon-square me-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
+                                    <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
+                                </svg>
+                            </div>
+                            <p class="fw-bold">Gestionar proveedores</p>
+                        </div>
+                    </a>
                     <a href="./units.html" class="card access-card mt-2 text-decoration-none">
                         <div id="order-access" class="card-body d-flex align-items-center">
                             <div class="icon-square me-3">
@@ -105,7 +171,18 @@
                                     <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z"/>
                                 </svg>
                             </div>
-                            <p class="fw-bold">Gestionar plan semanal</p>
+                            <p class="fw-bold">Gestionar partidas</p>
+                        </div>
+                    </a>
+                    <a href="./recolections.html" class="card access-card mt-2 text-decoration-none">
+                        <div id="ship-access" class="card-body d-flex align-items-center">
+                            <div class="icon-square me-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pin-map" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z"/>
+                                    <path fill-rule="evenodd" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
+                                </svg>
+                            </div>
+                            <p class="fw-bold">Gestionar recolecciones</p>
                         </div>
                     </a>
                     <a href="./transport.html" class="card access-card mt-2 text-decoration-none">

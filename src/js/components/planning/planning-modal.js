@@ -59,29 +59,6 @@ export async function renderShipmentsModal(partida) {
     document.getElementById('shipment-remision').value = partida.numero_remision || "-";
     document.getElementById('shipment-destination').value = partida.destino || partida.ubicacion;
     document.getElementById('shipment-observations').value = partida.observaciones;
-
-    // Limpiar filas anteriores
-    const container = document.getElementById("shipment-products-container");
-    container.innerHTML = '';
-    const productos = await getPartitionProducts(partida.id_partida);
-
-    for (const producto of productos) {
-        const index = container.children.length;
-        const uniqueId = `product-${index}`;
-        const newProduct = document.createElement("div");
-        newProduct.className = "row ms-2 me-2 pt-2 pb-2 product-item";
-        newProduct.innerHTML += 
-        `<div class="col-7">
-        <input type="text" id="${uniqueId}-producto" class="form-control" value="${producto.codigo} - ${producto.producto}" disabled>
-        </div>
-        <div class="col-5 pb-1">
-            <input type="text" id="${uniqueId}-cantidad_solicitada" class="form-control" value="${producto.cantidad_solicitada || 0} Solicitado" disabled>
-        </div>
-        <div class="col-5 ms-auto pt-1">
-            <input type="text" id="${uniqueId}-cantidad_embarcada" class="form-control" value="${producto.cantidad_embarcada || 0} Embarcado" disabled>
-        </div>`;
-        container.appendChild(newProduct);
-    };
 }
 
 // Función para cargar datos de facturación en el modal

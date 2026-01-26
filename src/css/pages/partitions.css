@@ -1,0 +1,46 @@
+
+/* Estilos de la página y estructura */
+#partitions-header {
+    margin-top: 0;
+}
+
+#partitions-header-container {
+    background-color: var(--background-light) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#partitions-form-container, #partitions-filter-container, .table-responsive {
+    background-color: var(--background-light) !important;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.week-buttons {
+    border: none;
+    padding: 0px;
+}
+
+th {
+    color: var(--secondary) !important;
+}
+
+input:disabled {
+    background-color: var(--background-light) !important;
+    color: var(--primary-dark) !important;
+}
+
+@media (min-width: 500px) and (max-width: 768px) {
+    #filter-btn {
+        margin-top: 1rem;
+    }
+}
+
+/* Estilos de texto para la tabla */
+.partition-time, .partition-cant {
+    font-size: 13px;
+    color: var(--secondary) !important;
+}
+
+.btn-update {
+    padding: 4px 8px 4px 8px;
+}

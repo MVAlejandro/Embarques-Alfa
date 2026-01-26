@@ -2,9 +2,9 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="./favicon.png" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Programa de Embarques - Pallets Alfa</title>
+    <title>Programa de Recolecciones - Pallets Alfa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
@@ -23,26 +23,38 @@
     <!-- CONTENEDOR PRINCIPAL -->
      <main>
         <!-- SECCIÓN DEL ENCABEZADO -->
-        <section id="shipments-header">
-            <div id="shipments-header-container" class="container-fluid p-3">
+        <section id="recolections-header">
+            <div id="recolections-header-container" class="container-fluid p-3">
                 <div class="row">
-                    <div class="col d-flex align-items-center">
+                    <div class="col-8 col-md-9 col-lg-10 d-flex align-items-center">
                         <div class="icon-square ms-3 me-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-clipboard2-data" viewBox="0 0 16 16">
-                                <path d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5z"/>
-                                <path d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5z"/>
-                                <path d="M10 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm4-3a1 1 0 0 0-1 1v3a1 1 0 1 0 2 0V9a1 1 0 0 0-1-1"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pin-map" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8z"/>
+                                <path fill-rule="evenodd" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z"/>
                             </svg>
                         </div>
-                        <h4 class="fw-bold">Planeación de Embarques</h4>
+                        <h4 class="fw-bold">Planeación de Recolecciones</h4>
+                    </div>
+                    <div class="col-4 col-md-3 col-lg-2 d-flex align-items-center">
+                        <button id="btn-add-recolection" class="btn btn-primary d-flex align-items-center d-none" data-comp-only>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                            </svg>
+                            <p class="ps-1">Nueva Recolección</p>
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- SECCIÓN DE FORMULARIO PARA AGREGAR REGISTRO -->
+        <section id="recolections-form">
+            
+        </section>
+
         <!-- SECCIÓN DE FILTROS -->
-        <section id="shipments-filter pt-3 pb-3">
-            <div id="shipments-filter-container" class="container pt-4 pb-3">
+        <section id="recolections-filter pt-3 pb-3">
+            <div id="recolections-filter-container" class="container pt-4 pb-3">
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <h5 id="weekHeader">Semana -</h5>
                 </div>
@@ -70,20 +82,17 @@
         </section>
 
         <!-- SECCIÓN DE REGISTROS -->
-        <section id="shipments-register" class="pb-4">
-            <div id="shipments-table-container" class="container table-responsive p-0">
-                <table id="shipments-table" class="table table-hover">
+        <section id="recolections-register" class="pb-4">
+            <div id="recolections-table-container" class="container table-responsive p-0">
+                <table id="recolections-table" class="table table-hover">
                     <thead>
                         <tr class="table-light">
-                            <th class="p-3 ps-4">DÍA</th>
-                            <th class="p-3 ps-2">CLIENTE</th>
-                            <th class="p-3 ps-2">SOLICITADO</th>
-                            <th class="p-3 ps-2">DESTINO</th>
-                            <th class="text-center p-3">PLANTA</th>
-                            <th class="text-center p-3">EMBARQUE</th>
-                            <th class="p-3 ps-2">UNIDAD</th>
-                            <th class="p-3 ps-2">OBSERVACIONES</th>
-                            <th class="text-center p-3 d-none" data-prod-only>ACCIONES</th>
+                            <th class="p-3 ps-4">FECHA</th>
+                            <th class="p-3 ps-2">PROVEEDOR</th>
+                            <th class="p-3 ps-2">CLAVE</th>
+                            <th class="text-center p-3">ESTADO</th>
+                            <th class="p-3 ps-2">UBICACIÓN</th>
+                            <th class="text-center p-3 d-none" data-comp-only>ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,66 +116,68 @@
                                     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
                                 </svg>
                             </div>
-                            <h5 class="modal-title" id="edit-modalLabel">Actualizar orden de compra</h5>
+                            <h5 class="modal-title" id="edit-modalLabel">Actualizar estado de recolección</h5>
                         </div>
                     </div>
                     <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <form id="shipment-edit-form">
-                            <input type="hidden" id="edit-id-partition">
+                        <form id="recolections-edit-form">
+                            <input type="hidden" id="edit-id-recolection">
                             <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-4 col-lg-3 label-over-border">
+                                <div class="col-md-6 col-lg-3 ms-auto label-over-border">
                                     <label for="edit-date" class="form-label m-2">Fecha</label>
-                                    <input type="date" class="form-control" id="edit-date" disabled>
-                                </div>
-                                <div class="col-md-4 col-lg-3 ms-auto label-over-border">
-                                    <label for="edit-time" class="form-label m-2">Hora planeada</label>
-                                    <input type="time" class="form-control" id="edit-time" disabled>
-                                </div>
-                                <div class="col-md-4 col-lg-3 label-over-border">
-                                    <label for="edit-real-time" class="form-label m-2">Hora programada</label>
-                                    <input type="time" class="form-control" id="edit-real-time">
-                                    <p class="error invalid-feedback" id="error-editHour" style="color: red;"></p>
+                                    <input type="date" class="form-control" id="edit-date" disabled data-vent-only>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-6 label-over-border">
+                                <div class="col-md-12 col-lg-6 label-over-border">
+                                    <label for="edit-destination" class="form-label m-2">Destino</label>
+                                    <input type="text" class="form-control" id="edit-destination" disabled data-vent-only>
+                                    <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-6 col-lg-3 label-over-border filter">
                                     <label for="edit-oc" class="form-label m-2">Orden de compra</label>
                                     <input type="text" class="form-control" id="edit-oc" disabled>
                                 </div>
+                                <div class="col-md-6 col-lg-3 label-over-border filter">
+                                    <label for="edit-contract" class="form-label m-2">Contrato</label>
+                                    <input type="text" class="form-control" id="edit-contract" disabled>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-6 label-over-border">
                                     <label for="edit-status" class="form-label m-2">Estado</label>
                                     <select id="edit-status" class="form-select" aria-label="Default select example">
-                                        <option value="Planeado">Seleccione...</option>
-                                        <option value="En preparación">En preparación</option>
-                                        <option value="Proceso de carga">Proceso de carga</option>
-                                        <option value="Cargado">Cargado</option>
+                                        <option value="Pendiente">Seleccione...</option>
+                                        <option value="Planeado">Planeado</option>
+                                        <option value="En proceso">En proceso</option>
+                                        <option value="PT parcial">PT parcial</option>
+                                        <option value="En secado">En secado</option>
+                                        <option value="Terminado">Terminado</option>
+                                        <option value="Cancelado">Cancelado</option>
+                                        <option value="Reprogramado">Reprogramado</option>
                                     </select>
                                     <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
                                 </div>
-                            </div>
-                            <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-6 label-over-border">
-                                    <label for="edit-remision" class="form-label m-2">Número de remisión</label>
-                                    <input type="text" class="form-control" id="edit-remision" placeholder="000000">
-                                    <p class="error invalid-feedback" id="error-editRemision" style="color: red;"></p>
-                                </div>
-                                <div class="col-md-6 label-over-border">
-                                    <label for="edit-destination" class="form-label m-2">Destino</label>
-                                    <input type="text" class="form-control" id="edit-destination" disabled>
-                                    <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
-                                </div>
-                            </div>
-                            <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col label-over-border">
                                     <label for="edit-observations" class="form-label m-2">Observaciones</label>
-                                    <input type="text" class="form-control" id="edit-observations">
+                                    <input type="text" class="form-control" id="edit-observations" disabled data-vent-only>
                                     <p class="error invalid-feedback" id="error-editObservations" style="color: red;"></p>
                                 </div>
                             </div>
                         </form>
+                        <div id="recolection-products">
+                            <div class="row ms-2 me-2 pt-2 pb-2">
+                                <div class="col d-flex align-items-center">
+                                    <p class="fw-bold">Productos asignados</p>
+                                </div>
+                            </div>
+                            <div id="recolection-products-container" class="mb-4">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer me-4">
@@ -185,6 +196,6 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script type="module" src="/src/js/pages/shipments.js"></script>
+    <script type="module" src="/src/js/pages/recolections.js"></script>
 </body>
 </html>
