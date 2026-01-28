@@ -86,18 +86,23 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const statusError = document.getElementById('error-editStatus');
     const observationsError = document.getElementById('error-editObservations');
 
-    if (statusIn.value === 'Pendiente') {
-        statusIn.classList.add('is-invalid');
-        statusError.textContent = 'Se debe seleccionar una opción';
-        return
-    }
-
     // Validaciones
     textValidate(observationsIn, observationsError)
 
     const campos = document.querySelectorAll('input')
     if (!inputValidate(campos)) {
-        alert('Corrige los errores antes de guardar.')
+        Swal.fire({
+            title: 'Atención',
+            text: 'Corrige los errores antes de guardar.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
+        return
+    }
+    
+    if (statusIn.value === 'Pendiente') {
+        statusIn.classList.add('is-invalid');
+        statusError.textContent = 'Se debe seleccionar una opción';
         return
     }
 
@@ -118,12 +123,21 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
-        alert('Estado de producción actualizado correctamente.');
+        Swal.fire({
+            title: 'Estado de producción actualizado correctamente.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
 
         // Recarga la tabla con los datos actualizados
         planningFilter(renderProductionTable);
     } catch (err) {
         console.error('Error al actualizar partida:', err);
-        alert('Ocurrió un error al actualizar la producción.');
+        Swal.fire({
+            title: 'Oops...',
+            text: 'Ocurrió un error al actualizar la producción.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     }
 });

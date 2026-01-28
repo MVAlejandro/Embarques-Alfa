@@ -1,16 +1,15 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
-import { getActiveOrders } from '../../services/orders-service.js';
-import { createPartition } from '../../services/partitions-service.js'; 
-import { initPageFilters } from '../../utils/planning-filters.js'; 
-import { renderPartitionsTable } from '../partitions/partitions-table.js'; 
+import { getSuppliers } from '../../services/suppliers-service.js'; 
+import { createRecolection } from '../../services/recolections-service.js'; 
+import { recolectionsFilter } from './recolections-filter.js'; 
 // Utilidades
 import { loadOptionsFilter } from '../../utils/load-select.js';
 import { textValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
 
-// Cargar las órdenes en el formulario al iniciar la página
+// Cargar los proveedores en el formulario al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
-    loadOptionsFilter('contrato', getActiveOrders, ['numero_contrato', 'cliente'], 'id_orden', 'Seleccione...')
+    loadOptionsFilter('proveedor', getSuppliers, 'nombre', 'id_proveedor', 'Seleccione...')
 })
 
 // Función para calcular y asignar semana y año
@@ -26,8 +25,8 @@ function getWeekAndYear(date = new Date()) {
     return { semana: week, anio: d.getUTCFullYear() };
 }
 
-// Función para agregar orden de forma manual
-export async function addPartition(event) {
+// Función para agregar una recolección
+export async function addRecolection(event) {
     event.preventDefault()
 
     // Capturar el botón que disparó el evento
@@ -37,22 +36,22 @@ export async function addPartition(event) {
         btn.innerHTML = 'Subiendo...';
     }
 
-    const form = document.getElementById('form-partition');
+    const form = document.getElementById('form-recolection');
     // Referencias para validación
-    const id_ordenIn = document.getElementById("contrato");
+    const id_proveedorIn = document.getElementById("proveedor");
     const fecha_programadaIn = document.getElementById("fecha_programada");
     const hora_programadaIn = document.getElementById("hora_programada");
     const destinoIn = document.getElementById("destino");
     const observacionesIn = document.getElementById("observaciones");
     // Referencias para errores
-    const id_ordenError = document.getElementById('contrato-error');
+    const id_proveedorError = document.getElementById('proveedor-error');
     const fecha_programadaError = document.getElementById('fecha_programada-error');
     const hora_programadaError = document.getElementById('hora_programada-error');
     const destinoError = document.getElementById('destino-error');
     const observacionesError = document.getElementById('observaciones-error');
 
     // Validaciones
-    selectValidate(id_ordenIn, id_ordenError)
+    selectValidate(id_proveedorIn, id_proveedorError)
     textValidate(observacionesIn, observacionesError)
 
     const campos = form.querySelectorAll('input, select')
@@ -85,8 +84,8 @@ export async function addPartition(event) {
     const { semana, anio } = getWeekAndYear(fechaDate);
 
     // Guardar valores
-    const newPartitionData = {
-        id_orden: id_ordenIn.value,
+    const newRecolectionData = {
+        id_proveedor: id_proveedorIn.value,
         hora_programada: hora_programadaIn.value,
         fecha_programada: fechaDate.toISOString().split('T')[0],
         semana,
@@ -96,9 +95,9 @@ export async function addPartition(event) {
     };
 
     try {
-        await createPartition(newPartitionData);
+        await createRecolection(newRecolectionData);
         Swal.fire({
-            title: 'Partida agregada con éxito.',
+            title: 'Recolección agregada con éxito.',
             icon: 'success',
             confirmButtonText: 'OK'
         });
@@ -108,12 +107,12 @@ export async function addPartition(event) {
         });
     
         // Recarga la tabla con los datos actualizados
-        initPageFilters(renderPartitionsTable, "planta");
+        recolectionsFilter();
     } catch (err) {
-        console.error('Error al agregar partida:', err);
+        console.error('Error al agregar recolección:', err);
         Swal.fire({
             title: 'Oops...',
-            text: 'Ocurrió un error al agregar la partida.',
+            text: 'Ocurrió un error al agregar la recolección.',
             icon: 'error',
             confirmButtonText: 'OK'
         });

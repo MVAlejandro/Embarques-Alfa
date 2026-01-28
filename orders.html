@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Órdenes de compra - Pallets Alfa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
 
@@ -165,13 +166,11 @@
                                 </div>
                                 <div class="col-md-6 col-lg-3 label-over-border filter">
                                     <label for="edit-oc" class="form-label m-2">Orden de compra</label>
-                                    <input type="text" class="form-control" id="edit-oc">
-                                    <p class="error invalid-feedback" id="error-editOc" style="color: red;"></p>
+                                    <input type="text" class="form-control" id="edit-oc" disabled>
                                 </div>
                                 <div class="col-md-6 col-lg-3 label-over-border filter">
                                     <label for="edit-contract" class="form-label m-2">Contrato</label>
-                                    <input type="text" class="form-control" id="edit-contract">
-                                    <p class="error invalid-feedback" id="error-editContract" style="color: red;"></p>
+                                    <input type="text" class="form-control" id="edit-contract" disabled>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
@@ -216,6 +215,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="/src/js/pages/orders.js"></script>
 </body>
 </html>

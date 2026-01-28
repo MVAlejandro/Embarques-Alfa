@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <h5>Registrar Nueva Unidad</h5>
                 </div>
-                <div class="col d-flex justify-content-end controls btn-group me-3 mb-3">
+                <div class="col d-flex justify-content-end controls btn-group me-3 mb-3 d-none" data-admin-only>
                     <div class="nav nav-pills" id="ganttTabs" role="tablist">
                         <button id="manual-tab" class="nav-link tab-btn active" data-bs-toggle="pill" data-bs-target="#tab-form-manual" type="button" role="tab">Manual</button>
                         <button id="excel-tab" class="nav-link tab-btn d-none" data-bs-toggle="pill" data-bs-target="#tab-form-excel" type="button" role="tab">Excel</button>

@@ -1,30 +1,29 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById('partitions-form');
+    const container = document.getElementById('recolections-form');
 
     container.innerHTML = 
-        `<div id="partitions-form-container" class="container pt-4 pb-3 collapse">
+        `<div id="recolections-form-container" class="container pt-4 pb-3 collapse">
             <div class="row pb-3 mb-3">
                 <div class="col d-flex align-items-center">
                     <div class="ms-4 me-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-send-plus" viewBox="0 0 16 16">
-                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855a.75.75 0 0 0-.124 1.329l4.995 3.178 1.531 2.406a.5.5 0 0 0 .844-.536L6.637 10.07l7.494-7.494-1.895 4.738a.5.5 0 1 0 .928.372zm-2.54 1.183L5.93 9.363 1.591 6.602z"/>
-                            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-geo" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.3 1.3 0 0 0-.37.265.3.3 0 0 0-.057.09V14l.002.008.016.033a.6.6 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.6.6 0 0 0 .146-.15l.015-.033L12 14v-.004a.3.3 0 0 0-.057-.09 1.3 1.3 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465s-2.462-.172-3.34-.465c-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411"/>
                         </svg>
                     </div>
-                    <h5>Programar Nueva Partida</h5>
+                    <h5>Programar Nueva Recolección</h5>
                 </div>
             </div>
             <!-- Formulario de programación -->
-            <form id="form-partition">
+            <form id="form-recolection">
                 <div class="row ms-2 me-2 pt-3 pb-3">
                     <div class="col-md-3 label-over-border">
-                        <label for="contrato" class="form-label m-2">Contrato</label>
-                        <select id="contrato" class="form-select" aria-label="Default select example">
+                        <label for="proveedor" class="form-label m-2">Proveedor</label>
+                        <select id="proveedor" class="form-select" aria-label="Default select example">
                             <option value="0">Seleccione...</option>
 
                         </select>
-                        <p class="error invalid-feedback" id="contrato-error" style="color: red;"></p>
+                        <p class="error invalid-feedback" id="proveedor-error" style="color: red;"></p>
                     </div>
                     <div class="col-md-3 label-over-border">
                         <label for="fecha_programada" class="form-label m-2">Fecha Programada</label>
@@ -37,8 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p class="error invalid-feedback" id="hora_programada-error" style="color: red;"></p>
                     </div>
                     <div class="col-md-3 label-over-border">
-                        <label for="destino" class="form-label m-2">Destino</label>
-                        <input type="text" id="destino" class="form-control" placeholder="Destino de la entrega">    
+                        <label for="destino" class="form-label m-2">Ubicación</label>
+                        <input type="text" id="destino" class="form-control" placeholder="Ubicación de la recolección">    
                         <p class="error invalid-feedback" id="destino-error" style="color: red;"></p>
                     </div>
                 </div>
@@ -78,11 +77,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("fecha_programada").max = maxDate.toISOString().split("T")[0];
 
 
-    const partitionsContainer = document.getElementById('partitions-form-container');
+    const recolectionsContainer = document.getElementById('recolections-form-container');
     // Crear instancia única de Collapse
-    const collapseInstance = new bootstrap.Collapse(partitionsContainer, { toggle: false });
+    const collapseInstance = new bootstrap.Collapse(recolectionsContainer, { toggle: false });
 
-    document.getElementById('btn-add-partition').addEventListener('click', () => {
+    document.getElementById('btn-add-recolection').addEventListener('click', () => {
         collapseInstance.show();
     });
 

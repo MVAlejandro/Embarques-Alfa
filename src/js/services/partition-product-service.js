@@ -8,7 +8,6 @@ export async function getPartitionProducts(idPartition) {
             id_partida_producto,
             id_partida,
             cantidad_solicitada,
-            cantidad_embarcada,
             id_orden_producto,
             emb_orden_producto (
                 cantidad_orden,
@@ -30,7 +29,6 @@ export async function getPartitionProducts(idPartition) {
         id_partida_producto: partidaP.id_partida_producto,
         id_partida: partidaP.id_partida,
         cantidad_solicitada: partidaP.cantidad_solicitada,
-        cantidad_embarcada: partidaP.cantidad_embarcada,
         id_orden_producto: partidaP.id_orden_producto,
         cantidad_orden: partidaP.emb_orden_producto?.cantidad_orden,
         id_producto: partidaP.emb_orden_producto?.id_producto,
@@ -64,34 +62,6 @@ export async function updatePartitionProducts(idPartition) {
                 },
                 { onConflict: ['id_partida', 'id_orden_producto'] }
             );
-
-        if (error) {
-            console.error('Error actualizando partida:', error);
-            throw error;
-        }
-    }
-}
-
-// Función para editar los productos embarcados en la partida
-export async function updateShipmentProducts(idPartition) {
-    const productsItems = document.querySelectorAll('.product-item');
-
-    for (const item of productsItems) {
-        const amountInput = item.querySelector('.product-amount');
-        const id_orden_producto = parseInt(item.dataset.idOrdenProducto);
-        const cantidad_embarcada = parseInt(amountInput.value);
-
-        if (isNaN(cantidad_embarcada) || cantidad_embarcada <= 0) {
-            console.warn("Fila ignorada por cantidad inválida");
-            continue;
-        }
-
-        // Intentar insertar y si ya existe actualizar
-        const { data, error } = await supabase
-            .from('emb_partida_producto')
-            .update({ cantidad_embarcada })
-            .eq('id_partida', idPartition)
-            .eq('id_orden_producto', id_orden_producto);
 
         if (error) {
             console.error('Error actualizando partida:', error);

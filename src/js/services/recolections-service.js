@@ -13,7 +13,7 @@ export async function createRecolection(recolectionData) {
 }
 
 // Función para obtener recolecciones
-export async function getRecolection() {
+export async function getRecolections() {
     const { data, error } = await supabase
         .from('emb_recolecciones')
         .select(`

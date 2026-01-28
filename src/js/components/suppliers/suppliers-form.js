@@ -1,12 +1,12 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
-import { createClient } from '../../services/clients-service.js';
-import { renderClientsTable } from './clients-table.js';
+import { createSupplier } from '../../services/suppliers-service.js';
+import { renderSuppliersTable } from './suppliers-table.js';
 // Utilidades
 import { nameValidate, textValidate, rfcValidate, emailValidate, phoneValidate, cpValidate, inputValidate } from '../../utils/form-validations.js';
 
-// Función para agregar un cliente de forma manual
-export async function addManualClient(event) {
+// Función para agregar un proveedor de forma manual
+export async function addManualSupplier(event) {
     event.preventDefault()
 
     // Capturar el botón que disparó el evento
@@ -66,7 +66,7 @@ export async function addManualClient(event) {
     }
 
     // Guardar valores
-    const newClientData = {
+    const newSupplierData = {
         razon_social: razon_socialIn.value,
         rfc: rfcIn.value,
         nombre: nombreIn.value,
@@ -77,9 +77,9 @@ export async function addManualClient(event) {
     };
 
     try {
-        await createClient(newClientData);
+        await createSupplier(newSupplierData);
         Swal.fire({
-            title: 'Cliente agregado con éxito.',
+            title: 'Proveedor agregado con éxito.',
             icon: 'success',
             confirmButtonText: 'OK'
         });
@@ -89,12 +89,12 @@ export async function addManualClient(event) {
         });
     
         // Recarga la tabla con los datos actualizados
-        await renderClientsTable();
+        await renderSuppliersTable();
     } catch (err) {
-        console.error('Error al agregar cliente:', err);
+        console.error('Error al agregar proveedor:', err);
         Swal.fire({
             title: 'Oops...',
-            text: 'Ocurrió un error al generar el cliente.',
+            text: 'Ocurrió un error al generar el proveedor.',
             icon: 'error',
             confirmButtonText: 'OK'
         });
@@ -112,8 +112,8 @@ export async function addManualClient(event) {
     }
 }
 
-// Función para agregar clientes con el formato de Excel
-export async function addExcelClient(event) {
+// Función para agregar proveedores con el formato de Excel
+export async function addExcelSupplier(event) {
     event.preventDefault();
 
     // Capturar el botón que disparó el evento
@@ -166,7 +166,7 @@ export async function addExcelClient(event) {
 
     // Dividir las filas y columnas
     const rows = excelData.split('\n');
-    let insertedClients = 0;
+    let insertedSuppliers = 0;
 
     for (let row of rows) {
         const columns = row.split('\t');
@@ -181,7 +181,7 @@ export async function addExcelClient(event) {
         const ubicacion = columns[6].trim();
 
         // Insertar en Supabase
-        const newClientData = {
+        const newSupplierData = {
             nombre,
             razon_social,
             rfc,
@@ -192,10 +192,10 @@ export async function addExcelClient(event) {
         };
 
         try {
-            await createClient(newClientData);
-            insertedClients++;
+            await createSupplier(newSupplierData);
+            insertedSuppliers++;
         } catch (err) {
-            console.error('Error al insertar cliente:', newClientData, err);
+            console.error('Error al insertar proveedor:', newSupplierData, err);
             Swal.fire({
                 title: 'Oops...',
                 text: 'Ocurrió un error al generar el cliente.',
@@ -207,7 +207,7 @@ export async function addExcelClient(event) {
 
     Swal.fire({
         title: 'Clientes agregado con éxito.',
-        text: `Se agregaron ${insertedClients} registros.`,
+        text: `Se agregaron ${insertedSuppliers} proveedores.`,
         icon: 'success',
         confirmButtonText: 'OK'
     });
@@ -228,5 +228,5 @@ export async function addExcelClient(event) {
     }
 
     // Recarga la tabla con los datos actualizados
-    await renderClientsTable();
+    await renderSuppliersTable();
 };

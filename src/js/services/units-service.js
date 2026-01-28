@@ -86,7 +86,7 @@ export async function getBoxes() {
     const { data, error } = await supabase
         .from('emb_cajas')
         .select("*")
-        .neq('nombre', 'NA');
+        .neq('nombre', 'N/A');
     
     if (error) {
         console.error('Error obteniendo cajas:', error);

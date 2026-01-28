@@ -73,31 +73,25 @@ document.addEventListener('click', function(e) {
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     const form = document.getElementById('order-edit-form');
     // Referencias para validación
-    const numero_ordenIn = document.getElementById('edit-oc');
-    const numero_contratoIn = document.getElementById('edit-contract');
     const estadoIn = document.getElementById('edit-status');
-
-    const numero_ordenError = document.getElementById('error-editOc');
-    const numero_contratoError = document.getElementById('error-editContract');
     const estadoError = document.getElementById('error-editStatus');
 
     // Validaciones
-    textValidate(numero_ordenIn, numero_ordenError)
-    textValidate(numero_contratoIn, numero_contratoError)
     selectValidate(estadoIn, estadoError)
 
     const campos = document.querySelectorAll('input, select')
     if (!inputValidate(campos)) {
-        alert('Corrige los errores antes de guardar.')
+        Swal.fire({
+            title: 'Atención',
+            text: 'Corrige los errores antes de guardar.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
         return
     }
 
     const id_orden = document.getElementById('edit-id-order').value;
-    const updatedData = {
-        numero_orden: numero_ordenIn.value,
-        numero_contrato: numero_contratoIn.value,
-        estado: estadoIn.value
-    };
+    const updatedData = { estado: estadoIn.value };
 
     try {
         await updateOrder(id_orden, updatedData);
@@ -109,12 +103,21 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
-        alert('Orden de compra actualizada correctamente.');
+        Swal.fire({
+            title: 'Orden de compra actualizada correctamente.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
 
         // Recarga la tabla con los datos actualizados
         await renderOrdersTable();
     } catch (err) {
         console.error('Error al actualizar orden:', err);
-        alert('Ocurrió un error al actualizar la orden de compra.');
+        Swal.fire({
+            title: 'Oops...',
+            text: 'Ocurrió un error al actualizar la orden de compra',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     }
 });

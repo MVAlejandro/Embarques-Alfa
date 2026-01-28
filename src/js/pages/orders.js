@@ -12,7 +12,7 @@ import '../components/orders/generate-form.js'
 
 // Servicios Supabase
 import { initPage } from '../utils/session-validate.js'; 
-import { addManualOrder, addExcelOrder } from '../components/orders/orders-form.js';
+import { addManualOrder } from '../components/orders/orders-form.js';
 import { ordersFilter } from '../components/orders/orders-filter.js';
 import { renderOrdersTable } from '../components/orders/orders-table.js';
 import { renderOrdersEditModal } from '../components/orders/orders-modal.js';
@@ -33,13 +33,6 @@ document.addEventListener('click', function(e) {
 document.addEventListener('click', function(e) {
     if (e.target.id === 'btn-add-manual' || e.target.closest('#btn-add-manual')) {
         addManualOrder(e);
-    }
-});
-
-// Declarar el botón del formulario Excel
-document.addEventListener('click', function(e) {
-    if (e.target.id === 'btn-add-excel' || e.target.closest('#btn-add-excel')) {
-        addExcelOrder(e);
     }
 });
 

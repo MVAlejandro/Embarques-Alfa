@@ -1,26 +1,26 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
-import { updateClient, deleteClient } from '../../services/clients-service.js';
-import { renderClientsTable } from './clients-table.js';
+import { updateSupplier, deleteSupplier } from '../../services/suppliers-service.js'; 
+import { renderSuppliersTable } from './suppliers-table.js'; 
 // Utilidades
 import { nameValidate, textValidate, rfcValidate, emailValidate, phoneValidate, cpValidate, inputValidate } from '../../utils/form-validations.js';
 
 // Función para cargar datos en el modal
-export async function renderClientsEditModal(cliente) {
+export async function renderSuppliersEditModal(proveedor) {
     // Insertar valores en los inputs
-    document.getElementById('edit-id-client').value = cliente.id_cliente;
-    document.getElementById('edit-name').value = cliente.nombre;
-    document.getElementById('edit-company').value = cliente.razon_social;
-    document.getElementById('edit-rfc').value = cliente.rfc;
-    document.getElementById('edit-phone').value = cliente.numero_telefono;
-    document.getElementById('edit-email').value = cliente.correo;
-    document.getElementById('edit-cp').value = cliente.codigo_postal;
-    document.getElementById('edit-location').value = cliente.ubicacion;
+    document.getElementById('edit-id-supplier').value = proveedor.id_proveedor;
+    document.getElementById('edit-name').value = proveedor.nombre;
+    document.getElementById('edit-company').value = proveedor.razon_social;
+    document.getElementById('edit-rfc').value = proveedor.rfc;
+    document.getElementById('edit-phone').value = proveedor.numero_telefono;
+    document.getElementById('edit-email').value = proveedor.correo;
+    document.getElementById('edit-cp').value = proveedor.codigo_postal;
+    document.getElementById('edit-location').value = proveedor.ubicacion;
 }
 
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
-    const form = document.getElementById('client-edit-form');
+    const form = document.getElementById('supplier-edit-form');
     // Referencias para validación
     const nombreIn = document.getElementById('edit-name');
     const razon_socialIn = document.getElementById('edit-company');
@@ -58,7 +58,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         return
     }
 
-    const id_cliente = document.getElementById('edit-id-client').value;
+    const id_proveedor = document.getElementById('edit-id-supplier').value;
     const updatedData = {
         razon_social: razon_socialIn.value,
         rfc: rfcIn.value,
@@ -70,7 +70,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     };
 
     try {
-        await updateClient(id_cliente, updatedData);
+        await updateSupplier(id_proveedor, updatedData);
 
         form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
             e.classList.remove('is-valid', 'is-invalid');
@@ -79,18 +79,18 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
         Swal.fire({
-            title: 'Cliente actualizado correctamente.',
+            title: 'Proveedor actualizado correctamente.',
             icon: 'success',
             confirmButtonText: 'OK'
         });
 
         // Recarga la tabla con los datos actualizados
-        await renderClientsTable();
+        await renderSuppliersTable();
     } catch (err) {
-        console.error('Error al actualizar cliente:', err);
+        console.error('Error al actualizar proveedor:', err);
         Swal.fire({
             title: 'Oops...',
-            text: 'Ocurrió un error al actualizar el cliente.',
+            text: 'Ocurrió un error al actualizar el proveedor.',
             icon: 'error',
             confirmButtonText: 'OK'
         });

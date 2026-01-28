@@ -30,7 +30,12 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
     const campos = document.querySelectorAll('input')
     if (!inputValidate(campos)) {
-        alert('Corrige los errores antes de guardar.')
+        Swal.fire({
+            title: 'Atención',
+            text: 'Corrige los errores antes de guardar.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
         return
     } 
     
@@ -51,12 +56,21 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
-        alert('Estado de facturación actualizado correctamente.');
+        Swal.fire({
+            title: 'Estado de facturación actualizado correctamente.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
 
         // Recarga la tabla con los datos actualizados
         planningFilter(renderBillsTable);
     } catch (err) {
         console.error('Error al actualizar partida:', err);
-        alert('Ocurrió un error al actualizar la partida.');
+        Swal.fire({
+            title: 'Oops...',
+            text: 'Ocurrió un error al actualizar la facturación.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     }
 });

@@ -28,6 +28,19 @@ export async function renderTransportEditModal(partida) {
     await loadOptions('edit-operator', 'emb_operadores', 'id_operador', 'nombre', "Seleccione...", partida.id_operador);
     await loadOptionsFilter('edit-unit', getUnits, ['tipo', 'nombre'], 'id_unidad', "Seleccione...", partida.id_unidad);
     await loadOptions('edit-box', 'emb_cajas', 'id_caja', 'nombre', "Seleccione...", partida.id_caja);
+
+    // Bloquear actualización de estado si no está facturada la partida
+    const statusSelect = document.getElementById('edit-status');
+    const options = statusSelect.querySelectorAll('option');
+
+    if (partida.facturacion !== 'Documentado') {
+        options.forEach((option, index) => {
+            option.disabled = index > 1;
+        });
+    } else {
+        // Si está Documentado, habilitar todo
+        options.forEach(option => option.disabled = false);
+    }
 }
 
 // Función para guardar cambios
@@ -63,7 +76,12 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     
     const campos = document.querySelectorAll('input, select')
     if (!inputValidate(campos)) {
-        alert('Corrige los errores antes de guardar.')
+        Swal.fire({
+            title: 'Atención',
+            text: 'Corrige los errores antes de guardar.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
         return
     } 
 
@@ -90,12 +108,21 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
-        alert('Unidad actualizada correctamente.');
+        Swal.fire({
+            title: 'Estado de transporte actualizado correctamente.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
 
         // Recarga la tabla con los datos actualizados
         planningFilter(renderTransportTable);
     } catch (err) {
         console.error('Error al actualizar partida:', err);
-        alert('Ocurrió un error al actualizar la partida.');
+        Swal.fire({
+            title: 'Oops...',
+            text: 'Ocurrió un error al actualizar la partida.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     }
 });

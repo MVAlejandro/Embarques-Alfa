@@ -36,12 +36,12 @@ input:disabled {
 }
 
 /* Estilos de texto para la tabla */
-.recolections-time, .recolections-cant {
+.recolection-time, .recolection-cant {
     font-size: 13px;
     color: var(--secondary) !important;
 }
 
-.recolections-status {
+.recolection-status {
     padding: 5px 12px 5px 12px;
     border-radius: 50px;
     font-weight: bold;

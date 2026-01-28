@@ -39,7 +39,12 @@ export async function addManualUnit(event) {
 
     const campos = form.querySelectorAll('input, select')
     if (!inputValidate(campos)) {
-        alert('Corrige los errores antes de guardar.')
+        Swal.fire({
+            title: 'Atención',
+            text: 'Corrige los errores antes de guardar.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
 
         // Restaurar estado del botón
         if (btn) {
@@ -72,7 +77,11 @@ export async function addManualUnit(event) {
             await createUnit(newUnitData);
         }
 
-        alert('Unidad agregada con éxito.');
+        Swal.fire({
+            title: 'Unidad agregada con éxito.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
         form.reset();
         form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
             e.classList.remove('is-valid', 'is-invalid');
@@ -82,7 +91,12 @@ export async function addManualUnit(event) {
         await renderUnitsTable();
     } catch (err) {
         console.error('Error al agregar unidad:', err);
-        alert('Ocurrió un error al agregar la unidad.');
+        Swal.fire({
+            title: 'Oops...',
+            text: 'Ocurrió un error al generar la unidad.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     } finally {
         // Restaurar estado del botón
         if (btn) {
@@ -118,7 +132,12 @@ export async function addExcelUnit(event) {
     textValidate(excelDataIn, excelDataError)
 
     if (!excelData) {
-        alert('Por favor, ingrese la información para agregar la entrada.')
+        Swal.fire({
+            title: 'Atención',
+            text: 'Ingrese la información para agregar la entrada.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
 
         // Restaurar estado del botón
         if (btn) {
@@ -135,7 +154,12 @@ export async function addExcelUnit(event) {
 
     const campos = form.querySelectorAll('input')
     if (!inputValidate(campos)) {
-        alert('Corrige los errores antes de guardar.')
+        Swal.fire({
+            title: 'Atención',
+            text: 'Corrige los errores antes de guardar.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
         return
     }
 
@@ -172,10 +196,21 @@ export async function addExcelUnit(event) {
             insertedUnits++;
         } catch (err) {
             console.error('Error al insertar unidad:', newUnitData, err);
+            Swal.fire({
+                title: 'Oops...',
+                text: 'Ocurrió un error al generar la unidad.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
     }
 
-    alert(`Se agregaron ${insertedUnits} unidades.`);
+    Swal.fire({
+        title: 'Clientes agregado con éxito.',
+        text: `Se agregaron ${insertedUnits} registros.`,
+        icon: 'success',
+        confirmButtonText: 'OK'
+    });
     form.reset();
     form.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
         e.classList.remove('is-valid', 'is-invalid');

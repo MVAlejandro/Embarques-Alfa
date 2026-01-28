@@ -38,7 +38,12 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
     const campos = document.querySelectorAll('input')
     if (!inputValidate(campos)) {
-        alert('Corrige los errores antes de guardar.')
+        Swal.fire({
+            title: 'Atención',
+            text: 'Corrige los errores antes de guardar.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
         return
     }
 
@@ -64,12 +69,21 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
-        alert('Unidad actualizada correctamente.');
+        Swal.fire({
+            title: 'Unidad actualizada correctamente.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
 
         // Recarga la tabla con los datos actualizados
         await renderUnitsTable();
     } catch (err) {
         console.error('Error al actualizar unidad:', err);
-        alert('Ocurrió un error al actualizar la unidad.');
+        Swal.fire({
+            title: 'Oops...',
+            text: 'Ocurrió un error al actualizar la unidad.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     }
 });
