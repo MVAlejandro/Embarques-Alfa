@@ -103,7 +103,7 @@ export async function renderBillsTable(partitionsParam = null) {
 
         for (const producto of productos) {
             container.innerHTML += 
-            `<p class="bill-product">${producto.codigo} - <b> Cant. ${producto.cantidad_solicitada.toLocaleString('en-US')}</b></p>
+            `<p class="bill-product">${producto.codigo} - <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
             <p class="bill-cant">${producto.producto}</p>
             <hr>`;
         };

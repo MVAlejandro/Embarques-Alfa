@@ -13,14 +13,14 @@ import '../components/partitions/generate-form.js'
 // Servicios Supabase
 import { initPage } from '../utils/session-validate.js'; 
 import { addPartition } from '../components/partitions/partitions-form.js';
-import { initPageFilters } from '../utils/planning-filters.js'; 
+import { initPageFilters, planningFilter } from '../utils/planning-filters.js'; 
 import { renderPartitionsTable } from '../components/partitions/partitions-table.js'; 
 import { renderPartitionsEditModal } from '../components/partitions/partitions-modal.js'; 
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initPage()
     // Generar tabla con el día actual
-    await initPageFilters(renderPartitionsTable);
+    await initPageFilters(planningFilter,renderPartitionsTable);
 });
 
 // Declarar el botón del formulario

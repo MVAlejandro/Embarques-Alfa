@@ -27,27 +27,18 @@ export async function getPartitions() {
             embarque,
             planta,
             transporte,
-            distancia,
-            combustible,
-            costo,
-            tag,
             numero_remision,
             numero_facturacion,
             destino,
             observaciones,
-            id_unidad,
-            emb_unidades (nombre, placas),
-            id_caja,
-            emb_cajas (nombre),
-            id_operador,
-            emb_operadores (nombre),
             id_orden,
             emb_ordenes_compra (
                 numero_orden,
                 numero_contrato,
                 id_cliente,
                 emb_clientes (nombre, correo, ubicacion)
-            )
+            ),
+            id_viaje
             `);
     
     if (error) {
@@ -66,28 +57,18 @@ export async function getPartitions() {
         embarque: partida.embarque,
         planta: partida.planta,
         transporte: partida.transporte,
-        distancia: partida.distancia,
-        combustible: partida.combustible,
-        costo: partida.costo,
-        tag: partida.tag,
         numero_remision: partida.numero_remision,
         numero_facturacion: partida.numero_facturacion,
         destino: partida.destino,
         observaciones: partida.observaciones,
-        id_unidad: partida.id_unidad,
-        unidad: partida.emb_unidades?.nombre,
-        placas: partida.emb_unidades?.placas,
-        id_caja: partida.id_caja,
-        caja: partida.emb_cajas?.nombre,
-        id_operador: partida.id_operador,
-        operador: partida.emb_operadores?.nombre,
         id_orden: partida.id_orden,
         numero_orden: partida.emb_ordenes_compra?.numero_orden,
         numero_contrato: partida.emb_ordenes_compra?.numero_contrato,
         id_cliente: partida.emb_ordenes_compra?.id_cliente,
         cliente: partida.emb_ordenes_compra?.emb_clientes?.nombre,
         correo: partida.emb_ordenes_compra?.emb_clientes?.correo,
-        ubicacion: partida.emb_ordenes_compra?.emb_clientes?.ubicacion
+        ubicacion: partida.emb_ordenes_compra?.emb_clientes?.ubicacion,
+        id_viaje: partida.id_viaje
     }));
 }
 

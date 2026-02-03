@@ -24,26 +24,17 @@ export async function getRecolections() {
             hora_programada,
             hora_realizada,
             transporte,
-            distancia,
-            combustible,
-            costo,
-            tag,
             numero_remision,
             numero_facturacion,
             destino,
             observaciones,
-            id_unidad,
-            emb_unidades (nombre, placas),
-            id_caja,
-            emb_cajas (nombre),
-            id_operador,
-            emb_operadores (nombre),
             id_proveedor,
             emb_proveedores (
                 nombre,
                 correo,
                 ubicacion
-            )
+            ),
+            id_viaje
             `);
     
     if (error) {
@@ -58,29 +49,16 @@ export async function getRecolections() {
         anio: recoleccion.anio,
         hora_programada: recoleccion.hora_programada,
         hora_realizada: recoleccion.hora_realizada,
-        facturacion: recoleccion.facturacion,
-        embarque: recoleccion.embarque,
-        planta: recoleccion.planta,
         transporte: recoleccion.transporte,
-        distancia: recoleccion.distancia,
-        combustible: recoleccion.combustible,
-        costo: recoleccion.costo,
-        tag: recoleccion.tag,
         numero_remision: recoleccion.numero_remision,
         numero_facturacion: recoleccion.numero_facturacion,
         destino: recoleccion.destino,
         observaciones: recoleccion.observaciones,
-        id_unidad: recoleccion.id_unidad,
-        unidad: recoleccion.emb_unidades?.nombre,
-        placas: recoleccion.emb_unidades?.placas,
-        id_caja: recoleccion.id_caja,
-        caja: recoleccion.emb_cajas?.nombre,
-        id_operador: recoleccion.id_operador,
-        operador: recoleccion.emb_operadores?.nombre,
         id_proveedor: recoleccion.id_proveedor,
         proveedor: recoleccion.emb_proveedores?.nombre,
         correo: recoleccion.emb_proveedores?.correo,
-        ubicacion: recoleccion.emb_proveedores?.ubicacion
+        ubicacion: recoleccion.emb_proveedores?.ubicacion,
+        id_viaje: recoleccion.id_viaje
     }));
 }
 

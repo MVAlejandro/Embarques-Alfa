@@ -11,14 +11,14 @@ import '../components/navbar.js';
 
 // Servicios Supabase
 import { initPage } from '../utils/session-validate.js'; 
-import { initPageFilters } from '../utils/planning-filters.js'; 
+import { initPageFilters, planningFilter } from '../utils/planning-filters.js'; 
 import { renderProductionTable } from '../components/production/production-table.js'; 
 import { renderProductionEditModal } from '../components/production/production-modal.js'; 
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initPage()
     // Generar tabla con el día actual
-    await initPageFilters(renderProductionTable);
+    await initPageFilters(planningFilter, renderProductionTable);
 });
 
 // Acciones del modal de edición

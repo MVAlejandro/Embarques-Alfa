@@ -9,7 +9,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#transport-filter-container, .table-responsive {
+#trips-form-container, #transport-filter-container, .table-responsive {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);

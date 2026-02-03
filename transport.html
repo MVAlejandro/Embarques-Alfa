@@ -27,7 +27,7 @@
         <section id="transport-header">
             <div id="transport-header-container" class="container-fluid p-3">
                 <div class="row">
-                    <div class="col d-flex align-items-center">
+                    <div class="col-8 col-md-9 col-lg-10 d-flex align-items-center">
                         <div class="icon-square ms-3 me-3 d-print-none">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-truck-flatbed" viewBox="0 0 16 16">
                                 <path d="M11.5 4a.5.5 0 0 1 .5.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-4 0 1 1 0 0 1-1-1v-1h11V4.5a.5.5 0 0 1 .5-.5M3 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2m1.732 0h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4a2 2 0 0 1 1.732 1"/>
@@ -35,8 +35,21 @@
                         </div>
                         <h4 class="fw-bold">Planeación de Transporte</h4>
                     </div>
+                    <div class="col-4 col-md-3 col-lg-2 d-flex align-items-center">
+                        <button id="btn-add-trip" class="btn btn-primary d-flex align-items-center d-none" data-trans-only>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                            </svg>
+                            <p class="ps-1">Nuevo Viaje</p>
+                        </button>
+                    </div>
                 </div>
             </div>
+        </section>
+
+        <!-- SECCIÓN DE FORMULARIO PARA AGREGAR REGISTRO -->
+        <section id="trips-form">
+            
         </section>
 
         <!-- SECCIÓN DE FILTROS -->
@@ -75,13 +88,11 @@
                     <thead>
                         <tr class="table-light">
                             <th class="p-3 ps-4">DÍA</th>
-                            <th class="p-3 ps-2">CLIENTE</th>
-                            <th class="p-3 ps-2">CANTIDAD</th>
-                            <th class="p-3 ps-2">DESTINO</th>
-                            <th class="p-3 ps-2 d-none d-print-table-cell">DISTANCIA</th>
-                            <th class="p-3 ps-2 d-none d-print-table-cell">LITROS</th>
-                            <th class="p-3 ps-2 d-none d-print-table-cell">COSTO</th>
-                            <th class="p-3 ps-2 d-none d-print-table-cell">TAG</th>
+                            <th class="p-3 ps-2">TIPO</th>
+                            <th class="p-3 ps-2">DISTANCIA</th>
+                            <th class="p-3 ps-2">LITROS</th>
+                            <th class="p-3 ps-2">COSTO</th>
+                            <th class="p-3 ps-2">TAG</th>
                             <th class="text-center p-3 d-print-none">ESTADO</th>
                             <th class="p-3 ps-2">UNIDAD</th>
                             <th class="p-3 ps-2">OPERADOR</th>
@@ -117,11 +128,11 @@
                 <div class="modal-body">
                     <div class="container">
                         <form id="transport-edit-form">
-                            <input type="hidden" id="edit-id-partition">
+                            <input type="hidden" id="edit-id-trip">
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-6 col-lg-3 label-over-border">
-                                    <label for="edit-oc" class="form-label m-2">Orden de compra</label>
-                                    <input type="text" class="form-control" id="edit-oc" disabled>
+                                    <label for="edit-type" class="form-label m-2">Tipo de viaje</label>
+                                    <input type="text" class="form-control" id="edit-type" disabled>
                                 </div>
                                 <div class="col-md-6 col-lg-3 ms-auto label-over-border">
                                     <label for="edit-date" class="form-label m-2">Fecha</label>
@@ -133,18 +144,6 @@
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-4 label-over-border">
-                                    <label for="edit-status" class="form-label m-2">Estado</label>
-                                    <select id="edit-status" class="form-select" aria-label="Default select example">
-                                        <option value="Planeado">Seleccione...</option>
-                                        <option value="Asignado">Asignado</option>
-                                        <option value="En ruta">En ruta</option>
-                                        <option value="Entregado">Entregado</option>
-                                        <option value="Rechazado">Rechazado</option>
-                                        <option value="Rechazo parcial">Rechazo parcial</option>
-                                    </select>
-                                    <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
-                                </div>
                                 <div class="col-md-4 label-over-border">
                                     <label for="edit-unit" class="form-label m-2">Unidad</label>
                                     <select id="edit-unit" class="form-select" aria-label="Default select example">
@@ -159,8 +158,6 @@
                                     </select>
                                     <p class="error invalid-feedback" id="error-editBox" style="color: red;"></p>
                                 </div>
-                            </div>
-                            <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-4 label-over-border">
                                     <label for="edit-operator" class="form-label m-2">Operador</label>
                                     <select id="edit-operator" class="form-select" aria-label="Default select example">
@@ -168,6 +165,8 @@
                                     </select>
                                     <p class="error invalid-feedback" id="error-editOperator" style="color: red;"></p>
                                 </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-4 label-over-border">
                                     <label for="edit-distance" class="form-label m-2">Distancia</label>
                                     <input type="number" class="form-control no-arrows" id="edit-distance" placeholder="Kilometraje a recorrer">
@@ -178,17 +177,28 @@
                                     <input type="number" class="form-control no-arrows" id="edit-fuel" placeholder="Combustible a ustilizar">
                                     <p class="error invalid-feedback" id="error-editFuel" style="color: red;"></p>
                                 </div>
-                            </div>
-                            <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-4 ms-auto label-over-border">
+                                <div class="col-md-4 label-over-border">
                                     <label for="edit-price" class="form-label m-2">Costo</label>
                                     <input type="number" class="form-control no-arrows" id="edit-price" placeholder="Costo total del combustible">
                                     <p class="error invalid-feedback" id="error-editPrice" style="color: red;"></p>
                                 </div>
-                                <div class="col-md-4 label-over-border">
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-4 ms-auto label-over-border">
                                     <label for="edit-tag" class="form-label m-2">Tag</label>
                                     <input type="number" class="form-control no-arrows" id="edit-tag" placeholder="Costo del Tag">
                                     <p class="error invalid-feedback" id="error-editTag" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-4 label-over-border">
+                                    <label for="edit-status" class="form-label m-2">Estado</label>
+                                    <select id="edit-status" class="form-select" aria-label="Default select example">
+                                        <option value="Planeado">Seleccione...</option>
+                                        <option value="Asignado">Asignado</option>
+                                        <option value="En ruta">En ruta</option>
+                                        <option value="Completado">Completado</option>
+                                        <option value="Cancelado">Cancelado</option>
+                                    </select>
+                                    <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
                                 </div>
                             </div>
                         </form>

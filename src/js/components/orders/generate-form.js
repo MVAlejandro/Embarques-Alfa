@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             </div>
             <!-- Formulario de órdenes -->
-            <form id="form-manual">
+            <form id="order-form">
                 <div class="row ms-2 me-2 pt-3 pb-3">
                     <div class="col-md-4 label-over-border">
                         <label for="cliente" class="form-label m-2">Cliente</label>

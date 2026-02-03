@@ -11,14 +11,14 @@ import '../components/navbar.js';
 
 // Servicios Supabase
 import { initPage } from '../utils/session-validate.js'; 
-import { initPageFilters } from '../utils/planning-filters.js'; 
+import { initPageFilters, planningFilter } from '../utils/planning-filters.js'; 
 import { renderBillsTable } from '../components/bills/bills-table.js';
 import { renderBillsEditModal } from '../components/bills/bills-modal.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initPage()
     // Generar tabla con el día actual
-    initPageFilters(renderBillsTable);
+    initPageFilters(planningFilter, renderBillsTable);
 });
 
 // Acciones del modal de edición

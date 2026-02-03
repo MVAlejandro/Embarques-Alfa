@@ -23,6 +23,7 @@ function getRolName(rol) {
         case 'prod': return 'Producción';
         case 'emb': return 'Embarques';
         case 'vent': return 'Ventas';
+        case 'comp': return 'Compras';
         case 'trans': return 'Transportes';
         case 'fact': return 'Facturación';
         case 'colab': return 'Colaborador';

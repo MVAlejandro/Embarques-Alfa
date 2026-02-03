@@ -35,7 +35,7 @@ export async function addManualOrder(event) {
         btn.innerHTML = 'Subiendo...';
     }
 
-    const form = document.getElementById('form-manual');
+    const form = document.getElementById('order-form');
     // Referencias para validación
     const id_clienteIn = document.getElementById("cliente");
     const numero_ordenIn = document.getElementById("numero_orden");

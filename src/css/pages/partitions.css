@@ -41,6 +41,13 @@ input:disabled {
     color: var(--secondary) !important;
 }
 
+.partition-status {
+    padding: 5px 12px 5px 12px;
+    border-radius: 50px;
+    font-weight: bold;
+    display: inline-block;
+}
+
 .btn-update {
     padding: 4px 8px 4px 8px;
 }

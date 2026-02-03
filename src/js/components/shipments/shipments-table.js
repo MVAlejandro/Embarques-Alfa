@@ -70,9 +70,9 @@ export async function renderShipmentsTable(partitionsParam = null) {
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
         // Calcular totales de cantidades
-        const requestedTotal = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+        const producedTotal = productos.reduce((acc, prod) => acc + (prod.cantidad_producida || 0), 0);
 
-        totalSol += requestedTotal;
+        totalSol += producedTotal;
 
         tbody.innerHTML += 
         `<tr>
@@ -85,7 +85,7 @@ export async function renderShipmentsTable(partitionsParam = null) {
             <td id="production-products-${partida.id_partida}" class="p-2">
 
             </td>
-            <td class="production-destination p-2">${partida.destino || partida.ubicacion}</td>
+            <td class="shipment-destination p-2">${partida.destino || partida.ubicacion}</td>
             <td class="text-center p-2">
                 <p class="shipment-status ${productionStatusClass}">${partida.planta}</p>
             </td>
@@ -114,7 +114,7 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
         for (const producto of productos) {
             requestedContainer.innerHTML += 
-            `<p class="shipment-product">${producto.codigo} - <b> Cant. ${producto.cantidad_solicitada.toLocaleString('en-US')}</b></p>
+            `<p class="shipment-product">${producto.codigo} - <b> Cant. ${(producto.cantidad_producida ?? 0).toLocaleString('en-US')}</b></p>
             <p class="shipment-cant">${producto.producto}</p>
             <hr>`;
         };

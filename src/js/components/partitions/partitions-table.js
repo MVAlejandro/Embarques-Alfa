@@ -38,6 +38,19 @@ export async function renderPartitionsTable(partitionsParam = null) {
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
     
     for (const partida of allPartitions) {
+        let statusClass = '';
+        if (partida.transporte == 'Asignado') {
+            statusClass = 'greenL';
+        } else if (partida.transporte == 'Planeado') {
+            statusClass = 'grey';
+        } else if (partida.transporte == 'En ruta') {
+            statusClass = 'yellow';
+        } else if (partida.transporte == 'Entregado') {
+            statusClass = 'greenD';
+        } else {
+            statusClass = 'red';
+        }
+
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
         // Calcular total de cantidades
@@ -54,6 +67,9 @@ export async function renderPartitionsTable(partitionsParam = null) {
             <td class="partition-client p-2">${partida.cliente}</td>
             <td id="partition-products-${partida.id_partida}" class="p-2">
 
+            </td>
+            <td class="text-center p-2">
+                <p class="partition-status ${statusClass}">${partida.transporte}</p>
             </td>
             <td class="partition-destination p-2">${partida.destino || partida.ubicacion}</td>
             <td class="partition-control text-center d-none" data-vent-only>
@@ -73,7 +89,7 @@ export async function renderPartitionsTable(partitionsParam = null) {
 
         for (const producto of productos) {
             container.innerHTML += 
-            `<p class="partition-product">${producto.codigo} - <b> Cant. ${producto.cantidad_solicitada.toLocaleString('en-US')}</b></p>
+            `<p class="partition-product">${producto.codigo} - <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
             <p class="partition-cant">${producto.producto}</p>
             <hr>`;
         };

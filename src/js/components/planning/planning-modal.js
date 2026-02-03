@@ -12,23 +12,42 @@ export async function renderProductionModal(partida) {
     document.getElementById('production-observations').value = partida.observaciones;
 
     // Limpiar filas anteriores
-    const container = document.getElementById("partition-products-container");
-    container.innerHTML = '';
+    const container1 = document.getElementById("partition-products-container");
+    const container2 = document.getElementById("production-products-container");
+    container1.innerHTML = '';
+    container2.innerHTML = '';
+
     const productos = await getPartitionProducts(partida.id_partida);
 
     for (const producto of productos) {
-        const index = container.children.length;
-        const uniqueId = `product-${index}`;
-        const newProduct = document.createElement("div");
-        newProduct.className = "row ms-2 me-2 pt-2 pb-2 product-item";
-        newProduct.innerHTML += 
+        const index1 = container1.children.length;
+        const index2 = container2.children.length;
+
+        const uniqueReqId = `partition-prod-${index1}`;
+        const uniqueProdId = `production-prod-${index2}`;
+
+        const newReqProduct = document.createElement("div");
+        newReqProduct.className = "row ms-2 me-2 pt-2 pb-2 product-item";
+        newReqProduct.innerHTML += 
         `<div class="col-7">
-        <input type="text" id="${uniqueId}-producto" class="form-control" value="${producto.codigo} - ${producto.producto}" disabled>
+        <input type="text" id="${uniqueReqId}-partition-product" class="form-control" value="${producto.codigo} - ${producto.producto}" disabled>
         </div>
         <div class="col-5">
-            <input type="number" id="${uniqueId}-cantidad" class="form-control" value="${producto.cantidad_solicitada}" disabled>
+            <input type="number" id="${uniqueReqId}-partition-quantity" class="form-control" value="${(producto.cantidad_solicitada ?? 0)}" disabled>
         </div>`;
-        container.appendChild(newProduct);
+
+        const newProdProduct = document.createElement("div");
+        newProdProduct.className = "row ms-2 me-2 pt-2 pb-2 product-item";
+        newProdProduct.innerHTML += 
+        `<div class="col-7">
+        <input type="text" id="${uniqueProdId}-production-product" class="form-control" value="${producto.codigo} - ${producto.producto}" disabled>
+        </div>
+        <div class="col-5">
+            <input type="number" id="${uniqueProdId}-production-quantity" class="form-control" value="${(producto.cantidad_producida ?? 0)}" disabled>
+        </div>`;
+
+        container1.appendChild(newReqProduct);
+        container2.appendChild(newProdProduct);
     };
 }
 

@@ -1,46 +1,43 @@
 // Servicios Supabase
 import { getUnits } from '../../services/units-service.js'
-import { updatePartition } from '../../services/partitions-service.js'; 
-import { planningFilter } from '../../utils/planning-filters.js'; 
+import { updateTrip } from '../../services/trips-service.js';
+import { tripsFilter } from '../../utils/planning-filters.js'; 
 import { renderTransportTable } from './transport-table.js';
 
 // Utilidades
 import { amountValidate, selectValidate, inputValidate } from '../../utils/form-validations.js';
 import { loadOptions, loadOptionsFilter } from '../../utils/load-select.js';
 
+let tripType = '';
+
 // Función para cargar datos en el modal
-export async function renderTransportEditModal(partida) {
+export async function renderTransportEditModal(viaje) {
+    if (viaje.tipo == '1') {
+        tripType = 'Partida';
+    } else if (viaje.tipo == '2') {
+        tripType = 'Recolección';
+    } else if (viaje.tipo == '3') {
+        tripType = 'Partida / Recolección';
+    }
+
     // Insertar valores en los inputs
-    document.getElementById('edit-id-partition').value = partida.id_partida;
-    document.getElementById('edit-date').value = partida.fecha_programada;
-    document.getElementById('edit-time').value = partida.hora_programada;
-    document.getElementById('edit-oc').value = partida.numero_orden;
-    document.getElementById('edit-operator').value = partida.id_operador;
-    document.getElementById('edit-status').value = partida.transporte;
-    document.getElementById('edit-unit').value = partida.id_unidad;
-    document.getElementById('edit-box').value = partida.id_caja;
-    document.getElementById('edit-distance').value = partida.distancia;
-    document.getElementById('edit-fuel').value = partida.combustible;
-    document.getElementById('edit-price').value = partida.costo;
-    document.getElementById('edit-tag').value = partida.tag;
+    document.getElementById('edit-id-trip').value = viaje.id_viaje;
+    document.getElementById('edit-type').value = tripType;
+    document.getElementById('edit-date').value = viaje.fecha_programada;
+    document.getElementById('edit-time').value = viaje.hora_programada;
+    document.getElementById('edit-operator').value = viaje.id_operador;
+    document.getElementById('edit-status').value = viaje.estado;
+    document.getElementById('edit-unit').value = viaje.id_unidad;
+    document.getElementById('edit-box').value = viaje.id_caja;
+    document.getElementById('edit-distance').value = viaje.distancia;
+    document.getElementById('edit-fuel').value = viaje.combustible;
+    document.getElementById('edit-price').value = viaje.costo;
+    document.getElementById('edit-tag').value = viaje.tag;
 
     // Cargar opciones en el select
-    await loadOptions('edit-operator', 'emb_operadores', 'id_operador', 'nombre', "Seleccione...", partida.id_operador);
-    await loadOptionsFilter('edit-unit', getUnits, ['tipo', 'nombre'], 'id_unidad', "Seleccione...", partida.id_unidad);
-    await loadOptions('edit-box', 'emb_cajas', 'id_caja', 'nombre', "Seleccione...", partida.id_caja);
-
-    // Bloquear actualización de estado si no está facturada la partida
-    const statusSelect = document.getElementById('edit-status');
-    const options = statusSelect.querySelectorAll('option');
-
-    if (partida.facturacion !== 'Documentado') {
-        options.forEach((option, index) => {
-            option.disabled = index > 1;
-        });
-    } else {
-        // Si está Documentado, habilitar todo
-        options.forEach(option => option.disabled = false);
-    }
+    await loadOptions('edit-operator', 'emb_operadores', 'id_operador', 'nombre', "Seleccione...", viaje.id_operador);
+    await loadOptionsFilter('edit-unit', getUnits, ['tipo', 'nombre'], 'id_unidad', "Seleccione...", viaje.id_unidad);
+    await loadOptions('edit-box', 'emb_cajas', 'id_caja', 'nombre', "Seleccione...", viaje.id_caja);
 }
 
 // Función para guardar cambios
@@ -91,12 +88,12 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         return
     }
 
-    const id_partida = document.getElementById('edit-id-partition').value;
+    const id_viaje = document.getElementById('edit-id-trip').value;
     const updatedData = { 
         id_operador: operadorIn.value,
         id_unidad: unidadIn.value, 
         id_caja: cajaIn.value, 
-        transporte: statusIn.value,
+        estado: statusIn.value,
         distancia: distanciaIn.value,
         combustible: combustibleIn.value,
         costo: costoIn.value,
@@ -104,23 +101,23 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     };
 
     try {
-        await updatePartition(id_partida, updatedData);
+        await updateTrip(id_viaje, updatedData);
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
         Swal.fire({
-            title: 'Estado de transporte actualizado correctamente.',
+            title: 'Estado del viaje actualizado correctamente.',
             icon: 'success',
             confirmButtonText: 'OK'
         });
 
         // Recarga la tabla con los datos actualizados
-        planningFilter(renderTransportTable);
+        tripsFilter(renderTransportTable);
     } catch (err) {
-        console.error('Error al actualizar partida:', err);
+        console.error('Error al actualizar viaje:', err);
         Swal.fire({
             title: 'Oops...',
-            text: 'Ocurrió un error al actualizar la partida.',
+            text: 'Ocurrió un error al actualizar el viaje.',
             icon: 'error',
             confirmButtonText: 'OK'
         });

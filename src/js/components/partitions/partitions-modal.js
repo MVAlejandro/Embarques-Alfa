@@ -6,10 +6,10 @@ import { planningFilter } from '../../utils/planning-filters.js';
 import { renderPartitionsTable } from './partitions-table.js'; 
 import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
-import { textValidate, amountValidate, inputValidate } from '../../utils/form-validations.js';
+import { textValidate, inputValidate, quantityValidate } from '../../utils/form-validations.js';
 
 // Función para agregar campos de productos
-async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombre = '', cantidadValue = '', data) {
+async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombre = '', cantidadValue = '', maxValue, data) {
     const container = document.getElementById("partition-products-container");
     const index = container.children.length;
     // Colocar id único
@@ -23,7 +23,7 @@ async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombr
         <input type="text" id="${uniqueId}-producto" class="form-control product-code" placeholder="Producto" value="${productoCodigo} - ${productoNombre}" disabled>
         </div>
         <div class="col-5">
-            <input type="number" id="${uniqueId}-cantidad" class="form-control product-amount" placeholder="Cantidad" value="${cantidadValue}" disabled ${data}>
+            <input type="number" id="${uniqueId}-cantidad" class="form-control product-amount" placeholder="Cantidad" value="${cantidadValue}" data-max="${maxValue}" disabled ${data}>
             <p class="error invalid-feedback" id="${uniqueId}-cantidad-error" style="color: red;"></p>
         </div>`;
 
@@ -34,7 +34,7 @@ async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombr
 
     // Validar en tiempo real
     productoIn.addEventListener("input", () => {
-        amountValidate(productoIn, productoError);
+        quantityValidate(productoIn, productoError, maxValue);
     });
 }
 
@@ -70,8 +70,10 @@ export async function renderPartitionsEditModal(partida) {
         
         // Valor a mostrar
         const visibleQuantity = currentProductsMap[orderProductId] || 0;
+        // Cantidad máxima a ingresar
+        const maxValue = product.cantidad_orden
 
-        await addProductRow(orderProductId, product.codigo, product.producto, visibleQuantity, "data-vent-only",);
+        await addProductRow(orderProductId, product.codigo, product.producto, visibleQuantity, maxValue, "data-vent-only");
     }
 
     validateUserRole()

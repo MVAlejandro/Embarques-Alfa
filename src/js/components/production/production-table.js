@@ -33,7 +33,8 @@ export async function renderProductionTable(partitionsParam = null) {
         return;
     }
 
-    let totalGeneral = 0;
+    let totalSolGeneral = 0;
+    let totalProdGeneral = 0;
 
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
     
@@ -57,9 +58,11 @@ export async function renderProductionTable(partitionsParam = null) {
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
         // Calcular total de cantidades
-        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+        const totalRequiredAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+        const totalProducedAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_producida || 0), 0);
 
-        totalGeneral += totalAmount;
+        totalSolGeneral += totalRequiredAmount;
+        totalProdGeneral += totalProducedAmount;
 
         tbody.innerHTML += 
         `<tr>
@@ -68,6 +71,9 @@ export async function renderProductionTable(partitionsParam = null) {
                 <p class="production-time">${partida.hora_programada.slice(0, 5)}</p>
             </td>
             <td class="production-client p-2">${partida.cliente}</td>
+            <td id="partition-products-${partida.id_partida}" class="p-2">
+
+            </td>
             <td id="production-products-${partida.id_partida}" class="p-2">
 
             </td>
@@ -75,7 +81,7 @@ export async function renderProductionTable(partitionsParam = null) {
                 <p class="production-status ${statusClass}">${partida.planta}</p>
             </td>
             <td class="production-observations p-2">${partida.observaciones}</td>
-            <td class="production-control text-center d-none" data-vent-only data-prod-only>
+            <td class="production-control text-center d-none" data-prod-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
@@ -87,12 +93,18 @@ export async function renderProductionTable(partitionsParam = null) {
         </tr>`;
 
         // Insertar productos de esta partida
-        const container = document.getElementById(`production-products-${partida.id_partida}`);
-        container.innerHTML = '';
+        const container1 = document.getElementById(`partition-products-${partida.id_partida}`);
+        const container2 = document.getElementById(`production-products-${partida.id_partida}`);
+        container1.innerHTML = '';
+        container2.innerHTML = '';
 
         for (const producto of productos) {
-            container.innerHTML += 
-            `<p class="production-product">${producto.codigo} - <b> Cant. ${producto.cantidad_solicitada.toLocaleString('en-US')}</b></p>
+            container1.innerHTML += 
+            `<p class="partition-product">${producto.codigo} -  <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
+            <p class="partition-cant">${producto.producto}</p>
+            <hr>`;
+            container2.innerHTML += 
+            `<p class="production-product">${producto.codigo} - <b> Cant. ${(producto.cantidad_producida ?? 0).toLocaleString('en-US')}</b></p>
             <p class="production-cant">${producto.producto}</p>
             <hr>`;
         };
@@ -102,8 +114,11 @@ export async function renderProductionTable(partitionsParam = null) {
     tbody.innerHTML += 
     `<tr class="table-active fw-bold">
         <td colspan="2" class="text-center">Tarimas Totales</td>
-        <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
-        <td colspan="3"></td>
+        <td class="p-2">${totalSolGeneral.toLocaleString('en-US')}</td>
+        <td class="p-2">${totalProdGeneral.toLocaleString('en-US')}</td>
+        <td></td>
+        <td class="p-2">Diferencia: ${(totalProdGeneral-totalSolGeneral).toLocaleString('en-US')}</td>
+        <td></td>
     </tr>`;
 
     validateUserRole()

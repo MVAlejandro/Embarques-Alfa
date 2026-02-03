@@ -1,42 +1,13 @@
 // Servicios Supabase
 import { updatePartition } from '../../services/partitions-service.js'; 
-import { getPartitionProducts } from '../../services/partition-product-service.js';
+import { getPartitionProducts, updateProductionProducts } from '../../services/partition-product-service.js';
 import { getOrderProducts } from '../../services/order-product-service.js';
 import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderProductionTable } from './production-table.js'; 
 import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
 import { textValidate, amountValidate, inputValidate } from '../../utils/form-validations.js';
-
-// Función para agregar campos de productos
-async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombre = '', cantidadValue = '', data) {
-    const container = document.getElementById("partition-products-container");
-    const index = container.children.length;
-    // Colocar id único
-    const uniqueId = `product-${index}`;
-
-    const newProduct = document.createElement("div");
-    newProduct.className = "row ms-2 me-2 pt-2 pb-2 product-item";
-    newProduct.dataset.idOrdenProducto = idOrdenProducto;
-    newProduct.innerHTML =
-        `<div class="col-7">
-        <input type="text" id="${uniqueId}-producto" class="form-control product-code" placeholder="Producto" value="${productoCodigo} - ${productoNombre}" disabled>
-        </div>
-        <div class="col-5">
-            <input type="number" id="${uniqueId}-cantidad" class="form-control product-amount" placeholder="Cantidad" value="${cantidadValue}" disabled ${data}>
-            <p class="error invalid-feedback" id="${uniqueId}-cantidad-error" style="color: red;"></p>
-        </div>`;
-
-    container.appendChild(newProduct);
-
-    const productoIn = newProduct.querySelector(".product-amount");
-    const productoError = newProduct.querySelector(`#${uniqueId}-cantidad-error`);
-
-    // Validar en tiempo real
-    productoIn.addEventListener("input", () => {
-        amountValidate(productoIn, productoError);
-    });
-}
+import { addPartitionProdRow, addProductionProdRow } from '../../utils/production-products.js';
 
 // Función para cargar datos en el modal
 export async function renderProductionEditModal(partida) {
@@ -50,8 +21,10 @@ export async function renderProductionEditModal(partida) {
     document.getElementById('edit-observations').value = partida.observaciones;
 
     // Limpiar filas anteriores
-    const container = document.getElementById("partition-products-container");
-    container.innerHTML = '';
+    const container1 = document.getElementById("partition-products-container");
+    const container2 = document.getElementById("production-products-container");
+    container1.innerHTML = '';
+    container2.innerHTML = '';
     
     // Obtener los productos de la orden
     const orderProducts = await getOrderProducts(partida.id_orden);
@@ -66,12 +39,13 @@ export async function renderProductionEditModal(partida) {
 
     // Mostrar productos en el modal
     for (const product of orderProducts) {
-        const orderProductId = product.id_orden_producto;
-        
         // Valor a mostrar
-        const visibleQuantity = currentProductsMap[orderProductId] || 0;
+        const visibleQuantity = currentProductsMap[product.id_orden_producto] || 0;
+        // Cantidad máxima a ingresar
+        const maxValue = product.cantidad_orden
 
-        await addProductRow(orderProductId, product.codigo, product.producto, visibleQuantity, "data-vent-only",);
+        await addPartitionProdRow(product.id_orden_producto, product.codigo, product.producto, visibleQuantity,);
+        await addProductionProdRow(product.id_orden_producto, product.codigo, product.producto, visibleQuantity, maxValue, "data-prod-only",);
     }
 
     validateUserRole()
@@ -120,6 +94,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
     try {
         await updatePartition(id_partida, updatedData);
+        await updateProductionProducts(id_partida)
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();
