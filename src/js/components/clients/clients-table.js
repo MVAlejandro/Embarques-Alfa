@@ -15,9 +15,6 @@ export async function renderClientsTable(clientsParam = null) {
     } else {
         allClients = await getClients();
     }
-
-    // Ordenar el arreglo completo antes de paginar
-    allClients.sort((a, b) => a.id_cliente - b.id_cliente);
     
     const tbody = document.querySelector('#clients-table tbody');
     const pagination = document.querySelector('#clients-pages .pagination');

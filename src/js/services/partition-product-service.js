@@ -41,11 +41,11 @@ export async function getPartitionProducts(idPartition) {
 
 // Función para editar los productos asignados a la partida
 export async function updatePartitionProducts(idPartition) {
-    const productsItems = document.querySelectorAll('.product-item');
+    const productsItems = document.querySelectorAll('.partitionProduct-item');
 
     for (const item of productsItems) {
-        const amountInput = item.querySelector('.product-amount');
-        const id_orden_producto = parseInt(item.dataset.idOrdenProducto);
+        const amountInput = item.querySelector('.product-input-quantity');
+        const id_orden_producto = parseInt(item.dataset.idProducto);
         const cantidad_solicitada = parseInt(amountInput.value);
 
         if (isNaN(cantidad_solicitada) || cantidad_solicitada <= 0) {
@@ -74,11 +74,11 @@ export async function updatePartitionProducts(idPartition) {
 
 // Función para editar los productos producidos de la partida
 export async function updateProductionProducts(idPartition) {
-    const productsItems = document.querySelectorAll('.productionP-item');
+    const productsItems = document.querySelectorAll('.productionProduct-item');
 
     for (const item of productsItems) {
-        const amountInput = item.querySelector('.production-amount');
-        const id_orden_producto = parseInt(item.dataset.idOrdenProducto);
+        const amountInput = item.querySelector('.product-input-quantity');
+        const id_orden_producto = parseInt(item.dataset.idProducto);
         const cantidad_producida = parseInt(amountInput.value);
 
         if (isNaN(cantidad_producida) || cantidad_producida <= 0) {
@@ -86,17 +86,12 @@ export async function updateProductionProducts(idPartition) {
             continue;
         }
 
-        // Intentar insertar y si ya existe actualizar
+        // Actualizar el registro con la cantidad producida
         const { data, error } = await supabase
             .from('emb_partida_producto')
-            .upsert(
-                {
-                    id_partida: idPartition,
-                    id_orden_producto,
-                    cantidad_producida
-                },
-                { onConflict: 'id_partida,id_orden_producto' }
-            );
+            .update({ cantidad_producida })
+            .eq('id_partida', idPartition)
+            .eq('id_orden_producto', id_orden_producto);
 
         if (error) {
             console.error('Error actualizando partida:', error);

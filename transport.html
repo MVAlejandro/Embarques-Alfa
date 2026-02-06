@@ -60,12 +60,6 @@
                 </div>
                 <div class="row ms-2 me-2 d-print-none">
                     <div class="col-lg-3 col-md-6 d-flex align-items-center label-over-border filter">
-                        <label for="client-filter" class="form-label m-2">Filtrar por Cliente</label>
-                        <select class="form-select" id="client-filter">
-                            <option value="0">Todos</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-3 col-md-6 d-flex align-items-center label-over-border filter">
                         <label for="day-filter" class="form-label m-2">Filtrar por Día</label>
                         <input type="text" id="day-filter" class="form-control" placeholder="Fecha a mostrar">
                     </div>
@@ -81,10 +75,55 @@
             </div>
         </section>
 
-        <!-- SECCIÓN DE REGISTROS -->
+        <!-- SECCIÓN DE REGISTROS A ASIGNAR -->
         <section id="transport-register" class="pb-4">
-            <div id="transport-table-container" class="container table-responsive p-0">
-                <table id="transport-table" class="table table-hover">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg transport ps-0">
+                        <h5 class="ps-2 mb-2 title">Partidas</h5>
+                        <div id="partitions-table-container" class="table-responsive p-0">
+                            <table id="partitions-table" class="table table-hover">
+                                <thead>
+                                    <tr class="table-light">
+                                        <th class="p-3 text-center">HORA</th>
+                                        <th class="p-3 ps-2">CLIENTE</th>
+                                        <th class="p-3 ps-2">CANTIDAD</th>
+                                        <th class="p-3 ps-2">DESTINO</th>
+                                        <th class="text-center p-3 d-print-none d-none" data-trans-only>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-lg transport pe-0">
+                        <h5 class="ps-2 mb-2 title">Recolecciones</h5>
+                        <div id="recolections-table-container" class="table-responsive p-0">
+                            <table id="recolections-table" class="table table-hover">
+                                <thead>
+                                    <tr class="table-light">
+                                        <th class="p-3 ps-4">HORA</th>
+                                        <th class="p-3 ps-2">PROVEEDOR</th>
+                                        <th class="p-3 ps-2">CANTIDAD</th>
+                                        <th class="p-3 ps-2">DESTINO</th>
+                                        <th class="text-center p-3 d-print-none d-none" data-trans-only>ACCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- SECCIÓN DE REGISTROS VIAJES -->
+        <section id="trips-register" class="pb-4">
+            <div id="trips-table-container" class="container table-responsive p-0">
+                <table id="trips-table" class="table table-hover">
                     <thead>
                         <tr class="table-light">
                             <th class="p-3 ps-4">DÍA</th>
@@ -96,6 +135,7 @@
                             <th class="text-center p-3 d-print-none">ESTADO</th>
                             <th class="p-3 ps-2">UNIDAD</th>
                             <th class="p-3 ps-2">OPERADOR</th>
+                            <th class="p-3 ps-2">EVENTOS</th>
                             <th class="text-center p-3 d-print-none d-none" data-trans-only>ACCIONES</th>
                         </tr>
                     </thead>
@@ -107,8 +147,80 @@
         </section>
     </main>
 
-    <!-- Modal de asignación para cada registro -->
-    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modalLabel" aria-hidden="true">
+    <!-- Modal de asignación de viaje para cada registro -->
+    <div class="modal fade" id="asign-modal" tabindex="-1" aria-labelledby="asign-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content pt-3 pb-3">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col d-flex align-items-center">
+                            <div class="ms-4 me-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" style="color:var(--primary)">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                </svg>
+                            </div>
+                            <h5 class="modal-title" id="edit-modalLabel">Asignar viaje al evento</h5>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="transport-edit-form">
+                            <input type="hidden" id="edit-id-register">
+                            <input type="hidden" id="edit-type">
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-6 col-lg-3 ms-auto label-over-border">
+                                    <label for="edit-date" class="form-label m-2">Fecha</label>
+                                    <input type="date" class="form-control" id="edit-date" disabled>
+                                </div>
+                                <div class="col-md-6 col-lg-3 label-over-border">
+                                    <label for="edit-time" class="form-label m-2">Hora</label>
+                                    <input type="time" class="form-control" id="edit-time" disabled>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-6 label-over-border">
+                                    <label for="edit-client" class="form-label m-2">Cliente / Proveedor</label>
+                                    <input type="text" class="form-control" id="edit-client" disabled>
+                                </div>
+                                <div class="col-md-6 label-over-border">
+                                    <label for="edit-destination" class="form-label m-2">Destino</label>
+                                    <input type="text" class="form-control" id="edit-destination" disabled>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-6 col-lg-4 ms-auto label-over-border">
+                                    <label for="edit-trip" class="form-label m-2">Viaje</label>
+                                    <select id="edit-trip" class="form-select" aria-label="Default select example">
+                                        <option value="0">Seleccione...</option>
+                                    </select>
+                                    <p class="error invalid-feedback" id="error-editTrip" style="color: red;"></p>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="products">
+                            <p class="ms-3 p-2 ps-1 fw-bold">Productos asignados</p>
+                            <div id="partition-products-container" class="mb-2">
+
+                            </div>
+                            <div id="recolection-products-container" class="mb-2">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer me-4">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="btn-edit-entry">Guardar cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de edición para viajes -->
+    <div class="modal fade" id="trip-modal" tabindex="-1" aria-labelledby="trip-modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content pt-3 pb-3">
                 <div class="modal-header">
@@ -127,43 +239,30 @@
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <form id="transport-edit-form">
+                        <form id="trip-edit-form">
                             <input type="hidden" id="edit-id-trip">
                             <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-6 col-lg-3 label-over-border">
-                                    <label for="edit-type" class="form-label m-2">Tipo de viaje</label>
-                                    <input type="text" class="form-control" id="edit-type" disabled>
-                                </div>
                                 <div class="col-md-6 col-lg-3 ms-auto label-over-border">
-                                    <label for="edit-date" class="form-label m-2">Fecha</label>
-                                    <input type="date" class="form-control" id="edit-date" disabled>
+                                    <label for="edit-trip-date" class="form-label m-2">Fecha</label>
+                                    <input type="date" class="form-control" id="edit-trip-date" disabled>
                                 </div>
                                 <div class="col-md-6 col-lg-3 label-over-border filter">
-                                    <label for="edit-time" class="form-label m-2">Hora</label>
-                                    <input type="time" class="form-control" id="edit-time" disabled>
+                                    <label for="edit-trip-time" class="form-label m-2">Hora</label>
+                                    <input type="time" class="form-control" id="edit-trip-time" disabled>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-4 label-over-border">
                                     <label for="edit-unit" class="form-label m-2">Unidad</label>
-                                    <select id="edit-unit" class="form-select" aria-label="Default select example">
-                                        <option value="0">Seleccione...</option>
-                                    </select>
-                                    <p class="error invalid-feedback" id="error-editUnit" style="color: red;"></p>
+                                    <input type="text" class="form-control" id="edit-unit" disabled>
                                 </div>
                                 <div class="col-md-4 label-over-border">
                                     <label for="edit-box" class="form-label m-2">Caja</label>
-                                    <select id="edit-box" class="form-select" aria-label="Default select example">
-                                        <option value="0">Seleccione...</option>
-                                    </select>
-                                    <p class="error invalid-feedback" id="error-editBox" style="color: red;"></p>
+                                    <input type="text" class="form-control" id="edit-box" disabled>
                                 </div>
                                 <div class="col-md-4 label-over-border">
                                     <label for="edit-operator" class="form-label m-2">Operador</label>
-                                    <select id="edit-operator" class="form-select" aria-label="Default select example">
-                                        <option value="0">Seleccione...</option>
-                                    </select>
-                                    <p class="error invalid-feedback" id="error-editOperator" style="color: red;"></p>
+                                    <input type="text" class="form-control" id="edit-operator" disabled>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
@@ -202,11 +301,19 @@
                                 </div>
                             </div>
                         </form>
+                        <div id="events">
+                            <div id="partition-container" class="mb-2">
+
+                            </div>
+                            <div id="recolection-container" class="mb-2">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer me-4">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="btn-edit-entry">Guardar cambios</button>
+                    <button type="button" class="btn btn-primary" id="btn-edit-trip">Guardar cambios</button>
                 </div>
             </div>
         </div>

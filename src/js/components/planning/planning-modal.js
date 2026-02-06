@@ -1,5 +1,7 @@
 // Servicios Supabase
 import { getPartitionProducts } from "../../services/partition-product-service";
+// Utilidades
+import { viewProductRow } from "../../utils/modal-product-rows";
 
 // Función para cargar datos en el modal
 export async function renderProductionModal(partida) {
@@ -20,34 +22,8 @@ export async function renderProductionModal(partida) {
     const productos = await getPartitionProducts(partida.id_partida);
 
     for (const producto of productos) {
-        const index1 = container1.children.length;
-        const index2 = container2.children.length;
-
-        const uniqueReqId = `partition-prod-${index1}`;
-        const uniqueProdId = `production-prod-${index2}`;
-
-        const newReqProduct = document.createElement("div");
-        newReqProduct.className = "row ms-2 me-2 pt-2 pb-2 product-item";
-        newReqProduct.innerHTML += 
-        `<div class="col-7">
-        <input type="text" id="${uniqueReqId}-partition-product" class="form-control" value="${producto.codigo} - ${producto.producto}" disabled>
-        </div>
-        <div class="col-5">
-            <input type="number" id="${uniqueReqId}-partition-quantity" class="form-control" value="${(producto.cantidad_solicitada ?? 0)}" disabled>
-        </div>`;
-
-        const newProdProduct = document.createElement("div");
-        newProdProduct.className = "row ms-2 me-2 pt-2 pb-2 product-item";
-        newProdProduct.innerHTML += 
-        `<div class="col-7">
-        <input type="text" id="${uniqueProdId}-production-product" class="form-control" value="${producto.codigo} - ${producto.producto}" disabled>
-        </div>
-        <div class="col-5">
-            <input type="number" id="${uniqueProdId}-production-quantity" class="form-control" value="${(producto.cantidad_producida ?? 0)}" disabled>
-        </div>`;
-
-        container1.appendChild(newReqProduct);
-        container2.appendChild(newProdProduct);
+        await viewProductRow("partition", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_solicitada ?? 0,);
+        await viewProductRow("production", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_producida ?? 0,);
     };
 }
 

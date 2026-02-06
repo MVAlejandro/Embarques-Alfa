@@ -12,7 +12,7 @@ export async function createOrder(orderData) {
     } 
 }
 
-// Función para obtener órdenes
+// Función para obtener órdenes ordenadas por id
 export async function getOrders() {
     const { data, error } = await supabase
         .from('emb_ordenes_compra')
@@ -26,7 +26,8 @@ export async function getOrders() {
             estado,
             id_cliente,
             emb_clientes (nombre, correo)
-            `);
+            `)
+        .order('id_orden', { ascending: true });
     
     if (error) {
         console.error('Error obteniendo órdenes:', error);
@@ -47,7 +48,7 @@ export async function getOrders() {
     }));
 }
 
-// Función para obtener órdenes activas
+// Función para obtener órdenes activas ordenadas por número de contrato
 export async function getActiveOrders() {
     const { data, error } = await supabase
         .from('emb_ordenes_compra')
@@ -59,7 +60,8 @@ export async function getActiveOrders() {
             id_cliente,
             emb_clientes (nombre)
             `)
-        .eq('estado', 'Vigente');
+        .eq('estado', 'Vigente')
+        .order('numero_contrato', { ascending: true });
     
     if (error) {
         console.error('Error obteniendo órdenes activas:', error);

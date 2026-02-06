@@ -1,5 +1,5 @@
 // Servicios Supabase
-import { updatePartition } from '../../services/partitions-service.js';
+import { getPartitions, updatePartition } from '../../services/partitions-service.js';
 import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderShipmentsTable } from './shipments-table.js'; 
 // Utilidades
@@ -79,7 +79,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         });
 
         // Recarga la tabla con los datos actualizados
-        planningFilter(renderShipmentsTable);
+        planningFilter(getPartitions, renderShipmentsTable);
     } catch (err) {
         console.error('Error al actualizar partida:', err);
         Swal.fire({

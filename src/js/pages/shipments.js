@@ -11,14 +11,15 @@ import '../components/navbar.js';
 
 // Servicios Supabase
 import { initPage } from '../utils/session-validate.js'; 
-import { initPageFilters, planningFilter } from '../utils/planning-filters.js'; 
+import { getPartitions } from '../services/partitions-service.js';
+import { initPageFilters } from '../utils/planning-filters.js'; 
 import { renderShipmentsTable } from '../components/shipments/shipments-table.js'; 
 import { renderShipmentsEditModal } from '../components/shipments/shipments-modal.js'; 
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initPage()
     // Generar tabla con el día actual
-    initPageFilters(planningFilter, renderShipmentsTable);
+    initPageFilters(getPartitions, renderShipmentsTable);
 });
 
 // Acciones del modal de edición

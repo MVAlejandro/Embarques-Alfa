@@ -1,13 +1,13 @@
 // Servicios Supabase
-import { updatePartition } from '../../services/partitions-service.js'; 
+import { getPartitions, updatePartition } from '../../services/partitions-service.js'; 
 import { getPartitionProducts, updateProductionProducts } from '../../services/partition-product-service.js';
 import { getOrderProducts } from '../../services/order-product-service.js';
 import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderProductionTable } from './production-table.js'; 
 import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
-import { textValidate, amountValidate, inputValidate } from '../../utils/form-validations.js';
-import { addPartitionProdRow, addProductionProdRow } from '../../utils/production-products.js';
+import { textValidate, inputValidate } from '../../utils/form-validations.js';
+import { viewProductRow, validateProductRow } from '../../utils/modal-product-rows.js';
 
 // Función para cargar datos en el modal
 export async function renderProductionEditModal(partida) {
@@ -44,8 +44,8 @@ export async function renderProductionEditModal(partida) {
         // Cantidad máxima a ingresar
         const maxValue = product.cantidad_orden
 
-        await addPartitionProdRow(product.id_orden_producto, product.codigo, product.producto, visibleQuantity,);
-        await addProductionProdRow(product.id_orden_producto, product.codigo, product.producto, visibleQuantity, maxValue, "data-prod-only",);
+        await viewProductRow("partition", product.id_orden_producto, product.codigo, product.producto, visibleQuantity,);
+        await validateProductRow("production", product.id_orden_producto, product.codigo, product.producto, visibleQuantity, maxValue,);
     }
 
     validateUserRole()
@@ -86,12 +86,6 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         observaciones: observationsIn.value
     };
 
-    if (statusIn.value === 'Cancelado') {
-        updatedData.facturacion = 'Cancelado';
-        updatedData.embarque = 'Cancelado';
-        updatedData.transporte = 'Cancelado';
-    }
-
     try {
         await updatePartition(id_partida, updatedData);
         await updateProductionProducts(id_partida)
@@ -105,7 +99,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         });
 
         // Recarga la tabla con los datos actualizados
-        planningFilter(renderProductionTable);
+        planningFilter(getPartitions, renderProductionTable);
     } catch (err) {
         console.error('Error al actualizar partida:', err);
         Swal.fire({

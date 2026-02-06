@@ -12,15 +12,22 @@ import '../components/transport/generate-form.js'
 
 // Servicios Supabase
 import { initPage } from '../utils/session-validate.js'; 
+import { getPartitions } from '../services/partitions-service.js';
+import { getRecolections } from '../services/recolections-service.js';
+import { getTrips } from '../services/trips-service.js';
 import { addTrip } from '../components/transport/transport-form.js';
-import { initPageFilters, tripsFilter } from '../utils/planning-filters.js'; 
-import { renderTransportTable } from '../components/transport/transport-table.js';
-import { renderTransportEditModal } from '../components/transport/transport-modal.js';
+import { initPageFilters } from '../utils/planning-filters.js';
+import { renderPartitionTransportTable, renderRecolectionTransportTable } from '../components/transport/transport-table.js';
+import { renderTripsTable } from '../components/trips/trips-table.js';
+import { renderTransportAsignModal } from '../components/transport/transport-modal.js';
+import { renderTripEditModal } from '../components/trips/trips-modal.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initPage()
     // Generar tabla con el día actual
-    await initPageFilters(tripsFilter, renderTransportTable);
+    await initPageFilters(getPartitions, renderPartitionTransportTable)
+    await initPageFilters(getRecolections, renderRecolectionTransportTable)
+    await initPageFilters(getTrips, renderTripsTable);
 });
 
 // Declarar el botón del formulario
@@ -30,21 +37,40 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Acciones del modal de edición
-const editModal = document.getElementById('edit-modal');
+// Acciones del modal de asignación de eventos
+const asignModal = document.getElementById('asign-modal');
 // Al abrir modal
-editModal.addEventListener('shown.bs.modal', event => {
+asignModal.addEventListener('shown.bs.modal', event => {
     const button = event.relatedTarget;
-    const tripData = JSON.parse(button.getAttribute('trip-data'));
-    renderTransportEditModal(tripData);
+    const registerData = JSON.parse(button.getAttribute('register-data'));
+    renderTransportAsignModal(registerData);
 });
 // Al cerrar modal
-editModal.addEventListener('hidden.bs.modal', () => {
-    editModal.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+asignModal.addEventListener('hidden.bs.modal', () => {
+    asignModal.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
         e.classList.remove('is-valid', 'is-invalid');
     });
 
-    editModal.querySelectorAll('input, select').forEach(el => {
+    asignModal.querySelectorAll('input, select').forEach(el => {
+        el.value = '';
+    });
+});
+
+// Acciones del modal de edición de viajes
+const tripModal = document.getElementById('trip-modal');
+// Al abrir modal
+tripModal.addEventListener('shown.bs.modal', event => {
+    const button = event.relatedTarget;
+    const tripData = JSON.parse(button.getAttribute('trip-data'));
+    renderTripEditModal(tripData);
+});
+// Al cerrar modal
+tripModal.addEventListener('hidden.bs.modal', () => {
+    tripModal.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+        e.classList.remove('is-valid', 'is-invalid');
+    });
+
+    tripModal.querySelectorAll('input, select').forEach(el => {
         el.value = '';
     });
 });

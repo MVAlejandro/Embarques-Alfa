@@ -12,11 +12,12 @@ export async function createClient(clientData) {
     } 
 }
 
-// Función para obtener clientes
+// Función para obtener clientes ordenados por id
 export async function getClients() {
     const { data, error } = await supabase
         .from('emb_clientes')
-        .select("*");
+        .select("*")
+        .order('id_cliente', { ascending: true });
     
     if (error) {
         console.error('Error obteniendo clientes:', error);

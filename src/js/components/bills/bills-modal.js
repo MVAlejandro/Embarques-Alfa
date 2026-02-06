@@ -1,5 +1,5 @@
 // Servicios Supabase
-import { updatePartition } from '../../services/partitions-service.js';
+import { getPartitions, updatePartition } from '../../services/partitions-service.js';
 import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderBillsTable } from './bills-table.js'; 
 // Utilidades
@@ -63,7 +63,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         });
 
         // Recarga la tabla con los datos actualizados
-        planningFilter(renderBillsTable);
+        planningFilter(getPartitions, renderBillsTable);
     } catch (err) {
         console.error('Error al actualizar partida:', err);
         Swal.fire({

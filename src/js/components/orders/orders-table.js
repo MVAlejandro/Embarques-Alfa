@@ -16,9 +16,6 @@ export async function renderOrdersTable(ordersParam = null) {
     } else {
         allOrders = await getOrders();
     }
-
-    // Ordenar el arreglo completo antes de paginar
-    allOrders.sort((a, b) => a.id_orden - b.id_orden);
     
     const tbody = document.querySelector('#orders-table tbody');
     const pagination = document.querySelector('#orders-pages .pagination');

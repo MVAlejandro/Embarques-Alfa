@@ -13,13 +13,6 @@ export async function renderBillsTable(partitionsParam = null) {
     } else {
         allPartitions = await getPartitions();
     }
-
-    // Ordenar el arreglo completo antes de generar la tabla
-    allPartitions.sort((a, b) => {
-        const dateA = new Date(`${a.fecha_programada}T${a.hora_programada}`);
-        const dateB = new Date(`${b.fecha_programada}T${b.hora_programada}`);
-        return dateA - dateB;
-    });
     
     const tbody = document.querySelector('#bills-table tbody');
     const weekText = document.getElementById('weekHeader');
@@ -112,7 +105,7 @@ export async function renderBillsTable(partitionsParam = null) {
     // Agregar fila de total al final
     tbody.innerHTML += 
     `<tr class="table-active fw-bold">
-        <td colspan="3" class="text-center">Tarimas Totales</td>
+        <td colspan="3" class="text-center">TOTALES</td>
         <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
         <td colspan="4"></td>
     </tr>`;

@@ -12,7 +12,7 @@ export async function createPartition(partitionData) {
     } 
 }
 
-// Función para obtener partidas
+// Función para obtener partidas ordenadas por fecha y hora
 export async function getPartitions() {
     const { data, error } = await supabase
         .from('emb_partidas')
@@ -39,7 +39,9 @@ export async function getPartitions() {
                 emb_clientes (nombre, correo, ubicacion)
             ),
             id_viaje
-            `);
+            `)
+        .order('fecha_programada', { ascending: true })
+        .order('hora_programada', { ascending: true });
     
     if (error) {
         console.error('Error obteniendo partidas:', error);

@@ -30,11 +30,11 @@ export async function getRecolectionProducts(idRecolection) {
 
 // Función para editar los productos asignados a la recoleccion
 export async function updateRecolectionProducts(idRecolection) {
-    const productsItems = document.querySelectorAll('.product-item');
+    const productsItems = document.querySelectorAll('.recolectionProduct-item');
 
     for (const item of productsItems) {
-        const select = item.querySelector('.product-select');
-        const input = item.querySelector('.product-input');
+        const select = item.querySelector('.product-select-code');
+        const input = item.querySelector('.product-select-quantity');
 
         const id_producto = select?.value?.trim();
         const cantidad_recoleccion = parseFloat(input?.value);

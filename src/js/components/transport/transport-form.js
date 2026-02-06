@@ -1,10 +1,19 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
-import { createTrip } from '../../services/trips-service.js';  
-import { initPageFilters, tripsFilter } from '../../utils/planning-filters.js'; 
-import { renderTransportTable } from './transport-table.js';  
+import { getUnits } from '../../services/units-service.js'
+import { createTrip, getTrips } from '../../services/trips-service.js';  
+import { planningFilter } from '../../utils/planning-filters.js'; 
+import { renderTripsTable } from '../trips/trips-table.js';
 // Utilidades
 import { textValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
+import { loadOptions, loadOptionsFilter } from '../../utils/load-select.js';
+
+// Cargar las órdenes en el formulario al iniciar la página
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadOptions('operador', 'emb_operadores', 'id_operador', 'nombre', "Seleccione...");
+    await loadOptionsFilter('unidad', getUnits, ['tipo', 'nombre'], 'id_unidad', "Seleccione...");
+    await loadOptions('caja', 'emb_cajas', 'id_caja', 'nombre', "Seleccione...");
+})
 
 // Función para calcular y asignar semana y año
 function getWeekAndYear(date = new Date()) {
@@ -35,15 +44,24 @@ export async function addTrip(event) {
     const tipoIn = document.getElementById("tipo");
     const fecha_programadaIn = document.getElementById("fecha_programada");
     const hora_programadaIn = document.getElementById("hora_programada");
+    const unidadIn = document.getElementById('unidad');
+    const cajaIn = document.getElementById('caja');
+    const operadorIn = document.getElementById('operador');
     // Referencias para errores
     const tipoError = document.getElementById('tipo-error');
     const fecha_programadaError = document.getElementById('fecha_programada-error');
     const hora_programadaError = document.getElementById('hora_programada-error');
+    const unidadError = document.getElementById('unidad-error');
+    const cajaError = document.getElementById('caja-error');
+    const operadorError = document.getElementById('operador-error');
 
     // Validaciones
     selectValidate(tipoIn, tipoError)
     textValidate(fecha_programadaIn, fecha_programadaError)
     textValidate(hora_programadaIn, hora_programadaError)
+    selectValidate(operadorIn, operadorError)
+    selectValidate(unidadIn, unidadError)
+    selectValidate(cajaIn, cajaError)
 
     const campos = form.querySelectorAll('input, select')
     if (!inputValidate(campos)) {
@@ -80,7 +98,10 @@ export async function addTrip(event) {
         hora_programada: hora_programadaIn.value,
         fecha_programada: fechaDate.toISOString().split('T')[0],
         semana,
-        anio
+        anio,
+        id_operador: operadorIn.value,
+        id_unidad: unidadIn.value, 
+        id_caja: cajaIn.value
     };
 
     try {
@@ -96,7 +117,7 @@ export async function addTrip(event) {
         });
     
         // Recarga la tabla con los datos actualizados
-        initPageFilters(tripsFilter, renderTransportTable);
+        planningFilter(getTrips, renderTripsTable);
     } catch (err) {
         console.error('Error al agregar viaje:', err);
         Swal.fire({

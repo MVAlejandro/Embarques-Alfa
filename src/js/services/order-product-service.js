@@ -30,14 +30,14 @@ export async function getOrderProducts(idOrder) {
 
 // Función para editar los productos asignados a la orden
 export async function updateOrderProducts(idOrder) {
-    const productsItems = document.querySelectorAll('.product-item');
+    const productsItems = document.querySelectorAll('.orderProduct-item');
 
     for (const item of productsItems) {
-        const select = item.querySelector('.product-select');
-        const input = item.querySelector('.product-input');
+        const select = item.querySelector('.product-select-code');
+        const quantity = item.querySelector('.product-select-quantity');
 
         const id_producto = select?.value?.trim();
-        const cantidad_orden = parseFloat(input?.value);
+        const cantidad_orden = parseFloat(quantity?.value);
 
         if (!id_producto || isNaN(cantidad_orden) || cantidad_orden <= 0) {
             console.warn("Fila ignorada por datos inválidos");

@@ -12,11 +12,12 @@ export async function createSupplier(supplierData) {
     } 
 }
 
-// Función para obtener proveedores
+// Función para obtener proveedores ordenados por id
 export async function getSuppliers() {
     const { data, error } = await supabase
         .from('emb_proveedores')
-        .select("*");
+        .select("*")
+        .order('id_proveedor', { ascending: true });
     
     if (error) {
         console.error('Error obteniendo proveedores:', error);

@@ -13,13 +13,6 @@ export async function renderShipmentsTable(partitionsParam = null) {
     } else {
         allPartitions = await getPartitions();
     }
-
-    // Ordenar el arreglo completo antes de generar la tabla
-    allPartitions.sort((a, b) => {
-        const dateA = new Date(`${a.fecha_programada}T${a.hora_programada}`);
-        const dateB = new Date(`${b.fecha_programada}T${b.hora_programada}`);
-        return dateA - dateB;
-    });
     
     const tbody = document.querySelector('#shipments-table tbody');
     const weekText = document.getElementById('weekHeader');
@@ -32,7 +25,8 @@ export async function renderShipmentsTable(partitionsParam = null) {
         return;
     }
 
-    let totalSol = 0;
+    let totalTarimas = 0;
+    let totalMarcos = 0;
 
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
 
@@ -69,10 +63,6 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
-        // Calcular totales de cantidades
-        const producedTotal = productos.reduce((acc, prod) => acc + (prod.cantidad_producida || 0), 0);
-
-        totalSol += producedTotal;
 
         tbody.innerHTML += 
         `<tr>
@@ -113,6 +103,15 @@ export async function renderShipmentsTable(partitionsParam = null) {
         requestedContainer.innerHTML = '';
 
         for (const producto of productos) {
+            // Calcular total de cantidades por tipo de producto
+            if ((producto.producto).includes('TARIMA')) {
+                const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_producida || 0), 0);
+                totalTarimas += totalAmount;
+            } else if ((producto.producto).includes('MARCO')) {
+                const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_producida || 0), 0);
+                totalMarcos += totalAmount;
+            }
+
             requestedContainer.innerHTML += 
             `<p class="shipment-product">${producto.codigo} - <b> Cant. ${(producto.cantidad_producida ?? 0).toLocaleString('en-US')}</b></p>
             <p class="shipment-cant">${producto.producto}</p>
@@ -122,10 +121,11 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
     // Agregar fila de total al final
     tbody.innerHTML += 
-    `<tr class="table-active fw-bold">
-        <td colspan="2" class="text-center">Tarimas Totales</td>
-        <td class="p-2">${totalSol.toLocaleString('en-US')}</td>
-        <td colspan="6"></td>
+    `<tr class="table-active">
+        <td colspan="2" class="p-2 text-center fw-bold">TOTALES</td>
+        <td class="p-2"><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} Unidades</td>
+        <td class="p-2"><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} Unidades</td>
+        <td colspan="5"></td>
     </tr>`;
 
     validateUserRole()

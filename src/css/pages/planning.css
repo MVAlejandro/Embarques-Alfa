@@ -37,6 +37,7 @@ input:disabled {
 
 /* Estilos de texto para la tabla */
 .planning-time {
+    font-size: 13px;
     color: var(--secondary) !important;
 }
 

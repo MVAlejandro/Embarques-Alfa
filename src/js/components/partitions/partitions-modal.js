@@ -1,53 +1,25 @@
 // Servicios Supabase
-import { updatePartition } from '../../services/partitions-service.js'; 
+import { getPartitions, updatePartition } from '../../services/partitions-service.js'; 
 import { getPartitionProducts, updatePartitionProducts } from '../../services/partition-product-service.js';
 import { getOrderProducts } from '../../services/order-product-service.js';
 import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderPartitionsTable } from './partitions-table.js'; 
 import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
-import { textValidate, inputValidate, quantityValidate } from '../../utils/form-validations.js';
-
-// Función para agregar campos de productos
-async function addProductRow(idOrdenProducto, productoCodigo = '', productoNombre = '', cantidadValue = '', maxValue, data) {
-    const container = document.getElementById("partition-products-container");
-    const index = container.children.length;
-    // Colocar id único
-    const uniqueId = `product-${index}`;
-
-    const newProduct = document.createElement("div");
-    newProduct.className = "row ms-2 me-2 pt-2 pb-2 product-item";
-    newProduct.dataset.idOrdenProducto = idOrdenProducto;
-    newProduct.innerHTML =
-        `<div class="col-7">
-        <input type="text" id="${uniqueId}-producto" class="form-control product-code" placeholder="Producto" value="${productoCodigo} - ${productoNombre}" disabled>
-        </div>
-        <div class="col-5">
-            <input type="number" id="${uniqueId}-cantidad" class="form-control product-amount" placeholder="Cantidad" value="${cantidadValue}" data-max="${maxValue}" disabled ${data}>
-            <p class="error invalid-feedback" id="${uniqueId}-cantidad-error" style="color: red;"></p>
-        </div>`;
-
-    container.appendChild(newProduct);
-
-    const productoIn = newProduct.querySelector(".product-amount");
-    const productoError = newProduct.querySelector(`#${uniqueId}-cantidad-error`);
-
-    // Validar en tiempo real
-    productoIn.addEventListener("input", () => {
-        quantityValidate(productoIn, productoError, maxValue);
-    });
-}
+import { textValidate, inputValidate } from '../../utils/form-validations.js';
+import { validateProductRow } from '../../utils/modal-product-rows.js';
 
 // Función para cargar datos en el modal
 export async function renderPartitionsEditModal(partida) {
     // Insertar valores en los inputs
     document.getElementById('edit-id-partition').value = partida.id_partida;
-    document.getElementById('edit-status').value = partida.planta;
     document.getElementById('edit-date').value = partida.fecha_programada;
+    document.getElementById('edit-time').value = partida.hora_programada;
+    document.getElementById('edit-destination').value = partida.destino || partida.ubicacion;
     document.getElementById('edit-oc').value = partida.numero_orden;
     document.getElementById('edit-contract').value = partida.numero_contrato;
-    document.getElementById('edit-destination').value = partida.destino || partida.ubicacion;
     document.getElementById('edit-observations').value = partida.observaciones;
+    document.getElementById('edit-status').value = partida.planta;
 
     // Limpiar filas anteriores
     const container = document.getElementById("partition-products-container");
@@ -73,7 +45,7 @@ export async function renderPartitionsEditModal(partida) {
         // Cantidad máxima a ingresar
         const maxValue = product.cantidad_orden
 
-        await addProductRow(orderProductId, product.codigo, product.producto, visibleQuantity, maxValue, "data-vent-only");
+        await validateProductRow("partition", orderProductId, product.codigo, product.producto, visibleQuantity, maxValue,);
     }
 
     validateUserRole()
@@ -83,16 +55,28 @@ export async function renderPartitionsEditModal(partida) {
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     // Referencias para actualizar información
     const dateIn = document.getElementById('edit-date');
-    const statusIn = document.getElementById('edit-status');
+    const timeIn = document.getElementById('edit-time');
     const destinationIn = document.getElementById('edit-destination');
     const observationsIn = document.getElementById('edit-observations');
+    const statusIn = document.getElementById('edit-status');
 
+    const dateError = document.getElementById('error-editDate');
+    const timeError = document.getElementById('error-editTime');
     const destinationError = document.getElementById('error-editDestination');
     const observationsError = document.getElementById('error-editObservations');
+    const statusError = document.getElementById('error-editStatus');
 
     // Validaciones
+    textValidate(dateIn, dateError)
+    textValidate(timeIn, timeError)
     textValidate(destinationIn, destinationError)
     textValidate(observationsIn, observationsError)
+
+    if (statusIn.value === 'Pendiente') {
+        statusIn.classList.add('is-invalid');
+        statusError.textContent = 'Se debe seleccionar una opción';
+        return
+    }
 
     const campos = document.querySelectorAll('input')
     if (!inputValidate(campos)) {
@@ -108,12 +92,15 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const id_partida = document.getElementById('edit-id-partition').value;
     const updatedData = { 
         fecha_programada: dateIn.value,
+        hora_programada: timeIn.value,
         destino: destinationIn.value,
         observaciones: observationsIn.value
     };
 
-    if (statusIn.value === 'Pendiente') {
-        updatedData.planta = 'Planeado';
+    if (statusIn.value === 'Cancelado') {
+        updatedData.facturacion = 'Cancelado';
+        updatedData.embarque = 'Cancelado';
+        updatedData.transporte = 'Cancelado';
     }
 
     try {
@@ -129,7 +116,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         });
 
         // Recarga la tabla con los datos actualizados
-        planningFilter(renderPartitionsTable);
+        planningFilter(getPartitions, renderPartitionsTable);
     } catch (err) {
         console.error('Error al actualizar partida:', err);
         Swal.fire({

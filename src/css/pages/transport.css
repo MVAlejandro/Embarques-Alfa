@@ -15,9 +15,8 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.week-buttons {
-    border: none;
-    padding: 0px;
+.title {
+    color: var(--secondary);
 }
 
 th {
@@ -35,21 +34,31 @@ input:disabled {
     }
 }
 
+@media (max-width: 770px) {
+    .transport {
+        padding: 1rem 0 0 0;
+    }
+}
+
 /* Estilos de texto para la tabla */
-.transport-time, .transport-license {
+.trip-time, .trip-license, .trip-events {
     font-size: 13px;
     color: var(--secondary) !important;
 }
 
-.transport-cant {
+.trip-cant {
     color: var(--secondary) !important;
 }
 
-.transport-status {
+.trip-status {
     padding: 5px 12px 5px 12px;
     border-radius: 50px;
     font-weight: bold;
     display: inline-block;
+}
+
+.trip-text {
+    font-size: 14.5px;
 }
 
 .btn-update {
@@ -65,7 +74,7 @@ input:disabled {
         max-width: 100% !important;
     }
 
-    #transport-table-container {
+    #trips-table-container {
         width: 100% !important;
         padding: 0 !important;
         margin: 0 auto !important;

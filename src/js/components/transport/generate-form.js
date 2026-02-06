@@ -21,9 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         <label for="tipo" class="form-label m-2">Tipo</label>
                         <select id="tipo" class="form-select" aria-label="Default select example">
                             <option value="0">Seleccione...</option>
-                            <option value="1">Partida</option>
-                            <option value="2">Recolección</option>
-                            <option value="3">Partida / Recolección</option>
+                            <option value="Partida">Partida</option>
+                            <option value="Recolección">Recolección</option>
+                            <option value="Ambos">Partida / Recolección</option>
                         </select>
                         <p class="error invalid-feedback" id="tipo-error" style="color: red;"></p>
                     </div>
@@ -36,6 +36,29 @@ document.addEventListener("DOMContentLoaded", () => {
                         <label for="hora_programada" class="form-label m-2">Hora Programada</label>
                         <input type="time" id="hora_programada" class="form-control">
                         <p class="error invalid-feedback" id="hora_programada-error" style="color: red;"></p>
+                    </div>
+                </div>
+                <div class="row ms-2 me-2 pt-3 pb-3">
+                    <div class="col-md label-over-border">
+                        <label for="unidad" class="form-label m-2">Unidad</label>
+                        <select id="unidad" class="form-select" aria-label="Default select example">
+                            <option value="0">Seleccione...</option>
+                        </select>
+                        <p class="error invalid-feedback" id="unidad-error" style="color: red;"></p>
+                    </div>
+                    <div class="col-md label-over-border">
+                        <label for="caja" class="form-label m-2">Caja</label>
+                        <select id="caja" class="form-select" aria-label="Default select example">
+                            <option value="0">Seleccione...</option>
+                        </select>
+                        <p class="error invalid-feedback" id="caja-error" style="color: red;"></p>
+                    </div>
+                    <div class="col-md label-over-border">
+                        <label for="operador" class="form-label m-2">Operador</label>
+                        <select id="operador" class="form-select" aria-label="Default select example">
+                            <option value="0">Seleccione...</option>
+                        </select>
+                        <p class="error invalid-feedback" id="operador-error" style="color: red;"></p>
                     </div>
                 </div>
                 <div class="d-flex align-items-center justify-content-end pt-1 me-3">

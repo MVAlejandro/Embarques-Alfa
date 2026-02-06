@@ -15,9 +15,6 @@ export async function renderSuppliersTable(suppliersParam = null) {
     } else {
         allSuppliers = await getSuppliers();
     }
-
-    // Ordenar el arreglo completo antes de paginar
-    allSuppliers.sort((a, b) => a.id_proveedor - b.id_proveedor);
     
     const tbody = document.querySelector('#suppliers-table tbody');
     const pagination = document.querySelector('#suppliers-pages .pagination');

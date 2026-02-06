@@ -2,49 +2,10 @@
 import { updateRecolection } from '../../services/recolections-service.js'; 
 import { getRecolectionProducts, updateRecolectionProducts } from '../../services/recolection-product-service.js';
 import { recolectionsFilter } from './recolections-filter.js';  
-import { getProducts } from '../../services/order-product-service.js';
 import { renderRecolectionsTable } from './recolections-table.js';
 // Utilidades
-import { textValidate, amountValidate, inputValidate } from '../../utils/form-validations.js';
-import { loadOptionsFilter } from '../../utils/load-select.js';
-
-// Función para agregar campos de productos
-async function addProductRow(selectedProductId = '0', cantidadValue = '') {
-    const container = document.getElementById("recolection-products-container");
-    const index = container.children.length;
-    // Colocar id único
-    const uniqueId = `product-${index}`;
-
-    const newProduct = document.createElement("div");
-    newProduct.className = "row ms-2 me-2 pt-2 pb-2 product-item";
-    newProduct.innerHTML =
-        `<div class="col-6">
-            <select class="form-select product-select" id="${uniqueId}-select" data-index="${index}">
-                <option value="0">Seleccionar producto</option>
-            </select>
-        </div>
-        <div class="col-4">
-            <input type="number" id="${uniqueId}-cantidad" class="form-control product-input" placeholder="Cantidad" data-index="${index}" value="${cantidadValue}">
-        </div>
-        <div class="col-2 d-flex align-items-center justify-content-center">
-            <button type="button" class="btn btn-remove" data-index="${index}">X</button>
-        </div>`;
-
-    container.appendChild(newProduct);
-
-    // Cargar opciones en el select
-    await loadOptionsFilter(`${uniqueId}-select`, getProducts, ['codigo', 'nombre'], 'id_producto', "Seleccione Producto...", selectedProductId);
-}
-
-// Agregar entrada de producto
-document.getElementById('btn-add-product').addEventListener('click', addProductRow);
-
-// Eliminar entrada de producto
-document.addEventListener('click', function(e) {
-    if (e.target.closest('.btn-remove')) {
-        e.target.closest('.product-item').remove();
-    }
-});
+import { textValidate, inputValidate } from '../../utils/form-validations.js';
+import { selectProductRow } from '../../utils/modal-product-rows.js';
 
 // Función para cargar datos en el modal
 export async function renderRecolectionsEditModal(recoleccion) {
@@ -64,9 +25,21 @@ export async function renderRecolectionsEditModal(recoleccion) {
     
     // Agregar una fila por cada producto
     for (const product of productos) {
-        await addProductRow(product.id_producto, product.cantidad_recoleccion);
+        await selectProductRow("recolection", product.id_producto, product.cantidad_recoleccion);
     }
 }
+
+// Agregar entrada de producto
+document.getElementById('btn-add-product').addEventListener('click', () => {
+    selectProductRow("recolection");
+});
+
+// Eliminar entrada de producto
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.btn-remove')) {
+        e.target.closest('.recolectionProduct-item').remove();
+    }
+});
 
 // Función para guardar cambios
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {

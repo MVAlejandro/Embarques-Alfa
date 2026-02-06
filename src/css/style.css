@@ -275,6 +275,19 @@ input::placeholder, textarea::placeholder, #default-option {
     width: 85px;
 }
 
+.btn-remove {
+    border-radius: 12px;
+    border: 1px solid var(--secondary-light);
+    color: var(--canceled-dark);
+    box-shadow: 0 2px 4px rgba(121, 17, 28, 0.3);
+}
+
+.btn-remove:hover {
+    background-color: var(--canceled-dark);
+    color: var(--text-light);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
 /* Estilos para paginación y su navegación */
 .pagination .page-link {
     border: 1px solid var(--secondary-light);

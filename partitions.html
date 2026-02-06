@@ -36,7 +36,7 @@
                         <h4 class="fw-bold">Planeación de Partidas</h4>
                     </div>
                     <div class="col-4 col-md-3 col-lg-2 d-flex align-items-center">
-                        <button id="btn-add-partition" class="btn btn-primary d-flex align-items-center d-none" data-vent-only>
+                        <button id="btn-add-partition" class="btn btn-primary d-flex align-items-center d-none" data-vent-only data-fact-only>
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
                             </svg>
@@ -59,12 +59,6 @@
                     <h5 id="weekHeader">Semana -</h5>
                 </div>
                 <div class="row ms-2 me-2">
-                    <div class="col-lg-3 col-md-6 d-flex align-items-center label-over-border filter">
-                        <label for="client-filter" class="form-label m-2">Filtrar por Cliente</label>
-                        <select class="form-select" id="client-filter">
-                            <option value="0">Todos</option>
-                        </select>
-                    </div>
                     <div class="col-lg-3 col-md-6 d-flex align-items-center label-over-border filter">
                         <label for="day-filter" class="form-label m-2">Filtrar por Día</label>
                         <input type="text" id="day-filter" class="form-control" placeholder="Fecha a mostrar">
@@ -92,7 +86,7 @@
                             <th class="p-3 ps-2">CLAVE</th>
                             <th class="text-center p-3">ESTADO</th>
                             <th class="p-3 ps-2">DESTINO</th>
-                            <th class="text-center p-3 d-none" data-vent-only>ACCIONES</th>
+                            <th class="text-center p-3 d-none" data-vent-only data-fact-only>ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -125,17 +119,22 @@
                     <div class="container">
                         <form id="partitions-edit-form">
                             <input type="hidden" id="edit-id-partition">
-                            <input type="hidden" id="edit-status">
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-6 col-lg-3 ms-auto label-over-border">
                                     <label for="edit-date" class="form-label m-2">Fecha</label>
-                                    <input type="date" class="form-control" id="edit-date" disabled data-vent-only>
+                                    <input type="date" class="form-control" id="edit-date">
+                                    <p class="error invalid-feedback" id="error-editDate" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-6 col-lg-3 label-over-border">
+                                    <label for="edit-time" class="form-label m-2">Hora</label>
+                                    <input type="time" class="form-control" id="edit-time">
+                                    <p class="error invalid-feedback" id="error-editTime" style="color: red;"></p>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-12 col-lg-6 label-over-border">
                                     <label for="edit-destination" class="form-label m-2">Destino</label>
-                                    <input type="text" class="form-control" id="edit-destination" disabled data-vent-only>
+                                    <input type="text" class="form-control" id="edit-destination">
                                     <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
                                 </div>
                                 <div class="col-md-6 col-lg-3 label-over-border filter">
@@ -148,10 +147,19 @@
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md label-over-border">
+                                <div class="col-md-8 label-over-border">
                                     <label for="edit-observations" class="form-label m-2">Observaciones</label>
-                                    <input type="text" class="form-control" id="edit-observations" disabled data-vent-only>
+                                    <input type="text" class="form-control" id="edit-observations">
                                     <p class="error invalid-feedback" id="error-editObservations" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-4 label-over-border">
+                                    <label for="edit-status" class="form-label m-2">Estado</label>
+                                    <select id="edit-status" class="form-select" aria-label="Default select example">
+                                        <option value="Pendiente">Seleccione..</option>
+                                        <option value="Planeado">Planeado</option>
+                                        <option value="Cancelado">Cancelado</option>
+                                    </select>
+                                    <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
                                 </div>
                             </div>
                         </form>

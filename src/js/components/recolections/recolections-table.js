@@ -14,13 +14,6 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
     } else {
         allRecolections = await getRecolections();
     }
-
-    // Ordenar el arreglo completo antes de generar la tabla
-    allRecolections.sort((a, b) => {
-        const dateA = new Date(`${a.fecha_programada}T${a.hora_programada}`);
-        const dateB = new Date(`${b.fecha_programada}T${b.hora_programada}`);
-        return dateA - dateB;
-    });
     
     const tbody = document.querySelector('#recolections-table tbody');
     const weekText = document.getElementById('weekHeader');
@@ -99,7 +92,7 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
     // Agregar fila de total al final
     tbody.innerHTML += 
     `<tr class="table-active fw-bold">
-        <td colspan="2" class="text-center">Tarimas Totales</td>
+        <td colspan="2" class="text-center">TOTALES</td>
         <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
         <td colspan="3"></td>
     </tr>`;

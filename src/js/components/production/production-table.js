@@ -14,13 +14,6 @@ export async function renderProductionTable(partitionsParam = null) {
     } else {
         allPartitions = await getPartitions();
     }
-
-    // Ordenar el arreglo completo antes de generar la tabla
-    allPartitions.sort((a, b) => {
-        const dateA = new Date(`${a.fecha_programada}T${a.hora_programada}`);
-        const dateB = new Date(`${b.fecha_programada}T${b.hora_programada}`);
-        return dateA - dateB;
-    });
     
     const tbody = document.querySelector('#production-table tbody');
     const weekText = document.getElementById('weekHeader');
@@ -112,13 +105,11 @@ export async function renderProductionTable(partitionsParam = null) {
 
     // Agregar fila de total al final
     tbody.innerHTML += 
-    `<tr class="table-active fw-bold">
-        <td colspan="2" class="text-center">Tarimas Totales</td>
-        <td class="p-2">${totalSolGeneral.toLocaleString('en-US')}</td>
-        <td class="p-2">${totalProdGeneral.toLocaleString('en-US')}</td>
-        <td></td>
-        <td class="p-2">Diferencia: ${(totalProdGeneral-totalSolGeneral).toLocaleString('en-US')}</td>
-        <td></td>
+    `<tr class="table-active">
+        <td colspan="2" class="p-2 text-center fw-bold">TOTALES</td>
+        <td class="p-2"><b>Solicitado: </b>${totalSolGeneral.toLocaleString('en-US')} Unidades</td>
+        <td class="p-2"><b>Producido: </b>${totalProdGeneral.toLocaleString('en-US')} Unidades</td>
+        <td colspan="3" class="p-2"><b>Diferencia: </b>${(totalProdGeneral-totalSolGeneral).toLocaleString('en-US')} Unidades</td>
     </tr>`;
 
     validateUserRole()

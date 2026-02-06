@@ -35,7 +35,9 @@ export async function getRecolections() {
                 ubicacion
             ),
             id_viaje
-            `);
+            `)
+        .order('fecha_programada', { ascending: true })
+        .order('hora_programada', { ascending: true });
     
     if (error) {
         console.error('Error obteniendo recolecciones:', error);

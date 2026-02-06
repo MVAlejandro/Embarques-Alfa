@@ -35,13 +35,6 @@ export async function renderPlanningTable(partitionsParam = null) {
     } else {
         allPartitions = await getPartitions();
     }
-
-    // Ordenar el arreglo completo antes de generar la tabla
-    allPartitions.sort((a, b) => {
-        const dateA = new Date(`${a.fecha_programada}T${a.hora_programada}`);
-        const dateB = new Date(`${b.fecha_programada}T${b.hora_programada}`);
-        return dateA - dateB;
-    });
     
     const tbody = document.querySelector('#planning-table tbody');
     const weekText = document.getElementById('weekHeader');
@@ -64,9 +57,12 @@ export async function renderPlanningTable(partitionsParam = null) {
 
         tbody.innerHTML += 
         `<tr data-partition-id="${partida.id_partida}">
-            <td class="planning-client p-2 ps-4">${partida.cliente}</td>
+            <td class="p-2 ps-4">
+                <p class="planning-date fw-bold">${partida.fecha_programada}</p>
+                <p class="planning-time">${partida.planta === "Cancelado" ? "Cancelado" : `${partida.hora_programada?.slice(0, 5)} - ${partida.hora_realizada ? partida.hora_realizada.slice(0, 5) : "Pendiente"}`}</p>
+            </td>
             <td class="planning-type p-2 ps-4">-</td>
-            <td class="planning-date p-2 fw-bold">${partida.fecha_programada}</td>
+            <td class="planning-client p-2">${partida.cliente}</td>
             <td class="text-center p-2">
                 <button class="btn-primary planning-status ${plantaClass}"
                     data-bs-target="#production-modal" 
@@ -101,9 +97,6 @@ export async function renderPlanningTable(partitionsParam = null) {
                     data-bs-toggle="modal">
                         N/A
                 </button>
-            </td>
-            <td class="planning-time text-center p-2">
-                ${partida.planta === "Cancelado" ? "Cancelado" : `${partida.hora_programada?.slice(0, 5)} - ${partida.hora_realizada ? partida.hora_realizada.slice(0, 5) : "Pendiente"}`}
             </td>
         </tr>`;
     }

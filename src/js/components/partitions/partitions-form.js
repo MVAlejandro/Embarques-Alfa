@@ -1,7 +1,7 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
 import { getActiveOrders } from '../../services/orders-service.js';
-import { createPartition } from '../../services/partitions-service.js'; 
+import { createPartition, getPartitions } from '../../services/partitions-service.js'; 
 import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderPartitionsTable } from '../partitions/partitions-table.js'; 
 // Utilidades
@@ -110,7 +110,7 @@ export async function addPartition(event) {
         });
     
         // Recarga la tabla con los datos actualizados
-        planningFilter(renderPartitionsTable);
+        planningFilter(getPartitions, renderPartitionsTable);
     } catch (err) {
         console.error('Error al agregar partida:', err);
         Swal.fire({
