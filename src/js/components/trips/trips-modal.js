@@ -1,15 +1,19 @@
 // Servicios Supabase
 import { getTrips, updateTrip } from '../../services/trips-service.js';
+import { updatePartition } from '../../services/partitions-service.js';
+import { updateRecolection } from '../../services/recolections-service.js';
 import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderTripsTable } from './trips-table.js'; 
 
 // Utilidades
 import { amountValidate, inputValidate } from '../../utils/form-validations.js';
+import { addEventRow } from '../../utils/modal-trip-row.js';
 
 // Función para cargar datos en el modal
 export async function renderTripEditModal(viaje) {
     // Insertar valores en los inputs
     document.getElementById('edit-id-trip').value = viaje.id_viaje;
+    document.getElementById('edit-trip-type').value = viaje.tipo;
     document.getElementById('edit-trip-date').value = viaje.fecha_programada;
     document.getElementById('edit-trip-time').value = viaje.hora_programada;
     document.getElementById('edit-operator').value = viaje.operador;
@@ -29,37 +33,7 @@ export async function renderTripEditModal(viaje) {
     container2.innerHTML = '';
     container2.classList.remove("d-none");
 
-    // Cargar los eventos asignados para rellenar listado
-    const partitions = viaje.partidas;
-    const recolections = viaje.recolecciones;
-    
-    container1.innerHTML = `<p class="ms-3 p-2 ps-1 fw-bold">Partidas asignadas</p>`;
-    // Agregar una fila por cada producto
-    for (const partition of partitions) {
-        const newPartition = document.createElement("div");
-        newPartition.innerHTML =
-            `<ul class="ms-3">
-                <li class="trip-text">
-                    <b>Cliente: </b>${partition.cliente} - <b>Destino: </b>${partition.ubicacion} - <b>Cantidad: </b>${partition.productos.reduce((total, p) => total + (p.cantidad_solicitada ?? 0), 0)} Unidades 
-                </li>
-            </ul>`;
-
-        container1.appendChild(newPartition);
-    }
-    
-    container2.innerHTML = `<p class="ms-3 p-2 ps-1 fw-bold">Recolecciones asignadas</p>`;
-    // Agregar una fila por cada producto
-    for (const recolection of recolections) {
-        const newRecolection = document.createElement("div");
-        newRecolection.innerHTML =
-            `<ul class="ms-3">
-                <li class="trip-text">
-                    <b>Proveedor: </b>${recolection.proveedor} - <b>Destino: </b>${recolection.ubicacion} - <b>Cantidad: </b>${recolection.productos.reduce((total, p) => total + (p.cantidad_recoleccion ?? 0), 0)} Unidades 
-                </li>
-            </ul>`;
-
-        container2.appendChild(newRecolection);
-    }
+    await addEventRow(viaje.partidas, viaje.recolecciones);
 
     if (viaje.tipo === "Partida") {
        container2.classList.add("d-none");
@@ -108,6 +82,7 @@ document.getElementById('btn-edit-trip').addEventListener('click', async functio
     }
 
     const id_viaje = document.getElementById('edit-id-trip').value;
+    const tipo = document.getElementById('edit-trip-type').value;
     const updatedData = { 
         distancia: distanciaIn.value,
         combustible: combustibleIn.value,
@@ -117,7 +92,57 @@ document.getElementById('btn-edit-trip').addEventListener('click', async functio
     };
 
     try {
+        // Validar selecciones de cada estado de evento
+        let hasInvalidSelect = false;
+
+        document.querySelectorAll('.partitionEvent-item select, .recolectionEvent-item select').forEach(select => {
+                select.classList.remove('is-invalid');
+        });
+
+        // Validación
+        document.querySelectorAll('.partitionEvent-item select, .recolectionEvent-item select').forEach(select => {
+            if (select.value === 'Planeado') {
+                select.classList.add('is-invalid');
+                hasInvalidSelect = true;
+            }
+        });
+
+        if (hasInvalidSelect) {
+            Swal.fire({
+                title: 'Atención',
+                text: 'Se debe seleccionar una opción válida en todos los registros.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        // Actualizar el viaje
         await updateTrip(id_viaje, updatedData);
+        
+        // Armar los arreglos de partidas y recolecciones para actualizar
+        const partitionsData = Array.from(document.querySelectorAll('.partitionEvent-item')).map(row => ({
+            id_partida: row.dataset.idPartition,
+            transporte: row.querySelector('select').value
+        }));
+
+        const recolectionsData = Array.from(document.querySelectorAll('.recolectionEvent-item')).map(row => ({
+            id_recoleccion: row.dataset.idRecolection,
+            transporte: row.querySelector('select').value
+        }));
+
+        // Detectar qué tipo de viaje se está editando
+        if (tipo === "Partida") {
+            // Solo actualizar partidas
+            partitionsData.forEach(p => updatePartition(p.id_partida, p));
+        } else if (tipo === "Recolección") {
+            // Solo actualizar recolecciones
+            recolectionsData.forEach(r => updateRecolection(r.id_recoleccion, r));
+        } else {
+            // Actualizar ambas
+            partitionsData.forEach(p => updatePartition(p.id_partida, p));
+            recolectionsData.forEach(r => updateRecolection(r.id_recoleccion, r));
+        }
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('trip-modal')).hide();

@@ -15,6 +15,7 @@ export async function renderRecolectionsEditModal(recoleccion) {
     document.getElementById('edit-supplier').value = recoleccion.proveedor;
     document.getElementById('edit-destination').value = recoleccion.destino || recoleccion.ubicacion;
     document.getElementById('edit-observations').value = recoleccion.observaciones;
+    document.getElementById('edit-status').value = recoleccion.transporte;
 
     // Limpiar filas anteriores
     const container = document.getElementById("recolection-products-container");
@@ -47,13 +48,21 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const dateIn = document.getElementById('edit-date');
     const destinationIn = document.getElementById('edit-destination');
     const observationsIn = document.getElementById('edit-observations');
+    const statusIn = document.getElementById('edit-status');
 
     const destinationError = document.getElementById('error-editDestination');
     const observationsError = document.getElementById('error-editObservations');
+    const statusError = document.getElementById('error-editStatus');
 
     // Validaciones
     textValidate(destinationIn, destinationError)
     textValidate(observationsIn, observationsError)
+
+    if (statusIn.value === 'Pendiente') {
+        statusIn.classList.add('is-invalid');
+        statusError.textContent = 'Se debe seleccionar una opción';
+        return
+    }
 
     const campos = document.querySelectorAll('input')
     if (!inputValidate(campos)) {
@@ -70,7 +79,8 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const updatedData = { 
         fecha_programada: dateIn.value,
         destino: destinationIn.value,
-        observaciones: observationsIn.value
+        observaciones: observationsIn.value,
+        transporte: statusIn.value
     };
 
     try {

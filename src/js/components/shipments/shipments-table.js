@@ -102,21 +102,25 @@ export async function renderShipmentsTable(partitionsParam = null) {
         const requestedContainer = document.getElementById(`production-products-${partida.id_partida}`);
         requestedContainer.innerHTML = '';
 
+        let tarimas = 0;
+        let marcos = 0;
+
         for (const producto of productos) {
-            // Calcular total de cantidades por tipo de producto
-            if ((producto.producto).includes('TARIMA')) {
-                const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_producida || 0), 0);
-                totalTarimas += totalAmount;
-            } else if ((producto.producto).includes('MARCO')) {
-                const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_producida || 0), 0);
-                totalMarcos += totalAmount;
+            // Sumar unidades según el tipo de producto
+            if (producto.producto?.includes('TARIMA')) {
+                tarimas += producto.cantidad_producida || 0;
+            } else if (producto.producto?.includes('MARCO')) {
+                marcos += producto.cantidad_producida || 0;
             }
 
             requestedContainer.innerHTML += 
-            `<p class="shipment-product">${producto.codigo} - <b> Cant. ${(producto.cantidad_producida ?? 0).toLocaleString('en-US')}</b></p>
+            `<p class="shipment-product">${producto.codigo} - <b>Cant. ${(producto.cantidad_producida ?? 0).toLocaleString('en-US')}</b></p>
             <p class="shipment-cant">${producto.producto}</p>
             <hr>`;
-        };
+        }
+
+        totalTarimas += tarimas;
+        totalMarcos += marcos;
     };
 
     // Agregar fila de total al final

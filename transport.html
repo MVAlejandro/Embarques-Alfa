@@ -35,7 +35,7 @@
                         </div>
                         <h4 class="fw-bold">Planeación de Transporte</h4>
                     </div>
-                    <div class="col-4 col-md-3 col-lg-2 d-flex align-items-center">
+                    <div class="col-4 col-md-3 col-lg-2 d-flex align-items-center d-print-none">
                         <button id="btn-add-trip" class="btn btn-primary d-flex align-items-center d-none" data-trans-only>
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
@@ -76,7 +76,7 @@
         </section>
 
         <!-- SECCIÓN DE REGISTROS A ASIGNAR -->
-        <section id="transport-register" class="pb-4">
+        <section id="transport-register" class="pb-4 d-print-none">
             <div class="container">
                 <div class="row">
                     <div class="col-lg transport ps-0">
@@ -241,6 +241,7 @@
                     <div class="container">
                         <form id="trip-edit-form">
                             <input type="hidden" id="edit-id-trip">
+                            <input type="hidden" id="edit-trip-type">
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-6 col-lg-3 ms-auto label-over-border">
                                     <label for="edit-trip-date" class="form-label m-2">Fecha</label>

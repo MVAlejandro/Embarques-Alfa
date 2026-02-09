@@ -145,10 +145,22 @@
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-12 col-lg-8 label-over-border">
+                                <div class="col-md-8 label-over-border">
                                     <label for="edit-observations" class="form-label m-2">Observaciones</label>
                                     <input type="text" class="form-control" id="edit-observations">
                                     <p class="error invalid-feedback" id="error-editObservations" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-4 label-over-border">
+                                    <label for="edit-status" class="form-label m-2">Estado</label>
+                                    <select id="edit-status" class="form-select" aria-label="Default select example">
+                                        <option value="Pendiente">Seleccione..</option>
+                                        <option value="Planeado">Planeado</option>
+                                        <option value="Asignado" class="d-none">Asignado</option>
+                                        <option value="En ruta" class="d-none">En ruta</option>
+                                        <option value="Recolectado" class="d-none">Recolectado</option>
+                                        <option value="Cancelado">Cancelado</option>
+                                    </select>
+                                    <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
                                 </div>
                             </div>
                         </form>

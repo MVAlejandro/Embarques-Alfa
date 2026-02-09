@@ -94,7 +94,8 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         fecha_programada: dateIn.value,
         hora_programada: timeIn.value,
         destino: destinationIn.value,
-        observaciones: observationsIn.value
+        observaciones: observationsIn.value,
+        planta: statusIn.value
     };
 
     if (statusIn.value === 'Cancelado') {

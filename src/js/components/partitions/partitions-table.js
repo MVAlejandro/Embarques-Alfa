@@ -78,21 +78,26 @@ export async function renderPartitionsTable(partitionsParam = null) {
         const container = document.getElementById(`partition-products-${partida.id_partida}`);
         container.innerHTML = '';
 
+        let tarimas = 0;
+        let marcos = 0;
+
         for (const producto of productos) {
-            // Calcular total de cantidades por tipo de producto
-            if ((producto.producto).includes('TARIMA')) {
-                const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
-                totalTarimas += totalAmount;
-            } else if ((producto.producto).includes('MARCO')) {
-                const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
-                totalMarcos += totalAmount;
+            // Sumar unidades según el tipo de producto
+            if (producto.producto?.includes('TARIMA')) {
+                tarimas += producto.cantidad_solicitada || 0;
+            } else if (producto.producto?.includes('MARCO')) {
+                marcos += producto.cantidad_solicitada || 0;
             }
 
             container.innerHTML += 
-            `<p class="partition-product">${producto.codigo} - <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
+            `<p class="partition-product">${producto.codigo} - <b>Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
             <p class="partition-cant">${producto.producto}</p>
             <hr>`;
-        };
+        }
+
+        totalTarimas += tarimas;
+        totalMarcos += marcos;
+
     };
 
     // Agregar fila de total al final

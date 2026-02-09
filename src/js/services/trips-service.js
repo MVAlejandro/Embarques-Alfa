@@ -41,6 +41,7 @@ export async function getTrips() {
 
         emb_partidas (
             id_partida,
+            transporte,
             emb_ordenes_compra (
                 emb_clientes (nombre, ubicacion)
             ),
@@ -53,6 +54,7 @@ export async function getTrips() {
 
         emb_recolecciones (
             id_recoleccion,
+            transporte,
             emb_proveedores (nombre, ubicacion),
 
             emb_recoleccion_producto (
@@ -94,6 +96,7 @@ export async function getTrips() {
 
         partidas: viaje.emb_partidas?.map(p => ({
             id_partida: p.id_partida,
+            transporte: p.transporte,
             cliente: p.emb_ordenes_compra?.emb_clientes?.nombre,
             ubicacion: p.emb_ordenes_compra?.emb_clientes?.ubicacion,
             productos: p.emb_partida_producto ?? []
@@ -101,6 +104,7 @@ export async function getTrips() {
 
         recolecciones: viaje.emb_recolecciones?.map(r => ({
             id_recoleccion: r.id_recoleccion,
+            transporte: r.transporte,
             proveedor: r.emb_proveedores?.nombre,
             ubicacion: r.emb_proveedores?.ubicacion,
             productos: r.emb_recoleccion_producto ?? []
