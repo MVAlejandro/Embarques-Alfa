@@ -17,8 +17,9 @@ export async function renderPartitionTransportTable(partitionsParam = null) {
         allPartitions = await getPartitions();
     }
 
-    // Filtrar los registros que no tengan un viaje asignado
+    // Filtrar los registros que no tengan un viaje asignado y los que no estén cancelados
     allPartitions = allPartitions.filter(p => !p.id_viaje);
+    allPartitions = allPartitions.filter(p => p.planta !== "Cancelado");
     
     const tbody = document.querySelector('#partitions-table tbody');
     // Limpiar elementos antes de insertar

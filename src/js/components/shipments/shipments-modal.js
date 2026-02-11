@@ -1,9 +1,11 @@
 // Servicios Supabase
 import { getPartitions, updatePartition } from '../../services/partitions-service.js';
+import { getPartitionProducts } from "../../services/partition-product-service";
 import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderShipmentsTable } from './shipments-table.js'; 
 // Utilidades
 import { textValidate, inputValidate } from '../../utils/form-validations.js';
+import { viewProductRow } from '../../utils/modal-product-rows.js';
 
 // Función para cargar datos en el modal
 export async function renderShipmentsEditModal(partida) {
@@ -17,6 +19,16 @@ export async function renderShipmentsEditModal(partida) {
     document.getElementById('edit-remision').value = partida.numero_remision;
     document.getElementById('edit-destination').value = partida.destino || partida.ubicacion;
     document.getElementById('edit-observations').value = partida.observaciones;
+
+    // Limpiar filas anteriores
+    const container = document.getElementById("production-products-container");
+    container.innerHTML = '';
+    
+    const productos = await getPartitionProducts(partida.id_partida);
+    
+    for (const producto of productos) {
+        await viewProductRow("production", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_producida ?? 0,);
+    };
 }
 
 // Función para guardar cambios

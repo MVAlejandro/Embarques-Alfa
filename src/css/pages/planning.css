@@ -24,6 +24,39 @@ th {
     color: var(--secondary) !important;
 }
 
+/* Tablas hijas de partidas y recolecciones */
+.fixed-table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.fixed-table th:nth-child(1),
+.fixed-table td:nth-child(1) {
+    width: 12%;
+}
+
+.fixed-table th:nth-child(2),
+.fixed-table td:nth-child(2) {
+    width: 13%;
+}
+
+.fixed-table th:nth-child(n+3),
+.fixed-table td:nth-child(n+3) {
+    width: 13%;
+}
+
+.fixed-table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fixed-table {
+    font-size: 14px;
+    min-width: 900px;
+    max-width: 985px;
+}
+
 input:disabled {
     background-color: var(--background-light) !important;
     color: var(--primary-dark) !important;
@@ -36,7 +69,7 @@ input:disabled {
 }
 
 /* Estilos de texto para la tabla */
-.planning-time {
+.planning-time, .planning-events, .partition-time, .recolection-time {
     font-size: 13px;
     color: var(--secondary) !important;
 }
@@ -46,4 +79,8 @@ input:disabled {
     border-radius: 50px;
     font-weight: bold;
     display: inline-block;
+}
+
+#partition-table, #recolection-table {
+    font-size: 14px;
 }

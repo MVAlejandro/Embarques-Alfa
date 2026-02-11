@@ -1,5 +1,5 @@
 // Servicios Supabase
-import { getPartitions } from '../../services/partitions-service.js'; 
+import { getPartitions, getPartitionTrip } from '../../services/partitions-service.js'; 
 import { getPartitionProducts } from '../../services/partition-product-service.js';
 import { validateUserRole } from '../../utils/session-validate.js';
 
@@ -61,6 +61,12 @@ export async function renderShipmentsTable(partitionsParam = null) {
             shipmentStatusClass = 'blue';
         }
 
+        // Obtener viaje relacionado a la partida si hay
+        let viaje = {};
+        if (partida.id_viaje) {
+            viaje = await getPartitionTrip(partida.id_viaje);
+        }
+        
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
 
@@ -83,8 +89,8 @@ export async function renderShipmentsTable(partitionsParam = null) {
                 <p class="shipment-status ${shipmentStatusClass}">${partida.embarque}</p>
             </td>
             <td class="p-2">
-                <p class="shipment-unit">${partida.unidad || "Sin Asignar"}</p>
-                <p class="shipment-license">${partida.placas || "-"}</p>
+                <p class="shipment-unit">${viaje.unidad || "Sin Asignar"}</p>
+                <p class="shipment-license">${viaje.placas || "-"}</p>
             </td>
             <td class="shipment-observation p-2">${partida.observaciones}</td>
             <td class="shipment-control text-center d-none" data-prod-only>

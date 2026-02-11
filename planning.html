@@ -64,17 +64,13 @@
         <!-- SECCIÓN DE REGISTROS -->
         <section id="planning-register" class="pb-4">
             <div id="planning-table-container" class="container table-responsive p-0">
-                <table id="planning-table" class="table table-hover">
+                <table id="planning-table" class="table">
                     <thead>
                         <tr class="table-light">
                             <th class="p-3 ps-4">DÍA</th>
                             <th class="p-3 ps-2">TIPO</th>
-                            <th class="p-3 ps-2">CLIENTE</th>
-                            <th class="text-center p-3">PRODUCCIÓN</th>
-                            <th class="text-center p-3">EMBARQUE</th>
-                            <th class="text-center p-3">FACTURACIÓN</th>
-                            <th class="text-center p-3">PARTIDA</th>
-                            <th class="text-center p-3">RECOLECCIÓN</th>
+                            <th class="p-3 ps-2">EVENTOS</th>
+                            <th class="text-center p-3">ESTADOS</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -185,10 +181,6 @@
                 <div class="modal-body">
                     <div class="container">
                         <div class="row ms-2 me-2 pt-3 pb-3">
-                            <div class="col-md-6 col-lg-3 label-over-border">
-                                <label for="transport-oc" class="form-label m-2">Orden de compra</label>
-                                <input type="text" class="form-control" id="transport-oc" disabled>
-                            </div>
                             <div class="col-md-6 col-lg-3 ms-auto label-over-border">
                                 <label for="transport-date" class="form-label m-2">Fecha</label>
                                 <input type="text" class="form-control" id="transport-date" disabled>
@@ -200,10 +192,6 @@
                         </div>
                         <div class="row ms-2 me-2 pt-3 pb-3">
                             <div class="col-md-4 label-over-border">
-                                <label for="transport-status" class="form-label m-2">Estado</label>
-                                <input type="text" class="form-control" id="transport-status" disabled>
-                            </div>
-                            <div class="col-md-4 label-over-border">
                                 <label for="transport-unit" class="form-label m-2">Unidad</label>
                                 <input type="text" class="form-control" id="transport-unit" disabled>
                             </div>
@@ -211,12 +199,12 @@
                                 <label for="transport-box" class="form-label m-2">Caja</label>
                                 <input type="text" class="form-control" id="transport-box" disabled>
                             </div>
-                        </div>
-                        <div class="row ms-2 me-2 pt-3 pb-3">
                             <div class="col-md-4 label-over-border">
                                 <label for="transport-operator" class="form-label m-2">Operador</label>
                                 <input type="text" class="form-control" id="transport-operator" disabled>
                             </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
                             <div class="col-md-4 label-over-border">
                                 <label for="transport-distance" class="form-label m-2">Distancia</label>
                                 <input type="text" class="form-control" id="transport-distance" disabled>
@@ -225,15 +213,19 @@
                                 <label for="transport-fuel" class="form-label m-2">Combustible</label>
                                 <input type="text" class="form-control" id="transport-fuel" disabled>
                             </div>
-                        </div>
-                        <div class="row ms-2 me-2 pt-3 pb-3">
-                            <div class="col-md-4 ms-auto label-over-border">
+                            <div class="col-md-4 label-over-border">
                                 <label for="transport-price" class="form-label m-2">Costo</label>
                                 <input type="text" class="form-control" id="transport-price" disabled>
                             </div>
-                            <div class="col-md-4 label-over-border">
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-4 ms-auto label-over-border">
                                 <label for="transport-tag" class="form-label m-2">Tag</label>
                                 <input type="text" class="form-control" id="transport-tag" disabled>
+                            </div>
+                            <div class="col-md-4 label-over-border">
+                                <label for="transport-status" class="form-label m-2">Estado</label>
+                                <input type="text" class="form-control" id="transport-status" disabled>
                             </div>
                         </div>
                     </div>
@@ -358,6 +350,71 @@
                             <div class="col-md-6 ms-auto label-over-border">
                                 <label for="bill-status" class="form-label m-2">Estado</label>
                                 <input type="text" class="form-control" id="bill-status" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer me-4">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de recolecciones -->
+     <div class="modal fade" id="recolection-modal" tabindex="-1" aria-labelledby="recolections-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content pt-3 pb-3">
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col d-flex align-items-center">
+                            <div class="ms-4 me-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16" style="color:var(--primary)">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                </svg>
+                            </div>
+                            <h5 class="modal-title" id="recolections-modalLabel">Detalles de recolección</h5>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="recolection-content" class="container">
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-4 ms-auto label-over-border">
+                                <label for="recolection-date" class="form-label m-2">Fecha</label>
+                                <input type="text" class="form-control" id="recolection-date" disabled>
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-12 col-lg-6 label-over-border">
+                                <label for="recolection-supplier" class="form-label m-2">Proveedor</label>
+                                <input type="text" class="form-control" id="recolection-supplier" disabled>
+                            </div>
+                            <div class="col-md-12 col-lg-6 label-over-border filter">
+                                <label for="recolection-destination" class="form-label m-2">Destino</label>
+                                <input type="text" class="form-control" id="recolection-destination" disabled>
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col-md-8 label-over-border">
+                                <label for="recolection-observations" class="form-label m-2">Observaciones</label>
+                                <input type="text" class="form-control" id="recolection-observations" disabled>
+                            </div>
+                            <div class="col-md-4 label-over-border">
+                                <label for="recolection-status" class="form-label m-2">Estado</label>
+                                <input type="text" class="form-control" id="recolection-status" disabled>
+                            </div>
+                        </div>
+                        <div id="recolection-products">
+                            <div class="row ms-2 me-2 pt-2 pb-2">
+                                <div class="col d-flex align-items-center">
+                                    <p class="fw-bold">Productos asignados</p>
+                                </div>
+                            </div>
+                            <div id="recolection-products-container" class="mb-4">
+
                             </div>
                         </div>
                     </div>

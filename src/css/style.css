@@ -51,13 +51,15 @@ table {
     font-size: 15px;
 }
 
+@media (max-width: 770px) {
+    table {
+        font-size: 13px !important;
+    }
+}
+
 @media (max-width: 430px) {
     p {
-        font-size: 15px;
-    }
-
-    table {
-        font-size: 13px;
+        font-size: 14px;
     }
 }
 

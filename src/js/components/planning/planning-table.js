@@ -1,103 +1,158 @@
 // Servicios Supabase
-import { getPartitions } from '../../services/partitions-service.js';
+import { getFullTrips } from '../../services/trips-service.js';
+import { addEventTableRow } from '../../utils/trip-table-row.js';
 
-let allPartitions = [];
-
-const statusColorMap = {
-    // Azul
-    "Planeado": "blue", "En secado": "blue",
-    // Amarillo
-    "Pendiente": "yellow", "En proceso": "yellow", "En preparación": "yellow", "En ruta": "yellow",
-    // Verde claro
-    "PT parcial": "greenL", "Proceso de carga": "greenL", "Asignado": "greenL", "Documentado": "greenL",
-    // Verde oscuro
-    "Terminado": "greenD", "Cargado": "greenD", "Entregado": "greenD",
-    // Rojo
-    "Cancelado": "red", "Rechazado": "red", "Rechazo parcial": "red",
-    // Gris
-    "Reprogramado": "grey"
-};
-
-function getColor(status) {
-    return statusColorMap[status];
-}
+let allTrips = [];
 
 // Función para buscar la partida por id
 export function getPartitionById(id) {
-    return allPartitions.find(p => p.id_partida == id);
+    return allTrips.flatMap(t => t.partidas ?? []).find(p => p.id_partida == id);
+}
+
+// Función para buscar la recolección por id
+export function getRecolectionById(id) {
+    return allTrips.flatMap(t => t.recolecciones ?? []).find(r => r.id_recoleccion == id);
+}
+
+// Función para buscar el viaje por id
+export function getTripById(id) {
+    for (const viaje of allTrips) {
+        const partida = viaje.partidas?.find(p => p.id_partida == id);
+        if (partida) {
+            return viaje;
+        }
+    }
+    return null;
 }
 
 // Función para crear la tabla y la paginación
-export async function renderPlanningTable(partitionsParam = null) {
-    // Obtener partidas si no se pasa una lista filtrada
-    if (partitionsParam) {
-        allPartitions = partitionsParam;
+export async function renderPlanningTable(tripsParam = null) {
+    // Obtener viajes si no se pasa una lista filtrada
+    if (tripsParam) {
+        allTrips = tripsParam;
     } else {
-        allPartitions = await getPartitions();
+        allTrips = await getFullTrips();
     }
     
+    const table = document.querySelector('#planning-table');
     const tbody = document.querySelector('#planning-table tbody');
     const weekText = document.getElementById('weekHeader');
     // Limpiar elementos antes de insertar
     weekText.innerHTML = "Semana 0";
     tbody.innerHTML = '';
 
-    if (!allPartitions || allPartitions.length === 0) {
-        tbody.innerHTML = `<tr><td class="text-center" colspan="8">No hay partidas registradas</td></tr>`;
+    if (!allTrips || allTrips.length === 0) {
+        tbody.innerHTML = `<tr><td class="text-center" colspan="10">No hay viajes registrados</td></tr>`;
         return;
     }
 
-    weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
-    
-    for (const partida of allPartitions) {
-        const plantaClass = getColor(partida.planta);
-        const transporteClass = getColor(partida.transporte);
-        const embarqueClass = getColor(partida.embarque);
-        const facturacionClass = getColor(partida.facturacion);
+    let totalTarimas = 0;
+    let totalMarcos = 0;
+    let totalRecolecciones = 0;
+    let totalCancelado = 0;
+
+    // Colocar la semana del primer viaje
+    weekText.innerHTML = `Semana ${allTrips[0].semana}`;
+
+    for (let i = 0; i < allTrips.length; i++) {
+        const viaje = allTrips[i];
+        const hideHead = i !== 0 ? 'd-none' : '';
 
         tbody.innerHTML += 
-        `<tr data-partition-id="${partida.id_partida}">
+        `<tr>
             <td class="p-2 ps-4">
-                <p class="planning-date fw-bold">${partida.fecha_programada}</p>
-                <p class="planning-time">${partida.planta === "Cancelado" ? "Cancelado" : `${partida.hora_programada?.slice(0, 5)} - ${partida.hora_realizada ? partida.hora_realizada.slice(0, 5) : "Pendiente"}`}</p>
+                <p class="planning-date fw-bold">${viaje.fecha_programada}</p>
+                <p class="planning-time">${viaje.hora_programada.slice(0, 5)}</p>
             </td>
-            <td class="planning-type p-2 ps-4">-</td>
-            <td class="planning-client p-2">${partida.cliente}</td>
-            <td class="text-center p-2">
-                <button class="btn-primary planning-status ${plantaClass}"
-                    data-bs-target="#production-modal" 
-                    data-bs-toggle="modal">
-                        ${partida.planta}
-                </button>
+            <td class="planning-type p-2 fst-italic">${viaje.tipo}</td>
+            <td class="planning-events p-2">
+                <p class="planning-partitions ${viaje.tipo === "Recolección" ? "d-none" : ""}">Partidas: ${viaje.partidas.length || "-"}</p>
+                <p class="planning-recolections ${viaje.tipo === "Partida" ? "d-none" : ""}">Recolecciones: ${viaje.recolecciones.length || "-"}</p>
             </td>
-            <td class="text-center p-2">
-                <button class="btn-primary planning-status ${embarqueClass}"
-                    data-bs-target="#shipment-modal" 
-                    data-bs-toggle="modal">
-                        ${partida.embarque}
-                </button>
-            </td>
-            <td class="text-center p-2">
-                <button class="btn-primary planning-status ${facturacionClass}"
-                    data-bs-target="#bill-modal" 
-                    data-bs-toggle="modal">
-                        ${partida.facturacion}
-                </button>
-            </td>
-            <td class="text-center p-2">
-                <button class="btn-primary planning-status ${transporteClass}"
-                    data-bs-target="#transport-modal" 
-                    data-bs-toggle="modal">
-                        ${partida.transporte}
-                </button>
-            </td>
-            <td class="text-center p-2">
-                <button class="btn-primary planning-status grey"
-                    data-bs-target="#transport-modal" 
-                    data-bs-toggle="modal">
-                        N/A
-                </button>
+            <td class="planning-events p-2">
+                <div class="planning-partitions p-0 ${viaje.tipo === "Recolección" ? "d-none" : ""}">
+                    <table id="partition-table-${viaje.id_viaje}" class="table table-sm fixed-table mb-0">
+                        <thead class="${hideHead}">
+                            <tr class="table-light">
+                                <th class="p-1 ps-4">HORA</th>
+                                <th class="p-1 ps-2">CLIENTE</th>
+                                <th class="text-center p-1">PRODUCCIÓN</th>
+                                <th class="text-center p-1">EMBARQUE</th>
+                                <th class="text-center p-1">FACTURACIÓN</th>
+                                <th class="text-center p-1">TRANSPORTE</th>
+                                <th class="text-center p-1">RECOLECCIÓN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+                <div class="planning-recolections p-0 ${viaje.tipo === "Partida" ? "d-none" : ""}">
+                    <table id="recolection-table-${viaje.id_viaje}" class="table table-sm fixed-table mb-0">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
             </td>
         </tr>`;
-    }
+
+        // Insertar los eventos del viaje en la tabla
+        addEventTableRow(viaje.id_viaje, viaje.partidas, viaje.recolecciones);
+
+        // Obtener el total de productos del viaje
+        for (const partition of viaje.partidas) {
+            let tarimas = 0;
+            let marcos = 0;
+            let cancelados = 0;
+
+            if (partition.planta !== "Cancelado") {
+                for (const product of partition.productos) {
+                    if (product.emb_orden_producto.inv_productos.nombre?.includes('TARIMA')) {
+                        tarimas += product.cantidad_producida || 0;
+                    } else if (product.emb_orden_producto.inv_productos.nombre?.includes('MARCO')) {
+                        marcos += product.cantidad_producida || 0;
+                    }
+                    totalTarimas += tarimas;
+                    totalMarcos += marcos;
+                }
+            } else if (partition.planta === "Cancelado") {
+                for (const product of partition.productos) {
+                    cancelados += product.cantidad_solicitada || 0;
+                    totalCancelado += cancelados;
+                }
+            }
+            
+        }
+
+        for (const recolection of viaje.recolecciones) {
+            let recolectado = 0;
+
+            for (const product of recolection.productos) {
+                recolectado += product.cantidad_recoleccion || 0;
+                totalRecolecciones += recolectado;
+            }
+        }
+    };
+
+    // Agregar fila de total al final
+    tbody.innerHTML += 
+    `<tr class="table-active">
+        <td colspan="4">
+            <table class="text-center container-fluid">
+                <tbody>
+                    <tr>
+                        <td class="p-2 fw-bold">TOTALES</td>
+                        <td class="p-2"><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} pz</td>
+                        <td class="p-2"><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} pz</td>
+                        <td class="p-2"><b>Recolecciones: </b>${totalRecolecciones.toLocaleString('en-US')} pz</td>
+                        <td class="p-2"><b>Cancelados: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                    </tr>    
+                </tbody>
+            </table>
+        </td>
+    </tr>`;
 }

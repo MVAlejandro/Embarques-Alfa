@@ -128,7 +128,12 @@
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-6 label-over-border">
+                                <div class="col-md-8 label-over-border">
+                                    <label for="edit-observations" class="form-label m-2">Observaciones</label>
+                                    <input type="text" class="form-control" id="edit-observations">
+                                    <p class="error invalid-feedback" id="error-editObservations" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-4 label-over-border">
                                     <label for="edit-status" class="form-label m-2">Estado</label>
                                     <select id="edit-status" class="form-select" aria-label="Default select example">
                                         <option value="Pendiente">Seleccione...</option>
@@ -137,15 +142,10 @@
                                         <option value="PT parcial">PT parcial</option>
                                         <option value="En secado">En secado</option>
                                         <option value="Terminado">Terminado</option>
-                                        <option value="Cancelado">Cancelado</option>
+                                        <option value="Cancelado" class="d-none">Cancelado</option>
                                         <option value="Reprogramado">Reprogramado</option>
                                     </select>
                                     <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
-                                </div>
-                                <div class="col-md-6 label-over-border">
-                                    <label for="edit-observations" class="form-label m-2">Observaciones</label>
-                                    <input type="text" class="form-control" id="edit-observations">
-                                    <p class="error invalid-feedback" id="error-editObservations" style="color: red;"></p>
                                 </div>
                             </div>
                         </form>

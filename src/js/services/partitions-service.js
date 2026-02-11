@@ -105,3 +105,32 @@ export async function deletePartition(idPartition) {
         return;
     }
 };
+
+// Función para obtener el viaje relacionado a una partida
+export async function getPartitionTrip(tripId) {
+    const { data: viaje, error } = await supabase
+        .from('emb_viajes')
+        .select(`
+            id_viaje,
+            emb_unidades (nombre, placas),
+            emb_cajas (nombre),
+            emb_operadores (nombre)
+        `)
+        .eq('id_viaje', tripId)
+        .single();
+
+    if (error) {
+        console.error('Error obteniendo viaje:', error);
+        throw error;
+    }
+
+    return {
+        id_viaje: viaje.id_viaje,
+
+        id_unidad: viaje.id_unidad,
+        unidad: viaje.emb_unidades?.nombre,
+        placas: viaje.emb_unidades?.placas,
+        caja: viaje.emb_cajas?.nombre,
+        operador: viaje.emb_operadores?.nombre,
+    };
+}

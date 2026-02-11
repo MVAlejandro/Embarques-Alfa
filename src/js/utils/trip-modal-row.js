@@ -1,7 +1,5 @@
-// Utilidades
-import { inputValidate } from "./form-validations";
 
-// Función para agregar campos de productos con input y validación de cantidad
+// Función para agregar filas con la información de cada evento relacionado al viaje
 export async function addEventRow(partitionsEl, recolectionsEl) {
     const container1 = document.getElementById("partition-container");
     const container2 = document.getElementById("recolection-container");
@@ -10,7 +8,7 @@ export async function addEventRow(partitionsEl, recolectionsEl) {
     const recolections = recolectionsEl;
     
     container1.innerHTML = `<p class="ms-3 p-2 ps-1 fw-bold">Partidas asignadas</p>`;
-    // Agregar una fila por cada producto
+    // Agregar una fila por cada partida
     for (const partition of partitions) {
         const index = container1.children.length;
         // Colocar id único
@@ -37,7 +35,7 @@ export async function addEventRow(partitionsEl, recolectionsEl) {
                     <option value="Entregado">Entregado</option>
                     <option value="Rechazado">Rechazado</option>
                     <option value="Rechazo parcial">Rechazo parcial</option>
-                    <option value="Cancelado">Cancelado</option>
+                    <option value="Cancelado" class="d-none">Cancelado</option>
                 </select>
                 <p class="error invalid-feedback" id="error-${uniqueId}" style="color: red;"></p>
             </div>
@@ -49,7 +47,7 @@ export async function addEventRow(partitionsEl, recolectionsEl) {
     }
     
     container2.innerHTML = `<p class="ms-3 p-2 ps-1 fw-bold">Recolecciones asignadas</p>`;
-    // Agregar una fila por cada producto
+    // Agregar una fila por cada recolección
     for (const recolection of recolections) {
         const index = container2.children.length;
         // Colocar id único
@@ -74,7 +72,7 @@ export async function addEventRow(partitionsEl, recolectionsEl) {
                     <option value="Asignado">Asignado</option>
                     <option value="En ruta">En ruta</option>
                     <option value="Recolectado">Recolectado</option>
-                    <option value="Cancelado">Cancelado</option>
+                    <option value="Cancelado" class="d-none">Cancelado</option>
                 </select>
                 <p class="error invalid-feedback" id="error-${uniqueId}" style="color: red;"></p>
             </div>

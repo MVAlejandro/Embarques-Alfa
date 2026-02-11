@@ -74,7 +74,7 @@
                             <th class="p-3 ps-2">CLIENTE</th>
                             <th class="p-3 ps-2">PRODUCIDO</th>
                             <th class="p-3 ps-2">DESTINO</th>
-                            <th class="text-center p-3">PLANTA</th>
+                            <th class="text-center p-3">PRODUCCIÓN</th>
                             <th class="text-center p-3">EMBARQUE</th>
                             <th class="p-3 ps-2">UNIDAD</th>
                             <th class="p-3 ps-2">OBSERVACIONES</th>
@@ -132,14 +132,9 @@
                                     <input type="text" class="form-control" id="edit-oc" disabled>
                                 </div>
                                 <div class="col-md-6 label-over-border">
-                                    <label for="edit-status" class="form-label m-2">Estado</label>
-                                    <select id="edit-status" class="form-select" aria-label="Default select example">
-                                        <option value="Planeado">Seleccione...</option>
-                                        <option value="En preparación">En preparación</option>
-                                        <option value="Proceso de carga">Proceso de carga</option>
-                                        <option value="Cargado">Cargado</option>
-                                    </select>
-                                    <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
+                                    <label for="edit-destination" class="form-label m-2">Destino</label>
+                                    <input type="text" class="form-control" id="edit-destination" disabled>
+                                    <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
@@ -149,9 +144,15 @@
                                     <p class="error invalid-feedback" id="error-editRemision" style="color: red;"></p>
                                 </div>
                                 <div class="col-md-6 label-over-border">
-                                    <label for="edit-destination" class="form-label m-2">Destino</label>
-                                    <input type="text" class="form-control" id="edit-destination" disabled>
-                                    <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
+                                    <label for="edit-status" class="form-label m-2">Estado</label>
+                                    <select id="edit-status" class="form-select" aria-label="Default select example">
+                                        <option value="Planeado">Seleccione...</option>
+                                        <option value="En preparación">En preparación</option>
+                                        <option value="En carga">En carga</option>
+                                        <option value="Cargado">Cargado</option>
+                                        <option value="Cancelado" class="d-none">Cancelado</option>
+                                    </select>
+                                    <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
@@ -162,6 +163,16 @@
                                 </div>
                             </div>
                         </form>
+                        <div id="production-products">
+                            <div class="row ms-2 me-2 pt-2 pb-2">
+                                <div class="col d-flex align-items-center">
+                                    <p class="fw-bold">Productos a embarcar</p>
+                                </div>
+                            </div>
+                            <div id="production-products-container" class="mb-4">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer me-4">

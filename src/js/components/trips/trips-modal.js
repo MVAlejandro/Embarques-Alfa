@@ -7,7 +7,7 @@ import { renderTripsTable } from './trips-table.js';
 
 // Utilidades
 import { amountValidate, inputValidate } from '../../utils/form-validations.js';
-import { addEventRow } from '../../utils/modal-trip-row.js';
+import { addEventRow } from '../../utils/trip-modal-row.js';
 
 // Función para cargar datos en el modal
 export async function renderTripEditModal(viaje) {

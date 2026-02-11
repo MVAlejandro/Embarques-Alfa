@@ -1,9 +1,10 @@
 // Servicios Supabase
 import { getPartitionProducts } from "../../services/partition-product-service";
+import { getRecolectionProducts } from "../../services/recolection-product-service";
 // Utilidades
 import { viewProductRow } from "../../utils/modal-product-rows";
 
-// Función para cargar datos en el modal
+// Función para cargar datos de producción en el modal
 export async function renderProductionModal(partida) {
     // Insertar valores en los inputs
     document.getElementById('production-date').value = partida.fecha_programada;
@@ -28,19 +29,22 @@ export async function renderProductionModal(partida) {
 }
 
 // Función para cargar datos de transporte en el modal
-export async function renderTransportModal(partida) {
+export async function renderTransportModal(viaje) {
     // Insertar valores en los inputs
-    document.getElementById('transport-date').value = partida.fecha_programada;
-    document.getElementById('transport-time').value = partida.hora_programada.slice(0, 5);
-    document.getElementById('transport-oc').value = partida.numero_orden;
-    document.getElementById('transport-operator').value = partida.operador || "-";
+    document.getElementById('transport-date').value = viaje.fecha_programada;
+    document.getElementById('transport-time').value = viaje.hora_programada.slice(0, 5);
+    document.getElementById('transport-operator').value = viaje.operador || "-";
+    document.getElementById('transport-status').value = viaje.transporte;
+    document.getElementById('transport-unit').value = viaje.unidad || "-";
+    document.getElementById('transport-box').value = viaje.caja || "-";
+    document.getElementById('transport-distance').value = viaje.distancia != null ? viaje.distancia.toLocaleString('en-US') + " Km" : "-";
+    document.getElementById('transport-fuel').value = viaje.combustible != null ? viaje.combustible.toLocaleString('en-US') + " Lts" : "-";
+    document.getElementById('transport-price').value = viaje.costo != null ? "$" + viaje.costo.toLocaleString('en-US'): "-";
+    document.getElementById('transport-tag').value = viaje.tag != null ? "$" + viaje.tag.toLocaleString('en-US'): "-";
+}
+export async function renderTransportInput(partida) {
+    // Insertar valores en los inputs
     document.getElementById('transport-status').value = partida.transporte;
-    document.getElementById('transport-unit').value = partida.unidad || "-";
-    document.getElementById('transport-box').value = partida.caja || "-";
-    document.getElementById('transport-distance').value = partida.distancia != null ? partida.distancia.toLocaleString('en-US') + " Km" : "-";
-    document.getElementById('transport-fuel').value = partida.combustible != null ? partida.combustible.toLocaleString('en-US') + " Lts" : "-";
-    document.getElementById('transport-price').value = partida.costo != null ? "$" + partida.costo.toLocaleString('en-US'): "-";
-    document.getElementById('transport-tag').value = partida.tag != null ? "$" + partida.tag.toLocaleString('en-US'): "-";
 }
 
 // Función para cargar datos de embarques en el modal
@@ -64,4 +68,24 @@ export async function renderBillsModal(partida) {
     document.getElementById('bill-remision').value = partida.numero_remision || "-";
     document.getElementById('bill-number').value = partida.numero_facturacion || "-";
     document.getElementById('bill-status').value = partida.facturacion;
+}
+
+// Función para cargar datos de recolección en el modal
+export async function renderRecolectionsModal(recoleccion) {
+    // Insertar valores en los inputs
+    document.getElementById('recolection-date').value = recoleccion.fecha_programada;
+    document.getElementById('recolection-supplier').value = recoleccion.proveedor;
+    document.getElementById('recolection-destination').value = recoleccion.destino || recoleccion.ubicacion;
+    document.getElementById('recolection-observations').value = recoleccion.observaciones;
+    document.getElementById('recolection-status').value = recoleccion.transporte;
+
+    // Limpiar filas anteriores
+    const container = document.getElementById("recolection-products-container");
+    container.innerHTML = '';
+    
+    const productos = await getRecolectionProducts(recoleccion.id_recoleccion);
+    
+    for (const product of productos) {
+        await viewProductRow("recolection", product.id_producto, product.codigo, product.producto, product.cantidad_recoleccion ?? 0,);
+    }
 }

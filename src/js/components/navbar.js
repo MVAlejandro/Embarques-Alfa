@@ -152,7 +152,7 @@ function createFooter(footer) {
             <hr>
             <div class="row align-items-center">
                 <div id="footer-text" class="col text-center">
-                    <small>2025 Pallets Alfa Texcoco. Todos los derechos reservados.</small>
+                    <small>2026 Pallets Alfa Texcoco. Todos los derechos reservados.</small>
                 </div>
             </div>
             <br>
