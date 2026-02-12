@@ -76,11 +76,16 @@ input:disabled {
 
 .planning-status {
     padding: 5px 12px 5px 12px;
-    border-radius: 50px;
+    border-radius: 15px;
     font-weight: bold;
     display: inline-block;
 }
 
 #partition-table, #recolection-table {
     font-size: 14px;
+}
+
+#trip-total-table {
+    font-size: 13px;
+    background-color: var(--primary-light);
 }

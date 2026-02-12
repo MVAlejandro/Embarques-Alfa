@@ -27,6 +27,7 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
     let totalTarimas = 0;
     let totalMarcos = 0;
+    let totalCancelado = 0;
 
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
 
@@ -49,9 +50,9 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
         // Determinar clase CSS para el estatus de embarque
         let shipmentStatusClass = '';
-        if (partida.embarque == 'En preparación') {
+        if (partida.embarque == 'Preparando') {
             shipmentStatusClass = 'yellow';
-        } else if (partida.embarque == 'Proceso de carga') {
+        } else if (partida.embarque == 'En carga') {
             shipmentStatusClass = 'greenL';
         } else if (partida.embarque == 'Cargado') {
             shipmentStatusClass = 'greenD';
@@ -97,7 +98,7 @@ export async function renderShipmentsTable(partitionsParam = null) {
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
-                    ${partida.embarque === "Cargado" || partida.planta !== "Terminado" || partida.unidad === undefined || partida.planta === "Cancelado" ? "disabled" : ""}
+                    ${partida.embarque === "Cargado" || partida.planta !== "Terminado" || viaje.unidad === undefined || partida.planta === "Cancelado" ? "disabled" : ""}
                     partition-data='${JSON.stringify(partida)}'>
                     ${partida.embarque === "Cargado" ? "Completado" : partida.embarque === "Cancelado" ? "Cancelado" : "Actualizar"}
                 </button>
@@ -110,13 +111,25 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
         let tarimas = 0;
         let marcos = 0;
+        let cancelados = 0;
 
         for (const producto of productos) {
-            // Sumar unidades según el tipo de producto
-            if (producto.producto?.includes('TARIMA')) {
-                tarimas += producto.cantidad_producida || 0;
-            } else if (producto.producto?.includes('MARCO')) {
-                marcos += producto.cantidad_producida || 0;
+            if (partida.planta !== "Cancelado") {
+                if (producto.producto?.includes('TARIMA')) {
+                    const cantidad = producto.cantidad_producida || 0;
+                    tarimas += cantidad;
+                    totalTarimas += cantidad;
+                } 
+                else if (producto.producto?.includes('MARCO')) {
+                    const cantidad = producto.cantidad_producida || 0;
+                    marcos += cantidad;
+                    totalMarcos += cantidad;
+                }
+
+            } else if ((partida.planta === "Cancelado")) {
+                const cantidad = producto.cantidad_solicitada || 0;
+                cancelados += cantidad;
+                totalCancelado += cantidad;
             }
 
             requestedContainer.innerHTML += 
@@ -124,18 +137,25 @@ export async function renderShipmentsTable(partitionsParam = null) {
             <p class="shipment-cant">${producto.producto}</p>
             <hr>`;
         }
-
-        totalTarimas += tarimas;
-        totalMarcos += marcos;
     };
 
     // Agregar fila de total al final
     tbody.innerHTML += 
     `<tr class="table-active">
-        <td colspan="2" class="p-2 text-center fw-bold">TOTALES</td>
-        <td class="p-2"><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} Unidades</td>
-        <td class="p-2"><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} Unidades</td>
-        <td colspan="5"></td>
+        <td></td>
+        <td colspan="7">
+            <table class="text-center container-fluid">
+                <tbody>
+                    <tr>
+                        <td class="fw-bold">TOTALES</td>
+                        <td><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} pz</td>
+                        <td><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} pz</td>
+                        <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                    </tr>    
+                </tbody>
+            </table>
+        </td>
+        <td></td>
     </tr>`;
 
     validateUserRole()

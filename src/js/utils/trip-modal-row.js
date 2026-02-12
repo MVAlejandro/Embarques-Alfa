@@ -40,8 +40,26 @@ export async function addEventRow(partitionsEl, recolectionsEl) {
                 <p class="error invalid-feedback" id="error-${uniqueId}" style="color: red;"></p>
             </div>
             `;
-
+            
+        // Bloquear actualización de estado si no está facturada la partida
         const select = newPartition.querySelector('select');
+        const options = select.querySelectorAll('option');
+
+        if (partition.transporte === 'Cancelado') {
+            select.disabled = true;
+        } else {
+            select.disabled = false;
+        }
+
+        if (partition.facturacion !== 'Documentado') {
+            options.forEach((option, index) => {
+                option.disabled = index > 1;
+            });
+        } else {
+            // Si está Documentado, habilitar todo
+            options.forEach(option => option.disabled = false);
+        }
+
         select.value = partition.transporte;
         container1.appendChild(newPartition);
     }
@@ -79,6 +97,13 @@ export async function addEventRow(partitionsEl, recolectionsEl) {
             `;
 
         const select = newRecolection.querySelector('select');
+
+        if (recolection.transporte === 'Cancelado') {
+            select.disabled = true;
+        } else {
+            select.disabled = false;
+        }
+
         select.value = recolection.transporte;
         container2.appendChild(newRecolection);
     }

@@ -73,6 +73,7 @@ export async function getTrips() {
 
         emb_partidas (
             id_partida,
+            facturacion,
             transporte,
             emb_ordenes_compra (
                 emb_clientes (nombre, ubicacion)
@@ -128,6 +129,7 @@ export async function getTrips() {
 
         partidas: viaje.emb_partidas?.map(p => ({
             id_partida: p.id_partida,
+            facturacion: p.facturacion,
             transporte: p.transporte,
             cliente: p.emb_ordenes_compra?.emb_clientes?.nombre,
             ubicacion: p.emb_ordenes_compra?.emb_clientes?.ubicacion,

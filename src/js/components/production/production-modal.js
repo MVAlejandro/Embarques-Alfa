@@ -26,28 +26,13 @@ export async function renderProductionEditModal(partida) {
     container1.innerHTML = '';
     container2.innerHTML = '';
     
-    // Obtener los productos de la orden
-    const orderProducts = await getOrderProducts(partida.id_orden);
+    // Obtener los productos de la partida
+    const productos = await getPartitionProducts(partida.id_partida);
 
-    // Cargar lo asignado en la partida actual para rellenar inputs
-    const currentPartitionProducts = await getPartitionProducts(partida.id_partida);
-    const currentProductsMap = {};
-
-    for (const row of currentPartitionProducts) {
-        currentProductsMap[row.id_orden_producto] = row.cantidad_solicitada;
-    }
-
-    // Mostrar productos en el modal
-    for (const product of orderProducts) {
-        // Valor a mostrar
-        const visibleQuantity = currentProductsMap[product.id_orden_producto] || 0;
-        // Cantidad máxima a ingresar
-        const maxValue = product.cantidad_orden
-
-        await viewProductRow("partition", product.id_orden_producto, product.codigo, product.producto, visibleQuantity,);
-        await validateProductRow("production", product.id_orden_producto, product.codigo, product.producto, visibleQuantity, maxValue,);
-    }
-
+    for (const producto of productos) {
+        await viewProductRow("partition", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_solicitada ?? 0,);
+        await validateProductRow("production", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_producida ?? producto.cantidad_solicitada, producto.cantidad_orden,);
+    };
     validateUserRole()
 }
 

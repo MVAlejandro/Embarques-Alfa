@@ -10,7 +10,7 @@ import { renderTripsTable } from '../trips/trips-table.js';
 
 // Utilidades
 import { selectValidate, inputValidate } from '../../utils/form-validations.js';
-import { loadOptionsFilter } from '../../utils/load-select.js';
+import { loadTripsFilter } from '../../utils/load-select.js';
 import { viewProductRow } from '../../utils/modal-product-rows.js';
 
 // Función para cargar datos en el modal
@@ -24,7 +24,7 @@ export async function renderTransportAsignModal(registro) {
     document.getElementById('edit-trip').value = registro.id_viaje;
 
     // Cargar opciones en el select
-    await loadOptionsFilter('edit-trip', getTrips, ['hora_programada', 'tipo'], 'id_viaje', "Seleccione...", registro.id_viaje);
+    await loadTripsFilter(registro.fecha_programada, ['hora_programada', 'unidad'], registro.id_viaje);
     
     // Limpiar filas anteriores
     const container1 = document.getElementById("partition-products-container");

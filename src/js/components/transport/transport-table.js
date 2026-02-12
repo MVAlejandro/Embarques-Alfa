@@ -22,13 +22,17 @@ export async function renderPartitionTransportTable(partitionsParam = null) {
     allPartitions = allPartitions.filter(p => p.planta !== "Cancelado");
     
     const tbody = document.querySelector('#partitions-table tbody');
+    const weekText = document.getElementById('weekHeader');
     // Limpiar elementos antes de insertar
     tbody.innerHTML = '';
+    weekText.innerHTML = "Semana 0";
 
     if (!allPartitions || allPartitions.length === 0) {
         tbody.innerHTML = `<tr><td class="text-center" colspan="8">No hay partidas sin asignar</td></tr>`;
         return;
     }
+
+    weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
 
     // Calcular total de cantidades
     let totalGeneral = 0;
@@ -72,6 +76,7 @@ export async function renderRecolectionTransportTable(recolectionsParam = null) 
 
     // Filtrar los registros que no tengan un viaje asignado
     allRecolections = allRecolections.filter(r => !r.id_viaje);
+    allRecolections = allRecolections.filter(r => r.transporte !== "Cancelado");
     
     const tbody = document.querySelector('#recolections-table tbody');
     // Limpiar elementos antes de insertar

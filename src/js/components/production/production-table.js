@@ -28,6 +28,7 @@ export async function renderProductionTable(partitionsParam = null) {
 
     let totalSolGeneral = 0;
     let totalProdGeneral = 0;
+    let totalCancelado = 0;
 
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
     
@@ -51,11 +52,16 @@ export async function renderProductionTable(partitionsParam = null) {
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
         // Calcular total de cantidades
-        const totalRequiredAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
-        const totalProducedAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_producida || 0), 0);
+        if (partida.planta !== "Cancelado") {
+            const totalRequiredAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+            const totalProducedAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_producida || 0), 0);
 
-        totalSolGeneral += totalRequiredAmount;
-        totalProdGeneral += totalProducedAmount;
+            totalSolGeneral += totalRequiredAmount;
+            totalProdGeneral += totalProducedAmount;
+        } else if (partida.planta === "Cancelado") {
+            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+            totalCancelado += totalAmount;
+        }
 
         tbody.innerHTML += 
         `<tr>
@@ -106,10 +112,21 @@ export async function renderProductionTable(partitionsParam = null) {
     // Agregar fila de total al final
     tbody.innerHTML += 
     `<tr class="table-active">
-        <td colspan="2" class="p-2 text-center fw-bold">TOTALES</td>
-        <td class="p-2"><b>Solicitado: </b>${totalSolGeneral.toLocaleString('en-US')} Unidades</td>
-        <td class="p-2"><b>Producido: </b>${totalProdGeneral.toLocaleString('en-US')} Unidades</td>
-        <td colspan="3" class="p-2"><b>Diferencia: </b>${(totalProdGeneral-totalSolGeneral).toLocaleString('en-US')} Unidades</td>
+        <td></td>
+        <td class="fw-bold">TOTALES</td>
+        <td colspan="4">
+            <table class="text-center container-fluid">
+                <tbody>
+                    <tr>
+                        <td><b>Solicitado: </b>${totalSolGeneral.toLocaleString('en-US')} pz</td>
+                        <td><b>Producido: </b>${totalProdGeneral.toLocaleString('en-US')} pz</td>
+                        <td><b>Diferencia: </b>${(totalProdGeneral-totalSolGeneral).toLocaleString('en-US')} pz</td>
+                        <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                    </tr>    
+                </tbody>
+            </table>
+        </td>
+        <td></td>
     </tr>`;
 
     validateUserRole()

@@ -27,6 +27,7 @@ export async function renderPartitionsTable(partitionsParam = null) {
 
     let totalTarimas = 0;
     let totalMarcos = 0;
+    let totalCancelado = 0;
 
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
     
@@ -80,13 +81,25 @@ export async function renderPartitionsTable(partitionsParam = null) {
 
         let tarimas = 0;
         let marcos = 0;
+        let cancelados = 0;
 
         for (const producto of productos) {
-            // Sumar unidades según el tipo de producto
-            if (producto.producto?.includes('TARIMA')) {
-                tarimas += producto.cantidad_solicitada || 0;
-            } else if (producto.producto?.includes('MARCO')) {
-                marcos += producto.cantidad_solicitada || 0;
+            if (partida.planta !== "Cancelado") {
+                if (producto.producto?.includes('TARIMA')) {
+                    const cantidad = producto.cantidad_solicitada || 0;
+                    tarimas += cantidad;
+                    totalTarimas += cantidad;
+                } 
+                else if (producto.producto?.includes('MARCO')) {
+                    const cantidad = producto.cantidad_solicitada || 0;
+                    marcos += cantidad;
+                    totalMarcos += cantidad;
+                }
+
+            } else if ((partida.planta === "Cancelado")) {
+                const cantidad = producto.cantidad_solicitada || 0;
+                cancelados += cantidad;
+                totalCancelado += cantidad;
             }
 
             container.innerHTML += 
@@ -94,18 +107,25 @@ export async function renderPartitionsTable(partitionsParam = null) {
             <p class="partition-cant">${producto.producto}</p>
             <hr>`;
         }
-
-        totalTarimas += tarimas;
-        totalMarcos += marcos;
-
     };
 
     // Agregar fila de total al final
     tbody.innerHTML += 
     `<tr class="table-active">
-        <td colspan="2" class="p-2 text-center fw-bold">TOTALES</td>
-        <td colspan="2" class="p-2"><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} Unidades</td>
-        <td colspan="2" class="p-2"><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} Unidades</td>
+        <td></td>
+        <td colspan="4">
+            <table class="text-center container-fluid">
+                <tbody>
+                    <tr>
+                        <td class="fw-bold">TOTALES</td>
+                        <td><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} pz</td>
+                        <td><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} pz</td>
+                        <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                    </tr>    
+                </tbody>
+            </table>
+        </td>
+        <td></td>
     </tr>`;
 
     validateUserRole()

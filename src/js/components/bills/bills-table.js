@@ -26,6 +26,7 @@ export async function renderBillsTable(partitionsParam = null) {
     }
 
     let totalGeneral = 0;
+    let totalCancelado = 0;
 
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
     
@@ -56,10 +57,15 @@ export async function renderBillsTable(partitionsParam = null) {
 
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
-        // Calcular total de cantidades
-        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
 
-        totalGeneral += totalAmount;
+        // Calcular total de cantidades
+        if (partida.planta !== "Cancelado") {
+            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+            totalGeneral += totalAmount;
+        } else if (partida.planta === "Cancelado") {
+            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+            totalCancelado += totalAmount;
+        }
 
         tbody.innerHTML += 
         `<tr>
@@ -79,7 +85,7 @@ export async function renderBillsTable(partitionsParam = null) {
                 <p class="bill-status ${BillStatusClass}">${partida.facturacion}</p>
             </td>
             <td class="bill-number p-2">${partida.numero_facturacion || "Sin Registro"}</td>
-            <td class="bill-control text-center d-none" data-fact-only>
+            <td class="bill-control text-center d-none" data-vent-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
@@ -104,10 +110,20 @@ export async function renderBillsTable(partitionsParam = null) {
 
     // Agregar fila de total al final
     tbody.innerHTML += 
-    `<tr class="table-active fw-bold">
-        <td colspan="3" class="text-center">TOTALES</td>
-        <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
-        <td colspan="4"></td>
+    `<tr class="table-active">
+        <td></td>
+        <td colspan="6">
+            <table class="text-center container-fluid">
+                <tbody>
+                    <tr>
+                        <td class="fw-bold">TOTALES</td>
+                        <td><b>Solicitado: </b>${totalGeneral.toLocaleString('en-US')} pz</td>
+                        <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                    </tr>    
+                </tbody>
+            </table>
+        </td>
+        <td></td>
     </tr>`;
 
     validateUserRole()

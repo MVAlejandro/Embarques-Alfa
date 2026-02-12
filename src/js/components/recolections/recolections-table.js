@@ -27,6 +27,7 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
     }
 
     let totalGeneral = 0;
+    let totalCancelado = 0;
 
     weekText.innerHTML = `Semana ${allRecolections[0].semana}`;
     
@@ -48,9 +49,13 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
         // Obtener productos de la recoleccion
         const productos = await getRecolectionProducts(recoleccion.id_recoleccion);
         // Calcular total de cantidades
-        const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_recoleccion || 0), 0);
-
-        totalGeneral += totalAmount;
+        if (recoleccion.transporte !== "Cancelado") {
+            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_recoleccion || 0), 0);
+            totalGeneral += totalAmount;
+        } else if (recoleccion.transporte === "Cancelado") {
+            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_recoleccion || 0), 0);
+            totalCancelado += totalAmount;
+        }
 
         tbody.innerHTML += 
         `<tr>
@@ -91,31 +96,21 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
 
     // Agregar fila de total al final
     tbody.innerHTML += 
-    `<tr class="table-active fw-bold">
-        <td colspan="2" class="text-center">TOTALES</td>
-        <td class="p-2">${totalGeneral.toLocaleString('en-US')}</td>
-        <td colspan="3"></td>
+    `<tr class="table-active">
+        <td></td>
+        <td colspan="4">
+            <table class="text-center container-fluid">
+                <tbody>
+                    <tr>
+                        <td class="fw-bold">TOTALES</td>
+                        <td><b>Planeado: </b>${totalGeneral.toLocaleString('en-US')} pz</td>
+                        <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                    </tr>    
+                </tbody>
+            </table>
+        </td>
+        <td></td>
     </tr>`;
 
     validateUserRole()
-
-    try {
-        // Si no hay sesión, no hacer nada
-        const session = await getSession();
-        if (!session) return;
-        
-        // Obtener el rol "admin", "colab", etc.
-        const rol = await getUserProfile(session);
-        if (!rol) return;
-    
-        if (rol === 'comp') {
-            // Habilitar todos los botones desactivados
-            document.querySelectorAll('button:disabled').forEach(el => {
-                el.disabled = false;
-            });
-        } 
-        
-    } catch (error) {
-        console.error('Error validando rol del usuario:', error);
-    }
 }

@@ -11,6 +11,7 @@ import '../components/navbar.js';
 
 // Servicios Supabase
 import { initPage } from '../utils/session-validate.js';
+import { getFullTrips } from '../services/trips-service.js';
 import { initPageFilters } from '../utils/planning-filters.js'; 
 import { renderPlanningTable, getPartitionById, getRecolectionById, getTripById } from '../components/planning/planning-table.js';
 import { renderProductionModal, renderTransportModal, renderTransportInput, renderShipmentsModal, renderBillsModal, renderRecolectionsModal } from '../components/planning/planning-modal.js';
@@ -18,7 +19,7 @@ import { renderProductionModal, renderTransportModal, renderTransportInput, rend
 document.addEventListener('DOMContentLoaded', async () => {
     await initPage()
     // Generar tabla con el día actual
-    await initPageFilters(renderPlanningTable);
+    await initPageFilters(getFullTrips, renderPlanningTable);
 });
 
 // Recargar la página cada cierto tiempo de forma automática

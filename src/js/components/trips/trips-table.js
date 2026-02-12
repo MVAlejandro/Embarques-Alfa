@@ -12,13 +12,15 @@ export async function renderTripsTable(tripsParam = null) {
     } else {
         allTrips = await getTrips();
     }
-    console.log(allTrips);
     
     const tbody = document.querySelector('#trips-table tbody');
     const weekText = document.getElementById('weekHeader');
     // Limpiar elementos antes de insertar
-    weekText.innerHTML = "Semana 0";
     tbody.innerHTML = '';
+
+    if (weekText.textContent === "Semana 0") {
+        weekText.innerHTML = `Semana ${allTrips[0].semana}`;
+    }
 
     if (!allTrips || allTrips.length === 0) {
         tbody.innerHTML = `<tr><td class="text-center" colspan="10">No hay viajes registrados</td></tr>`;
@@ -30,8 +32,6 @@ export async function renderTripsTable(tripsParam = null) {
     const totalFuel = allTrips.reduce((acc, viaje) => acc + (viaje.combustible || 0), 0);
     const totalPrice = allTrips.reduce((acc, viaje) => acc + (viaje.costo || 0), 0);
     const totalTag = allTrips.reduce((acc, viaje) => acc + (viaje.tag || 0), 0);
-
-    weekText.innerHTML = `Semana ${allTrips[0].semana}`;
 
     for (const viaje of allTrips) {
         let tripStatusClass = '';

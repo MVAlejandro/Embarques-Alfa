@@ -1,6 +1,6 @@
 import supabase from "../supabase/supabase-client";
 // Servicios Supabase
-import { getOrders } from "../services/orders-service";
+import { getTrips } from "../services/trips-service";
 
 // Función para cargar datos completos en los select del formulario
 export async function loadOptions(selectId, table, valueKey, textKey, defaultOption, selectedValue = '0') {
@@ -98,5 +98,53 @@ export function loadDaysFilter() {
         disable: [
             date => date.getDay() === 0
         ]
+    });
+}
+
+// Función para cargar los viajes filtrados en el select
+export async function loadTripsFilter(dateFilter, displayFields, selectedId = 0) {
+    const select = document.getElementById('edit-trip');
+    if (!select) return;
+
+    // Limpiar contenido previo
+    select.innerHTML = '';
+
+    // Obtener datos externos
+    let data = await getTrips();
+    if (!data) return;
+
+    data = data.filter(e => e.fecha_programada === dateFilter);
+
+    // Opción por defecto
+    const defaultOptionEl = document.createElement('option');
+    defaultOptionEl.value = 0;
+    defaultOptionEl.textContent = "Seleccione...";
+    select.appendChild(defaultOptionEl);
+
+    // Eliminar duplicados por texto
+    const seenTexts = new Set();
+
+    // Agregar opciones al select
+    data.forEach(item => {
+        let text;
+        if (Array.isArray(displayFields)) {
+            text = displayFields.map(f => item[f]).filter(Boolean).join(' - ');
+        } else {
+            text = item[displayFields];
+        }
+
+        if (!text || seenTexts.has(text)) return;
+        seenTexts.add(text);
+
+        const optionEl = document.createElement('option');
+        optionEl.value = item['id_viaje'];
+        optionEl.textContent = text;
+
+        // Marcar como seleccionado si coincide con selectedId
+        if (item['id_viaje'] == selectedId) {
+            optionEl.selected = true;
+        }
+
+        select.appendChild(optionEl);
     });
 }
