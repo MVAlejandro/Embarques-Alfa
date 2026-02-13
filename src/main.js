@@ -11,9 +11,19 @@ import './js/components/navbar.js';
 
 // Servicios Supabase
 import { initPage } from './js/utils/session-validate.js';
-import { createResume } from './js/components/index/index-content.js';
+import { createResumeCards } from './js/components/index/resume-cards.js';
+
+// Utilidades
+import { obtainLastWeek } from './js/utils/week-functions.js'; 
+import { renderCanceledGraphic, renderClientsGraphic } from './js/components/index/resume-graphic.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
+    const lastWeek = await obtainLastWeek();
+
     await initPage()
-    createResume()
+    createResumeCards(lastWeek)
+    renderCanceledGraphic(lastWeek)
+    renderClientsGraphic(lastWeek)
+    
+    // Chart.register(ChartDataLabels);
 })

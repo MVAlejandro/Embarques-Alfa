@@ -69,8 +69,8 @@ export async function renderPlanningTable(tripsParam = null) {
                     <p class="planning-partitions ${viaje.tipo === "Recolección" ? "d-none" : ""}">Partidas: ${viaje.partidas.length || "-"}</p>
                     <p class="planning-recolections ${viaje.tipo === "Partida" ? "d-none" : ""}">Recolecciones: ${viaje.recolecciones.length || "-"}</p>
                 </td>
-                <td class="text-center p-2">
-                    <p class="planning-status red">Viaje cancelado</p>
+                <td class="text-center p-0 red">
+                    <p class="pt-3 fw-semibold">Viaje cancelado</p>
                 </td>
             </tr>`;
         } else if (viaje.estado !== "Cancelado") {

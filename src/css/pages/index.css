@@ -27,12 +27,24 @@ a {
   text-decoration: none;
 }
 
-#planning-container {
+#planning-container, #canceled-statistics-container, #client-statistics-container {
     animation: fadeInUp 1s ease-in-out;
 }
 
 #weekHeader {
   color: var(--primary-dark);
+}
+
+.graphic-statistics-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+@media (max-width: 430px) {
+    .direct-access {
+        padding-top: 1.5rem
+    }
 }
 
 /* Estilos generales para cards */
