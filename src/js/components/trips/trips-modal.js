@@ -16,6 +16,7 @@ export async function renderTripEditModal(viaje) {
     document.getElementById('edit-trip-type').value = viaje.tipo;
     document.getElementById('edit-trip-date').value = viaje.fecha_programada;
     document.getElementById('edit-trip-time').value = viaje.hora_programada;
+    document.getElementById('edit-real-time').value = viaje.hora_salida != null ? viaje.hora_salida.slice(0, 5) : "";
     document.getElementById('edit-operator').value = viaje.operador;
     document.getElementById('edit-unit').value = viaje.unidad;
     document.getElementById('edit-box').value = viaje.caja;
@@ -46,6 +47,7 @@ export async function renderTripEditModal(viaje) {
 document.getElementById('btn-edit-trip').addEventListener('click', async function() {
     const form = document.getElementById('trip-edit-form');
     // Referencias para validación
+    const horaRealIn = document.getElementById('edit-real-time');
     const distanciaIn = document.getElementById('edit-distance');
     const combustibleIn = document.getElementById('edit-fuel');
     const costoIn = document.getElementById('edit-price');
@@ -81,6 +83,11 @@ document.getElementById('btn-edit-trip').addEventListener('click', async functio
         return
     }
 
+    // Registrar la hora de salida real
+    if (statusIn.value === 'En ruta') {
+        horaRealIn.value = new Date().toTimeString().slice(0, 8);
+    }
+
     const id_viaje = document.getElementById('edit-id-trip').value;
     const tipo = document.getElementById('edit-trip-type').value;
     const updatedData = { 
@@ -90,6 +97,11 @@ document.getElementById('btn-edit-trip').addEventListener('click', async functio
         tag: tagIn.value,
         estado: statusIn.value
     };
+
+    // Solo agregar hora_salida si tiene valor
+    if (horaRealIn.value) {
+        updatedData.hora_salida = horaRealIn.value;
+    }
 
     try {
         // Validar selecciones de cada estado de evento
@@ -131,17 +143,39 @@ document.getElementById('btn-edit-trip').addEventListener('click', async functio
             transporte: row.querySelector('select').value
         }));
 
+        const hora_recolectada = new Date().toTimeString().slice(0, 8);
+        const hora_entregada = new Date().toTimeString().slice(0, 8);
         // Detectar qué tipo de viaje se está editando
         if (tipo === "Partida") {
             // Solo actualizar partidas
-            partitionsData.forEach(p => updatePartition(p.id_partida, p));
+            partitionsData.forEach(p => {
+                if (p.transporte === 'Entregado') {
+                    p.hora_entregada = hora_entregada;
+                }
+                updatePartition(p.id_partida, p);
+            });
         } else if (tipo === "Recolección") {
             // Solo actualizar recolecciones
-            recolectionsData.forEach(r => updateRecolection(r.id_recoleccion, r));
+            recolectionsData.forEach(r => {
+                if (r.transporte === 'Recolectado') {
+                    r.hora_recolectada = hora_recolectada;
+                }
+                updateRecolection(r.id_recoleccion, r);
+            });
         } else {
             // Actualizar ambas
-            partitionsData.forEach(p => updatePartition(p.id_partida, p));
-            recolectionsData.forEach(r => updateRecolection(r.id_recoleccion, r));
+            partitionsData.forEach(p => {
+                if (p.transporte === 'Entregado') {
+                    p.hora_entregada = hora_entregada;
+                }
+                updatePartition(p.id_partida, p);
+            });
+            recolectionsData.forEach(r => {
+                if (r.transporte === 'Recolectado') {
+                    r.hora_recolectada = hora_recolectada;
+                }
+                updateRecolection(r.id_recoleccion, r);
+            });
         }
 
         // Cerrar el modal y mostrar alerta

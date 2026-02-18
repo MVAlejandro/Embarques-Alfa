@@ -45,7 +45,7 @@ export async function addEventRow(partitionsEl, recolectionsEl) {
         const select = newPartition.querySelector('select');
         const options = select.querySelectorAll('option');
 
-        if (partition.transporte === 'Cancelado') {
+        if (partition.transporte === 'Cancelado' || partition.transporte === 'Entregado') {
             select.disabled = true;
         } else {
             select.disabled = false;
@@ -98,7 +98,7 @@ export async function addEventRow(partitionsEl, recolectionsEl) {
 
         const select = newRecolection.querySelector('select');
 
-        if (recolection.transporte === 'Cancelado') {
+        if (recolection.transporte === 'Cancelado' || recolection.transporte === 'Recolectado') {
             select.disabled = true;
         } else {
             select.disabled = false;

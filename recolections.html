@@ -90,7 +90,8 @@
                         <tr class="table-light">
                             <th class="p-3 ps-4">FECHA</th>
                             <th class="p-3 ps-2">PROVEEDOR</th>
-                            <th class="p-3 ps-2">CLAVE</th>
+                            <th class="p-3 ps-2">PLANEADO</th>
+                            <th class="p-3 ps-2">RECOLECTADO</th>
                             <th class="text-center p-3">ESTADO</th>
                             <th class="p-3 ps-2">UBICACIÓN</th>
                             <th class="text-center p-3 d-none" data-comp-only>ACCIONES</th>
@@ -129,7 +130,8 @@
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-4 ms-auto label-over-border">
                                     <label for="edit-date" class="form-label m-2">Fecha</label>
-                                    <input type="text" class="form-control" id="edit-date" disabled data-comp-only>
+                                    <input type="date" class="form-control block-field" id="edit-date">
+                                    <p class="error invalid-feedback" id="error-editDate" style="color: red;"></p>
                                 </div>
                             </div>
                             <!-- Campos editables -->
@@ -140,19 +142,19 @@
                                 </div>
                                 <div class="col-md-12 col-lg-6 label-over-border filter">
                                     <label for="edit-destination" class="form-label m-2">Destino</label>
-                                    <input type="text" class="form-control" id="edit-destination">
+                                    <input type="text" class="form-control block-field" id="edit-destination">
                                     <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-8 label-over-border">
                                     <label for="edit-observations" class="form-label m-2">Observaciones</label>
-                                    <input type="text" class="form-control" id="edit-observations">
+                                    <input type="text" class="form-control block-field" id="edit-observations">
                                     <p class="error invalid-feedback" id="error-editObservations" style="color: red;"></p>
                                 </div>
                                 <div class="col-md-4 label-over-border">
                                     <label for="edit-status" class="form-label m-2">Estado</label>
-                                    <select id="edit-status" class="form-select" aria-label="Default select example">
+                                    <select id="edit-status" class="form-select block-field" aria-label="Default select example">
                                         <option value="Pendiente">Seleccione..</option>
                                         <option value="Planeado">Planeado</option>
                                         <option value="Asignado" class="d-none">Asignado</option>
@@ -170,10 +172,20 @@
                                     <p class="fw-bold">Productos asignados</p>
                                 </div>
                                 <div class="col-6 col-md-5 col-lg-3 d-flex align-items-center justify-content-end">
-                                    <button id="btn-add-product" type="button" class="btn btn-sm btn-primary">+ Agregar Producto</button>
+                                    <button id="btn-add-product" type="button" class="btn btn-sm btn-primary d-none">+ Agregar Producto</button>
                                 </div>
                             </div>
                             <div id="recolection-products-container" class="mb-4">
+
+                            </div>
+                        </div>
+                        <div id="recolected-products" class="d-none">
+                            <div class="row ms-2 me-2 pt-2 pb-2">
+                                <div class="col d-flex align-items-center">
+                                    <p class="fw-bold">Productos recolectados</p>
+                                </div>
+                            </div>
+                            <div id="recolected-products-container" class="mb-4">
 
                             </div>
                         </div>

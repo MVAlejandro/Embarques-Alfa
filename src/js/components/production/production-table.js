@@ -26,8 +26,8 @@ export async function renderProductionTable(partitionsParam = null) {
         return;
     }
 
-    let totalSolGeneral = 0;
-    let totalProdGeneral = 0;
+    let totalTarimas = 0;
+    let totalMarcos = 0;
     let totalCancelado = 0;
 
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
@@ -51,17 +51,6 @@ export async function renderProductionTable(partitionsParam = null) {
 
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
-        // Calcular total de cantidades
-        if (partida.planta !== "Cancelado") {
-            const totalRequiredAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
-            const totalProducedAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_producida || 0), 0);
-
-            totalSolGeneral += totalRequiredAmount;
-            totalProdGeneral += totalProducedAmount;
-        } else if (partida.planta === "Cancelado") {
-            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
-            totalCancelado += totalAmount;
-        }
 
         tbody.innerHTML += 
         `<tr>
@@ -70,9 +59,6 @@ export async function renderProductionTable(partitionsParam = null) {
                 <p class="production-time">${partida.hora_programada.slice(0, 5)}</p>
             </td>
             <td class="production-client p-2">${partida.cliente}</td>
-            <td id="partition-products-${partida.id_partida}" class="p-2">
-
-            </td>
             <td id="production-products-${partida.id_partida}" class="p-2">
 
             </td>
@@ -91,36 +77,51 @@ export async function renderProductionTable(partitionsParam = null) {
             </td>
         </tr>`;
 
-        // Insertar productos de esta partida
-        const container1 = document.getElementById(`partition-products-${partida.id_partida}`);
-        const container2 = document.getElementById(`production-products-${partida.id_partida}`);
-        container1.innerHTML = '';
-        container2.innerHTML = '';
+        // Insertar productos solicitados de esta partida
+        const requestedContainer = document.getElementById(`production-products-${partida.id_partida}`);
+        requestedContainer.innerHTML = '';
+
+        let tarimas = 0;
+        let marcos = 0;
+        let cancelados = 0;
 
         for (const producto of productos) {
-            container1.innerHTML += 
-            `<p class="partition-product">${producto.codigo} -  <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
-            <p class="partition-cant">${producto.producto}</p>
+            if (partida.planta !== "Cancelado") {
+                if (producto.producto?.includes('TARIMA')) {
+                    const cantidad = producto.cantidad_embarcada || 0;
+                    tarimas += cantidad;
+                    totalTarimas += cantidad;
+                } 
+                else if (producto.producto?.includes('MARCO')) {
+                    const cantidad = producto.cantidad_embarcada || 0;
+                    marcos += cantidad;
+                    totalMarcos += cantidad;
+                }
+
+            } else if ((partida.planta === "Cancelado")) {
+                const cantidad = producto.cantidad_solicitada || 0;
+                cancelados += cantidad;
+                totalCancelado += cantidad;
+            }
+
+            requestedContainer.innerHTML += 
+            `<p class="shipment-product">${producto.codigo} - <b>Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
+            <p class="shipment-cant">${producto.producto}</p>
             <hr>`;
-            container2.innerHTML += 
-            `<p class="production-product">${producto.codigo} - <b> Cant. ${(producto.cantidad_producida ?? 0).toLocaleString('en-US')}</b></p>
-            <p class="production-cant">${producto.producto}</p>
-            <hr>`;
-        };
+        }
     };
 
     // Agregar fila de total al final
     tbody.innerHTML += 
     `<tr class="table-active">
         <td></td>
-        <td class="fw-bold">TOTALES</td>
         <td colspan="4">
             <table class="text-center container-fluid">
                 <tbody>
                     <tr>
-                        <td><b>Solicitado: </b>${totalSolGeneral.toLocaleString('en-US')} pz</td>
-                        <td><b>Producido: </b>${totalProdGeneral.toLocaleString('en-US')} pz</td>
-                        <td><b>Diferencia: </b>${(totalProdGeneral-totalSolGeneral).toLocaleString('en-US')} pz</td>
+                        <td class="fw-bold">TOTALES</td>
+                        <td><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} pz</td>
+                        <td><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} pz</td>
                         <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
                     </tr>    
                 </tbody>

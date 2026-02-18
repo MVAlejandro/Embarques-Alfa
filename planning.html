@@ -131,23 +131,13 @@
                                 <input type="text" class="form-control" id="production-status" disabled>
                             </div>
                         </div>
-                        <div id="partition-products">
-                            <div class="row ms-2 me-2 pt-2 pb-2">
-                                <div class="col d-flex align-items-center">
-                                    <p class="fw-bold">Productos asignados</p>
-                                </div>
-                            </div>
-                            <div id="partition-products-container" class="mb-2">
-
-                            </div>
-                        </div>
                         <div id="production-products">
                             <div class="row ms-2 me-2 pt-2 pb-2">
                                 <div class="col d-flex align-items-center">
-                                    <p class="fw-bold">Productos producidos</p>
+                                    <p class="fw-bold">Productos solicitados</p>
                                 </div>
                             </div>
-                            <div id="production-products-container" class="mb-4">
+                            <div id="production-products-container" class="mb-2">
 
                             </div>
                         </div>
@@ -267,7 +257,7 @@
                                 <input type="text" class="form-control" id="shipment-time" disabled>
                             </div>
                             <div class="col-md-4 col-lg-3 label-over-border">
-                                <label for="shipment-real-time" class="form-label m-2">Hora programada</label>
+                                <label for="shipment-real-time" class="form-label m-2">Hora embarcado</label>
                                 <input type="text" class="form-control" id="shipment-real-time" disabled>
                             </div>
                         </div>
@@ -295,6 +285,26 @@
                             <div class="col label-over-border">
                                 <label for="shipment-observations" class="form-label m-2">Observaciones</label>
                                 <input type="text" class="form-control" id="shipment-observations" disabled>
+                            </div>
+                        </div>
+                        <div id="partition-products">
+                            <div class="row ms-2 me-2 pt-2 pb-2">
+                                <div class="col d-flex align-items-center">
+                                    <p class="fw-bold">Productos solicitados</p>
+                                </div>
+                            </div>
+                            <div id="partition-products-container" class="mb-2">
+
+                            </div>
+                        </div>
+                        <div id="shipment-products">
+                            <div class="row ms-2 me-2 pt-2 pb-2">
+                                <div class="col d-flex align-items-center">
+                                    <p class="fw-bold">Productos embarcados</p>
+                                </div>
+                            </div>
+                            <div id="shipment-products-container" class="mb-4">
+
                             </div>
                         </div>
                     </div>
@@ -382,9 +392,17 @@
                 <div class="modal-body">
                     <div id="recolection-content" class="container">
                         <div class="row ms-2 me-2 pt-3 pb-3">
-                            <div class="col-md-4 ms-auto label-over-border">
+                            <div class="col-md-4 col-lg-3 label-over-border">
                                 <label for="recolection-date" class="form-label m-2">Fecha</label>
                                 <input type="text" class="form-control" id="recolection-date" disabled>
+                            </div>
+                            <div class="col-md-4 col-lg-3 ms-auto label-over-border">
+                                <label for="recolection-time" class="form-label m-2">Hora planeada</label>
+                                <input type="text" class="form-control" id="recolection-time" disabled>
+                            </div>
+                            <div class="col-md-4 col-lg-3 label-over-border">
+                                <label for="recolection-real-time" class="form-label m-2">Hora recolectado</label>
+                                <input type="text" class="form-control" id="recolection-real-time" disabled>
                             </div>
                         </div>
                         <div class="row ms-2 me-2 pt-3 pb-3">
@@ -414,6 +432,16 @@
                                 </div>
                             </div>
                             <div id="recolection-products-container" class="mb-4">
+
+                            </div>
+                        </div>
+                        <div id="recolected-products">
+                            <div class="row ms-2 me-2 pt-2 pb-2">
+                                <div class="col d-flex align-items-center">
+                                    <p class="fw-bold">Productos recolectados</p>
+                                </div>
+                            </div>
+                            <div id="recolected-products-container" class="mb-4">
 
                             </div>
                         </div>

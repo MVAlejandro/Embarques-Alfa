@@ -45,8 +45,8 @@ export function addEventTableRow(id, partitions, recolections) {
             const newPartition = document.createElement("tr");
             newPartition.dataset.idPartition = partition.id_partida;
             newPartition.innerHTML =
-                `<td class="partition-time p-2 ps-4">
-                    ${partition.planta === "Cancelado" ? "Cancelado" : `${partition.hora_programada?.slice(0, 5)} - ${partition.hora_realizada ? partition.hora_realizada.slice(0, 5) : "Pendiente"}`}
+                `<td class="partition-time text-center p-2">
+                    ${partition.planta === "Cancelado" ? "Cancelado" : `${partition.hora_programada?.slice(0, 5)} - ${partition.hora_embarcada ? partition.hora_embarcada.slice(0, 5) : "Pendiente"}`}
                 </td>
                 <td class="partition-client p-2">${partition.cliente}</td>
                 <td class="text-center p-2">
@@ -98,8 +98,8 @@ export function addEventTableRow(id, partitions, recolections) {
             const newRecolection = document.createElement("tr");
             newRecolection.dataset.idRecolection = recolection.id_recoleccion;
             newRecolection.innerHTML =
-                `<td class="recolection-time p-2 ps-4">
-                    ${recolection.transporte === "Cancelado" ? "Cancelado" : `${recolection.hora_programada?.slice(0, 5)} - ${recolection.hora_realizada ? recolection.hora_realizada.slice(0, 5) : "Pendiente"}`}
+                `<td class="recolection-time text-center p-2">
+                    ${recolection.transporte === "Cancelado" ? "Cancelado" : `${recolection.hora_programada?.slice(0, 5)} - ${recolection.hora_recolectada ? recolection.hora_recolectada.slice(0, 5) : "Pendiente"}`}
                 </td>
                 <td class="recolection-supplier p-2">${recolection.proveedor}</td>
                 <td class="text-center p-2">

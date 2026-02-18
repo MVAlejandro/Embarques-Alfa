@@ -18,13 +18,13 @@ export async function renderTripsTable(tripsParam = null) {
     // Limpiar elementos antes de insertar
     tbody.innerHTML = '';
 
-    if (weekText.textContent === "Semana 0") {
-        weekText.innerHTML = `Semana ${allTrips[0].semana}`;
-    }
-
     if (!allTrips || allTrips.length === 0) {
         tbody.innerHTML = `<tr><td class="text-center" colspan="10">No hay viajes registrados</td></tr>`;
         return;
+    }
+
+    if (weekText.textContent === "Semana 0") {
+        weekText.innerHTML = `Semana ${allTrips[0].semana}`;
     }
 
     // Calcular total de cantidades
@@ -53,6 +53,7 @@ export async function renderTripsTable(tripsParam = null) {
             <td class="p-2 ps-4">
                 <p class="trip-date fw-bold">${viaje.fecha_programada}</p>
                 <p class="trip-time">${viaje.hora_programada.slice(0, 5)}</p>
+                <p class="trip-departure-time">${viaje.hora_salida?.slice(0, 5) || "Pendiente"}</p>
             </td>
             <td class="trip-type p-2 fst-italic">${viaje.tipo}</td>
             <td class="trip-distance p-2">${(viaje.distancia ?? 0).toLocaleString('en-US')} Km</td>

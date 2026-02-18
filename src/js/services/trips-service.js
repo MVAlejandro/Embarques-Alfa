@@ -81,7 +81,7 @@ export async function getTrips() {
             
             emb_partida_producto (
                 cantidad_solicitada,
-                cantidad_producida
+                cantidad_embarcada
             )
         ),
 
@@ -181,7 +181,7 @@ export async function getFullTrips() {
                 id_viaje,
                 fecha_programada,
                 hora_programada,
-                hora_realizada,
+                hora_embarcada,
                 semana,
                 anio,
                 facturacion,
@@ -207,7 +207,7 @@ export async function getFullTrips() {
 
                 emb_partida_producto (
                     cantidad_solicitada,
-                    cantidad_producida,
+                    cantidad_embarcada,
 
                     emb_orden_producto (
                         id_orden_producto,
@@ -226,7 +226,7 @@ export async function getFullTrips() {
                 id_viaje,
                 fecha_programada,
                 hora_programada,
-                hora_realizada,
+                hora_recolectada,
                 semana,
                 anio,
                 transporte,
@@ -283,7 +283,7 @@ export async function getFullTrips() {
             semana: p.semana,
             anio: p.anio,
             hora_programada: p.hora_programada,
-            hora_realizada: p.hora_realizada,
+            hora_embarcada: p.hora_embarcada,
             facturacion: p.facturacion,
             embarque: p.embarque,
             planta: p.planta,
@@ -309,7 +309,7 @@ export async function getFullTrips() {
             semana: r.semana,
             anio: r.anio,
             hora_programada: r.hora_programada,
-            hora_realizada: r.hora_realizada,
+            hora_recolectada: r.hora_recolectada,
             transporte: r.transporte,
             numero_remision: r.numero_remision,
             numero_facturacion: r.numero_facturacion,

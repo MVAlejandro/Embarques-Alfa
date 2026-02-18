@@ -1,13 +1,11 @@
 // Servicios Supabase
 import { getPartitions, updatePartition } from '../../services/partitions-service.js'; 
-import { getPartitionProducts, updateProductionProducts } from '../../services/partition-product-service.js';
-import { getOrderProducts } from '../../services/order-product-service.js';
+import { getPartitionProducts } from '../../services/partition-product-service.js';
 import { planningFilter } from '../../utils/planning-filters.js'; 
-import { renderProductionTable } from './production-table.js'; 
-import { validateUserRole } from '../../utils/session-validate.js';
+import { renderProductionTable } from './production-table.js';
 // Utilidades
 import { textValidate, inputValidate } from '../../utils/form-validations.js';
-import { viewProductRow, validateProductRow } from '../../utils/modal-product-rows.js';
+import { viewProductRow } from '../../utils/modal-product-rows.js';
 
 // Función para cargar datos en el modal
 export async function renderProductionEditModal(partida) {
@@ -21,19 +19,14 @@ export async function renderProductionEditModal(partida) {
     document.getElementById('edit-observations').value = partida.observaciones;
 
     // Limpiar filas anteriores
-    const container1 = document.getElementById("partition-products-container");
-    const container2 = document.getElementById("production-products-container");
-    container1.innerHTML = '';
-    container2.innerHTML = '';
+    const container = document.getElementById("partition-products-container");
+    container.innerHTML = '';
     
-    // Obtener los productos de la partida
     const productos = await getPartitionProducts(partida.id_partida);
-
+    
     for (const producto of productos) {
         await viewProductRow("partition", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_solicitada ?? 0,);
-        await validateProductRow("production", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_producida ?? producto.cantidad_solicitada, producto.cantidad_orden,);
     };
-    validateUserRole()
 }
 
 // Función para guardar cambios
@@ -73,7 +66,6 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
     try {
         await updatePartition(id_partida, updatedData);
-        await updateProductionProducts(id_partida)
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();

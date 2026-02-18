@@ -1,11 +1,12 @@
 // Servicios Supabase
 import { getPartitions, updatePartition } from '../../services/partitions-service.js';
-import { getPartitionProducts } from "../../services/partition-product-service";
+import { getPartitionProducts, updateShipmentProducts } from "../../services/partition-product-service";
 import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderShipmentsTable } from './shipments-table.js'; 
+import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
 import { textValidate, inputValidate } from '../../utils/form-validations.js';
-import { viewProductRow } from '../../utils/modal-product-rows.js';
+import { validateProductRow, viewProductRow } from '../../utils/modal-product-rows.js';
 
 // Función para cargar datos en el modal
 export async function renderShipmentsEditModal(partida) {
@@ -13,7 +14,7 @@ export async function renderShipmentsEditModal(partida) {
     document.getElementById('edit-id-partition').value = partida.id_partida;
     document.getElementById('edit-date').value = partida.fecha_programada;
     document.getElementById('edit-time').value = partida.hora_programada;
-    document.getElementById('edit-real-time').value = partida.hora_realizada != null ? partida.hora_realizada.slice(0, 5) : "";
+    document.getElementById('edit-real-time').value = partida.hora_embarcada != null ? partida.hora_embarcada.slice(0, 5) : "";
     document.getElementById('edit-oc').value = partida.numero_orden;
     document.getElementById('edit-status').value = partida.embarque;
     document.getElementById('edit-remision').value = partida.numero_remision;
@@ -21,14 +22,19 @@ export async function renderShipmentsEditModal(partida) {
     document.getElementById('edit-observations').value = partida.observaciones;
 
     // Limpiar filas anteriores
-    const container = document.getElementById("production-products-container");
-    container.innerHTML = '';
-    
+    const container1 = document.getElementById("partition-products-container");
+    const container2 = document.getElementById("shipment-products-container");
+    container1.innerHTML = '';
+    container2.innerHTML = '';
+        
+    // Obtener los productos de la partida
     const productos = await getPartitionProducts(partida.id_partida);
     
     for (const producto of productos) {
-        await viewProductRow("production", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_producida ?? 0,);
+        await viewProductRow("partition", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_solicitada ?? 0);
+        await validateProductRow("shipment", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_embarcada ?? producto.cantidad_solicitada, producto.cantidad_orden,);
     };
+    validateUserRole()
 }
 
 // Función para guardar cambios
@@ -40,13 +46,11 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const remisionIn = document.getElementById('edit-remision');
     const observacionesIn = document.getElementById('edit-observations');
     
-    const horaRealError = document.getElementById('error-editHour');
     const statusError = document.getElementById('error-editStatus');
     const remisionError = document.getElementById('error-editRemision');
     const observacionesError = document.getElementById('error-editObservations');
 
     // Validaciones
-    textValidate(horaRealIn, horaRealError)
     textValidate(observacionesIn, observacionesError)
 
     const campos = document.querySelectorAll('input')
@@ -73,14 +77,19 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
     const id_partida = document.getElementById('edit-id-partition').value;
     const updatedData = { 
-        hora_realizada: horaRealIn.value,
         embarque: statusIn.value,
         numero_remision: remisionIn.value,
         observaciones: observacionesIn.value
     };
 
+    // Solo agregar hora_embarcada si tiene valor
+    if (horaRealIn.value) {
+        updatedData.hora_embarcada = horaRealIn.value;
+    }
+
     try {
         await updatePartition(id_partida, updatedData);
+        await updateShipmentProducts(id_partida)
 
         // Cerrar el modal y mostrar alerta
         bootstrap.Modal.getInstance(document.getElementById('edit-modal')).hide();

@@ -72,9 +72,8 @@
                         <tr class="table-light">
                             <th class="p-3 ps-4">DÍA</th>
                             <th class="p-3 ps-2">CLIENTE</th>
-                            <th class="p-3 ps-2">PRODUCIDO</th>
-                            <th class="p-3 ps-2">DESTINO</th>
-                            <th class="text-center p-3">PRODUCCIÓN</th>
+                            <th class="p-3 ps-2">SOLICITADO</th>
+                            <th class="p-3 ps-2">EMBARCADO</th>
                             <th class="text-center p-3">EMBARQUE</th>
                             <th class="p-3 ps-2">UNIDAD</th>
                             <th class="p-3 ps-2">OBSERVACIONES</th>
@@ -121,9 +120,8 @@
                                     <input type="time" class="form-control" id="edit-time" disabled>
                                 </div>
                                 <div class="col-md-4 col-lg-3 label-over-border">
-                                    <label for="edit-real-time" class="form-label m-2">Hora programada</label>
-                                    <input type="time" class="form-control" id="edit-real-time">
-                                    <p class="error invalid-feedback" id="error-editHour" style="color: red;"></p>
+                                    <label for="edit-real-time" class="form-label m-2">Hora embarcado</label>
+                                    <input type="time" class="form-control" id="edit-real-time" disabled>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
@@ -147,7 +145,7 @@
                                     <label for="edit-status" class="form-label m-2">Estado</label>
                                     <select id="edit-status" class="form-select" aria-label="Default select example">
                                         <option value="Planeado">Seleccione...</option>
-                                        <option value="En preparación">En preparación</option>
+                                        <option value="Preparando">Preparando</option>
                                         <option value="En carga">En carga</option>
                                         <option value="Cargado">Cargado</option>
                                         <option value="Cancelado" class="d-none">Cancelado</option>
@@ -163,13 +161,23 @@
                                 </div>
                             </div>
                         </form>
-                        <div id="production-products">
+                        <div id="partition-products">
                             <div class="row ms-2 me-2 pt-2 pb-2">
                                 <div class="col d-flex align-items-center">
-                                    <p class="fw-bold">Productos a embarcar</p>
+                                    <p class="fw-bold">Productos solicitados</p>
                                 </div>
                             </div>
-                            <div id="production-products-container" class="mb-4">
+                            <div id="partition-products-container" class="mb-4">
+
+                            </div>
+                        </div>
+                        <div id="shipment-products">
+                            <div class="row ms-2 me-2 pt-2 pb-2">
+                                <div class="col d-flex align-items-center">
+                                    <p class="fw-bold">Productos embarcados</p>
+                                </div>
+                            </div>
+                            <div id="shipment-products-container" class="mb-4">
 
                             </div>
                         </div>

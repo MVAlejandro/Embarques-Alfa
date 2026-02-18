@@ -41,7 +41,7 @@ input:disabled {
 }
 
 /* Estilos de texto para la tabla */
-.trip-time, .trip-license, .trip-events {
+.trip-time, .trip-departure-time, .trip-license, .trip-events {
     font-size: 13px;
     color: var(--secondary) !important;
 }

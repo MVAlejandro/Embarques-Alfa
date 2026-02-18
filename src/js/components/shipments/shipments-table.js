@@ -25,29 +25,13 @@ export async function renderShipmentsTable(partitionsParam = null) {
         return;
     }
 
-    let totalTarimas = 0;
-    let totalMarcos = 0;
+    let totalSolGeneral = 0;
+    let totalEmbGeneral = 0;
     let totalCancelado = 0;
 
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
 
     for (const partida of allPartitions) {
-        // Determinar clase CSS para el estatus de producción
-        let productionStatusClass = '';
-        if (partida.planta == 'En proceso') {
-            productionStatusClass = 'yellow';
-        } else if (partida.planta == 'PT parcial') {
-            productionStatusClass = 'greenL';
-        } else if (partida.planta == 'En secado') {
-            productionStatusClass = 'blue';
-        } else if (partida.planta == 'Terminado') {
-            productionStatusClass = 'greenD';
-        } else if (partida.planta == 'Cancelado') {
-            productionStatusClass = 'red';
-        } else {
-            productionStatusClass = 'grey';
-        }
-
         // Determinar clase CSS para el estatus de embarque
         let shipmentStatusClass = '';
         if (partida.embarque == 'Preparando') {
@@ -70,21 +54,31 @@ export async function renderShipmentsTable(partitionsParam = null) {
         
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
+        // Calcular total de cantidades
+        if (partida.planta !== "Cancelado") {
+            const totalRequiredAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+            const totalProducedAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_embarcada || 0), 0);
+
+            totalSolGeneral += totalRequiredAmount;
+            totalEmbGeneral += totalProducedAmount;
+        } else if (partida.planta === "Cancelado") {
+            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+            totalCancelado += totalAmount;
+        }
 
         tbody.innerHTML += 
         `<tr>
             <td class="p-2 ps-4">
                 <p class="shipment-date fw-bold">${partida.fecha_programada}</p>
                 <p class="shipment-time">${partida.hora_programada.slice(0, 5)}</p>
-                <p class="shipment-time-final">${partida.hora_realizada?.slice(0, 5) || "Pendiente"}</p>
+                <p class="shipment-time-final">${partida.hora_embarcada?.slice(0, 5) || "Pendiente"}</p>
             </td>
             <td class="shipment-client p-2">${partida.cliente}</td>
-            <td id="production-products-${partida.id_partida}" class="p-2">
+            <td id="partition-products-${partida.id_partida}" class="p-2">
 
             </td>
-            <td class="shipment-destination p-2">${partida.destino || partida.ubicacion}</td>
-            <td class="text-center p-2">
-                <p class="shipment-status ${productionStatusClass}">${partida.planta}</p>
+            <td id="shipment-products-${partida.id_partida}" class="p-2">
+
             </td>
             <td class="text-center p-2">
                 <p class="shipment-status ${shipmentStatusClass}">${partida.embarque}</p>
@@ -105,51 +99,36 @@ export async function renderShipmentsTable(partitionsParam = null) {
             </td>
         </tr>`;
 
-        // Insertar productos solicitados de esta partida
-        const requestedContainer = document.getElementById(`production-products-${partida.id_partida}`);
-        requestedContainer.innerHTML = '';
-
-        let tarimas = 0;
-        let marcos = 0;
-        let cancelados = 0;
+        // Insertar productos de esta partida
+        const container1 = document.getElementById(`partition-products-${partida.id_partida}`);
+        const container2 = document.getElementById(`shipment-products-${partida.id_partida}`);
+        container1.innerHTML = '';
+        container2.innerHTML = '';
 
         for (const producto of productos) {
-            if (partida.planta !== "Cancelado") {
-                if (producto.producto?.includes('TARIMA')) {
-                    const cantidad = producto.cantidad_producida || 0;
-                    tarimas += cantidad;
-                    totalTarimas += cantidad;
-                } 
-                else if (producto.producto?.includes('MARCO')) {
-                    const cantidad = producto.cantidad_producida || 0;
-                    marcos += cantidad;
-                    totalMarcos += cantidad;
-                }
-
-            } else if ((partida.planta === "Cancelado")) {
-                const cantidad = producto.cantidad_solicitada || 0;
-                cancelados += cantidad;
-                totalCancelado += cantidad;
-            }
-
-            requestedContainer.innerHTML += 
-            `<p class="shipment-product">${producto.codigo} - <b>Cant. ${(producto.cantidad_producida ?? 0).toLocaleString('en-US')}</b></p>
-            <p class="shipment-cant">${producto.producto}</p>
+            container1.innerHTML += 
+            `<p class="partition-product">${producto.codigo} -  <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
+            <p class="partition-cant">${producto.producto}</p>
             <hr>`;
-        }
+            container2.innerHTML += 
+            `<p class="production-product">${producto.codigo} - <b> Cant. ${(producto.cantidad_embarcada ?? 0).toLocaleString('en-US')}</b></p>
+            <p class="production-cant">${producto.producto}</p>
+            <hr>`;
+        };
     };
 
     // Agregar fila de total al final
     tbody.innerHTML += 
     `<tr class="table-active">
         <td></td>
-        <td colspan="7">
+        <td class="fw-bold">TOTALES</td>
+        <td colspan="5">
             <table class="text-center container-fluid">
                 <tbody>
                     <tr>
-                        <td class="fw-bold">TOTALES</td>
-                        <td><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} pz</td>
-                        <td><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} pz</td>
+                        <td><b>Solicitado: </b>${totalSolGeneral.toLocaleString('en-US')} pz</td>
+                        <td><b>Embarcado: </b>${totalEmbGeneral.toLocaleString('en-US')} pz</td>
+                        <td><b>Diferencia: </b>${(totalEmbGeneral-totalSolGeneral).toLocaleString('en-US')} pz</td>
                         <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
                     </tr>    
                 </tbody>

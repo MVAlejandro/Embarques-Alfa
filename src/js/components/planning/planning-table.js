@@ -90,7 +90,7 @@ export async function renderPlanningTable(tripsParam = null) {
                         <table id="partition-table-${viaje.id_viaje}" class="table table-sm fixed-table mb-0">
                             <thead class="${hideHead}">
                                 <tr class="table-light">
-                                    <th class="p-1 ps-4">HORA</th>
+                                    <th class="text-center p-1">HORA</th>
                                     <th class="p-1 ps-2">CLIENTE</th>
                                     <th class="text-center p-1">PRODUCCIÓN</th>
                                     <th class="text-center p-1">EMBARQUE</th>
@@ -126,7 +126,7 @@ export async function renderPlanningTable(tripsParam = null) {
             for (const partition of viaje.partidas) {
                 if (partition.planta !== "Cancelado") {
                     for (const product of partition.productos) {
-                        const cantidad = product.cantidad_producida || 0;
+                        const cantidad = product.cantidad_embarcada || 0;
                         const nombre = product.emb_orden_producto.inv_productos.nombre || '';
 
                         if (nombre.includes('TARIMA')) {

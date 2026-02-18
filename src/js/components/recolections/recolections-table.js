@@ -26,7 +26,8 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
         return;
     }
 
-    let totalGeneral = 0;
+    let totalSolGeneral = 0;
+    let totalRecGeneral = 0;
     let totalCancelado = 0;
 
     weekText.innerHTML = `Semana ${allRecolections[0].semana}`;
@@ -50,8 +51,11 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
         const productos = await getRecolectionProducts(recoleccion.id_recoleccion);
         // Calcular total de cantidades
         if (recoleccion.transporte !== "Cancelado") {
-            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_recoleccion || 0), 0);
-            totalGeneral += totalAmount;
+            const totalRequiredAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_recoleccion || 0), 0);
+            const totalRecolectedAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_recolectada || 0), 0);
+
+            totalSolGeneral += totalRequiredAmount;
+            totalRecGeneral += totalRecolectedAmount;
         } else if (recoleccion.transporte === "Cancelado") {
             const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_recoleccion || 0), 0);
             totalCancelado += totalAmount;
@@ -67,6 +71,9 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
             <td id="recolection-products-${recoleccion.id_recoleccion}" class="p-2">
 
             </td>
+            <td id="recolected-products-${recoleccion.id_recoleccion}" class="p-2">
+
+            </td>
             <td class="text-center p-2">
                 <p class="recolection-status ${statusClass}">${recoleccion.transporte}</p>
             </td>
@@ -75,7 +82,7 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
-                    ${recoleccion.transporte === "Recolectado" || recoleccion.transporte === "Cancelado" ? "disabled" : ""}
+                    ${recoleccion.transporte === "Cancelado" ? "disabled" : ""}
                     recolection-data='${JSON.stringify(recoleccion)}'>
                     ${recoleccion.transporte === "Recolectado" ? "Completado" : recoleccion.transporte === "Cancelado" ? "Cancelado" :"Actualizar"}
                 </button>
@@ -83,13 +90,19 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
         </tr>`;
 
         // Insertar productos de esta recoleccion
-        const container = document.getElementById(`recolection-products-${recoleccion.id_recoleccion}`);
-        container.innerHTML = '';
+        const container1 = document.getElementById(`recolection-products-${recoleccion.id_recoleccion}`);
+        const container2 = document.getElementById(`recolected-products-${recoleccion.id_recoleccion}`);
+        container1.innerHTML = '';
+        container2.innerHTML = '';
 
         for (const producto of productos) {
-            container.innerHTML += 
+            container1.innerHTML += 
             `<p class="recolection-product">${producto.codigo} - <b> Cant. ${producto.cantidad_recoleccion.toLocaleString('en-US')}</b></p>
             <p class="recolection-cant">${producto.producto}</p>
+            <hr>`;
+            container2.innerHTML += 
+            `<p class="recolected-product">${producto.codigo} - <b> Cant. ${(producto.cantidad_recolectada ?? 0).toLocaleString('en-US')}</b></p>
+            <p class="recolected-cant">${producto.producto}</p>
             <hr>`;
         };
     };
@@ -98,12 +111,14 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
     tbody.innerHTML += 
     `<tr class="table-active">
         <td></td>
+        <td class="fw-bold">TOTALES</td>
         <td colspan="4">
             <table class="text-center container-fluid">
                 <tbody>
                     <tr>
-                        <td class="fw-bold">TOTALES</td>
-                        <td><b>Planeado: </b>${totalGeneral.toLocaleString('en-US')} pz</td>
+                        <td><b>Planeado: </b>${totalSolGeneral.toLocaleString('en-US')} pz</td>
+                        <td><b>Recolectado: </b>${totalRecGeneral.toLocaleString('en-US')} pz</td>
+                        <td><b>Diferencia: </b>${(totalRecGeneral-totalSolGeneral).toLocaleString('en-US')} pz</td>
                         <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
                     </tr>    
                 </tbody>

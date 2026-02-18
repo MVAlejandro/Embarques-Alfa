@@ -8,6 +8,7 @@ export async function getRecolectionProducts(idRecolection) {
             id_recoleccion_producto,
             id_recoleccion,
             cantidad_recoleccion,
+            cantidad_recolectada,
             id_producto,
             inv_productos (codigo, nombre)
             `)
@@ -22,6 +23,7 @@ export async function getRecolectionProducts(idRecolection) {
         id_recoleccion_producto: recoleccionP.id_recoleccion_producto,
         id_recoleccion: recoleccionP.id_recoleccion,
         cantidad_recoleccion: recoleccionP.cantidad_recoleccion,
+        cantidad_recolectada: recoleccionP.cantidad_recolectada,
         id_producto: recoleccionP.id_producto,
         codigo: recoleccionP.inv_productos?.codigo,
         producto: recoleccionP.inv_productos?.nombre
@@ -55,6 +57,34 @@ export async function updateRecolectionProducts(idRecolection) {
                 },
                 { onConflict: ['id_recoleccion', 'id_producto'] }
             );
+
+        if (error) {
+            console.error('Error actualizando recolección:', error);
+            throw error;
+        }
+    }
+}
+
+// Función para editar los productos recolectados de la recolección
+export async function updateRecolectedProducts(idRecolection) {
+    const productsItems = document.querySelectorAll('.recolectedProduct-item');
+
+    for (const item of productsItems) {
+        const amountInput = item.querySelector('.product-input-quantity');
+        const id_producto = parseInt(item.dataset.idProducto);
+        const cantidad_recolectada = parseInt(amountInput.value);
+
+        if (isNaN(cantidad_recolectada) || cantidad_recolectada <= 0) {
+            console.warn("Fila ignorada por cantidad inválida");
+            continue;
+        }
+
+        // Actualizar el registro con la cantidad recolectada
+        const { data, error } = await supabase
+            .from('emb_recoleccion_producto')
+            .update({ cantidad_recolectada })
+            .eq('id_recoleccion', idRecolection)
+            .eq('id_producto', id_producto);
 
         if (error) {
             console.error('Error actualizando recolección:', error);

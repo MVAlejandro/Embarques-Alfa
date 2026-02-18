@@ -2,6 +2,7 @@
 import { getFullTrips } from '../../services/trips-service.js';
 import { getPartitions } from '../../services/partitions-service.js';
 import { getRecolections } from '../../services/recolections-service.js';
+import { getPartitionProducts } from '../../services/partition-product-service.js';
 
 let allTrips = [];
 let allPartitions = [];
@@ -23,7 +24,6 @@ export async function createResumeCards(dates) {
     allPartitions = allPartitions.filter(p => p.semana === dates.semana && p.anio == dates.anio);
     allRecolections = allRecolections.filter(r => r.semana === dates.semana && r.anio == dates.anio);
 
-
     const weekText = document.getElementById('weekHeader');
     
     // Colocar la semana del viaje
@@ -36,6 +36,7 @@ export async function createResumeCards(dates) {
     renderTripsCard(allTrips)
     renderPartitionsCard(allPartitions)
     renderRecolectionsCard(allRecolections)
+    renderDifferenceCard(allPartitions)
 }
 
 // Función para crear la card de tickets totales
@@ -101,4 +102,51 @@ export async function renderRecolectionsCard(recolectionsParam = null) {
     }
 
     element.textContent = `${allRecolections.length.toLocaleString('en-US')}`;
+}
+
+export async function renderDifferenceCard(partitionsParam = null) {
+    // Obtener allTripses de la lista filtrada
+    if (partitionsParam) {
+        allPartitions = partitionsParam;
+    }
+    
+    const element = document.getElementById("difference-text");
+    // Limpiar elemento antes de insertar
+    element.textContent = "";
+
+    // Determinar clase CSS para la diferencia
+    let totalSolGeneral = 0;
+    let totalEmbGeneral = 0;
+    let differenceClass = '';
+
+    if (!allPartitions.length) {
+        element.textContent = `-`;
+        element.className = "general-report-cant text-muted";
+        return;
+    }
+
+    for (const partida of allPartitions) {
+        // Obtener productos de la partida
+        const productos = await getPartitionProducts(partida.id_partida);
+        // Calcular total de cantidades
+        if (partida.planta !== "Cancelado") {
+            const totalRequiredAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+            const totalProducedAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_embarcada || 0), 0);
+        
+            totalSolGeneral += totalRequiredAmount;
+            totalEmbGeneral += totalProducedAmount;
+        }
+    }
+
+    if (totalEmbGeneral-totalSolGeneral > 0) {
+        differenceClass = 'text-success'; // Verde para positivo
+    } else if (totalEmbGeneral-totalSolGeneral < 0) {
+        differenceClass = 'text-danger';  // Rojo para negativo
+    } else {
+        differenceClass = 'text-muted';   // Gris para cero
+    }
+    
+    // Generar el contenido
+    element.textContent = `${(totalEmbGeneral-totalSolGeneral).toLocaleString('en-US')}`;
+    element.className = `general-report-cant ${differenceClass}`
 }

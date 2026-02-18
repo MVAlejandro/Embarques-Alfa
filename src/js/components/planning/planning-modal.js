@@ -15,16 +15,13 @@ export async function renderProductionModal(partida) {
     document.getElementById('production-observations').value = partida.observaciones;
 
     // Limpiar filas anteriores
-    const container1 = document.getElementById("partition-products-container");
-    const container2 = document.getElementById("production-products-container");
-    container1.innerHTML = '';
-    container2.innerHTML = '';
+    const container = document.getElementById("production-products-container");
+    container.innerHTML = '';
 
     const productos = await getPartitionProducts(partida.id_partida);
 
     for (const producto of productos) {
-        await viewProductRow("partition", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_solicitada ?? 0,);
-        await viewProductRow("production", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_producida ?? 0,);
+        await viewProductRow("production", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_solicitada ?? 0,);
     };
 }
 
@@ -52,12 +49,25 @@ export async function renderShipmentsModal(partida) {
     // Insertar valores en los inputs
     document.getElementById('shipment-date').value = partida.fecha_programada;
     document.getElementById('shipment-time').value = partida.hora_programada.slice(0, 5);
-    document.getElementById('shipment-real-time').value = partida.hora_realizada != null ? partida.hora_realizada.slice(0, 5) : "-";
+    document.getElementById('shipment-real-time').value = partida.hora_embarcada != null ? partida.hora_embarcada.slice(0, 5) : "-";
     document.getElementById('shipment-oc').value = partida.numero_orden;
     document.getElementById('shipment-status').value = partida.embarque;
     document.getElementById('shipment-remision').value = partida.numero_remision || "-";
     document.getElementById('shipment-destination').value = partida.destino || partida.ubicacion;
     document.getElementById('shipment-observations').value = partida.observaciones;
+
+    // Limpiar filas anteriores
+    const container1 = document.getElementById("partition-products-container");
+    const container2 = document.getElementById("shipment-products-container");
+    container1.innerHTML = '';
+    container2.innerHTML = '';
+
+    const productos = await getPartitionProducts(partida.id_partida);
+
+    for (const producto of productos) {
+        await viewProductRow("partition", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_solicitada ?? 0,);
+        await viewProductRow("shipment", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_embarcada ?? 0,);
+    };
 }
 
 // Función para cargar datos de facturación en el modal
@@ -74,18 +84,23 @@ export async function renderBillsModal(partida) {
 export async function renderRecolectionsModal(recoleccion) {
     // Insertar valores en los inputs
     document.getElementById('recolection-date').value = recoleccion.fecha_programada;
+    document.getElementById('recolection-time').value = recoleccion.hora_programada.slice(0, 5);
+    document.getElementById('recolection-real-time').value = recoleccion.hora_recolectada != null ? recoleccion.hora_recolectada.slice(0, 5) : "-";
     document.getElementById('recolection-supplier').value = recoleccion.proveedor;
     document.getElementById('recolection-destination').value = recoleccion.destino || recoleccion.ubicacion;
     document.getElementById('recolection-observations').value = recoleccion.observaciones;
     document.getElementById('recolection-status').value = recoleccion.transporte;
 
     // Limpiar filas anteriores
-    const container = document.getElementById("recolection-products-container");
-    container.innerHTML = '';
-    
+    const container1 = document.getElementById("recolection-products-container");
+    const container2 = document.getElementById("recolected-products-container");
+    container1.innerHTML = '';
+    container2.innerHTML = '';
+
     const productos = await getRecolectionProducts(recoleccion.id_recoleccion);
-    
-    for (const product of productos) {
-        await viewProductRow("recolection", product.id_producto, product.codigo, product.producto, product.cantidad_recoleccion ?? 0,);
-    }
+
+    for (const producto of productos) {
+        await viewProductRow("recolection", producto.id_producto, producto.codigo, producto.producto, producto.cantidad_recoleccion ?? 0,);
+        await viewProductRow("recolected", producto.id_producto, producto.codigo, producto.producto, producto.cantidad_recolectada ?? 0,);
+    };
 }
