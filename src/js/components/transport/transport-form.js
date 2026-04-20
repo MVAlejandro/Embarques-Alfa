@@ -7,6 +7,7 @@ import { renderTripsTable } from '../trips/trips-table.js';
 // Utilidades
 import { textValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
 import { loadOptions, loadOptionsFilter } from '../../utils/load-select.js';
+import { getWeekAndYear } from '../../utils/week-functions.js';
 
 // Cargar las órdenes en el formulario al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
@@ -14,19 +15,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadOptionsFilter('unidad', getUnits, ['tipo', 'nombre'], 'id_unidad', "Seleccione...");
     await loadOptions('caja', 'emb_cajas', 'id_caja', 'nombre', "Seleccione...");
 })
-
-// Función para calcular y asignar semana y año
-function getWeekAndYear(date = new Date()) {
-    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    const dayNum = d.getUTCDay() || 7; // lunes=1, domingo=7
-
-    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-    
-    return { semana: week, anio: d.getUTCFullYear() };
-}
 
 // Función para agregar un viaje
 export async function addTrip(event) {

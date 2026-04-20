@@ -12,7 +12,7 @@ import '../components/navbar.js';
 // Servicios Supabase
 import { initPage } from '../utils/session-validate.js';
 import { getFullTrips } from '../services/trips-service.js';
-import { initPageFilters } from '../utils/planning-filters.js'; 
+import { initPageFilters, planningFilter } from '../utils/planning-filters.js'; 
 import { renderPlanningTable, getPartitionById, getRecolectionById, getTripById } from '../components/planning/planning-table.js';
 import { renderProductionModal, renderTransportModal, renderTransportInput, renderShipmentsModal, renderBillsModal, renderRecolectionsModal } from '../components/planning/planning-modal.js';
 
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // Recargar la página cada cierto tiempo de forma automática
-  setInterval(async () => { await planningFilter(renderPlanningTable); }, 60000); // 5 minutos = 300,000 ms
+    setInterval(async () => { await planningFilter(getFullTrips, renderPlanningTable); }, 60000); // 5 minutos = 300,000 ms
 
 // Llenar el modal de producción
 const productionModal = document.getElementById('production-modal');

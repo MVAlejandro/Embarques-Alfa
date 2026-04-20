@@ -14,16 +14,16 @@ import { initPage } from './js/utils/session-validate.js';
 import { createResumeCards } from './js/components/index/resume-cards.js';
 
 // Utilidades
-import { obtainLastWeek } from './js/utils/week-functions.js'; 
+import { obtainCurrentWeek } from './js/utils/week-functions.js'; 
 import { renderCanceledGraphic, renderClientsGraphic } from './js/components/index/resume-graphic.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const lastWeek = await obtainLastWeek();
+    const currentWeek = await obtainCurrentWeek();
 
     await initPage()
-    createResumeCards(lastWeek)
-    renderCanceledGraphic(lastWeek)
-    renderClientsGraphic(lastWeek)
+    createResumeCards(currentWeek)
+    renderCanceledGraphic(currentWeek)
+    renderClientsGraphic(currentWeek)
     
-    // Chart.register(ChartDataLabels);
+    Chart.register(ChartDataLabels);
 })

@@ -6,24 +6,12 @@ import { recolectionsFilter } from './recolections-filter.js';
 // Utilidades
 import { loadOptionsFilter } from '../../utils/load-select.js';
 import { textValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
+import { getWeekAndYear } from '../../utils/week-functions.js';
 
 // Cargar los proveedores en el formulario al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
     loadOptionsFilter('proveedor', getSuppliers, 'nombre', 'id_proveedor', 'Seleccione...')
 })
-
-// Función para calcular y asignar semana y año
-function getWeekAndYear(date = new Date()) {
-    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    const dayNum = d.getUTCDay() || 7; // lunes=1, domingo=7
-
-    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    const week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-    
-    return { semana: week, anio: d.getUTCFullYear() };
-}
 
 // Función para agregar una recolección
 export async function addRecolection(event) {

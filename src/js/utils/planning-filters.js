@@ -1,6 +1,5 @@
-
 // Utilidades
-import { loadDaysFilter } from './load-select.js';
+import { loadClientsFilter, loadDaysFilter } from './load-select.js';
 
 let allRegisters = [];
 
@@ -22,11 +21,13 @@ export async function initPageFilters(getFunction, renderTable) {
 export async function planningFilter(getFunction, renderTable) {
     // Verificar que existen los elementos
     const dayFilterEl = document.getElementById('day-filter');
+    const clientFilterEl = document.getElementById('client-filter');
 
-    if (!dayFilterEl) return;
+    if (!dayFilterEl || !clientFilterEl) return;
 
     // Tomar valores de los selects
     const dayFilter = dayFilterEl.value ? dayFilterEl.value.split(', ').map(d => d.trim()) : [];
+    const clientFilter = clientFilterEl.value;
 
     // Si no se selecciona un día generar tabla vacía
     if (dayFilterEl.length === 0) {
@@ -39,8 +40,14 @@ export async function planningFilter(getFunction, renderTable) {
         if (!allRegisters) return;
 
     // Filtrar por día seleccionado
-    const filtered = allRegisters.filter(p => 
+    let filtered = allRegisters.filter(p => 
         (dayFilter.length === 0 || dayFilter.includes(p.fecha_programada)));
+    
+    // Cargar clientes en el select
+    loadClientsFilter(filtered, clientFilter)
+
+    filtered = filtered.filter(p => 
+        (clientFilter === '0' || p.id_cliente == clientFilter));
 
     renderTable(filtered);
 }

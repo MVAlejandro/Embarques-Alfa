@@ -88,12 +88,12 @@ export async function renderProductionTable(partitionsParam = null) {
         for (const producto of productos) {
             if (partida.planta !== "Cancelado") {
                 if (producto.producto?.includes('TARIMA')) {
-                    const cantidad = producto.cantidad_embarcada || 0;
+                    const cantidad = producto.cantidad_solicitada || 0;
                     tarimas += cantidad;
                     totalTarimas += cantidad;
                 } 
                 else if (producto.producto?.includes('MARCO')) {
-                    const cantidad = producto.cantidad_embarcada || 0;
+                    const cantidad = producto.cantidad_solicitada || 0;
                     marcos += cantidad;
                     totalMarcos += cantidad;
                 }

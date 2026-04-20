@@ -65,13 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //Limitar fecha programada
     const actualDate = new Date();
-    // Inicio de la semana actual (Lunes)
+    // Mínimo: hoy
     const minDate = new Date(actualDate);
-    minDate.setDate(actualDate.getDate() - ((actualDate.getDay() + 6) % 7));
 
-    // Fin de la próxima semana (Sábado)
+    // Máximo: sábado dentro de 4 semanas
     const maxDate = new Date(minDate);
-    maxDate.setDate(minDate.getDate() + 12);
+    maxDate.setDate(minDate.getDate() + (6 - minDate.getDay() + 7 * 4));
 
     // Aplicar min y max al input
     document.getElementById("fecha_programada").min = minDate.toISOString().split("T")[0];

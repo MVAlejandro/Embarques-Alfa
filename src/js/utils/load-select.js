@@ -17,7 +17,8 @@ export async function loadOptions(selectId, table, valueKey, textKey, defaultOpt
 
     const { data, error } = await supabase
         .from(table)
-        .select(`${valueKey}, ${textKey}`);
+        .select(`${valueKey}, ${textKey}`)
+        .order(`${valueKey}`, { ascending: true })
 
     if (error) {
         console.error(`Error cargando ${table}:`, error);
@@ -146,5 +147,39 @@ export async function loadTripsFilter(dateFilter, displayFields, selectedId = 0)
         }
 
         select.appendChild(optionEl);
+    });
+}
+
+// Cargar clientes en el select basado en una lista previamente filtrada
+export async function loadClientsFilter(filtered, selectedValue = '0') {
+    const select = document.getElementById('client-filter');
+    if (selectedValue == null) selectedValue = '0';
+
+    select.innerHTML = '';
+
+    // Opción por defecto
+    const defaultOptionEl = document.createElement('option');
+    defaultOptionEl.value = 0;
+    defaultOptionEl.textContent = "Todos";
+    select.appendChild(defaultOptionEl);
+
+    // Eliminar duplicados por texto
+    const seenTexts = new Set();
+    
+    filtered.forEach(item => {
+        const option = document.createElement('option');
+
+        if (!item.cliente || seenTexts.has(item.cliente)) return;
+        seenTexts.add(item.cliente);
+
+        option.value = item.id_cliente;
+        option.textContent = item.cliente;
+
+        // Si el valor coincide, marcar como seleccionado
+        if (option.value == selectedValue) {
+            option.selected = true;
+        }
+        
+        select.appendChild(option);
     });
 }
