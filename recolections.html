@@ -88,13 +88,13 @@
                 <table id="recolections-table" class="table table-hover">
                     <thead>
                         <tr class="table-light">
-                            <th class="p-3 ps-4">FECHA</th>
-                            <th class="p-3 ps-2">PROVEEDOR</th>
-                            <th class="p-3 ps-2">PLANEADO</th>
-                            <th class="p-3 ps-2">RECOLECTADO</th>
-                            <th class="text-center p-3">ESTADO</th>
-                            <th class="p-3 ps-2">UBICACIÓN</th>
-                            <th class="text-center p-3 d-none" data-comp-only>ACCIONES</th>
+                            <th class="px-3 py-2 ps-3">FECHA</th>
+                            <th class="px-3 py-2">PROVEEDOR</th>
+                            <th class="px-3 py-2">PLANEADO</th>
+                            <th class="px-3 py-2">RECOLECTADO</th>
+                            <th class="text-center px-3 py-2">ESTADO</th>
+                            <th class="px-3 py-2">UBICACIÓN</th>
+                            <th class="text-center px-3 py-2 d-none" data-comp-only>ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -140,17 +140,22 @@
                                     <label for="edit-supplier" class="form-label m-2">Proveedor</label>
                                     <input type="text" class="form-control" id="edit-supplier" disabled>
                                 </div>
-                                <div class="col-md-12 col-lg-6 label-over-border filter">
-                                    <label for="edit-destination" class="form-label m-2">Destino</label>
-                                    <input type="text" class="form-control block-field" id="edit-destination">
-                                    <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
+                                <div class="col-md-6 col-lg-3 label-over-border filter">
+                                    <label for="edit-oc" class="form-label m-2">Orden de compra</label>
+                                    <input type="text" class="form-control" id="edit-oc" placeholder="001122334455">
+                                    <p class="error invalid-feedback" id="error-editOc" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-6 col-lg-3 label-over-border filter">
+                                    <label for="edit-remision" class="form-label m-2">Número de remisión</label>
+                                    <input type="text" class="form-control" id="edit-remision" placeholder="000000">
+                                    <p class="error invalid-feedback" id="error-editRemision" style="color: red;"></p>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-8 label-over-border">
-                                    <label for="edit-observations" class="form-label m-2">Observaciones</label>
-                                    <input type="text" class="form-control block-field" id="edit-observations">
-                                    <p class="error invalid-feedback" id="error-editObservations" style="color: red;"></p>
+                                    <label for="edit-destination" class="form-label m-2">Destino</label>
+                                    <input type="text" class="form-control block-field" id="edit-destination">
+                                    <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
                                 </div>
                                 <div class="col-md-4 label-over-border">
                                     <label for="edit-status" class="form-label m-2">Estado</label>
@@ -163,6 +168,13 @@
                                         <option value="Cancelado">Cancelado</option>
                                     </select>
                                     <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-12 label-over-border">
+                                    <label for="edit-observations" class="form-label m-2">Observaciones</label>
+                                    <input type="text" class="form-control block-field" id="edit-observations">
+                                    <p class="error invalid-feedback" id="error-editObservations" style="color: red;"></p>
                                 </div>
                             </div>
                         </form>

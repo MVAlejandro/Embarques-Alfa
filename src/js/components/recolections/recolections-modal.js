@@ -18,8 +18,10 @@ export async function renderRecolectionsEditModal(recoleccion) {
     document.getElementById('edit-date').value = recoleccion.fecha_programada;
     document.getElementById('edit-supplier').value = recoleccion.proveedor;
     document.getElementById('edit-destination').value = recoleccion.destino || recoleccion.ubicacion;
-    document.getElementById('edit-observations').value = recoleccion.observaciones;
+    document.getElementById('edit-oc').value = recoleccion.numero_orden;
+    document.getElementById('edit-remision').value = recoleccion.numero_remision;
     document.getElementById('edit-status').value = recoleccion.transporte;
+    document.getElementById('edit-observations').value = recoleccion.observaciones;
 
     // Habilitar o no el formulario en base al estado de la recolección
     if (recoleccion.transporte === "Recolectado") {
@@ -79,11 +81,15 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     // Referencias para actualizar información
     const dateIn = document.getElementById('edit-date');
     const destinationIn = document.getElementById('edit-destination');
+    const numero_ordenIn = document.getElementById('edit-oc');
+    const remisionIn = document.getElementById('edit-remision');
     const observationsIn = document.getElementById('edit-observations');
     const statusIn = document.getElementById('edit-status');
 
     const dateError = document.getElementById('error-editDate');
     const destinationError = document.getElementById('error-editDestination');
+    const numero_ordenError = document.getElementById('error-editOc');
+    const remisionError = document.getElementById('error-editRemision');
     const observationsError = document.getElementById('error-editObservations');
     const statusError = document.getElementById('error-editStatus');
 
@@ -113,6 +119,8 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const updatedData = { 
         fecha_programada: dateIn.value,
         destino: destinationIn.value,
+        numero_remision: remisionIn.value,
+        numero_orden: numero_ordenIn.value,
         observaciones: observationsIn.value,
         transporte: statusIn.value
     };
@@ -120,6 +128,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     try {
         // Actualizar o crear productos de la recolección
         if (statusIn.value === 'Recolectado') {
+            await updateRecolection(id_recoleccion, updatedData);
             await updateRecolectedProducts(id_recoleccion);
         } else {
             await updateRecolection(id_recoleccion, updatedData);

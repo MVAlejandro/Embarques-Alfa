@@ -63,21 +63,21 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
 
         tbody.innerHTML += 
         `<tr>
-            <td class="p-2 ps-4">
+            <td class="p-2 ps-3">
                 <p class="recolection-date fw-bold">${recoleccion.fecha_programada}</p>
                 <p class="recolection-time">${recoleccion.hora_programada.slice(0, 5)}</p>
             </td>
-            <td class="recolection-supplier p-2">${recoleccion.proveedor}</td>
-            <td id="recolection-products-${recoleccion.id_recoleccion}" class="p-2">
+            <td class="recolection-supplier px-3 py-2">${recoleccion.proveedor}</td>
+            <td id="recolection-products-${recoleccion.id_recoleccion}">
 
             </td>
-            <td id="recolected-products-${recoleccion.id_recoleccion}" class="p-2">
+            <td id="recolected-products-${recoleccion.id_recoleccion}">
 
             </td>
-            <td class="text-center p-2">
+            <td class="text-center px-3 py-2">
                 <p class="recolection-status ${statusClass}">${recoleccion.transporte}</p>
             </td>
-            <td class="recolection-destination p-2">${recoleccion.destino || recoleccion.ubicacion}</td>
+            <td class="recolection-destination px-3 py-2">${recoleccion.destino || recoleccion.ubicacion}</td>
             <td class="recolection-control text-center d-none" data-comp-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 

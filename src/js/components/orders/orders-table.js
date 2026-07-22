@@ -4,7 +4,7 @@ import { getOrders } from '../../services/orders-service.js'
 import { getOrderProducts } from '../../services/order-product-service.js';
 import { validateUserRole } from '../../utils/session-validate.js';
 
-const perPage = 10;
+const perPage = 15;
 let currentPage = 1;
 let allOrders = [];
 
@@ -53,20 +53,20 @@ export async function renderOrdersTable(ordersParam = null) {
 
         tbody.innerHTML += 
         `<tr>
-            <td class="order-id fw-bold p-3 ps-4">OC-${orden.numero_orden}</td>
-            <td class="order-contract p-3">#${orden.numero_contrato}</td>
-            <td class="p-3">
+            <td class="order-id fw-bold p-2 ps-3">OC-${orden.numero_orden}</td>
+            <td class="order-contract px-3 py-2">#${orden.numero_contrato}</td>
+            <td class="px-3 py-2">
                 <p class="order-client">${orden.cliente}</p>
                 <p class="order-client-email">${orden.correo}</p>
             </td>
-            <td class="order-date p-3">${orden.fecha}</td>
-            <td id="order-products-${orden.id_orden}" class="p-2">
+            <td class="order-date px-3 py-2">${orden.fecha}</td>
+            <td id="order-products-${orden.id_orden}" class="px-3 py-2">
                 
             </td>
-            <td class="text-center p-2">
+            <td class="text-center px-3 py-2">
                 <p class="order-status ${statusClass}">${orden.estado}</p>
             </td>
-            <td class="order-controls text-end p-3 pe-4 d-none" data-vent-only>
+            <td class="order-controls text-end px-3 py-2 pe-4 d-none" data-vent-only>
                 <div class="action-buttons">
                     <button class="btn btn-edit" 
                         data-bs-target="#edit-modal" 

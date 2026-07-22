@@ -4,7 +4,7 @@ import { updateOrder } from '../../services/orders-service.js';
 import { getOrderProducts, updateOrderProducts } from '../../services/order-product-service.js';
 import { renderOrdersTable } from './orders-table.js'; 
 // Utilidades
-import { inputValidate, selectValidate } from '../../utils/form-validations.js';
+import { inputValidate, selectValidate, textValidate } from '../../utils/form-validations.js';
 import { selectProductRow } from '../../utils/modal-product-rows.js';
 
 // Función para cargar datos en el modal
@@ -46,10 +46,17 @@ document.addEventListener('click', function(e) {
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     const form = document.getElementById('order-edit-form');
     // Referencias para validación
+    const ocIn = document.getElementById('edit-oc');
+    const contractIn = document.getElementById('edit-contract');
     const estadoIn = document.getElementById('edit-status');
+
+    const ocError = document.getElementById('error-editOc');
+    const contractError = document.getElementById('error-editContract');
     const estadoError = document.getElementById('error-editStatus');
 
     // Validaciones
+    textValidate(ocIn, ocError)
+    textValidate(contractIn, contractError)
     selectValidate(estadoIn, estadoError)
 
     const campos = document.querySelectorAll('input, select')
@@ -64,7 +71,11 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     }
 
     const id_orden = document.getElementById('edit-id-order').value;
-    const updatedData = { estado: estadoIn.value };
+    const updatedData = { 
+        numero_orden: ocIn.value,
+        numero_contrato: contractIn.value,
+        estado: estadoIn.value 
+    };
 
     try {
         await updateOrder(id_orden, updatedData);

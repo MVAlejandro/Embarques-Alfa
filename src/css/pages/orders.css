@@ -18,6 +18,10 @@ th {
     color: var(--secondary) !important;
 }
 
+hr {
+    margin: 0.5rem 0 !important;
+}
+
 @media (min-width: 500px) and (max-width: 768px) {
     #filter-btn {
         margin-top: 1rem;

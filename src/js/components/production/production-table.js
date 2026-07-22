@@ -39,7 +39,7 @@ export async function renderProductionTable(partitionsParam = null) {
             statusClass = 'yellow';
         } else if (partida.planta == 'PT parcial') {
             statusClass = 'greenL';
-        } else if (partida.planta == 'En secado') {
+        } else if (partida.planta == 'En secado' || partida.planta == 'Proyectado') {
             statusClass = 'blue';
         } else if (partida.planta == 'Terminado') {
             statusClass = 'greenD';
@@ -54,19 +54,19 @@ export async function renderProductionTable(partitionsParam = null) {
 
         tbody.innerHTML += 
         `<tr>
-            <td class="p-2 ps-4">
+            <td class="p-2 ps-3">
                 <p class="production-date fw-bold">${partida.fecha_programada}</p>
                 <p class="production-time">${partida.hora_programada.slice(0, 5)}</p>
             </td>
-            <td class="production-client p-2">${partida.cliente}</td>
-            <td id="production-products-${partida.id_partida}" class="p-2">
+            <td class="production-client px-3 py-2 ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${partida.cliente}</td>
+            <td id="production-products-${partida.id_partida}">
 
             </td>
-            <td class="text-center p-2">
+            <td class="text-center px-3 py-2">
                 <p class="production-status ${statusClass}">${partida.planta}</p>
             </td>
-            <td class="production-observations p-2">${partida.observaciones}</td>
-            <td class="production-control text-center d-none" data-prod-only>
+            <td class="production-observations px-3 py-2">${partida.observaciones}</td>
+            <td class="production-control text-center d-none" data-prod-only data-coor-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
@@ -105,7 +105,7 @@ export async function renderProductionTable(partitionsParam = null) {
             }
 
             requestedContainer.innerHTML += 
-            `<p class="shipment-product">${producto.codigo} - <b>Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
+            `<p class="shipment-product ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${producto.codigo} - <b>Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
             <p class="shipment-cant">${producto.producto}</p>
             <hr>`;
         }

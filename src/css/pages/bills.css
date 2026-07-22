@@ -24,15 +24,13 @@ th {
     color: var(--secondary) !important;
 }
 
+hr {
+    margin: 0.5rem 0 !important;
+}
+
 input:disabled {
     background-color: var(--background-light) !important;
     color: var(--primary-dark) !important;
-}
-
-@media (min-width: 500px) and (max-width: 768px) {
-    #filter-btn {
-        margin-top: 1rem;
-    }
 }
 
 /* Estilos de texto para la tabla */
@@ -50,4 +48,10 @@ input:disabled {
 
 .btn-update {
     padding: 4px 8px 4px 8px;
+}
+
+@media (min-width: 500px) and (max-width: 768px) {
+    #filter-btn {
+        margin-top: 1rem;
+    }
 }

@@ -19,7 +19,7 @@ export async function renderPartitionTransportTable(partitionsParam = null) {
 
     // Filtrar los registros que no tengan un viaje asignado y los que no estén cancelados
     allPartitions = allPartitions.filter(p => !p.id_viaje);
-    allPartitions = allPartitions.filter(p => p.planta !== "Cancelado");
+    allPartitions = allPartitions.filter(p => p.planta !== "Cancelado" && p.planta !== "Proyectado");
     
     const tbody = document.querySelector('#partitions-table tbody');
     const weekText = document.getElementById('weekHeader');
@@ -48,8 +48,8 @@ export async function renderPartitionTransportTable(partitionsParam = null) {
         tbody.innerHTML += 
         `<tr>
             <td class="transport-time p-2 text-center">${partida.hora_programada.slice(0, 5)}</td>
-            <td class="transport-client p-2">${partida.cliente}</td>
-            <td class="transport-cant fw-bold p-2">Cant. ${partitionsTotal}</td>
+            <td class="transport-client p-2 ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${partida.cliente}</td>
+            <td class="transport-cant fw-bold p-2 ${partida.embarque === "Proyectado" ? "text-primary" : ""}">Cant. ${partitionsTotal}</td>
             <td class="transport-destination p-2">${partida.destino || partida.ubicacion}</td>
             <td class="transport-control text-center d-none" data-trans-only>
                 <button class="btn btn-primary btn-update-partition" 

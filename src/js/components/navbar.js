@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 function getRolName(rol) {
     switch (rol) {
         case 'admin': return 'Administrador';
+        case 'coor': return 'Coordinador';
         case 'prod': return 'Producción';
         case 'emb': return 'Embarques';
         case 'vent': return 'Ventas';

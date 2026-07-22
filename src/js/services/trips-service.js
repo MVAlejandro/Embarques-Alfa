@@ -231,7 +231,7 @@ export async function getFullTrips() {
                 anio,
                 transporte,
                 numero_remision,
-                numero_facturacion,
+                numero_orden,
                 destino,
                 observaciones,
 
@@ -312,7 +312,7 @@ export async function getFullTrips() {
             hora_recolectada: r.hora_recolectada,
             transporte: r.transporte,
             numero_remision: r.numero_remision,
-            numero_facturacion: r.numero_facturacion,
+            numero_orden: r.numero_orden,
             destino: r.destino,
             observaciones: r.observaciones,
             id_proveedor: r.id_proveedor,

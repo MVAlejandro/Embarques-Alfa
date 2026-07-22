@@ -59,14 +59,27 @@
                     <h5 id="weekHeader">Semana -</h5>
                 </div>
                 <div class="row ms-2 me-2">
-                    <div class="col-lg-3 col-md-6 d-flex align-items-center label-over-border filter">
+                    <div class="col-md-3 col-lg d-flex align-items-center label-over-border">
                         <label for="day-filter" class="form-label m-2">Filtrar por Día</label>
                         <input type="text" id="day-filter" class="form-control" placeholder="Fecha a mostrar">
                     </div>
-                    <div class="col-lg-3 col-md-6 d-flex align-items-center label-over-border filter">
+                    <div class="col-md-3 col-lg d-flex align-items-center label-over-border">
                         <label for="client-filter" class="form-label m-2">Filtrar por Cliente</label>
                         <select class="form-select" id="client-filter">
                             <option value="0">Todos</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-lg d-flex align-items-center label-over-border">
+                        <label for="product-filter" class="form-label m-2">Filtrar por Producto</label>
+                        <select class="form-select" id="product-filter">
+                            <option value="0">Todos</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-lg d-flex align-items-center label-over-border">
+                        <label for="projection-filter" class="form-label m-2">Mostrar Proyectados</label>
+                        <select class="form-select" id="projection-filter">
+                            <option value="0">Sí</option>
+                            <option value="Proyectado">No</option>
                         </select>
                     </div>
                     <div class="col-md d-flex align-items-center justify-content-end">
@@ -87,12 +100,12 @@
                 <table id="partitions-table" class="table table-hover">
                     <thead>
                         <tr class="table-light">
-                            <th class="p-3 ps-4">FECHA</th>
-                            <th class="p-3 ps-2">CLIENTE</th>
-                            <th class="p-3 ps-2">CLAVE</th>
-                            <th class="text-center p-3">ESTADO</th>
-                            <th class="p-3 ps-2">DESTINO</th>
-                            <th class="text-center p-3 d-none" data-vent-only data-fact-only>ACCIONES</th>
+                            <th class="px-3 py-2 ps-3">FECHA</th>
+                            <th class="px-3 py-2">CLIENTE</th>
+                            <th class="px-3 py-2">CLAVE</th>
+                            <th class="text-center px-3 py-2">ESTADO</th>
+                            <th class="px-3 py-2">DESTINO</th>
+                            <th class="text-center px-3 py-2 d-none" data-vent-only data-fact-only>ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -167,6 +180,7 @@
                                         <option value="PT parcial" class="d-none">PT parcial</option>
                                         <option value="En secado" class="d-none">En secado</option>
                                         <option value="Terminado" class="d-none">Terminado</option>
+                                        <option value="Proyectado">Proyectado</option>
                                         <option value="Cancelado">Cancelado</option>
                                         <option value="Reprogramado" class="d-none">Reprogramado</option>
                                     </select>

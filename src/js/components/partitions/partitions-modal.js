@@ -104,6 +104,10 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         updatedData.transporte = 'Cancelado';
     }
 
+    if (statusIn.value === 'Proyectado') {
+        updatedData.embarque = 'Proyectado';
+    }
+
     try {
         await updatePartition(id_partida, updatedData);
         await updatePartitionProducts(id_partida);

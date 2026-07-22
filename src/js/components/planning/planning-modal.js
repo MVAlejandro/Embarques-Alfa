@@ -88,7 +88,9 @@ export async function renderRecolectionsModal(recoleccion) {
     document.getElementById('recolection-real-time').value = recoleccion.hora_recolectada != null ? recoleccion.hora_recolectada.slice(0, 5) : "-";
     document.getElementById('recolection-supplier').value = recoleccion.proveedor;
     document.getElementById('recolection-destination').value = recoleccion.destino || recoleccion.ubicacion;
-    document.getElementById('recolection-observations').value = recoleccion.observaciones;
+    document.getElementById('recolection-oc').value = recoleccion.numero_orden || "-";
+    document.getElementById('recolection-remision').value = recoleccion.numero_remision || "-";
+    document.getElementById('recolection-observations').value = recoleccion.observaciones; 
     document.getElementById('recolection-status').value = recoleccion.transporte;
 
     // Limpiar filas anteriores

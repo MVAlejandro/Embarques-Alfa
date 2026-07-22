@@ -33,16 +33,18 @@ export async function renderBillsTable(partitionsParam = null) {
     for (const partida of allPartitions) {
         // Determinar clase CSS para el estatus de embarque
         let shipmentStatusClass = '';
-        if (partida.embarque == 'En preparación') {
+        if (partida.embarque == 'Preparando') {
             shipmentStatusClass = 'yellow';
-        } else if (partida.embarque == 'Proceso de carga') {
+        } else if (partida.embarque == 'En carga') {
             shipmentStatusClass = 'greenL';
         } else if (partida.embarque == 'Cargado') {
             shipmentStatusClass = 'greenD';
         } else if (partida.embarque == 'Cancelado') {
             shipmentStatusClass = 'red';
-        } else {
+        } else if (partida.embarque == 'Proyectado') {
             shipmentStatusClass = 'blue';
+        } else {
+            shipmentStatusClass = 'yellow';
         }
 
         // Determinar clase CSS para el estatus de facturación
@@ -51,6 +53,8 @@ export async function renderBillsTable(partitionsParam = null) {
             BillStatusClass = 'greenD';
         } else if (partida.facturacion == 'Cancelado') {
             BillStatusClass = 'red';
+        } else if (partida.embarque == 'Proyectado') {
+            BillStatusClass = 'blue';
         } else {
             BillStatusClass = 'yellow';
         }
@@ -69,22 +73,22 @@ export async function renderBillsTable(partitionsParam = null) {
 
         tbody.innerHTML += 
         `<tr>
-            <td class="bill-date fw-bold p-2 ps-4">${partida.fecha_programada}</td>
-            <td class="p-2">
+            <td class="bill-date fw-bold px-3 py-2 ps-3">${partida.fecha_programada}</td>
+            <td class="px-3 py-2 ${partida.embarque === "Proyectado" ? "text-primary" : ""}">
                 <p class="bill-oc fw-bold">OC-${partida.numero_orden}</p>
                 <p class="bill-contract">Contrato #${partida.numero_contrato}</p>
             </td>
-            <td class="bill-client p-2">${partida.cliente}</td>
-            <td id="bill-products-${partida.id_partida}" class="p-2">
+            <td class="bill-client px-3 py-2 ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${partida.cliente}</td>
+            <td id="bill-products-${partida.id_partida}" class="px-3 py-2">
                 
             </td>
-            <td class="text-center p-2">
+            <td class="text-center px-3 py-2">
                 <p class="bill-status ${shipmentStatusClass}">${partida.embarque}</p>
             </td>
-            <td class="text-center p-2">
-                <p class="bill-status ${BillStatusClass}">${partida.facturacion}</p>
+            <td class="text-center px-3 py-2">
+                <p class="bill-status ${BillStatusClass}">${partida.embarque === "Proyectado" ? "Proyectado" : partida.facturacion}</p>
             </td>
-            <td class="bill-number p-2">${partida.numero_facturacion || "Sin Registro"}</td>
+            <td class="bill-number px-3 py-2">${partida.numero_facturacion || "Sin Registro"}</td>
             <td class="bill-control text-center d-none" data-vent-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
@@ -102,7 +106,7 @@ export async function renderBillsTable(partitionsParam = null) {
 
         for (const producto of productos) {
             container.innerHTML += 
-            `<p class="bill-product">${producto.codigo} - <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
+            `<p class="bill-product ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${producto.codigo} - <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
             <p class="bill-cant">${producto.producto}</p>
             <hr>`;
         };

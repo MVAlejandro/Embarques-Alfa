@@ -38,20 +38,20 @@ export async function renderClientsTable(clientsParam = null) {
     clients.forEach(cliente => {
         tbody.innerHTML += 
         `<tr>
-            <td class="client-name p-3 ps-4 fw-bold">${cliente.nombre}</td>
-            <td class="p-3">
+            <td class="client-name p-2 ps-3 fw-bold">${cliente.nombre}</td>
+            <td class="px-3 py-2">
                 <p class="client-company fst-italic">${cliente.razon_social}</p>
                 <p class="client-rfc">${cliente.rfc}</p>
             </td>
-            <td class="p-3">
+            <td class="px-3 py-2">
                 <p class="client-email">${cliente.correo}</p>
                 <p class="client-phone">${cliente.numero_telefono}</p>
             </td>
-            <td class="p-3">
+            <td class="px-3 py-2">
                 <p class="client-ubication">${cliente.ubicacion}</p>
                 <p class="client-cp">CP: ${cliente.codigo_postal}</p>
             </td>
-            <td class="client-controls text-pageEnd p-3 pe-4 d-none" data-vent-only>
+            <td class="client-controls text-pageEnd px-3 py-2 pe-4 d-none" data-vent-only>
                 <div class="action-buttons">
                     <button class="btn btn-edit" 
                         data-bs-target="#edit-modal" 

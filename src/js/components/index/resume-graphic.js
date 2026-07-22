@@ -68,7 +68,7 @@ export async function renderCanceledGraphic(dates) {
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: 100,
+                    max: 80,
                     ticks: {
                         stepSize: 20
                     },
@@ -85,6 +85,11 @@ export async function renderCanceledGraphic(dates) {
                 }
             },
             plugins: {
+                datalabels: {
+                    align: 'top',
+                    anchor: 'end',
+                    formatter: value => value + '%'
+                },
                 tooltip: {
                     callbacks: {
                         label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y}%`
@@ -150,6 +155,9 @@ export async function renderClientsGraphic(dates) {
                 datalabels: {
                     color: '#fff',
                     formatter: value => value
+                },
+                legend: {
+                    position: 'left'
                 }
             }
         }

@@ -42,8 +42,10 @@ export async function renderShipmentsTable(partitionsParam = null) {
             shipmentStatusClass = 'greenD';
         } else if (partida.embarque == 'Cancelado') {
             shipmentStatusClass = 'red';
-        } else {
+        } else if (partida.embarque == 'Proyectado') {
             shipmentStatusClass = 'blue';
+        } else {
+            shipmentStatusClass = 'yellow';
         }
 
         // Obtener viaje relacionado a la partida si hay
@@ -68,27 +70,27 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
         tbody.innerHTML += 
         `<tr>
-            <td class="p-2 ps-4">
+            <td class="p-2 ps-3">
                 <p class="shipment-date fw-bold">${partida.fecha_programada}</p>
                 <p class="shipment-time">${partida.hora_programada.slice(0, 5)}</p>
                 <p class="shipment-time-final">${partida.hora_embarcada?.slice(0, 5) || "Pendiente"}</p>
             </td>
-            <td class="shipment-client p-2">${partida.cliente}</td>
-            <td id="partition-products-${partida.id_partida}" class="p-2">
+            <td class="shipment-client px-3 py-2 ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${partida.cliente}</td>
+            <td id="partition-products-${partida.id_partida}">
 
             </td>
-            <td id="shipment-products-${partida.id_partida}" class="p-2">
+            <td id="shipment-products-${partida.id_partida}">
 
             </td>
-            <td class="text-center p-2">
+            <td class="text-center px-3 py-2">
                 <p class="shipment-status ${shipmentStatusClass}">${partida.embarque}</p>
             </td>
-            <td class="p-2">
+            <td class="px-3 py-2">
                 <p class="shipment-unit">${viaje.unidad || "Sin Asignar"}</p>
                 <p class="shipment-license">${viaje.placas || "-"}</p>
             </td>
-            <td class="shipment-observation p-2">${partida.observaciones}</td>
-            <td class="shipment-control text-center d-none" data-prod-only>
+            <td class="shipment-observation px-3 py-2">${partida.observaciones}</td>
+            <td class="shipment-control text-center d-none" data-prod-only data-coor-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
@@ -107,7 +109,7 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
         for (const producto of productos) {
             container1.innerHTML += 
-            `<p class="partition-product">${producto.codigo} -  <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
+            `<p class="partition-product ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${producto.codigo} -  <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
             <p class="partition-cant">${producto.producto}</p>
             <hr>`;
             container2.innerHTML += 

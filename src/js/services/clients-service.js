@@ -17,6 +17,7 @@ export async function getClients() {
     const { data, error } = await supabase
         .from('emb_clientes')
         .select("*")
+        .eq('estado_comercial', 'Cliente')
         .order('id_cliente', { ascending: true });
     
     if (error) {

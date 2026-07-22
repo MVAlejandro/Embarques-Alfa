@@ -1,5 +1,8 @@
+// Servicios Supabase
+import { getPartitionProducts } from '../services/partition-product-service.js';
+
 // Utilidades
-import { loadClientsFilter, loadDaysFilter } from './load-select.js';
+import { loadClientsFilter, loadDaysFilter, loadProductsFilter } from './load-select.js';
 
 let allRegisters = [];
 
@@ -22,15 +25,25 @@ export async function planningFilter(getFunction, renderTable) {
     // Verificar que existen los elementos
     const dayFilterEl = document.getElementById('day-filter');
     const clientFilterEl = document.getElementById('client-filter');
+    const productFilterEl = document.getElementById('product-filter');
+    const projectionFilterEl = document.getElementById('projection-filter');
 
-    if (!dayFilterEl || !clientFilterEl) return;
+    // Valores por defecto si no existe alguno de los filtros
+    const clientFilter = clientFilterEl?.value || '0';
+    const productFilter = productFilterEl?.value || '0';
+    const projectionFilter = projectionFilterEl?.value || '0';
 
-    // Tomar valores de los selects
-    const dayFilter = dayFilterEl.value ? dayFilterEl.value.split(', ').map(d => d.trim()) : [];
-    const clientFilter = clientFilterEl.value;
+    let startDate = null;
+    let endDate = null;
+
+    if (dayFilterEl?.value) {
+        const range = dayFilterEl.value.split(' a ');
+        startDate = new Date(range[0]);
+        endDate = range[1] ? new Date(range[1]) : startDate;
+    }
 
     // Si no se selecciona un día generar tabla vacía
-    if (dayFilterEl.length === 0) {
+    if (!startDate) {
         renderTable([]);
         return;
     }
@@ -39,15 +52,39 @@ export async function planningFilter(getFunction, renderTable) {
     allRegisters = await getFunction();
         if (!allRegisters) return;
 
-    // Filtrar por día seleccionado
-    let filtered = allRegisters.filter(p => 
-        (dayFilter.length === 0 || dayFilter.includes(p.fecha_programada)));
+    // Filtrar por rango de fechas
+    let filtered = allRegisters.filter(p => {
+        const fecha = new Date(p.fecha_programada);
+        return fecha >= startDate && fecha <= endDate;
+    });
     
-    // Cargar clientes en el select
-    loadClientsFilter(filtered, clientFilter)
+    // Cargar clientes solo si existe el select
+    if (clientFilterEl) {
+        loadClientsFilter(filtered, clientFilter);
+    }
 
-    filtered = filtered.filter(p => 
-        (clientFilter === '0' || p.id_cliente == clientFilter));
+    filtered = filtered.filter(p => (clientFilter === '0' || p.id_cliente == clientFilter));
 
+    // Cargar productos solo si existe el select
+    if (productFilterEl) {
+        loadProductsFilter(filtered, productFilter);
+    }
+
+    if (productFilter !== '0') {
+        const enriched = await Promise.all(
+            filtered.map(async (partida) => {
+                const productos = await getPartitionProducts(partida.id_partida);
+                return { ...partida, productos };
+            })
+        );
+
+        filtered = enriched.filter(partida =>
+            partida.productos.some(prod => prod.id_producto == productFilter)
+        );
+    }
+
+    // Filtrar por proyectados
+    filtered = filtered.filter(p => (projectionFilter === '0' || p.embarque !== projectionFilter));
+        
     renderTable(filtered);
 }

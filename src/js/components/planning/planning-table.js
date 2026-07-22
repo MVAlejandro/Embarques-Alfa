@@ -1,6 +1,7 @@
 // Servicios Supabase
 import { getFullTrips } from '../../services/trips-service.js';
 import { addEventTableRow } from '../../utils/trip-table-row.js';
+import { planningReport } from './planning-report.js';
 
 let allTrips = [];
 
@@ -192,4 +193,7 @@ export async function renderPlanningTable(tripsParam = null) {
             </table>
         </td>
     </tr>`;
+
+    // Declarar el botón de exportación a Excel
+    document.getElementById("report-btn").onclick = () => { planningReport(allTrips); };
 }

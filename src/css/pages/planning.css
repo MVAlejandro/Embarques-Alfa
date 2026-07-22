@@ -62,12 +62,6 @@ input:disabled {
     color: var(--primary-dark) !important;
 }
 
-@media (min-width: 500px) and (max-width: 768px) {
-    #filter-btn {
-        margin-top: 1rem;
-    }
-}
-
 /* Estilos de texto para la tabla */
 .planning-time, .planning-events, .partition-time, .recolection-time {
     font-size: 13px;

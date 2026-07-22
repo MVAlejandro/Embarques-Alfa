@@ -38,20 +38,20 @@ export async function renderSuppliersTable(suppliersParam = null) {
     suppliers.forEach(proveedor => {
         tbody.innerHTML += 
         `<tr>
-            <td class="supplier-name p-3 ps-4 fw-bold">${proveedor.nombre}</td>
-            <td class="p-3">
+            <td class="supplier-name p-2 ps-3 fw-bold">${proveedor.nombre}</td>
+            <td class="px-3 py-2">
                 <p class="supplier-company fst-italic">${proveedor.razon_social}</p>
                 <p class="supplier-rfc">${proveedor.rfc}</p>
             </td>
-            <td class="p-3">
+            <td class="px-3 py-2">
                 <p class="supplier-email">${proveedor.correo}</p>
                 <p class="supplier-phone">${proveedor.numero_telefono}</p>
             </td>
-            <td class="p-3">
+            <td class="px-3 py-2">
                 <p class="supplier-ubication">${proveedor.ubicacion}</p>
                 <p class="supplier-cp">CP: ${proveedor.codigo_postal}</p>
             </td>
-            <td class="supplier-controls text-pageEnd p-3 pe-4 d-none" data-comp-only>
+            <td class="supplier-controls text-pageEnd px-3 py-2 pe-4 d-none" data-comp-only>
                 <div class="action-buttons">
                     <button class="btn btn-edit" 
                         data-bs-target="#edit-modal" 

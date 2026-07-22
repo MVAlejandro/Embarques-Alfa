@@ -37,7 +37,7 @@ export async function renderPartitionsTable(partitionsParam = null) {
             statusClass = 'yellow';
         } else if (partida.planta == 'PT parcial') {
             statusClass = 'greenL';
-        } else if (partida.planta == 'En secado') {
+        } else if (partida.planta == 'En secado' || partida.planta == 'Proyectado') {
             statusClass = 'blue';
         } else if (partida.planta == 'Terminado') {
             statusClass = 'greenD';
@@ -52,18 +52,18 @@ export async function renderPartitionsTable(partitionsParam = null) {
 
         tbody.innerHTML += 
         `<tr>
-            <td class="p-2 ps-4">
+            <td class="p-2 ps-3">
                 <p class="partition-date fw-bold">${partida.fecha_programada}</p>
                 <p class="partition-time">${partida.hora_programada.slice(0, 5)}</p>
             </td>
-            <td class="partition-client p-2">${partida.cliente}</td>
-            <td id="partition-products-${partida.id_partida}" class="p-2">
+            <td class="partition-client px-3 py-2 ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${partida.cliente}</td>
+            <td id="partition-products-${partida.id_partida}" class="px-3 py-2">
 
             </td>
-            <td class="text-center p-2">
+            <td class="text-center px-3 py-2">
                 <p class="partition-status ${statusClass}">${partida.planta}</p>
             </td>
-            <td class="partition-destination p-2">${partida.destino || partida.ubicacion}</td>
+            <td class="partition-destination px-3 py-2">${partida.destino || partida.ubicacion}</td>
             <td class="partition-control text-center d-none" data-vent-only data-fact-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
@@ -103,7 +103,7 @@ export async function renderPartitionsTable(partitionsParam = null) {
             }
 
             container.innerHTML += 
-            `<p class="partition-product">${producto.codigo} - <b>Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
+            `<p class="partition-product ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${producto.codigo} - <b>Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
             <p class="partition-cant">${producto.producto}</p>
             <hr>`;
         }

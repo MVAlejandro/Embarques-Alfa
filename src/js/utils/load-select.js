@@ -1,6 +1,7 @@
 import supabase from "../supabase/supabase-client";
 // Servicios Supabase
 import { getTrips } from "../services/trips-service";
+import { getPartitionProducts } from "../services/partition-product-service";
 
 // Función para cargar datos completos en los select del formulario
 export async function loadOptions(selectId, table, valueKey, textKey, defaultOption, selectedValue = '0') {
@@ -93,12 +94,9 @@ export function loadDaysFilter() {
             ...flatpickr.l10ns.es,
             firstDayOfWeek: 0
         },
-        mode: "multiple",
+        mode: "range",
         dateFormat: "Y-m-d",
-        defaultDate: new Date(),
-        disable: [
-            date => date.getDay() === 0
-        ]
+        defaultDate: [new Date(), new Date()]
     });
 }
 
@@ -180,6 +178,50 @@ export async function loadClientsFilter(filtered, selectedValue = '0') {
             option.selected = true;
         }
         
+        select.appendChild(option);
+    });
+}
+
+// Cargar productos en el select basado en una lista previamente filtrada
+export async function loadProductsFilter(filtered, selectedValue = '0') {
+    const select = document.getElementById('product-filter');
+    if (!select) return;
+
+    if (selectedValue == null) selectedValue = '0';
+
+    select.innerHTML = '';
+
+    // Opción por defecto
+    const defaultOptionEl = document.createElement('option');
+    defaultOptionEl.value = 0;
+    defaultOptionEl.textContent = "Todos";
+    select.appendChild(defaultOptionEl);
+
+    // Obtener productos de todas las partidas en paralelo
+    const productosPorPartida = await Promise.all(
+        filtered.map(p => getPartitionProducts(p.id_partida))
+    );
+
+    // Aplanar array a uno solo
+    const allProducts = productosPorPartida.flat();
+
+    // Eliminar duplicados por texto
+    const seen = new Set();
+
+    allProducts.forEach(prod => {
+        if (!prod || seen.has(prod.id_producto)) return;
+
+        seen.add(prod.id_producto);
+
+        const option = document.createElement('option');
+        option.value = prod.id_producto;
+        option.textContent = prod.codigo;
+
+        // Si el valor coincide, marcar como seleccionado
+        if (option.value == selectedValue) {
+            option.selected = true;
+        }
+
         select.appendChild(option);
     });
 }

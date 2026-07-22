@@ -14,18 +14,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Función de filtrado por valores seleccionados
 export async function recolectionsFilter() {
     // Verificar que existen los elementos
-    const supplierFilterEl = document.getElementById('supplier-filter');
-    const dayFilterEl = document.getElementById('day-filter');
+    const supplierFilter = document.getElementById('supplier-filter').value;
+    const dayFilter = document.getElementById('day-filter');
 
-    if (!supplierFilterEl || !dayFilterEl) return;
+    let startDate = null;
+    let endDate = null;
 
-    // Tomar valores de los selects
-    const supplierFilter = supplierFilterEl.value;
-    const dayFilter = dayFilterEl.value ? dayFilterEl.value.split(', ').map(d => d.trim()) : [];
+    if (dayFilter?.value) {
+        const range = dayFilter.value.split(' a ');
+        startDate = range[0];                 
+        endDate = range[1] || range[0];
+    }
 
     // Si no se selecciona un día generar tabla vacía
-    if (dayFilterEl.length === 0) {
-        renderRecolectionsTable([]);
+    if (!startDate) {
+        renderTable([]);
         return;
     }
 
@@ -34,9 +37,16 @@ export async function recolectionsFilter() {
         if (!allRecolections) return;
 
     // Filtrar por día y proveedor seleccionado
-    const filtered = allRecolections.filter(o => 
-        (supplierFilter === '0' || o.id_proveedor == supplierFilter) &&
-        (dayFilter.length === 0 || dayFilter.includes(o.fecha_programada)));
+    const filtered = allRecolections.filter(o => {
+        let dateOk = true;
+        if (startDate) {
+            const fecha = o.fecha_programada.slice(0, 10);
+            dateOk = fecha >= startDate && fecha <= endDate;
+        }
+        const supplierOk = supplierFilter === '0' || o.id_proveedor == supplierFilter;
+
+        return dateOk && supplierOk;
+    });
 
     renderRecolectionsTable(filtered);
 }

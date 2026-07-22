@@ -1,15 +1,15 @@
 
 /* Estilos de la página y estructura */
-#partitions-header {
+#report-header {
     margin-top: 0;
 }
 
-#partitions-header-container {
+#report-header-container {
     background-color: var(--background-light) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#partitions-form-container, #partitions-filter-container, .table-responsive {
+#report-filter-container, .table-responsive {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -24,22 +24,18 @@ th {
     color: var(--secondary) !important;
 }
 
-hr {
-    margin: 0.5rem 0 !important;
-}
-
 input:disabled {
     background-color: var(--background-light) !important;
     color: var(--primary-dark) !important;
 }
 
 /* Estilos de texto para la tabla */
-.partition-time, .partition-cant {
+.report-time, .report-time-final, .report-cant, .report-license {
     font-size: 13px;
     color: var(--secondary) !important;
 }
 
-.partition-status {
+.report-status {
     padding: 5px 12px 5px 12px;
     border-radius: 50px;
     font-weight: bold;
@@ -48,10 +44,4 @@ input:disabled {
 
 .btn-update {
     padding: 4px 8px 4px 8px;
-}
-
-@media (min-width: 500px) and (max-width: 768px) {
-    #filter-btn {
-        margin-top: 1rem;
-    }
 }

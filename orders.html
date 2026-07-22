@@ -94,12 +94,12 @@
                 <table id="orders-table" class="table table-hover align-middle">
                     <thead>
                         <tr class="table-light">
-                            <th class="p-3 ps-4"># ORDEN</th>
-                            <th class="p-3">CONTRATO</th>
-                            <th class="p-3">CLIENTE</th>
-                            <th class="p-3">CREACIÓN</th>
-                            <th class="p-3">CLAVE</th>
-                            <th class="text-center p-3">ESTADO</th>
+                            <th class="px-3 py-2 ps-3"># ORDEN</th>
+                            <th class="px-3 py-2">CONTRATO</th>
+                            <th class="px-3 py-2">CLIENTE</th>
+                            <th class="px-3 py-2">CREACIÓN</th>
+                            <th class="px-3 py-2">CLAVE</th>
+                            <th class="text-center px-3 py-2">ESTADO</th>
                             <th class="d-none" data-vent-only></th>
                         </tr>
                     </thead>
@@ -166,11 +166,13 @@
                                 </div>
                                 <div class="col-md-6 col-lg-3 label-over-border filter">
                                     <label for="edit-oc" class="form-label m-2">Orden de compra</label>
-                                    <input type="text" class="form-control" id="edit-oc" disabled>
+                                    <input type="text" class="form-control" id="edit-oc">
+                                    <p class="error invalid-feedback" id="error-editOc" style="color: red;"></p>
                                 </div>
                                 <div class="col-md-6 col-lg-3 label-over-border filter">
                                     <label for="edit-contract" class="form-label m-2">Contrato</label>
-                                    <input type="text" class="form-control" id="edit-contract" disabled>
+                                    <input type="text" class="form-control" id="edit-contract">
+                                    <p class="error invalid-feedback" id="error-editContract" style="color: red;"></p>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
