@@ -76,6 +76,18 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <input type="email" id="correo" class="form-control" placeholder="email@mail.com">
                                 <p class="error invalid-feedback" id="error-correo" style="color: red;"></p>
                             </div>
+                            <div class="col-md-4 label-over-border">
+                                <label for="h_recepcion_ini" class="form-label m-2">Hora Recepción Inicio</label>
+                                <input type="time" id="h_recepcion_ini" class="form-control">
+                                <p class="error invalid-feedback" id="error-h_recepcion_ini" style="color: red;"></p>
+                            </div>
+                            <div class="col-md-4 label-over-border">
+                                <label for="h_recepcion_fin" class="form-label m-2">Hora Recepción Fin</label>
+                                <input type="time" id="h_recepcion_fin" class="form-control">    
+                                <p class="error invalid-feedback" id="error-h_recepcion_fin" style="color: red;"></p>
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
                             <div class="col-md-2 label-over-border">
                                 <label for="codigo_postal" class="form-label m-2">CP</label>
                                 <input type="number" id="codigo_postal" class="form-control no-arrows" placeholder="Código postal">
@@ -85,6 +97,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <label for="ubicacion" class="form-label m-2">Ubicación</label>
                                 <input type="text" id="ubicacion" class="form-control" placeholder="Ciudad, Estado">    
                                 <p class="error invalid-feedback" id="error-ubicacion" style="color: red;"></p>
+                            </div>
+                            <div class="col-md-4 label-over-border">
+                                <label for="tiempo_traslado" class="form-label m-2">Tiempo de Traslado</label>
+                                <input type="text" id="tiempo_traslado" class="form-control" placeholder="HH:MM">
+                                <p class="error invalid-feedback" id="error-tiempo_traslado" style="color: red;"></p>
                             </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-end pt-1 me-3">

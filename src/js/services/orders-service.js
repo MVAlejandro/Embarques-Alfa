@@ -58,7 +58,12 @@ export async function getActiveOrders() {
             numero_contrato,
             estado,
             id_cliente,
-            emb_clientes (nombre)
+            emb_clientes (
+                nombre,
+                tiempo_traslado,
+                h_recepcion_ini,
+                h_recepcion_fin
+            )
             `)
         .eq('estado', 'Vigente')
         .order('numero_contrato', { ascending: true });
@@ -74,8 +79,40 @@ export async function getActiveOrders() {
         numero_contrato: orden.numero_contrato,
         estado: orden.estado,
         id_cliente: orden.id_cliente,
-        cliente: orden.emb_clientes?.nombre
+        cliente: orden.emb_clientes?.nombre,
+        tiempo_traslado: orden.emb_clientes?.tiempo_traslado,
+        h_recepcion_ini: orden.emb_clientes?.h_recepcion_ini,
+        h_recepcion_fin: orden.emb_clientes?.h_recepcion_fin
     }));
+}
+
+export async function getOrderTimes(id_orden) {
+    const { data, error } = await supabase
+        .from('emb_ordenes_compra')
+        .select(`
+            id_cliente,
+            emb_clientes (
+                nombre,
+                tiempo_traslado,
+                h_recepcion_ini,
+                h_recepcion_fin
+            )
+            `)
+        .eq('id_orden', id_orden)
+        .maybeSingle();
+    
+    if (error) {
+        console.error('Error obteniendo el horario de la orden:', error);
+        throw error;
+    }
+    
+    return {
+        id_cliente: data.id_cliente,
+        cliente: data.emb_clientes?.nombre,
+        tiempo_traslado: data.emb_clientes?.tiempo_traslado,
+        h_recepcion_ini: data.emb_clientes?.h_recepcion_ini,
+        h_recepcion_fin: data.emb_clientes?.h_recepcion_fin
+    };
 }
 
 // Función para editar órdenes de la base

@@ -25,16 +25,7 @@ export async function getClients() {
         throw error;
     }
     
-    return data.map(cliente => ({
-        id_cliente: cliente.id_cliente,
-        razon_social: cliente.razon_social,
-        rfc: cliente.rfc,
-        nombre: cliente.nombre,
-        codigo_postal: cliente.codigo_postal,
-        ubicacion: cliente.ubicacion,
-        numero_telefono: cliente.numero_telefono,
-        correo: cliente.correo
-    }));
+    return data;
 }
 
 // Función para editar clientes de la base

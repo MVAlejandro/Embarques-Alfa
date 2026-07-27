@@ -13,6 +13,25 @@ export function getWeekAndYear(date = new Date()) {
     return { semana: week, anio: d.getUTCFullYear() };
 }
 
+// Función para calcular la hora máxima permitida restando el tiempo de traslado
+export function calculateMaxTime(horaFin, tiempoTraslado) {
+    const [finH, finM] = horaFin.split(":").map(Number);
+    const [trasH, trasM] = tiempoTraslado.split(":").map(Number);
+
+    // Convertir todo a minutos
+    const finMinutos = finH * 60 + finM;
+    const trasladoMinutos = trasH * 60 + trasM;
+
+    // Restar
+    const maxMinutos = finMinutos - trasladoMinutos;
+
+    // Convertir de nuevo a HH:mm
+    const horas = Math.floor(maxMinutos / 60);
+    const minutos = maxMinutos % 60;
+
+    return `${String(horas).padStart(2, "0")}:${String(minutos).padStart(2, "0")}`;
+}
+
 // Función para obtener la última semana registrada de conteos
 export async function obtainCurrentWeek() {
     const { anio, semana } = getWeekAndYear()

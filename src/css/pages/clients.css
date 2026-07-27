@@ -19,7 +19,7 @@ th {
 }
 
 /* Estilos de texto para la tabla */
-.client-rfc, .client-phone, .client-cp, #clients-pages-results {
+.client-rfc, .client-phone, .client-cp, .client-time, #clients-pages-results {
     font-size: 13px;
     color: var(--secondary) !important;
 }

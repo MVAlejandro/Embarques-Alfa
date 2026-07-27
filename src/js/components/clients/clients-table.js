@@ -51,6 +51,7 @@ export async function renderClientsTable(clientsParam = null) {
                 <p class="client-ubication">${cliente.ubicacion}</p>
                 <p class="client-cp">CP: ${cliente.codigo_postal}</p>
             </td>
+            <td class="client-time text-center px-3 py-2">${cliente.h_recepcion_ini?.slice(0, 5) || "S/H"} - ${cliente.h_recepcion_fin?.slice(0, 5) || "S/H"}</td>
             <td class="client-controls text-pageEnd px-3 py-2 pe-4 d-none" data-vent-only>
                 <div class="action-buttons">
                     <button class="btn btn-edit" 

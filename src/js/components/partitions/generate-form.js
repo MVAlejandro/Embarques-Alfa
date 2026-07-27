@@ -1,3 +1,4 @@
+import { getOrderTimes } from "../../services/orders-service";
 
 document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById('partitions-form');
@@ -33,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <div class="col-md-3 label-over-border">
                         <label for="hora_programada" class="form-label m-2">Hora Programada</label>
-                        <input type="time" id="hora_programada" class="form-control">
+                        <input type="time" id="hora_programada" class="form-control" disabled min="08:00" max="09:00">
                         <p class="error invalid-feedback" id="hora_programada-error" style="color: red;"></p>
                     </div>
                     <div class="col-md-3 label-over-border">
@@ -76,6 +77,35 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("fecha_programada").min = minDate.toISOString().split("T")[0];
     document.getElementById("fecha_programada").max = maxDate.toISOString().split("T")[0];
 
+    // Detectar cambio en el select de contrato
+    document.getElementById("contrato").addEventListener("change", async function () {
+        const inputHora = document.getElementById("hora_programada");
+        const orderId = this.value;
+
+        if (orderId !== "0") {
+            const times = await getOrderTimes(orderId);
+
+            // Validar que existan todos los horarios necesarios
+            if ( !times || !times.h_recepcion_ini || !times.h_recepcion_fin || !times.tiempo_traslado ) {
+                Swal.fire({
+                    title: 'Atención',
+                    text: `El cliente ${times?.cliente ?? ""} no tiene configurados correctamente los horarios de recepción o el tiempo de traslado.`,
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+
+                inputHora.disabled = true;
+                inputHora.value = "";
+                return;
+            }
+
+            inputHora.disabled = false;
+
+        } else {
+            inputHora.disabled = true;
+            inputHora.value = "";
+        }
+    });
 
     const partitionsContainer = document.getElementById('partitions-form-container');
     // Crear instancia única de Collapse

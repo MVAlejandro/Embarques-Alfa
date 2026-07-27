@@ -11,15 +11,21 @@ import '../components/navbar.js';
 
 // Servicios Supabase
 import { initPage } from '../utils/session-validate.js'; 
-import { getPartitions } from '../services/partitions-service.js';
-import { initPageFilters } from '../utils/planning-filters.js'; 
-import { renderShipmentsTable } from '../components/shipments/shipments-table.js'; 
+import { initShipmentsFilters } from '../components/shipments/shipments-filter.js';
 import { renderShipmentsEditModal } from '../components/shipments/shipments-modal.js'; 
+import { saveShipmentsOrder } from '../components/shipments/shipments-order.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initPage()
     // Generar tabla con el día actual
-    initPageFilters(getPartitions, renderShipmentsTable);
+    initShipmentsFilters()
+});
+
+// Declarar el botón de ordenamiento
+document.addEventListener('click', function(e) {
+    if (e.target.id === 'save-btn' || e.target.closest('#save-btn')) {
+        saveShipmentsOrder();
+    }
 });
 
 // Acciones del modal de edición

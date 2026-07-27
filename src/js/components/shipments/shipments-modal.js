@@ -1,20 +1,25 @@
 // Servicios Supabase
-import { getPartitions, updatePartition } from '../../services/partitions-service.js';
+import { updatePartition } from '../../services/partitions-service.js';
 import { getPartitionProducts, updateShipmentProducts } from "../../services/partition-product-service";
-import { planningFilter } from '../../utils/planning-filters.js'; 
-import { renderShipmentsTable } from './shipments-table.js'; 
+import { getOrderTimes } from '../../services/orders-service.js';
+import { shipmentsFilter } from './shipments-filter.js';
 import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
-import { textValidate, inputValidate } from '../../utils/form-validations.js';
+import { textValidate, inputValidate, timeValidate } from '../../utils/form-validations.js';
 import { validateProductRow, viewProductRow } from '../../utils/modal-product-rows.js';
+import { calculateMaxTime } from '../../utils/week-functions.js';
 
 // Función para cargar datos en el modal
 export async function renderShipmentsEditModal(partida) {
     // Insertar valores en los inputs
     document.getElementById('edit-id-partition').value = partida.id_partida;
+    document.getElementById('edit-id-order').value = partida.id_orden;
     document.getElementById('edit-date').value = partida.fecha_programada;
     document.getElementById('edit-time').value = partida.hora_programada;
     document.getElementById('edit-real-time').value = partida.hora_embarcada != null ? partida.hora_embarcada.slice(0, 5) : "";
+    document.getElementById('edit-travel').value = partida.tiempo_traslado?.slice(0, 5) || "";
+    document.getElementById('edit-receptionSt').value = partida.h_recepcion_ini;
+    document.getElementById('edit-receptionEn').value = partida.h_recepcion_fin;
     document.getElementById('edit-oc').value = partida.numero_orden;
     document.getElementById('edit-status').value = partida.embarque;
     document.getElementById('edit-remision').value = partida.numero_remision;
@@ -41,16 +46,23 @@ export async function renderShipmentsEditModal(partida) {
 document.getElementById('btn-edit-entry').addEventListener('click', async function() {
     const form = document.getElementById('shipment-edit-form');
     // Referencias para validación
+    const timeIn = document.getElementById('edit-time');
     const horaRealIn = document.getElementById('edit-real-time');
     const statusIn = document.getElementById('edit-status');
     const remisionIn = document.getElementById('edit-remision');
     const observacionesIn = document.getElementById('edit-observations');
     
+    const timeError = document.getElementById('error-editTime');
     const statusError = document.getElementById('error-editStatus');
     const remisionError = document.getElementById('error-editRemision');
     const observacionesError = document.getElementById('error-editObservations');
 
+    const times = await getOrderTimes(document.getElementById('edit-id-order').value);
+    let minHour = times.h_recepcion_ini.slice(0, 5) || "00:00";
+    let maxHour = calculateMaxTime(times.h_recepcion_fin, times.tiempo_traslado || "00:00");
+
     // Validaciones
+    timeValidate(timeIn, timeError, minHour, maxHour)
     textValidate(observacionesIn, observacionesError)
 
     const campos = document.querySelectorAll('input')
@@ -77,6 +89,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
 
     const id_partida = document.getElementById('edit-id-partition').value;
     const updatedData = { 
+        hora_programada: timeIn.value,
         embarque: statusIn.value,
         numero_remision: remisionIn.value,
         observaciones: observacionesIn.value
@@ -100,7 +113,7 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         });
 
         // Recarga la tabla con los datos actualizados
-        planningFilter(getPartitions, renderShipmentsTable);
+        shipmentsFilter();
     } catch (err) {
         console.error('Error al actualizar partida:', err);
         Swal.fire({

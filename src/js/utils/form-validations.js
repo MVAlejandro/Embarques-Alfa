@@ -145,6 +145,26 @@ export function quantityValidate(input, error, maxValue) {
     }
 }
 
+// Función que valida que la hora esté dentro del rango establecido
+export function timeValidate(input, error, minValue, maxValue) {
+    error.textContent = '';
+    input.classList.remove('is-invalid', 'is-valid');
+
+    if (input.value.length < 3) {
+        error.textContent = `La hora no puede estar vacía`;
+        input.classList.add('is-invalid');
+    } else if (input.value > maxValue) {
+        error.textContent = `Se debe tomar en cuenta el tiempo de traslado`;
+        input.classList.add('is-invalid');
+    } else if (input.value < minValue) {
+        error.textContent = `La empresa no recibe en ese horario`;
+        input.classList.add('is-invalid');
+    } else {
+        error.textContent = '';
+        input.classList.add('is-valid');
+    }
+}
+
 // Función que valida los caracteres permitidos en contraseñas
 export function passValidate(data, error) {
     error.textContent = '';

@@ -23,6 +23,7 @@ export async function getPartitions() {
             anio,
             hora_programada,
             hora_embarcada,
+            orden_embarque,
             facturacion,
             embarque,
             planta,
@@ -36,8 +37,14 @@ export async function getPartitions() {
                 numero_orden,
                 numero_contrato,
                 id_cliente,
-                emb_clientes (nombre, correo, ubicacion)
-            ),
+                emb_clientes (
+                    nombre, 
+                    correo, 
+                    ubicacion,
+                    tiempo_traslado,
+                    h_recepcion_ini,
+                    h_recepcion_fin
+                )),
             id_viaje
             `)
         .order('fecha_programada', { ascending: true })
@@ -55,6 +62,7 @@ export async function getPartitions() {
         anio: partida.anio,
         hora_programada: partida.hora_programada,
         hora_embarcada: partida.hora_embarcada,
+        orden_embarque: partida.orden_embarque,
         facturacion: partida.facturacion,
         embarque: partida.embarque,
         planta: partida.planta,
@@ -70,6 +78,9 @@ export async function getPartitions() {
         cliente: partida.emb_ordenes_compra?.emb_clientes?.nombre,
         correo: partida.emb_ordenes_compra?.emb_clientes?.correo,
         ubicacion: partida.emb_ordenes_compra?.emb_clientes?.ubicacion,
+        tiempo_traslado: partida.emb_ordenes_compra?.emb_clientes?.tiempo_traslado,
+        h_recepcion_ini: partida.emb_ordenes_compra?.emb_clientes?.h_recepcion_ini,
+        h_recepcion_fin: partida.emb_ordenes_compra?.emb_clientes?.h_recepcion_fin,
         id_viaje: partida.id_viaje
     }));
 }

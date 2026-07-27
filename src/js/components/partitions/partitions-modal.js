@@ -1,18 +1,21 @@
 // Servicios Supabase
 import { getPartitions, updatePartition } from '../../services/partitions-service.js'; 
 import { getPartitionProducts, updatePartitionProducts } from '../../services/partition-product-service.js';
+import { getOrderTimes } from '../../services/orders-service.js';
 import { getOrderProducts } from '../../services/order-product-service.js';
 import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderPartitionsTable } from './partitions-table.js'; 
 import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
-import { textValidate, inputValidate } from '../../utils/form-validations.js';
+import { textValidate, inputValidate, timeValidate } from '../../utils/form-validations.js';
 import { validateProductRow } from '../../utils/modal-product-rows.js';
+import { calculateMaxTime } from '../../utils/week-functions.js';
 
 // Función para cargar datos en el modal
 export async function renderPartitionsEditModal(partida) {
     // Insertar valores en los inputs
     document.getElementById('edit-id-partition').value = partida.id_partida;
+    document.getElementById('edit-id-order').value = partida.id_orden;
     document.getElementById('edit-date').value = partida.fecha_programada;
     document.getElementById('edit-time').value = partida.hora_programada;
     document.getElementById('edit-destination').value = partida.destino || partida.ubicacion;
@@ -66,9 +69,13 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const observationsError = document.getElementById('error-editObservations');
     const statusError = document.getElementById('error-editStatus');
 
+    const times = await getOrderTimes(document.getElementById('edit-id-order').value);
+    let minHour = times.h_recepcion_ini.slice(0, 5);
+    let maxHour = calculateMaxTime(times.h_recepcion_fin, times.tiempo_traslado);
+
     // Validaciones
     textValidate(dateIn, dateError)
-    textValidate(timeIn, timeError)
+    timeValidate(timeIn, timeError, minHour, maxHour)
     textValidate(destinationIn, destinationError)
     textValidate(observationsIn, observationsError)
 

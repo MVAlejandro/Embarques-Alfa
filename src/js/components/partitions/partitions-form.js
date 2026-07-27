@@ -1,13 +1,13 @@
 import supabase from '../../supabase/supabase-client.js'
 // Servicios Supabase
-import { getActiveOrders } from '../../services/orders-service.js';
+import { getActiveOrders, getOrderTimes } from '../../services/orders-service.js';
 import { createPartition, getPartitions } from '../../services/partitions-service.js'; 
 import { planningFilter } from '../../utils/planning-filters.js'; 
 import { renderPartitionsTable } from '../partitions/partitions-table.js'; 
 // Utilidades
 import { loadOptionsFilter } from '../../utils/load-select.js';
-import { textValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
-import { getWeekAndYear } from '../../utils/week-functions.js';
+import { textValidate, inputValidate, selectValidate, timeValidate } from '../../utils/form-validations.js';
+import { calculateMaxTime, getWeekAndYear } from '../../utils/week-functions.js';
 
 // Cargar las órdenes en el formulario al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
@@ -39,10 +39,14 @@ export async function addPartition(event) {
     const destinoError = document.getElementById('destino-error');
     const observacionesError = document.getElementById('observaciones-error');
 
+    const times = await getOrderTimes(id_ordenIn.value);
+    let minHour = times.h_recepcion_ini.slice(0, 5);
+    let maxHour = calculateMaxTime(times.h_recepcion_fin, times.tiempo_traslado);
+
     // Validaciones
     selectValidate(id_ordenIn, id_ordenError)
     textValidate(fecha_programadaIn, fecha_programadaError)
-    textValidate(hora_programadaIn, hora_programadaError)
+    timeValidate(hora_programadaIn, hora_programadaError, minHour, maxHour)
     textValidate(observacionesIn, observacionesError)
 
     const campos = form.querySelectorAll('input, select')
@@ -86,7 +90,9 @@ export async function addPartition(event) {
     };
 
     try {
-        await createPartition(newPartitionData);
+        console.log(newPartitionData);
+        
+        //await createPartition(newPartitionData);
         Swal.fire({
             title: 'Partida agregada con éxito.',
             icon: 'success',

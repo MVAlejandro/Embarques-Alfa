@@ -13,6 +13,9 @@ export async function renderShipmentsTable(partitionsParam = null) {
     } else {
         allPartitions = await getPartitions();
     }
+
+    // Ordenar el arreglo completo antes de paginar
+    allPartitions.sort((a, b) => a.orden_embarque - b.orden_embarque);
     
     const tbody = document.querySelector('#shipments-table tbody');
     const weekText = document.getElementById('weekHeader');
@@ -31,7 +34,7 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
 
-    for (const partida of allPartitions) {
+    for (const [i, partida] of allPartitions.entries()) {
         // Determinar clase CSS para el estatus de embarque
         let shipmentStatusClass = '';
         if (partida.embarque == 'Preparando') {
@@ -69,17 +72,14 @@ export async function renderShipmentsTable(partitionsParam = null) {
         }
 
         tbody.innerHTML += 
-        `<tr>
-            <td class="p-2 ps-3">
-                <p class="shipment-date fw-bold">${partida.fecha_programada}</p>
-                <p class="shipment-time">${partida.hora_programada.slice(0, 5)}</p>
-                <p class="shipment-time-final">${partida.hora_embarcada?.slice(0, 5) || "Pendiente"}</p>
+        `<tr data-id="${partida.id_partida}">
+            <td class="shipment-order text-center fw-bold px-3 py-2">${partida.orden_embarque || (i + 1)}</td>
+            <td class="px-3 py-2">
+                <p class="shipment-time"><b>P:</b>${partida.hora_programada.slice(0, 5)}</p>
+                <p class="shipment-time-final"><b>R:</b>${partida.hora_embarcada?.slice(0, 5) || "Pendiente"}</p>
             </td>
             <td class="shipment-client px-3 py-2 ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${partida.cliente}</td>
             <td id="partition-products-${partida.id_partida}">
-
-            </td>
-            <td id="shipment-products-${partida.id_partida}">
 
             </td>
             <td class="text-center px-3 py-2">
@@ -103,18 +103,12 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
         // Insertar productos de esta partida
         const container1 = document.getElementById(`partition-products-${partida.id_partida}`);
-        const container2 = document.getElementById(`shipment-products-${partida.id_partida}`);
         container1.innerHTML = '';
-        container2.innerHTML = '';
 
         for (const producto of productos) {
             container1.innerHTML += 
-            `<p class="partition-product ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${producto.codigo} -  <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
+            `<p class="partition-product ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${producto.codigo} -  <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')} / ${(producto.cantidad_embarcada ?? 0).toLocaleString('en-US')}</b></p>
             <p class="partition-cant">${producto.producto}</p>
-            <hr>`;
-            container2.innerHTML += 
-            `<p class="production-product">${producto.codigo} - <b> Cant. ${(producto.cantidad_embarcada ?? 0).toLocaleString('en-US')}</b></p>
-            <p class="production-cant">${producto.producto}</p>
             <hr>`;
         };
     };
@@ -140,4 +134,13 @@ export async function renderShipmentsTable(partitionsParam = null) {
     </tr>`;
 
     validateUserRole()
+
+    new Sortable(tbody, {
+        //handle: '.handle',
+        animation: 150,
+        chosenClass: "chosen",
+        dragClass: "drag",
+        draggable: "tr",
+        forceFallback: true
+    });
 }

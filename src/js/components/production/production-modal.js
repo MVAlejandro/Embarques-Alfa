@@ -12,6 +12,7 @@ export async function renderProductionEditModal(partida) {
     // Insertar valores en los inputs
     document.getElementById('edit-id-partition').value = partida.id_partida;
     document.getElementById('edit-date').value = partida.fecha_programada;
+    document.getElementById('edit-time').value = partida.hora_programada;
     document.getElementById('edit-oc').value = partida.numero_orden;
     document.getElementById('edit-contract').value = partida.numero_contrato;
     document.getElementById('edit-status').value = partida.planta;

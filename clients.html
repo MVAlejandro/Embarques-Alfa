@@ -84,6 +84,7 @@
                             <th class="px-3 py-2">RAZÓN SOCIAL</th>
                             <th class="px-3 py-2">CONTACTO</th>
                             <th class="px-3 py-2">UBICACIÓN</th>
+                            <th class="text-center px-3 py-2">RECEPCIÓN</th>
                             <th class="d-none" data-vent-only></th>
                         </tr>
                     </thead>
@@ -175,6 +176,23 @@
                                     <label for="edit-location" class="form-label m-2">Ubicación</label>
                                     <input type="text" class="form-control" id="edit-location">
                                     <p class="error invalid-feedback" id="error-editLocation" style="color: red;"></p>
+                                </div>
+                            </div>
+                            <div class="row ms-2 me-2 pt-3 pb-3">
+                                <div class="col-md-4 label-over-border">
+                                    <label for="edit-travel" class="form-label m-2">Tiempo de Traslado</label>
+                                    <input type="text" class="form-control" id="edit-travel" placeholder="HH:MM">
+                                    <p class="error invalid-feedback" id="error-editTravel" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-4 label-over-border">
+                                    <label for="edit-receptionSt" class="form-label m-2">Hora Recepción Inicio</label>
+                                    <input type="time" class="form-control" id="edit-receptionSt">
+                                    <p class="error invalid-feedback" id="error-editReceptionSt" style="color: red;"></p>
+                                </div>
+                                <div class="col-md-4 label-over-border">
+                                    <label for="edit-receptionEn" class="form-label m-2">Hora Recepción Fin</label>
+                                    <input type="time" class="form-control" id="edit-receptionEn">
+                                    <p class="error invalid-feedback" id="error-editReceptionEn" style="color: red;"></p>
                                 </div>
                             </div>
                         </form>
