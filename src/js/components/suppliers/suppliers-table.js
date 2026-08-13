@@ -51,7 +51,7 @@ export async function renderSuppliersTable(suppliersParam = null) {
                 <p class="supplier-ubication">${proveedor.ubicacion}</p>
                 <p class="supplier-cp">CP: ${proveedor.codigo_postal}</p>
             </td>
-            <td class="supplier-controls text-pageEnd px-3 py-2 pe-4 d-none" data-comp-only>
+            <td class="supplier-controls text-pageEnd px-3 py-2 pe-4 d-none" data-trans-only>
                 <div class="action-buttons">
                     <button class="btn btn-edit" 
                         data-bs-target="#edit-modal" 

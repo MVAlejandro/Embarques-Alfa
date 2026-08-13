@@ -36,9 +36,11 @@ export async function renderPlanningTable(tripsParam = null) {
     }
     
     const tbody = document.querySelector('#planning-table tbody');
+    const thead = document.getElementById('planning-total-container');
     const weekText = document.getElementById('weekHeader');
     // Limpiar elementos antes de insertar
     weekText.innerHTML = "Semana 0";
+    thead.innerHTML = '';
     tbody.innerHTML = '';
 
     if (!allTrips || allTrips.length === 0) {
@@ -176,23 +178,36 @@ export async function renderPlanningTable(tripsParam = null) {
             };
         }
 
-    // Agregar fila de total al final
+    // Agregar fila de total al inicio y al final
+    thead.innerHTML =
+        `<table class="text-center container-fluid">
+            <tbody>
+                <tr>
+                    <td class="fw-bold">TOTALES</td>
+                    <td><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} pz</td>
+                    <td><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} pz</td>
+                    <td><b>Recolecciones: </b>${totalRecolecciones.toLocaleString('en-US')} pz</td>
+                    <td><b>Cancelados: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                </tr>    
+            </tbody>
+        </table>`;
+
     tbody.innerHTML += 
-    `<tr class="table-active text-center">
-        <td colspan="3" class="fw-bold">TOTALES</td>
-        <td>
-            <table class=" container-fluid">
-                <tbody>
-                    <tr>
-                        <td><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} pz</td>
-                        <td><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} pz</td>
-                        <td><b>Recolecciones: </b>${totalRecolecciones.toLocaleString('en-US')} pz</td>
-                        <td><b>Cancelados: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
-                    </tr>    
-                </tbody>
-            </table>
-        </td>
-    </tr>`;
+        `<tr class="table-active text-center">
+            <td colspan="3" class="fw-bold">TOTALES</td>
+            <td>
+                <table class=" container-fluid">
+                    <tbody>
+                        <tr>
+                            <td><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} pz</td>
+                            <td><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} pz</td>
+                            <td><b>Recolecciones: </b>${totalRecolecciones.toLocaleString('en-US')} pz</td>
+                            <td><b>Cancelados: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                        </tr>    
+                    </tbody>
+                </table>
+            </td>
+        </tr>`;
 
     // Declarar el botón de exportación a Excel
     document.getElementById("report-btn").onclick = () => { planningReport(allTrips); };

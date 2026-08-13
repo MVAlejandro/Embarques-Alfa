@@ -25,6 +25,14 @@ export async function renderTripEditModal(viaje) {
     document.getElementById('edit-price').value = viaje.costo;
     document.getElementById('edit-tag').value = viaje.tag;
     document.getElementById('edit-status').value = viaje.estado;
+    document.getElementById('edit-observations').value = viaje.observaciones;
+
+    // Bloquear actualización de estado si está completado el viaje
+    if (viaje.estado == "Completado") {
+        document.getElementById('edit-status').disabled = true;
+    } else {
+        document.getElementById('edit-status').disabled = false;
+    }
 
     // Limpiar filas anteriores
     const container1 = document.getElementById("partition-container");
@@ -53,6 +61,7 @@ document.getElementById('btn-edit-trip').addEventListener('click', async functio
     const costoIn = document.getElementById('edit-price');
     const tagIn = document.getElementById('edit-tag');
     const statusIn = document.getElementById('edit-status');
+    const observacionesIn = document.getElementById('edit-observations');
     
     const distanciaError = document.getElementById('error-editDistance');
     const combustibleError = document.getElementById('error-editFuel');
@@ -95,7 +104,8 @@ document.getElementById('btn-edit-trip').addEventListener('click', async functio
         combustible: combustibleIn.value,
         costo: costoIn.value,
         tag: tagIn.value,
-        estado: statusIn.value
+        estado: statusIn.value,
+        observaciones: observacionesIn.value
     };
 
     // Solo agregar hora_salida si tiene valor

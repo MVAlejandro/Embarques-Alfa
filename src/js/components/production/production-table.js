@@ -16,9 +16,11 @@ export async function renderProductionTable(partitionsParam = null) {
     }
     
     const tbody = document.querySelector('#production-table tbody');
+    const thead = document.getElementById('production-total-container');
     const weekText = document.getElementById('weekHeader');
     // Limpiar elementos antes de insertar
     weekText.innerHTML = "Semana 0";
+    thead.innerHTML = '';
     tbody.innerHTML = '';
 
     if (!allPartitions || allPartitions.length === 0) {
@@ -111,24 +113,36 @@ export async function renderProductionTable(partitionsParam = null) {
         }
     };
 
-    // Agregar fila de total al final
+    // Agregar fila de total al inicio y al final
+    thead.innerHTML =
+        `<table class="text-center container-fluid">
+            <tbody>
+                <tr>
+                    <td class="fw-bold">TOTALES</td>
+                    <td><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} pz</td>
+                    <td><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} pz</td>
+                    <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                </tr>    
+            </tbody>
+        </table>`;
+
     tbody.innerHTML += 
-    `<tr class="table-active">
-        <td></td>
-        <td colspan="4">
-            <table class="text-center container-fluid">
-                <tbody>
-                    <tr>
-                        <td class="fw-bold">TOTALES</td>
-                        <td><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} pz</td>
-                        <td><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} pz</td>
-                        <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
-                    </tr>    
-                </tbody>
-            </table>
-        </td>
-        <td></td>
-    </tr>`;
+        `<tr class="table-active">
+            <td></td>
+            <td colspan="4">
+                <table class="text-center container-fluid">
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold">TOTALES</td>
+                            <td><b>Tarimas: </b>${totalTarimas.toLocaleString('en-US')} pz</td>
+                            <td><b>Marcos: </b>${totalMarcos.toLocaleString('en-US')} pz</td>
+                            <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                        </tr>    
+                    </tbody>
+                </table>
+            </td>
+            <td></td>
+        </tr>`;
 
     validateUserRole()
 }

@@ -9,7 +9,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#partitions-form-container, #partitions-filter-container, .table-responsive {
+#partitions-form-container, #partitions-filter-container, #partitions-total-container, .table-responsive {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);

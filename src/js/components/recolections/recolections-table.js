@@ -16,9 +16,11 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
     }
     
     const tbody = document.querySelector('#recolections-table tbody');
+    const thead = document.getElementById('recolections-total-container');
     const weekText = document.getElementById('weekHeader');
     // Limpiar elementos antes de insertar
     weekText.innerHTML = "Semana 0";
+    thead.innerHTML = '';
     tbody.innerHTML = '';
 
     if (!allRecolections || allRecolections.length === 0) {
@@ -78,7 +80,7 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
                 <p class="recolection-status ${statusClass}">${recoleccion.transporte}</p>
             </td>
             <td class="recolection-destination px-3 py-2">${recoleccion.destino || recoleccion.ubicacion}</td>
-            <td class="recolection-control text-center d-none" data-comp-only>
+            <td class="recolection-control text-center d-none" data-trans-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
@@ -107,25 +109,38 @@ export async function renderRecolectionsTable(recolectionsParam = null) {
         };
     };
 
-    // Agregar fila de total al final
+    // Agregar fila de total al inicio y al final
+    thead.innerHTML =
+        `<table class="text-center container-fluid">
+            <tbody>
+                <tr>
+                    <td class="fw-bold">TOTALES</td>
+                    <td><b>Planeado: </b>${totalSolGeneral.toLocaleString('en-US')} pz</td>
+                    <td><b>Recolectado: </b>${totalRecGeneral.toLocaleString('en-US')} pz</td>
+                    <td><b>Diferencia: </b>${(totalRecGeneral-totalSolGeneral).toLocaleString('en-US')} pz</td>
+                    <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                </tr>    
+            </tbody>
+        </table>`;
+        
     tbody.innerHTML += 
-    `<tr class="table-active">
-        <td></td>
-        <td class="fw-bold">TOTALES</td>
-        <td colspan="4">
-            <table class="text-center container-fluid">
-                <tbody>
-                    <tr>
-                        <td><b>Planeado: </b>${totalSolGeneral.toLocaleString('en-US')} pz</td>
-                        <td><b>Recolectado: </b>${totalRecGeneral.toLocaleString('en-US')} pz</td>
-                        <td><b>Diferencia: </b>${(totalRecGeneral-totalSolGeneral).toLocaleString('en-US')} pz</td>
-                        <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
-                    </tr>    
-                </tbody>
-            </table>
-        </td>
-        <td></td>
-    </tr>`;
+        `<tr class="table-active">
+            <td></td>
+            <td class="fw-bold">TOTALES</td>
+            <td colspan="4">
+                <table class="text-center container-fluid">
+                    <tbody>
+                        <tr>
+                            <td><b>Planeado: </b>${totalSolGeneral.toLocaleString('en-US')} pz</td>
+                            <td><b>Recolectado: </b>${totalRecGeneral.toLocaleString('en-US')} pz</td>
+                            <td><b>Diferencia: </b>${(totalRecGeneral-totalSolGeneral).toLocaleString('en-US')} pz</td>
+                            <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                        </tr>    
+                    </tbody>
+                </table>
+            </td>
+            <td></td>
+        </tr>`;
 
     validateUserRole()
 }

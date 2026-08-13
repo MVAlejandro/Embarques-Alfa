@@ -1,163 +1,265 @@
 // Servicios Supabase
 import { getPartitions } from "../../services/partitions-service"; 
+import { getPartitionProducts } from '../../services/partition-product-service.js';
 
 let allPartitions = [];
-// Función para crear el gráfico con porcentaje de cancelaciones
-export async function renderCanceledGraphic(dates) {
-    // Obtener todos los registros de partidas
-    allPartitions = await getPartitions();
-    
-    // Usar solo entradas de la semana dada
-    allPartitions = allPartitions.filter(p => p.semana == dates.semana && p.anio == dates.anio);
 
-    const container = document.getElementById("graphic-canceled-container");
-    // Limpiar antes de insertar
+// Función para crear el gráfico con porcentaje de progreso
+export async function renderStatusGraphic(dates) {
+    // Obtener todas las partidas
+    let allPartitions = await getPartitions();
+
+    // Filtrar por semana y año
+    allPartitions = allPartitions.filter( p => p.semana == dates.semana && p.anio == dates.anio );
+
+    const container = document.getElementById("graphic-status-container");
+
+    // Limpiar gráfico anterior
     container.innerHTML = "";
 
     if (!allPartitions.length) {
-        container.innerHTML = `<div class="alert alert-info">No hay partidas esta semana</div>`;
+        container.innerHTML = `
+            <div class="alert alert-info">
+                No hay partidas esta semana
+            </div>`;
         return;
     }
 
-    // Agrupar por día y tipo de partida
-    const weekPartitions = {};
+    // Obtener el total de partidas y contar estados finales
+    const totalPartidas = allPartitions.length;
 
-    allPartitions.forEach(p => {
-        const date = p.fecha_programada.slice(5);;
+    const plantaTerminado = allPartitions.filter(partida => partida.planta === "Terminado").length;
+    const embarqueCargado = allPartitions.filter(partida => partida.embarque === "Cargado").length;
+    const facturacionDocumentado = allPartitions.filter(partida => partida.facturacion === "Documentado").length;
+    const transporteEntregado = allPartitions.filter(partida => partida.transporte === "Entregado").length;
 
-        if (!weekPartitions[date]) {
-            weekPartitions[date] = { total: 0, canceled: 0 };
-        }
+    // Calcular porcentajes
+    const porcentajePlanta = (plantaTerminado / totalPartidas) * 100;
+    const porcentajeEmbarque = (embarqueCargado / totalPartidas) * 100;
+    const porcentajeFacturacion = (facturacionDocumentado / totalPartidas) * 100;
+    const porcentajeTransporte = (transporteEntregado / totalPartidas) * 100;
 
-        weekPartitions[date].total++;
+    // Datos
+    const labels = [
+        "Producción",
+        "Embarque",
+        "Facturación",
+        "Transporte"
+    ];
 
-        if (p.planta === "Cancelado") {
-            weekPartitions[date].canceled++;
-        }
-    });
+    const data = [
+        porcentajePlanta,
+        porcentajeEmbarque,
+        porcentajeFacturacion,
+        porcentajeTransporte
+    ];
 
-    // Preparar labels y datos para gráfico
-    const labels = Object.keys(weekPartitions);
-
-    const percentagePerDay = labels.map(date => {
-        const { total, canceled } = weekPartitions[date];
-        return total > 0
-            ? Number(((canceled / total) * 100).toFixed(2))
-            : 0;
-    });
+    const cantidades = [
+        plantaTerminado,
+        embarqueCargado,
+        facturacionDocumentado,
+        transporteEntregado
+    ];
 
     // Crear canvas
-    container.innerHTML = `<canvas id="canceled-graphic"></canvas>`;
-    const ctx = document.getElementById("canceled-graphic").getContext("2d");
+    container.innerHTML = `<canvas id="status-graphic"></canvas>`;
+    const ctx = document.getElementById("status-graphic").getContext("2d");
 
+    // Crear gráfico
     new Chart(ctx, {
-        type: "line",
+        type: "bar",
         data: {
-            labels: labels,
+            labels,
             datasets: [{
-                label: "% Cancelaciones por día",
-                data: percentagePerDay,
-                borderColor: "#E74C3C",
-                backgroundColor: "rgba(231,76,60,0.2)",
-                tension: 0.3
+                label: "Partidas con estado final",
+                data,
+                borderColor: "#C7C6C6",
+                backgroundColor: data.map(value => {
+                    if (value >= 95) { return "#bce0c8"; }
+
+                    if (value >= 70) { return "#95a9d6"; }
+
+                    if (value >= 40) { return "#fcebb9"; }
+
+                    return "#dd989f";
+                }),
+                borderRadius: 10,
+                borderWidth: 1,
+                // Hacer las barras más delgadas
+                barPercentage: 0.6,
+                categoryPercentage: 0.7
             }]
         },
         options: {
+            indexAxis: "y",
             responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 80,
-                    ticks: {
-                        stepSize: 20
-                    },
-                    title: {
-                        display: true,
-                        text: "Cancelaciones (%)"
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: "Fecha"
-                    }
+            layout: {
+                padding: {
+                    right: 20,
+                    left: 20
                 }
             },
+            maintainAspectRatio: false,
             plugins: {
-                datalabels: {
-                    align: 'top',
-                    anchor: 'end',
-                    formatter: value => value + '%'
-                },
-                tooltip: {
-                    callbacks: {
-                        label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y}%`
-                    }
+                title: {
+                    display: true,
+                    text: `PROGRESO GENERAL DE PARTIDAS (SEMANAL)`,
+                    font: { weight: "bold" },
+                    padding: { bottom: 30 }
                 },
                 legend: {
                     display: false
+                },
+                datalabels: {
+                    anchor: "center",
+                    align: "center",
+                    color: data.map(value => {
+                    if (value >= 95) { return "#0c6e40"; }
+
+                    if (value >= 70) { return "#0a2a6e"; }
+
+                    if (value >= 40) { return "#7e6009"; }
+
+                    return "#79111c";
+                }),
+                    font: { weight: "bold" },
+                    formatter: (value, context) => {
+                        const cantidad = cantidades[context.dataIndex];
+                        return `${value.toFixed(1)}% (${cantidad}/${totalPartidas})`;
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: context => {
+                            const cantidad = cantidades[context.dataIndex];
+                            return `${context.raw.toFixed(1)}% (${cantidad}/${totalPartidas} partidas)`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: false,
+                        text: "Porcentaje"
+                    },
+                    ticks: {
+                        callback: value => `${value}%`
+                    }
+                },
+                y: {
+                    title: {
+                        display: false,
+                        text: "Proceso"
+                    }
                 }
             }
         }
     });
 }
 
-// Función para crear el gráfico por departamentos
+// Función para crear el gráfico por productos
 export async function renderClientsGraphic(dates) {
-    // Obtener todos los registros de partidas
-    allPartitions = await getPartitions();
-    
-    // Usar solo entradas de la semana dada
-    allPartitions = allPartitions.filter(p => p.semana == dates.semana && p.anio == dates.anio);
-    
+    // Obtener todas las partidas
+    let allPartitions = await getPartitions();
+
+    // Filtrar por semana y año
+    allPartitions = allPartitions.filter( p => p.semana == dates.semana && p.anio == dates.anio );
+
     const container = document.getElementById("graphic-client-container");
-    // Limpiar antes de insertar
+
+    // Limpiar gráfico anterior
     container.innerHTML = "";
 
     if (!allPartitions.length) {
-        container.innerHTML = `<div class="alert alert-info">No hay partidas esta semana</div>`;
+        container.innerHTML = `
+            <div class="alert alert-info">
+                No hay partidas esta semana
+            </div>`;
         return;
     }
 
-    // Agrupar partidas por cliente
-    const clientPartitions = {};
+    // Sumar productos solicitados por cliente
+    const clientProducts = {};
 
-    allPartitions.forEach(partition => {
-        const client = partition.cliente;
+    for (const partida of allPartitions) {
+        const client = partida.cliente;
 
-        if (!clientPartitions[client]) {
-            clientPartitions[client] = 0;
+        // Obtener productos de la partida
+        const productos = await getPartitionProducts(partida.id_partida);
+
+        // Sumar cantidades solicitadas
+        const totalRequiredAmount = productos.reduce( (acc, prod) => acc + (Number(prod.cantidad_solicitada) || 0), 0 );
+
+        // Inicializar cliente y acumular productos
+        if (!clientProducts[client]) {
+            clientProducts[client] = 0;
         }
-        clientPartitions[client]++;
-    });
 
-    const labels = Object.keys(clientPartitions);
-    const data = Object.values(clientPartitions);
+        clientProducts[client] += totalRequiredAmount;
+    }
 
-    // Generar el gráfico con la información del reporte
-    container.innerHTML = '<canvas id="client-graphic"></canvas>';
-    const ctx = document.getElementById('client-graphic').getContext('2d');
-    
+    // Preparar datos para el gráfico
+    const labels = Object.keys(clientProducts);
+    const data = Object.values(clientProducts);
+
+    // Crear canvas
+    container.innerHTML = `<canvas id="client-graphic"></canvas>`;
+    const ctx = document.getElementById("client-graphic").getContext("2d");
+
+    // Crear gráfico
     new Chart(ctx, {
-        type: 'doughnut',
+        type: "bar",
         data: {
-            labels,
+            labels: labels,
             datasets: [{
-                label: 'Partidas por cliente',
-                data
+                label: "Productos solicitados",
+                data: data,
+                borderColor: "#C7C6C6",
+                backgroundColor: "#8FC74A",
             }]
         },
         options: {
             responsive: true,
+            layout: {
+                padding: {
+                    right: 20,
+                    left: 20
+                }
+            },
             maintainAspectRatio: false,
             plugins: {
-                datalabels: {
-                    color: '#fff',
-                    formatter: value => value
+                title: {
+                    display: true,
+                    text: `CANTIDAD DE PRODUCTOS SOLICITADOS POR CLIENTE (SEMANAL)`,
+                    font: { weight: "bold" },
+                    padding: { bottom: 30 }
                 },
-                legend: {
-                    position: 'left'
+                legend: { display: false },
+                datalabels: {
+                    color: "#5e8132",
+                    font: { weight: "bold" },
+                    anchor: "end",
+                    align: "top",
+                    formatter: value => value
+                }
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: false,
+                        text: "Cliente"
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: false,
+                        text: "Cantidad de productos solicitados"
+                    },
+                    ticks: { precision: 0 }
                 }
             }
         }

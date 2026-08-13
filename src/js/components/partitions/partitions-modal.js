@@ -9,7 +9,7 @@ import { validateUserRole } from '../../utils/session-validate.js';
 // Utilidades
 import { textValidate, inputValidate, timeValidate } from '../../utils/form-validations.js';
 import { validateProductRow } from '../../utils/modal-product-rows.js';
-import { calculateMaxTime } from '../../utils/week-functions.js';
+import { calculateMaxTime, getWeekAndYear } from '../../utils/week-functions.js';
 
 // Función para cargar datos en el modal
 export async function renderPartitionsEditModal(partida) {
@@ -96,9 +96,17 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
         return
     }
 
+    // Darle formato a la fecha
+    const [y, m, d] = dateIn.value.split('-').map(Number);
+    const fechaDate = new Date(y, m - 1, d);
+    
+    const { semana, anio } = getWeekAndYear(fechaDate);
+
     const id_partida = document.getElementById('edit-id-partition').value;
     const updatedData = { 
         fecha_programada: dateIn.value,
+        semana,
+        anio,
         hora_programada: timeIn.value,
         destino: destinationIn.value,
         observaciones: observationsIn.value,

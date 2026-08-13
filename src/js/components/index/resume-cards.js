@@ -4,14 +4,10 @@ import { getPartitions } from '../../services/partitions-service.js';
 import { getRecolections } from '../../services/recolections-service.js';
 import { getPartitionProducts } from '../../services/partition-product-service.js';
 
-let allTrips = [];
 let allPartitions = [];
 let allRecolections = [];
 
 export async function createResumeCards(dates) {
-    // Obtener viajes
-    allTrips = await getFullTrips();
-    if (!allTrips) return;
     // Obtener partidas
     allPartitions = await getPartitions();
     if (!allPartitions) return;
@@ -20,53 +16,26 @@ export async function createResumeCards(dates) {
     if (!allRecolections) return;
 
     // Filtrar por semana seleccionados
-    allTrips = allTrips.filter(t => t.semana === dates.semana && t.anio == dates.anio);
     allPartitions = allPartitions.filter(p => p.semana === dates.semana && p.anio == dates.anio);
     allRecolections = allRecolections.filter(r => r.semana === dates.semana && r.anio == dates.anio);
 
     const weekText = document.getElementById('weekHeader');
     
-    // Colocar la semana del viaje
+    // Colocar la semana de la partida
     if (!allPartitions || allPartitions.length === 0) {
-        weekText.innerHTML = "Semana 0";
+        weekText.innerHTML = "0";
     } else {
-        weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
+        weekText.innerHTML = `${allPartitions[0].semana}`;
     }
 
-    renderTripsCard(allTrips)
     renderPartitionsCard(allPartitions)
     renderRecolectionsCard(allRecolections)
-    renderDifferenceCard(allPartitions)
+    renderProductsCards(allPartitions)
 }
 
-// Función para crear la card de tickets totales
-export async function renderTripsCard(tripsParam = null) {
-    // Obtener allTripses de la lista filtrada
-    if (tripsParam) {
-        allTrips = tripsParam;
-    }
-    
-    const element = document.getElementById("trips-text");
-    // Limpiar elemento antes de insertar
-    element.textContent = "";
-
-    if (!allTrips.length) {
-        element.textContent = `-`;
-        element.className = "general-report-cant text-muted";
-        return;
-    }
-
-    // Generar el contenido
-    let filtered = allTrips.filter(t => t.estado === "En ruta")
-    
-    // Generar el contenido
-    element.textContent = `${filtered.length.toLocaleString('en-US')}`;
-    element.className = `general-report-cant text-warning`;
-}
-
-// Función para crear la card de tickets pendientes
+// Función para crear la card de partidas
 export async function renderPartitionsCard(partitionsParam = null) {
-    // Obtener allTripses de la lista filtrada
+    // Obtener allPartitionses de la lista filtrada
     if (partitionsParam) {
         allPartitions = partitionsParam;
     }
@@ -84,9 +53,9 @@ export async function renderPartitionsCard(partitionsParam = null) {
     element.textContent = `${allPartitions.length.toLocaleString('en-US')}`;
 }
 
-// Función para crear la card de tickets finalizados
+// Función para crear la card de recolecciones
 export async function renderRecolectionsCard(recolectionsParam = null) {
-    // Obtener allTripses de la lista filtrada
+    // Obtener allPartitionses de la lista filtrada
     if (recolectionsParam) {
         allRecolections = recolectionsParam;
     }
@@ -104,24 +73,29 @@ export async function renderRecolectionsCard(recolectionsParam = null) {
     element.textContent = `${allRecolections.length.toLocaleString('en-US')}`;
 }
 
-export async function renderDifferenceCard(partitionsParam = null) {
-    // Obtener allTripses de la lista filtrada
+// Función para crear la card de productos totales
+export async function renderProductsCards(partitionsParam = null) {
+    // Obtener allPartitionses de la lista filtrada
     if (partitionsParam) {
         allPartitions = partitionsParam;
     }
     
-    const element = document.getElementById("difference-text");
+    const element1 = document.getElementById("pallets-text");
+    const element2 = document.getElementById("frames-text");
     // Limpiar elemento antes de insertar
-    element.textContent = "";
+    element1.textContent = "";
+    element2.textContent = "";
 
-    // Determinar clase CSS para la diferencia
-    let totalSolGeneral = 0;
-    let totalEmbGeneral = 0;
-    let differenceClass = '';
+    // Inicializar valores
+    let totalTarimas = 0;
+    let totalMarcos = 0;
 
     if (!allPartitions.length) {
-        element.textContent = `-`;
-        element.className = "general-report-cant text-muted";
+        element1.textContent = `-`;
+        element1.className = "general-report-cant text-muted";
+
+        element2.textContent = `-`;
+        element2.className = "general-report-cant text-muted";
         return;
     }
 
@@ -129,24 +103,35 @@ export async function renderDifferenceCard(partitionsParam = null) {
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
         // Calcular total de cantidades
-        if (partida.planta !== "Cancelado") {
-            const totalRequiredAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
-            const totalProducedAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_embarcada || 0), 0);
-        
-            totalSolGeneral += totalRequiredAmount;
-            totalEmbGeneral += totalProducedAmount;
-        }
-    }
+        let tarimas = 0;
+        let marcos = 0;
+        let cancelados = 0;
 
-    if (totalEmbGeneral-totalSolGeneral > 0) {
-        differenceClass = 'text-success'; // Verde para positivo
-    } else if (totalEmbGeneral-totalSolGeneral < 0) {
-        differenceClass = 'text-danger';  // Rojo para negativo
-    } else {
-        differenceClass = 'text-muted';   // Gris para cero
+        for (const producto of productos) {
+            if (partida.planta !== "Cancelado") {
+                if (producto.producto?.includes('TARIMA')) {
+                    const cantidad = producto.cantidad_solicitada || 0;
+                    tarimas += cantidad;
+                    totalTarimas += cantidad;
+                } 
+                else if (producto.producto?.includes('MARCO')) {
+                    const cantidad = producto.cantidad_solicitada || 0;
+                    marcos += cantidad;
+                    totalMarcos += cantidad;
+                }
+
+            } else if ((partida.planta === "Cancelado")) {
+                const cantidad = producto.cantidad_solicitada || 0;
+                cancelados += cantidad;
+                totalCancelado += cantidad;
+            }
+        }
     }
     
     // Generar el contenido
-    element.textContent = `${(totalEmbGeneral-totalSolGeneral).toLocaleString('en-US')}`;
-    element.className = `general-report-cant ${differenceClass}`
+    element1.textContent = `${totalTarimas.toLocaleString('en-US')}`;
+    element1.className = `general-report-cant text-primary`
+
+    element2.textContent = `${totalMarcos.toLocaleString('en-US')}`;
+    element2.className = "general-report-cant text-primary";
 }

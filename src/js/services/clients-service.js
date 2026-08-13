@@ -37,7 +37,7 @@ export async function updateClient(id_cliente, updatedData) {
 
     if (error) {
         console.error('Error al actualizar:', error);
-        alert('Error al actualizar el cliente: ' + error.message);
+        throw error;
     }
 }
 

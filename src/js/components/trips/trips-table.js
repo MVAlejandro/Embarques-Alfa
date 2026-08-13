@@ -76,7 +76,7 @@ export async function renderTripsTable(tripsParam = null) {
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#trip-modal" 
                     data-bs-toggle="modal"
-                    ${viaje.estado === "Completado" || viaje.estado === "Cancelado" ? "disabled" : ""}
+                    ${viaje.estado === "Cancelado" ? "disabled" : ""}
                     trip-data='${JSON.stringify(viaje)}'>
                     ${viaje.estado === "Completado" ? "Completado" : viaje.estado === "Cancelado" ? "Cancelado" : "Actualizar"}
                 </button>

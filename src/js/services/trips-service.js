@@ -61,6 +61,7 @@ export async function getTrips() {
         combustible,
         costo,
         tag,
+        observaciones,
 
         id_unidad,
         emb_unidades (nombre, placas),
@@ -116,6 +117,7 @@ export async function getTrips() {
         combustible: viaje.combustible,
         costo: viaje.costo,
         tag: viaje.tag,
+        observaciones: viaje.observaciones,
 
         id_unidad: viaje.id_unidad,
         unidad: viaje.emb_unidades?.nombre,
@@ -163,6 +165,7 @@ export async function getFullTrips() {
             combustible,
             costo,
             tag,
+            observaciones,
 
             emb_unidades (
                 nombre,
@@ -271,6 +274,7 @@ export async function getFullTrips() {
         combustible: viaje.combustible,
         costo: viaje.costo,
         tag: viaje.tag,
+        observaciones: viaje.observaciones,
 
         unidad: viaje.emb_unidades?.nombre,
         placas: viaje.emb_unidades?.placas,

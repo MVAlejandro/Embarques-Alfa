@@ -43,7 +43,7 @@ section {
     margin: 20px 0px 20px 0px;
 }
 
-p, h5, h4 {
+p, h5, h4, h3 {
     margin-bottom: 0px;
 }
 
@@ -92,6 +92,19 @@ table {
 .grey {
     background-color: var(--table-grey-light) !important;
     color: var(--table-grey-dark) !important;
+}
+
+/* Estilos para los íconos */
+.icon-sm {
+    font-size: 14px;
+}
+
+.icon-md {
+    font-size: 24px;
+}
+
+.icon-lg {
+    font-size: 32px;
 }
 
 /* Contenedores de figuras para los iconos */

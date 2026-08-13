@@ -90,9 +90,7 @@ export async function addPartition(event) {
     };
 
     try {
-        console.log(newPartitionData);
-        
-        //await createPartition(newPartitionData);
+        await createPartition(newPartitionData);
         Swal.fire({
             title: 'Partida agregada con éxito.',
             icon: 'success',

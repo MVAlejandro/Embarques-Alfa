@@ -48,13 +48,8 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
     const h_recepcion_finError = document.getElementById('error-editReceptionEn');
 
     // Validaciones
-    nameValidate(nombreIn, nombreError)
+    textValidate(nombreIn, nombreError)
     textValidate(razon_socialIn, razon_socialError)
-    rfcValidate(rfcIn, rfcError)
-    phoneValidate(numero_telefonoIn, numero_telefonoError)
-    emailValidate(correoIn, correoError)
-    cpValidate(codigo_postalIn, codigo_postalError)
-    textValidate(ubicacionIn, ubicacionError)
 
     const campos = document.querySelectorAll('input')
     if (!inputValidate(campos)) {

@@ -38,6 +38,7 @@ export async function renderTransportModal(viaje) {
     document.getElementById('transport-fuel').value = viaje.combustible != null ? viaje.combustible.toLocaleString('en-US') + " Lts" : "-";
     document.getElementById('transport-price').value = viaje.costo != null ? "$" + viaje.costo.toLocaleString('en-US'): "-";
     document.getElementById('transport-tag').value = viaje.tag != null ? "$" + viaje.tag.toLocaleString('en-US'): "-";
+    document.getElementById('transport-observations').value = viaje.observaciones || "Sin observaciones";
 }
 export async function renderTransportInput(partida) {
     // Insertar valores en los inputs

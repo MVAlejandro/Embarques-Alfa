@@ -9,7 +9,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#bills-filter-container, .table-responsive {
+#bills-filter-container, #bills-total-container, .table-responsive {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);

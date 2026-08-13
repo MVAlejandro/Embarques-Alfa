@@ -18,9 +18,11 @@ export async function renderShipmentsTable(partitionsParam = null) {
     allPartitions.sort((a, b) => a.orden_embarque - b.orden_embarque);
     
     const tbody = document.querySelector('#shipments-table tbody');
+    const thead = document.getElementById('shipments-total-container');
     const weekText = document.getElementById('weekHeader');
     // Limpiar elementos antes de insertar
     weekText.innerHTML = "Semana 0";
+    thead.innerHTML = '';
     tbody.innerHTML = '';
 
     if (!allPartitions || allPartitions.length === 0) {
@@ -113,25 +115,38 @@ export async function renderShipmentsTable(partitionsParam = null) {
         };
     };
 
-    // Agregar fila de total al final
+    // Agregar fila de total al inicio y al final
+    thead.innerHTML =
+        `<table class="text-center container-fluid">
+            <tbody>
+                <tr>
+                    <td class="fw-bold">TOTALES</td>
+                    <td><b>Solicitado: </b>${totalSolGeneral.toLocaleString('en-US')} pz</td>
+                    <td><b>Embarcado: </b>${totalEmbGeneral.toLocaleString('en-US')} pz</td>
+                    <td><b>Diferencia: </b>${(totalEmbGeneral-totalSolGeneral).toLocaleString('en-US')} pz</td>
+                    <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                </tr>    
+            </tbody>
+        </table>`;
+
     tbody.innerHTML += 
-    `<tr class="table-active">
-        <td></td>
-        <td class="fw-bold">TOTALES</td>
-        <td colspan="5">
-            <table class="text-center container-fluid">
-                <tbody>
-                    <tr>
-                        <td><b>Solicitado: </b>${totalSolGeneral.toLocaleString('en-US')} pz</td>
-                        <td><b>Embarcado: </b>${totalEmbGeneral.toLocaleString('en-US')} pz</td>
-                        <td><b>Diferencia: </b>${(totalEmbGeneral-totalSolGeneral).toLocaleString('en-US')} pz</td>
-                        <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
-                    </tr>    
-                </tbody>
-            </table>
-        </td>
-        <td></td>
-    </tr>`;
+        `<tr class="table-active">
+            <td></td>
+            <td class="fw-bold">TOTALES</td>
+            <td colspan="5">
+                <table class="text-center container-fluid">
+                    <tbody>
+                        <tr>
+                            <td><b>Solicitado: </b>${totalSolGeneral.toLocaleString('en-US')} pz</td>
+                            <td><b>Embarcado: </b>${totalEmbGeneral.toLocaleString('en-US')} pz</td>
+                            <td><b>Diferencia: </b>${(totalEmbGeneral-totalSolGeneral).toLocaleString('en-US')} pz</td>
+                            <td><b>Cancelado: </b>${totalCancelado.toLocaleString('en-US')} pz</td>
+                        </tr>    
+                    </tbody>
+                </table>
+            </td>
+            <td></td>
+        </tr>`;
 
     validateUserRole()
 

@@ -73,7 +73,8 @@ export async function addManualClient(event) {
         codigo_postal: codigo_postalIn.value,
         ubicacion: ubicacionIn.value,
         numero_telefono: numero_telefonoIn.value,
-        correo: correoIn.value
+        correo: correoIn.value,
+        estado_comercial: "Cliente"
     };
 
     try {

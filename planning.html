@@ -35,7 +35,7 @@
                         </div>
                         <h4 class="fw-bold">Estado General de Planeación</h4>
                     </div>
-                    <div class="col-md d-flex align-items-center justify-content-end d-none" data-fact-only>
+                    <div class="col-md d-flex align-items-center justify-content-end d-none" data-fact-only data-coor-only>
                         <button id="report-btn" class="btn btn-primary d-flex align-items-center ps-3 pe-3 ms-2 me-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-table" viewBox="0 0 16 16">
                                 <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 2h-4v3h4zm0 4h-4v3h4zm0 4h-4v3h3a1 1 0 0 0 1-1zm-5 3v-3H6v3zm-5 0v-3H1v2a1 1 0 0 0 1 1zm-4-4h4V8H1zm0-4h4V4H1zm5-3v3h4V4zm4 4H6v3h4z"/>
@@ -71,6 +71,10 @@
         </section>
 
         <!-- SECCIÓN DE REGISTROS -->
+         <div id="planning-total-container" class="container py-2">
+            
+        </div>
+
         <section id="planning-register" class="pb-4">
             <div id="planning-table-container" class="container table-responsive p-0">
                 <table id="planning-table" class="table">
@@ -225,6 +229,12 @@
                             <div class="col-md-4 label-over-border">
                                 <label for="transport-status" class="form-label m-2">Estado</label>
                                 <input type="text" class="form-control" id="transport-status" disabled>
+                            </div>
+                        </div>
+                        <div class="row ms-2 me-2 pt-3 pb-3">
+                            <div class="col label-over-border">
+                                <label for="transport-observations" class="form-label m-2">Observaciones</label>
+                                <input type="text" class="form-control" id="transport-observations" disabled>
                             </div>
                         </div>
                     </div>

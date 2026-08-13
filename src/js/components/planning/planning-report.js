@@ -19,10 +19,11 @@ export async function planningReport(allTrips) {
         "Caja": t.caja,
         "Operador": t.operador,
         "Estado": t.estado,
-        "Distancia": t.distancia || "Sin Registro",
-        "Combustible": t.combustible || "Sin Registro",
-        "Costo": t.costo || "Sin Registro",
-        "TAG": t.tag || "Sin Registro"
+        "Dist (Km)": t.distancia || "Sin Registro",
+        "Comb (Lts)": t.combustible || "Sin Registro",
+        "Costo ($)": t.costo || "Sin Registro",
+        "TAG ($)": t.tag || "Sin Registro",
+        "Observaciones": t.observaciones
     }));
 
     excelPartitions = allTrips.flatMap(t =>

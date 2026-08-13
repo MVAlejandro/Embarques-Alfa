@@ -15,15 +15,18 @@ import { createResumeCards } from './js/components/index/resume-cards.js';
 
 // Utilidades
 import { obtainCurrentWeek } from './js/utils/week-functions.js'; 
-import { renderCanceledGraphic, renderClientsGraphic } from './js/components/index/resume-graphic.js';
+import { renderStatusGraphic, renderClientsGraphic } from './js/components/index/resume-graphic.js';
+import { renderProductionState, renderShipmentsState } from './js/components/index/resume-stats.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const currentWeek = await obtainCurrentWeek();
 
     await initPage()
     createResumeCards(currentWeek)
-    renderCanceledGraphic(currentWeek)
+    renderStatusGraphic(currentWeek)
+    renderProductionState(currentWeek)
     renderClientsGraphic(currentWeek)
+    renderShipmentsState(currentWeek)
     
     Chart.register(ChartDataLabels);
 })
