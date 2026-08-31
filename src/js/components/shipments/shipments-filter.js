@@ -12,6 +12,7 @@ export async function initShipmentsFilters() {
             ...flatpickr.l10ns.es,
             firstDayOfWeek: 0
         },
+        disableMobile: true,
         dateFormat: "Y-m-d",
         defaultDate: new Date()
     });

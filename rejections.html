@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Programa de Producción - Pallets Alfa</title>
+    <title>Registro de Rechazos - Pallets Alfa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -24,24 +24,24 @@
     <!-- CONTENEDOR PRINCIPAL -->
      <main>
         <!-- SECCIÓN DEL ENCABEZADO -->
-        <section id="production-header">
-            <div id="production-header-container" class="container-fluid p-3">
+        <section id="rejections-header">
+            <div id="rejections-header-container" class="container-fluid p-3">
                 <div class="row">
                     <div class="col-8 col-md-9 col-lg-10 d-flex align-items-center">
                         <div class="icon-square ms-3 me-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16">
-                                <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-graph-down-arrow" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm10 11.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-1 0v2.6l-3.613-4.417a.5.5 0 0 0-.74-.037L7.06 8.233 3.404 3.206a.5.5 0 0 0-.808.588l4 5.5a.5.5 0 0 0 .758.06l2.609-2.61L13.445 11H10.5a.5.5 0 0 0-.5.5"/>
                             </svg>
                         </div>
-                        <h4 class="fw-bold">Estado de Producción</h4>
+                        <h4 class="fw-bold">Registro de Rechazos</h4>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- SECCIÓN DE FILTROS -->
-        <section id="production-filter pt-3 pb-3">
-            <div id="production-filter-container" class="container pt-4 pb-3">
+        <section id="rejections-filter pt-3 pb-3">
+            <div id="rejections-filter-container" class="container pt-4 pb-3">
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <h5 id="weekHeader">Semana -</h5>
                 </div>
@@ -58,15 +58,6 @@
                         <label for="product-filter" class="form-label m-2">Filtrar por Producto</label>
                         <select class="form-select" id="product-filter">
                             <option value="0">Todos</option>
-                            <option value="TARIMA">Tarimas</option>
-                            <option value="MARCO">Marcos</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3 col-lg d-flex align-items-center label-over-border">
-                        <label for="canceled-filter" class="form-label m-2">Mostrar Cancelados</label>
-                        <select class="form-select" id="canceled-filter">
-                            <option value="0">No</option>
-                            <option value="1">Sí</option>
                         </select>
                     </div>
                     <div class="col-md d-flex align-items-center justify-content-end">
@@ -82,21 +73,22 @@
         </section>
 
         <!-- SECCIÓN DE REGISTROS -->
-         <div id="production-total-container" class="container py-2">
+        <div id="rejections-total-container" class="container py-2">
             
         </div>
 
-        <section id="production-register" class="pb-4">
-            <div id="production-table-container" class="container table-responsive p-0">
-                <table id="production-table" class="table table-hover">
+        <section id="rejections-register" class="pb-4">
+            <div id="rejections-table-container" class="container table-responsive p-0">
+                <table id="rejections-table" class="table table-hover">
                     <thead>
                         <tr class="table-light">
                             <th class="px-3 py-2 ps-3">FECHA</th>
+                            <th class="px-3 py-2">OC</th>
                             <th class="px-3 py-2">CLIENTE</th>
-                            <th class="px-3 py-2">SOLICITADO</th>
+                            <th class="px-3 py-2">CANTIDAD</th>
                             <th class="text-center px-3 py-2">ESTADO</th>
-                            <th class="px-3 py-2">OBSERVACIONES</th>
-                            <th class="text-center px-3 py-2 d-none" data-prod-only data-coor-only>ACCIONES</th>
+                            <th class="px-3 py-2">FACTURA</th>
+                            <th class="text-center px-3 py-2 d-none" data-vent-only data-dir-only>ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -127,22 +119,26 @@
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <form id="production-edit-form">
+                        <form id="rejections-edit-form">
                             <input type="hidden" id="edit-id-partition">
+                            <input type="hidden" id="edit-id-order">
                             <div class="row ms-2 me-2 pt-3 pb-3">
-                                <div class="col-md-4 col-lg-3 ms-auto label-over-border">
+                                <div class="col-md-6 col-lg-3 ms-auto label-over-border">
                                     <label for="edit-date" class="form-label m-2">Fecha</label>
-                                    <input type="date" class="form-control" id="edit-date" disabled>
+                                    <input type="date" class="form-control" id="edit-date">
+                                    <p class="error invalid-feedback" id="error-editDate" style="color: red;"></p>
                                 </div>
-                                <div class="col-md-4 col-lg-3 label-over-border">
-                                    <label for="edit-time" class="form-label m-2">Hora planeada</label>
-                                    <input type="time" class="form-control" id="edit-time" disabled>
+                                <div class="col-md-6 col-lg-3 label-over-border">
+                                    <label for="edit-time" class="form-label m-2">Hora</label>
+                                    <input type="time" class="form-control" id="edit-time">
+                                    <p class="error invalid-feedback" id="error-editTime" style="color: red;"></p>
                                 </div>
                             </div>
                             <div class="row ms-2 me-2 pt-3 pb-3">
                                 <div class="col-md-12 col-lg-6 label-over-border">
                                     <label for="edit-destination" class="form-label m-2">Destino</label>
-                                    <input type="text" class="form-control" id="edit-destination" disabled>
+                                    <input type="text" class="form-control" id="edit-destination">
+                                    <p class="error invalid-feedback" id="error-editDestination" style="color: red;"></p>
                                 </div>
                                 <div class="col-md-6 col-lg-3 label-over-border filter">
                                     <label for="edit-oc" class="form-label m-2">Orden de compra</label>
@@ -162,15 +158,15 @@
                                 <div class="col-md-4 label-over-border">
                                     <label for="edit-status" class="form-label m-2">Estado</label>
                                     <select id="edit-status" class="form-select" aria-label="Default select example">
-                                        <option value="Pendiente">Seleccione...</option>
+                                        <option value="Pendiente">Seleccione..</option>
                                         <option value="Planeado">Planeado</option>
-                                        <option value="En proceso">En proceso</option>
-                                        <option value="PT parcial">PT parcial</option>
-                                        <option value="En secado">En secado</option>
-                                        <option value="Terminado">Terminado</option>
-                                        <option value="Proyectado" class="d-none">Proyectado</option>
-                                        <option value="Cancelado" class="d-none">Cancelado</option>
-                                        <option value="Reprogramado">Reprogramado</option>
+                                        <option value="En proceso" class="d-none">En proceso</option>
+                                        <option value="PT parcial" class="d-none">PT parcial</option>
+                                        <option value="En secado" class="d-none">En secado</option>
+                                        <option value="Terminado" class="d-none">Terminado</option>
+                                        <option value="Proyectado">Proyectado</option>
+                                        <option value="Cancelado">Cancelado</option>
+                                        <option value="Reprogramado" class="d-none">Reprogramado</option>
                                     </select>
                                     <p class="error invalid-feedback" id="error-editStatus" style="color: red;"></p>
                                 </div>
@@ -179,10 +175,10 @@
                         <div id="partition-products">
                             <div class="row ms-2 me-2 pt-2 pb-2">
                                 <div class="col d-flex align-items-center">
-                                    <p class="fw-bold">Productos solicitados</p>
+                                    <p class="fw-bold">Productos asignados</p>
                                 </div>
                             </div>
-                            <div id="partition-products-container" class="mb-2">
+                            <div id="partition-products-container" class="mb-4">
 
                             </div>
                         </div>
@@ -205,6 +201,6 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module" src="/src/js/pages/production.js"></script>
+    <script type="module" src="/src/js/pages/rejections.js"></script>
 </body>
 </html>

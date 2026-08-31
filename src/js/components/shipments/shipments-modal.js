@@ -1,5 +1,5 @@
 // Servicios Supabase
-import { updatePartition } from '../../services/partitions-service.js';
+import { getPartitionTrip, updatePartition } from '../../services/partitions-service.js';
 import { getPartitionProducts, updateShipmentProducts } from "../../services/partition-product-service";
 import { getOrderTimes } from '../../services/orders-service.js';
 import { shipmentsFilter } from './shipments-filter.js';
@@ -11,6 +11,12 @@ import { calculateMaxTime } from '../../utils/week-functions.js';
 
 // Función para cargar datos en el modal
 export async function renderShipmentsEditModal(partida) {
+    // Obtener viaje relacionado a la partida si hay
+    let viaje = {};
+    if (partida.id_viaje) {
+        viaje = await getPartitionTrip(partida.id_viaje);
+    }
+
     // Insertar valores en los inputs
     document.getElementById('edit-id-partition').value = partida.id_partida;
     document.getElementById('edit-id-order').value = partida.id_orden;
@@ -26,6 +32,13 @@ export async function renderShipmentsEditModal(partida) {
     document.getElementById('edit-destination').value = partida.destino || partida.ubicacion;
     document.getElementById('edit-observations').value = partida.observaciones;
 
+    // Bloquear actualización de estado si está completado el viaje
+    if (partida.embarque === "Cargado" || partida.planta !== "Terminado" || viaje.unidad === undefined) {
+        document.getElementById('edit-status').disabled = true;
+    } else {
+        document.getElementById('edit-status').disabled = false;
+    }
+
     // Limpiar filas anteriores
     const container1 = document.getElementById("partition-products-container");
     const container2 = document.getElementById("shipment-products-container");
@@ -39,6 +52,16 @@ export async function renderShipmentsEditModal(partida) {
         await viewProductRow("partition", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_solicitada ?? 0);
         await validateProductRow("shipment", producto.id_orden_producto, producto.codigo, producto.producto, producto.cantidad_embarcada ?? producto.cantidad_solicitada, producto.cantidad_orden,);
     };
+
+    // Bloquear actualización de estado si está completado el viaje
+    const productInputs = document.querySelectorAll('.product-input-quantity');
+
+    if (partida.embarque === "Cargado" || partida.planta !== "Terminado" || viaje.unidad === undefined) {
+        productInputs.forEach(input => input.disabled = true);
+    } else {
+        productInputs.forEach(input => input.disabled = false);
+    }
+    
     validateUserRole()
 }
 
@@ -73,12 +96,6 @@ document.getElementById('btn-edit-entry').addEventListener('click', async functi
             icon: 'warning',
             confirmButtonText: 'OK'
         });
-        return
-    }
-
-    if (statusIn.value === 'Planeado') {
-        statusIn.classList.add('is-invalid');
-        statusError.textContent = 'Se debe seleccionar una opción';
         return
     }
 

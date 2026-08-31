@@ -19,7 +19,7 @@ main {
 }
 
 /* Estilos de la página y estructura */
-#direct-access-container, #week-container, #graphic-status-container, #graphic-client-container, #graphic-production-container, #graphic-shipments-container {
+#direct-access-container, #week-container, #graphic-status-container, #graphic-client-container, #graphic-products-container, #graphic-rejected-container {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     border: 1px solid var(--secondary-light);
@@ -32,10 +32,20 @@ main {
     width: 100%
 }
 
+.graphic-statistics-container-md {
+    position: relative;
+    height: 299px;
+    width: 100%
+}
+
 /* Estilos de sección de planeación */
 a {
   color: black;
   text-decoration: none;
+}
+
+#day-filter {
+    border: 2px solid var(--primary);
 }
 
 #weekHeader {
@@ -72,13 +82,14 @@ a {
 }
 
 .general-report-cant {
-    font-size: 35px;
+    font-size: 30px;
     font-weight: bold;
     padding-top: 0px;
 }
 
 .general-report-text {
-    font-size: 13px;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 /* Cards de sección de accesos directos */
@@ -100,20 +111,24 @@ a {
     .icon-md {
         font-size: 18px;
     }
-
-    .general-report-cant {
-        font-size: 25px;
-    }
 }
 
 @media (max-width: 768px) {
     .graphic-statistics-container {
-        height: 300px;
-    }
+        height: 340px;
+    }    
 }
 
 @media (min-width: 500px) and (max-width: 768px) {
     .access-text {
         font-size: 14px;
+    }
+
+    .general-report-cant {
+        font-size: 20px;
+    }
+
+    .general-report-text {
+        font-size: 11px;
     }
 }

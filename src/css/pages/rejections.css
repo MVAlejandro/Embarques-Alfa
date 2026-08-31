@@ -1,15 +1,15 @@
 
 /* Estilos de la página y estructura */
-#partitions-header {
+#rejections-header {
     margin-top: 0;
 }
 
-#partitions-header-container {
+#rejections-header-container {
     background-color: var(--background-light) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-#partitions-form-container, #partitions-filter-container, #partitions-total-container, .table-responsive {
+#rejections-filter-container, #rejections-total-container, .table-responsive {
     background-color: var(--background-light) !important;
     border-radius: 1rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -24,7 +24,7 @@ th {
     color: var(--secondary) !important;
 }
 
-table hr {
+hr {
     margin: 0.5rem 0 !important;
 }
 
@@ -34,12 +34,12 @@ input:disabled {
 }
 
 /* Estilos de texto para la tabla */
-.partition-time, .partition-cant {
+.rejection-contract, .rejection-cant {
     font-size: 13px;
     color: var(--secondary) !important;
 }
 
-.partition-status {
+.rejection-status {
     padding: 5px 12px 5px 12px;
     border-radius: 50px;
     font-weight: bold;
@@ -54,8 +54,4 @@ input:disabled {
     #filter-btn {
         margin-top: 1rem;
     }
-}
-
-#rejection {
-    --bs-offcanvas-width: 50vh;
 }

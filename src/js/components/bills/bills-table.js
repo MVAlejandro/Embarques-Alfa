@@ -33,6 +33,18 @@ export async function renderBillsTable(partitionsParam = null) {
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
     
     for (const partida of allPartitions) {
+         // Obtener productos de la partida
+        const productos = await getPartitionProducts(partida.id_partida);
+
+        // Calcular total de cantidades
+        if (partida.planta !== "Cancelado") {
+            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+            totalGeneral += totalAmount;
+        } else if (partida.planta === "Cancelado") {
+            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+            totalCancelado += totalAmount;
+        }
+        
         // Determinar clase CSS para el estatus de embarque
         let shipmentStatusClass = '';
         if (partida.embarque == 'Preparando') {
@@ -61,18 +73,6 @@ export async function renderBillsTable(partitionsParam = null) {
             BillStatusClass = 'yellow';
         }
 
-        // Obtener productos de la partida
-        const productos = await getPartitionProducts(partida.id_partida);
-
-        // Calcular total de cantidades
-        if (partida.planta !== "Cancelado") {
-            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
-            totalGeneral += totalAmount;
-        } else if (partida.planta === "Cancelado") {
-            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
-            totalCancelado += totalAmount;
-        }
-
         tbody.innerHTML += 
         `<tr>
             <td class="bill-date fw-bold px-3 py-2 ps-3">${partida.fecha_programada}</td>
@@ -91,7 +91,7 @@ export async function renderBillsTable(partitionsParam = null) {
                 <p class="bill-status ${BillStatusClass}">${partida.embarque === "Proyectado" ? "Proyectado" : partida.facturacion}</p>
             </td>
             <td class="bill-number px-3 py-2">${partida.numero_facturacion || "Sin Registro"}</td>
-            <td class="bill-control text-center d-none" data-vent-only>
+            <td class="bill-control text-center d-none" data-trans-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"

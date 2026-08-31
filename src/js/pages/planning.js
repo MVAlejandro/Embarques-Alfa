@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // Recargar la página cada cierto tiempo de forma automática
-    setInterval(async () => { await planningFilter(getFullTrips, renderPlanningTable); }, 60000); // 5 minutos = 300,000 ms
+setInterval(async () => { await planningFilter(getFullTrips, renderPlanningTable); }, 60000); // 5 minutos = 300,000 ms
 
 // Llenar el modal de producción
 const productionModal = document.getElementById('production-modal');

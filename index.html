@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Embarques - Pallets Alfa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
 
@@ -21,77 +22,16 @@
 
     <!-- CONTENEDOR PRINCIPAL -->
     <main>
-        <header class="mt-3">
-            <div id="header-container" class="container px-2 py-3">
-                <h3 class="fw-bold">Programa de Embarques</h3>
-            </div>
-        </header>
-
-        <!-- SECCIÓN DE CARDS RESUMEN -->
-        <section id="planning-resume">
-            <div class="container">
-                <div id="planning-resume-container" class="row row-cols-1 row-cols-md-2">
-                    <div class="col-md-6 col-lg-3">
-                        <a href="./partitions.html" class="card resume-card mt-2 text-decoration-none">
-                            <div class="card-body d-flex align-items-center pe-4">
-                                <div class="icon-square">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
-                                        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
-                                    </svg>
-                                </div>
-                                <div class="card-text text-end ms-auto">
-                                    <p class="fw-bold card-text">PARTIDAS</p>
-                                    <p id="partitions-text" class="general-report-cant text-muted">-</p>
-                                </div>
-                            </div>
-                        </a>
+        <!-- SECCIÓN DEL ENCABEZADO -->
+        <section id="index-header" class="mt-3">
+            <div id="index-header-container" class="container ps-2 py-3">
+                <div class="row">
+                    <div class="col-md-8 col-lg-9 d-flex align-items-center">
+                        <h3 class="fw-bold">Programa de Embarques</h3>
                     </div>
-                    <div class="col-md-6 col-lg-3">
-                        <a href="./recolections.html" class="card resume-card mt-2 text-decoration-none">
-                            <div class="card-body d-flex align-items-center pe-4">
-                                <div class="icon-square">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-mailbox-flag" viewBox="0 0 16 16">
-                                        <path d="M10.5 8.5V3.707l.854-.853A.5.5 0 0 0 11.5 2.5v-2A.5.5 0 0 0 11 0H9.5a.5.5 0 0 0-.5.5v8zM5 7c0 .334-.164.264-.415.157C4.42 7.087 4.218 7 4 7s-.42.086-.585.157C3.164 7.264 3 7.334 3 7a1 1 0 0 1 2 0"/>
-                                        <path d="M4 3h4v1H6.646A4 4 0 0 1 8 7v6h7V7a3 3 0 0 0-3-3V3a4 4 0 0 1 4 4v6a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V7a4 4 0 0 1 4-4m0 1a3 3 0 0 0-3 3v6h6V7a3 3 0 0 0-3-3"/>
-                                    </svg>
-                                </div>
-                                <div class="card-text text-end ms-auto">
-                                    <p class="fw-bold card-text">RECOLECCIONES</p>
-                                    <p id="recolections-text" class="general-report-cant text-muted">-</p>
-                                </div>
-                            </div>
-                        </a>
+                    <div class="col-md-4 col-lg-3 d-flex align-items-center mt-3 mt-md-0">
+                        <input type="text" id="day-filter" class="form-control" placeholder="Fecha a mostrar" autocomplete="off">
                     </div>
-                    <div class="col-md-6 col-lg-3">
-                        <a href="./planning.html" class="card resume-card mt-2 text-decoration-none">
-                            <div class="card-body d-flex align-items-center pe-4">
-                                <div class="icon-square">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-box-seam" viewBox="0 0 16 16">
-                                        <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"/>
-                                    </svg>
-                                </div>
-                                <div class="card-text text-end ms-auto">
-                                    <p class="fw-bold card-text">TARIMAS</p>
-                                    <p id="pallets-text" class="general-report-cant text-muted">-</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <a href="./planning.html" class="card resume-card mt-2 text-decoration-none">
-                            <div class="card-body d-flex align-items-center pe-4">
-                                <div class="icon-square">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bounding-box-circles" viewBox="0 0 16 16">
-                                        <path d="M2 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2M0 2a2 2 0 0 1 3.937-.5h8.126A2 2 0 1 1 14.5 3.937v8.126a2 2 0 1 1-2.437 2.437H3.937A2 2 0 1 1 1.5 12.063V3.937A2 2 0 0 1 0 2m2.5 1.937v8.126c.703.18 1.256.734 1.437 1.437h8.126a2 2 0 0 1 1.437-1.437V3.937A2 2 0 0 1 12.063 2.5H3.937A2 2 0 0 1 2.5 3.937M14 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2M2 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m12 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
-                                    </svg>
-                                </div>
-                                <div class="card-text text-end ms-auto">
-                                    <p class="fw-bold card-text">MARCOS</p>
-                                    <p id="frames-text" class="general-report-cant text-muted">-</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>     
                 </div>
             </div>
         </section>
@@ -99,26 +39,102 @@
         <!-- SECCIÓN DE ACCESOS DIRECTOS Y ESTADISTICAS GENERALES -->
         <section id="planning-menu" class="pb-5">
             <div class="container">
-                <div class="row flex-column-reverse flex-lg-row">
-                    <div id="info-container" class="col-lg-3">
-                        <div id="week-container" class="p-4">
-                            <div class="d-flex align-items-center px-1 px-md-3">
-                                <p class="fw-bold card-text">SEMANA</p>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-calendar2-date ms-auto" viewBox="0 0 16 16">
-                                    <path d="M6.445 12.688V7.354h-.633A13 13 0 0 0 4.5 8.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23"/>
-                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
-                                    <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5z"/>
-                                </svg>
+                <div class="row flex-lg-row">
+                    <div class="col-lg-9 mb-3 mb-lg-0">
+                        <div id="planning-resume-container" class="row row-cols-1">
+                            <div class="col-12 col-md-4">
+                                <a href="./partitions.html?product=TARIMA" class="card resume-card text-decoration-none">
+                                    <div class="card-body d-flex align-items-center pe-4">
+                                        <div class="icon-square">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-box-seam" viewBox="0 0 16 16">
+                                                <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2zm3.564 1.426L5.596 5 8 5.961 14.154 3.5zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="card-text text-end ms-auto">
+                                            <p class="fw-bold card-text">TARIMAS</p>
+                                            <p id="pallets-text" class="general-report-cant text-muted">-</p>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
-                            <div class="card-qty ms-3">
-                                <!-- <p id="week-text" class="general-report-cant text-muted">-</p> -->
-                                <p id="weekHeader" class="general-report-cant text-muted">-</p>
+                            <div class="col-12 col-md-4">
+                                <a href="./partitions.html?product=MARCO" class="card resume-card mt-3 mt-md-0 text-decoration-none">
+                                    <div class="card-body d-flex align-items-center pe-4">
+                                        <div class="icon-square">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bounding-box-circles" viewBox="0 0 16 16">
+                                                <path d="M2 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2M0 2a2 2 0 0 1 3.937-.5h8.126A2 2 0 1 1 14.5 3.937v8.126a2 2 0 1 1-2.437 2.437H3.937A2 2 0 1 1 1.5 12.063V3.937A2 2 0 0 1 0 2m2.5 1.937v8.126c.703.18 1.256.734 1.437 1.437h8.126a2 2 0 0 1 1.437-1.437V3.937A2 2 0 0 1 12.063 2.5H3.937A2 2 0 0 1 2.5 3.937M14 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2M2 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m12 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+                                            </svg>
+                                        </div>
+                                        <div class="card-text text-end ms-auto">
+                                            <p class="fw-bold card-text">MARCOS</p>
+                                            <p id="frames-text" class="general-report-cant text-muted">-</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <a href="./partitions.html?canceled=1" class="card resume-card mt-3 mt-md-0 text-decoration-none">
+                                    <div class="card-body d-flex align-items-center pe-4">
+                                        <div class="icon-square">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
+                                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                            </svg>
+                                        </div>
+                                        <div class="card-text text-end ms-auto">
+                                            <p class="fw-bold card-text">CANCELADOS</p>
+                                            <p id="canceled-text" class="general-report-cant text-muted">-</p>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
-                        <div id="direct-access-container" class="p-4 mt-3">
+                        <div id="graphic-container" class="row mt-3">
+                            <div class="col-md-4">
+                                <div class="graphic-statistics-container">
+                                    <div id="graphic-products-container" class="h-100 d-flex align-items-center justify-content-center p-4">
+                                        <div class="alert alert-info">
+                                            No hay información para mostrar (Estado de Producción)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 mt-3 mt-md-0">
+                                <div class="graphic-statistics-container">
+                                    <div id="graphic-client-container" class="h-100 d-flex align-items-center justify-content-center p-4">
+                                        <div class="alert alert-info">
+                                            No hay información para mostrar (Productos por Cliente)
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-8">
+                                <div class="graphic-statistics-container">
+                                    <div id="graphic-status-container" class="h-100 d-flex align-items-center justify-content-center p-4">
+                                        <div class="alert alert-info">
+                                            No hay información para mostrar (Progreso General)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-3 mt-md-0">
+                                <div class="graphic-statistics-container">
+                                    <div id="graphic-rejected-container" class="h-100 d-flex align-items-center justify-content-center p-4">
+                                        <div class="alert alert-info">
+                                            No hay información para mostrar (Rechazos)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="info-container" class="col-lg-3">
+                        <div id="direct-access-container" class="p-4 h-100">
                             <h6 class="text-muted fw-bold ps-2">ACCESOS DIRECTOS</h6>
                             <div id="access-cards" class="row row-cols-1 g-3 pt-2">
-                                <div class="col-6">
+                                <div class="col-6 col-md-4 col-lg-6">
                                     <a href="./clients.html" class="card access-card mt-2 text-decoration-none">
                                         <div id="clients-access" class="card-body d-flex flex-column align-items-center justify-content-center">
                                             <div class="mb-1">
@@ -130,7 +146,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6 col-md-4 col-lg-6">
                                     <a href="./orders.html" class="card access-card mt-2 text-decoration-none">
                                         <div id="order-access" class="card-body d-flex flex-column align-items-center justify-content-center">
                                             <div class="mb-1">
@@ -142,7 +158,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6 col-md-4 col-lg-6">
                                     <a href="./partitions.html" class="card access-card mt-2 text-decoration-none">
                                         <div id="partitions-access" class="card-body d-flex flex-column align-items-center justify-content-center">
                                             <div class="mb-1">
@@ -154,7 +170,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6 col-md-4 col-lg-6">
                                     <a href="./suppliers.html" class="card access-card mt-2 text-decoration-none">
                                         <div id="suppliers-access" class="card-body d-flex flex-column align-items-center justify-content-center">
                                             <div class="mb-1">
@@ -166,7 +182,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6 col-md-4 col-lg-6">
                                     <a href="./recolections.html" class="card access-card mt-2 text-decoration-none">
                                         <div id="recolections-access" class="card-body d-flex flex-column align-items-center justify-content-center">
                                             <div class="mb-1">
@@ -179,7 +195,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6 col-md-4 col-lg-6">
                                     <a href="./units.html" class="card access-card mt-2 text-decoration-none">
                                         <div id="units-access" class="card-body d-flex flex-column align-items-center justify-content-center">
                                             <div class="mb-1">
@@ -191,7 +207,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6 col-md-4 col-lg-6">
                                     <a href="./transport.html" class="card access-card mt-2 text-decoration-none">
                                         <div id="transport-access" class="card-body d-flex flex-column align-items-center justify-content-center">
                                             <div class="mb-1">
@@ -203,7 +219,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6 col-md-4 col-lg-6">
                                     <a href="./production.html" class="card access-card mt-2 text-decoration-none">
                                         <div id="production-access" class="card-body d-flex flex-column align-items-center justify-content-center">
                                             <div class="mb-1">
@@ -215,7 +231,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6 col-md-4 col-lg-6">
                                     <a href="./shipments.html" class="card access-card mt-2 text-decoration-none">
                                         <div id="ship-access" class="card-body d-flex flex-column align-items-center justify-content-center">
                                             <div class="mb-1">
@@ -229,7 +245,7 @@
                                         </div>
                                     </a>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-6 col-md-4 col-lg-6">
                                     <a href="./bills.html" class="card access-card mt-2 text-decoration-none">
                                         <div id="bills-access" class="card-body d-flex flex-column align-items-center justify-content-center">
                                             <div class="mb-1">
@@ -245,48 +261,6 @@
                             </div>
                         </div>
                     </div>
-                    <div id="graphic-container" class="col-lg-9 mb-5 mb-lg-0">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="graphic-statistics-container">
-                                    <div id="graphic-client-container" class="h-100 d-flex align-items-center justify-content-center p-4">
-                                        <div class="alert alert-info">
-                                            No hay información para mostrar (Productos por Cliente)
-                                        </div>
-                                    </div> 
-                                </div>
-                            </div>
-                            <div class="col-md-4 mt-3 mt-md-0">
-                                <div class="graphic-statistics-container">
-                                    <div id="graphic-production-container" class="h-100 d-flex align-items-center justify-content-center p-4">
-                                        <div class="alert alert-info">
-                                            No hay información para mostrar (Estado de Producción)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-4">
-                                <div class="graphic-statistics-container">
-                                    <div id="graphic-shipments-container" class="h-100 d-flex align-items-center justify-content-center p-4">
-                                        <div class="alert alert-info">
-                                            No hay información para mostrar (Estado de Embarques)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8 mt-3 mt-md-0">
-                                <div class="graphic-statistics-container">
-                                    <div id="graphic-status-container" class="h-100 d-flex align-items-center justify-content-center p-4">
-                                        <div class="alert alert-info">
-                                            No hay información para mostrar (Progreso General)
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div> 
         </section>
@@ -297,6 +271,9 @@
 
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/weekSelect/weekSelect.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>

@@ -113,6 +113,7 @@ function createNavbar(navbar) {
                             <li><a class="dropdown-item nav-link ps-4" href="./clients.html">Clientes</a></li>
                             <li><a class="dropdown-item nav-link ps-4" href="./orders.html">Contratos</a></li>
                             <li><a class="dropdown-item nav-link ps-4" href="./partitions.html">Partidas</a></li>
+                            
                         </ul>
                     </li>
                     <li class="nav-item ms-2 me-2 dropdown">

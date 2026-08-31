@@ -24,6 +24,13 @@ export async function renderPartitionsEditModal(partida) {
     document.getElementById('edit-observations').value = partida.observaciones;
     document.getElementById('edit-status').value = partida.planta;
 
+    // Bloquear actualización de estado si está completado el viaje
+    if (partida.embarque === "Cargado") {
+        document.getElementById('edit-status').disabled = true;
+    } else {
+        document.getElementById('edit-status').disabled = false;
+    }
+
     // Limpiar filas anteriores
     const container = document.getElementById("partition-products-container");
     container.innerHTML = '';
@@ -49,6 +56,15 @@ export async function renderPartitionsEditModal(partida) {
         const maxValue = product.cantidad_orden
 
         await validateProductRow("partition", orderProductId, product.codigo, product.producto, visibleQuantity, maxValue,);
+    }
+
+    // Bloquear actualización de estado si está completado el viaje
+    const productInputs = document.querySelectorAll('.product-input-quantity');
+
+    if (partida.embarque === "Cargado") {
+        productInputs.forEach(input => input.disabled = true);
+    } else {
+        productInputs.forEach(input => input.disabled = false);
     }
 
     validateUserRole()

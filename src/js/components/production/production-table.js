@@ -18,6 +18,7 @@ export async function renderProductionTable(partitionsParam = null) {
     const tbody = document.querySelector('#production-table tbody');
     const thead = document.getElementById('production-total-container');
     const weekText = document.getElementById('weekHeader');
+
     // Limpiar elementos antes de insertar
     weekText.innerHTML = "Semana 0";
     thead.innerHTML = '';
@@ -35,6 +36,31 @@ export async function renderProductionTable(partitionsParam = null) {
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
     
     for (const partida of allPartitions) {
+        // Obtener productos de la partida
+        const productos = await getPartitionProducts(partida.id_partida);
+
+        let tarimas = 0;
+        let marcos = 0;
+        let cancelados = 0;
+
+        // Calcular cantidades
+        for (const producto of productos) {
+            const cantidad = producto.cantidad_solicitada || 0;
+
+            if (partida.planta === "Cancelado") {
+                cancelados += cantidad;
+                totalCancelado += cantidad;
+            } 
+            else if (producto.producto?.includes('TARIMA')) {
+                tarimas += cantidad;
+                totalTarimas += cantidad;
+            } 
+            else if (producto.producto?.includes('MARCO')) {
+                marcos += cantidad;
+                totalMarcos += cantidad;
+            }
+        }
+
         // Determinar clase CSS para el estatus
         let statusClass = '';
         if (partida.planta == 'En proceso') {
@@ -50,9 +76,6 @@ export async function renderProductionTable(partitionsParam = null) {
         } else {
             statusClass = 'grey';
         }
-
-        // Obtener productos de la partida
-        const productos = await getPartitionProducts(partida.id_partida);
 
         tbody.innerHTML += 
         `<tr>
@@ -80,36 +103,16 @@ export async function renderProductionTable(partitionsParam = null) {
         </tr>`;
 
         // Insertar productos solicitados de esta partida
-        const requestedContainer = document.getElementById(`production-products-${partida.id_partida}`);
-        requestedContainer.innerHTML = '';
-
-        let tarimas = 0;
-        let marcos = 0;
-        let cancelados = 0;
+        const container = document.getElementById(`production-products-${partida.id_partida}`);
+        container.innerHTML = '';
 
         for (const producto of productos) {
-            if (partida.planta !== "Cancelado") {
-                if (producto.producto?.includes('TARIMA')) {
-                    const cantidad = producto.cantidad_solicitada || 0;
-                    tarimas += cantidad;
-                    totalTarimas += cantidad;
-                } 
-                else if (producto.producto?.includes('MARCO')) {
-                    const cantidad = producto.cantidad_solicitada || 0;
-                    marcos += cantidad;
-                    totalMarcos += cantidad;
-                }
-
-            } else if ((partida.planta === "Cancelado")) {
-                const cantidad = producto.cantidad_solicitada || 0;
-                cancelados += cantidad;
-                totalCancelado += cantidad;
-            }
-
-            requestedContainer.innerHTML += 
-            `<p class="shipment-product ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${producto.codigo} - <b>Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
-            <p class="shipment-cant">${producto.producto}</p>
-            <hr>`;
+            container.innerHTML += `
+                <p class="shipment-product ${partida.embarque === "Proyectado" ? "text-primary" : ""}">
+                    ${producto.codigo} - <b>Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b>
+                </p>
+                <p class="shipment-cant">${producto.producto}</p>
+                <hr>`;
         }
     };
 

@@ -45,7 +45,12 @@ export async function getPartitions() {
                     h_recepcion_ini,
                     h_recepcion_fin
                 )),
-            id_viaje
+            id_viaje,
+            emb_rechazos (
+                id_rechazo,
+                estado, 
+                fecha_rechazo
+            )
             `)
         .order('fecha_programada', { ascending: true })
         .order('hora_programada', { ascending: true });
@@ -81,7 +86,8 @@ export async function getPartitions() {
         tiempo_traslado: partida.emb_ordenes_compra?.emb_clientes?.tiempo_traslado,
         h_recepcion_ini: partida.emb_ordenes_compra?.emb_clientes?.h_recepcion_ini,
         h_recepcion_fin: partida.emb_ordenes_compra?.emb_clientes?.h_recepcion_fin,
-        id_viaje: partida.id_viaje
+        id_viaje: partida.id_viaje,
+        rechazo: partida.emb_rechazos?.[0] ?? null
     }));
 }
 

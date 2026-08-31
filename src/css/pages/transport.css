@@ -23,6 +23,10 @@ th {
     color: var(--secondary) !important;
 }
 
+ul {
+    margin-bottom: 0.5rem;
+}
+
 input:disabled {
     background-color: var(--background-light) !important;
     color: var(--primary-dark) !important;
@@ -41,7 +45,7 @@ input:disabled {
 }
 
 /* Estilos de texto para la tabla */
-.trip-time, .trip-departure-time, .trip-license, .trip-events {
+.trip-time, .trip-departure-time, .trip-operator, .trip-events, .partition-element, .recolection-element {
     font-size: 13px;
     color: var(--secondary) !important;
 }
@@ -55,6 +59,10 @@ input:disabled {
     border-radius: 50px;
     font-weight: bold;
     display: inline-block;
+}
+
+#partition-table, #recolection-table {
+    font-size: 14px !important;
 }
 
 .trip-text {

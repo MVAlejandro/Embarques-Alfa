@@ -3,13 +3,14 @@ import supabase from '../../supabase/supabase-client.js'
 import { createOrder } from '../../services/orders-service.js'; 
 import { renderOrdersTable } from './orders-table.js'; 
 // Utilidades
-import { loadOptions } from '../../utils/load-select.js';
+import { loadOptionsFilter } from '../../utils/load-select.js';
 import { textValidate, inputValidate, selectValidate } from '../../utils/form-validations.js';
 import { getWeekAndYear } from '../../utils/week-functions.js';
+import { getClients } from '../../services/clients-service.js';
 
 // Cargar los clientes en los formularios al iniciar la página
 document.addEventListener('DOMContentLoaded', async () => {
-    loadOptions('cliente', 'emb_clientes', 'id_cliente', 'nombre', 'Seleccione...')
+    loadOptionsFilter('cliente', getClients, 'nombre', 'id_cliente', 'Seleccione...')
 })
 
 // Función para agregar orden de forma manual

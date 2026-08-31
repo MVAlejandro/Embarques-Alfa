@@ -22,9 +22,6 @@ export async function renderTransportAsignModal(registro) {
     document.getElementById('edit-client').value = registro.cliente || registro.proveedor;
     document.getElementById('edit-destination').value = registro.destino;
     document.getElementById('edit-trip').value = registro.id_viaje;
-
-    // Cargar opciones en el select
-    await loadTripsFilter(registro.fecha_programada, ['hora_programada', 'unidad'], registro.id_viaje);
     
     // Limpiar filas anteriores
     const container1 = document.getElementById("partition-products-container");
@@ -33,6 +30,9 @@ export async function renderTransportAsignModal(registro) {
     container2.innerHTML = '';
 
     if (registro.id_partida) {
+        // Cargar opciones en el select
+        await loadTripsFilter('Partida', registro.fecha_programada, ['hora_programada', 'unidad'], registro.id_viaje);
+
         // Cargar lo asignado en la partida para rellenar inputs
         const productos = await getPartitionProducts(registro.id_partida);
 
@@ -43,6 +43,9 @@ export async function renderTransportAsignModal(registro) {
 
         document.getElementById('edit-type').value = "partida";
     } else if (registro.id_recoleccion) {
+        // Cargar opciones en el select
+        await loadTripsFilter('Recolección', registro.fecha_programada, ['hora_programada', 'unidad'], registro.id_viaje);
+
         // Cargar lo asignado en la recolección para rellenar inputs
         const productos = await getRecolectionProducts(registro.id_recoleccion);
             

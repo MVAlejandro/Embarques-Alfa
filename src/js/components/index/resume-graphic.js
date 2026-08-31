@@ -1,16 +1,21 @@
 // Servicios Supabase
 import { getPartitions } from "../../services/partitions-service"; 
 import { getPartitionProducts } from '../../services/partition-product-service.js';
+import { getRejections } from "../../services/rejections-service.js";
+import { getRejectionProducts } from "../../services/rejection-product-service.js";
 
 let allPartitions = [];
+let allRejections = [];
 
 // Función para crear el gráfico con porcentaje de progreso
-export async function renderStatusGraphic(dates) {
+export async function renderStatusGraphic(start, end) {
     // Obtener todas las partidas
-    let allPartitions = await getPartitions();
+    allPartitions = await getPartitions();
 
-    // Filtrar por semana y año
-    allPartitions = allPartitions.filter( p => p.semana == dates.semana && p.anio == dates.anio );
+    // Filtrar por fechas seleccionadas
+    allPartitions = allPartitions.filter(p => { const fecha = new Date(p.fecha_programada);
+        return fecha >= start && fecha <= end;
+    });
 
     const container = document.getElementById("graphic-status-container");
 
@@ -40,12 +45,8 @@ export async function renderStatusGraphic(dates) {
     const porcentajeTransporte = (transporteEntregado / totalPartidas) * 100;
 
     // Datos
-    const labels = [
-        "Producción",
-        "Embarque",
-        "Facturación",
-        "Transporte"
-    ];
+    const labels = [ "Producción", "Embarque", "Facturación", "Transporte" ];
+    const urls = [ "./production.html", "./shipments.html", "./bills.html", "./transport.html" ];
 
     const data = [
         porcentajePlanta,
@@ -74,14 +75,15 @@ export async function renderStatusGraphic(dates) {
                 label: "Partidas con estado final",
                 data,
                 borderColor: "#C7C6C6",
-                backgroundColor: data.map(value => {
-                    if (value >= 95) { return "#bce0c8"; }
+                backgroundColor: labels.map((_, index) => {
+                    const colores = [
+                        "#f4b183",
+                        "#95a9d6",
+                        "#bce0c8",
+                        "#fcebb9"
+                    ];
 
-                    if (value >= 70) { return "#95a9d6"; }
-
-                    if (value >= 40) { return "#fcebb9"; }
-
-                    return "#dd989f";
+                    return colores[index % colores.length];
                 }),
                 borderRadius: 10,
                 borderWidth: 1,
@@ -100,10 +102,21 @@ export async function renderStatusGraphic(dates) {
                 }
             },
             maintainAspectRatio: false,
+            onClick: (event, elements) => {
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    window.location.href = urls[index];
+                }
+            },
+
+            onHover: (event, elements) => {
+                event.native.target.style.cursor =
+                    elements.length > 0 ? "pointer" : "default";
+            },
             plugins: {
                 title: {
                     display: true,
-                    text: `PROGRESO GENERAL DE PARTIDAS (SEMANAL)`,
+                    text: `PROGRESO GENERAL DE PARTIDAS`,
                     font: { weight: "bold" },
                     padding: { bottom: 30 }
                 },
@@ -113,15 +126,16 @@ export async function renderStatusGraphic(dates) {
                 datalabels: {
                     anchor: "center",
                     align: "center",
-                    color: data.map(value => {
-                    if (value >= 95) { return "#0c6e40"; }
+                    color: labels.map((_, index) => {
+                        const coloresTexto = [
+                            "#a64b00",
+                            "#0a2a6e",
+                            "#0c6e40",
+                            "#7e6009"
+                        ];
 
-                    if (value >= 70) { return "#0a2a6e"; }
-
-                    if (value >= 40) { return "#7e6009"; }
-
-                    return "#79111c";
-                }),
+                        return coloresTexto[index % coloresTexto.length];
+                    }),
                     font: { weight: "bold" },
                     formatter: (value, context) => {
                         const cantidad = cantidades[context.dataIndex];
@@ -161,12 +175,14 @@ export async function renderStatusGraphic(dates) {
 }
 
 // Función para crear el gráfico por productos
-export async function renderClientsGraphic(dates) {
+export async function renderClientsGraphic(start, end) {
     // Obtener todas las partidas
-    let allPartitions = await getPartitions();
+    allPartitions = await getPartitions();
 
-    // Filtrar por semana y año
-    allPartitions = allPartitions.filter( p => p.semana == dates.semana && p.anio == dates.anio );
+    // Filtrar por fechas seleccionadas
+    allPartitions = allPartitions.filter(p => { const fecha = new Date(p.fecha_programada);
+        return fecha >= start && fecha <= end;
+    });
 
     const container = document.getElementById("graphic-client-container");
 
@@ -185,25 +201,36 @@ export async function renderClientsGraphic(dates) {
     const clientProducts = {};
 
     for (const partida of allPartitions) {
-        const client = partida.cliente;
+        const clientId = partida.id_cliente;
+        const clientName = partida.cliente;
 
         // Obtener productos de la partida
         const productos = await getPartitionProducts(partida.id_partida);
 
         // Sumar cantidades solicitadas
-        const totalRequiredAmount = productos.reduce( (acc, prod) => acc + (Number(prod.cantidad_solicitada) || 0), 0 );
+        const totalRequiredAmount = productos.reduce(
+            (acc, prod) => acc + (Number(prod.cantidad_solicitada) || 0),
+            0
+        );
 
         // Inicializar cliente y acumular productos
-        if (!clientProducts[client]) {
-            clientProducts[client] = 0;
+        if (!clientProducts[clientId]) {
+            clientProducts[clientId] = {
+                id: clientId,
+                nombre: clientName,
+                cantidad: 0
+            };
         }
 
-        clientProducts[client] += totalRequiredAmount;
+        clientProducts[clientId].cantidad += totalRequiredAmount;
     }
 
+    // Ordenar clientes de mayor a menor cantidad
+    const sortedClients = Object.entries(clientProducts).sort((a, b) => b[1].cantidad - a[1].cantidad);
+
     // Preparar datos para el gráfico
-    const labels = Object.keys(clientProducts);
-    const data = Object.values(clientProducts);
+    const labels = sortedClients.map(([, clientData]) => clientData.nombre);
+    const data = sortedClients.map(([, clientData]) => clientData.cantidad);
 
     // Crear canvas
     container.innerHTML = `<canvas id="client-graphic"></canvas>`;
@@ -230,17 +257,37 @@ export async function renderClientsGraphic(dates) {
                 }
             },
             maintainAspectRatio: false,
+            onClick: (event, elements) => {
+                if (!elements.length) {
+                    return;
+                }
+
+                const index = elements[0].index;
+
+                const client = labels[index];
+
+                window.location.href =
+                    `./partitions.html?client=${encodeURIComponent(client)}`;
+            },
+
+            onHover: (event, elements) => {
+                event.native.target.style.cursor =
+                    elements.length ? "pointer" : "default";
+            },
             plugins: {
                 title: {
                     display: true,
-                    text: `CANTIDAD DE PRODUCTOS SOLICITADOS POR CLIENTE (SEMANAL)`,
+                    text: `CANTIDAD DE PRODUCTOS SOLICITADOS POR CLIENTE`,
                     font: { weight: "bold" },
                     padding: { bottom: 30 }
                 },
                 legend: { display: false },
                 datalabels: {
                     color: "#5e8132",
-                    font: { weight: "bold" },
+                    font: { 
+                        weight: "bold",
+                        size: 10
+                     },
                     anchor: "end",
                     align: "top",
                     formatter: value => value
@@ -260,6 +307,134 @@ export async function renderClientsGraphic(dates) {
                         text: "Cantidad de productos solicitados"
                     },
                     ticks: { precision: 0 }
+                }
+            }
+        }
+    });
+}
+
+export async function renderRejectionsGraphic(start, end) {
+    // Obtener todas las partidas y rechazos
+    allPartitions = await getPartitions();
+    allRejections = await getRejections();
+
+    // Filtrar por fechas seleccionadas
+    allPartitions = allPartitions.filter(p => { const fecha = new Date(p.fecha_programada);
+        return fecha >= start && fecha <= end;
+    });
+    allRejections = allRejections.filter(r => { const fecha = new Date(r.fecha_rechazo);
+        return fecha >= start && fecha <= end;
+    });
+    
+    const container = document.getElementById("graphic-rejected-container");
+    // Limpiar gráfico anterior
+    container.innerHTML = "";
+
+    if (!allRejections.length) {
+        container.innerHTML = `
+            <div class="alert alert-info">
+                No hay rechazos esta semana
+            </div>`;
+        return;
+    }
+
+    // Sumar productos solicitados de las partidas
+    let totalPartitionsAmount = 0;
+
+    for (const partida of allPartitions) {
+        // Obtener productos de la partida
+        const productos = await getPartitionProducts(partida.id_partida);
+
+        // Sumar cantidades solicitadas
+        totalPartitionsAmount += productos.reduce(
+            (acc, prod) => acc + (Number(prod.cantidad_solicitada) || 0),
+            0
+        );
+    }
+
+    // Sumar productos rechazados
+    let totalRejectionsAmount = 0;
+
+    for (const rechazo of allRejections) {
+        // Obtener productos del rechazo
+        const productos = await getRejectionProducts(rechazo.id_rechazo);
+
+        // Sumar cantidades rechazadas
+        totalRejectionsAmount += productos.reduce(
+            (acc, prod) => acc + (Number(prod.cantidad_rechazada) || 0),
+            0
+        );
+    }
+
+    // Calcular cantidad no rechazada
+    const totalNonRejectedAmount = Math.max( totalPartitionsAmount - totalRejectionsAmount, 0 ); 
+
+    // Generar gráfico
+    container.innerHTML = '<canvas id="rejected-graphic"></canvas>';
+    const ctx = document.getElementById('rejected-graphic').getContext('2d');
+
+    new Chart(ctx, { 
+        type: "pie", 
+        data: { 
+            labels: [ "Rechazados", "No rechazados" ], 
+            datasets: [{ 
+                data: [ totalRejectionsAmount, totalNonRejectedAmount ], 
+                backgroundColor: [ "#f13b44", "#8FC74A" ]
+            }] 
+        }, 
+        options: { 
+            responsive: true, 
+            layout: {
+                padding: {
+                    right: 10,
+                    left: 10
+                }
+            },
+            maintainAspectRatio: false, 
+            plugins: { 
+                title: {
+                    display: true,
+                    text: `CANTIDAD DE PRODUCTOS RECHAZADOS`,
+                    font: { weight: "bold" },
+                    padding: { bottom: 30 }
+                },
+                datalabels: {
+                    display: false
+                },
+                legend: { 
+                    position: "bottom",
+                    labels: {
+                        generateLabels(chart) {
+                            const data = chart.data;
+                            const dataset = data.datasets[0];
+
+                            return data.labels.map((label, index) => {
+                                const value = Number(dataset.data[index]) || 0;
+
+                                const percentage = totalPartitionsAmount > 0
+                                    ? (value / totalPartitionsAmount) * 100
+                                    : 0;
+
+                                return {
+                                    text: `${label}: ${percentage.toFixed(2)}%`,
+                                    fillStyle: dataset.backgroundColor[index],
+                                    strokeStyle: dataset.backgroundColor[index],
+                                    lineWidth: 1,
+                                    hidden: false,
+                                    index
+                                };
+                            });
+                        }
+                    }
+                 }, 
+                tooltip: { 
+                    callbacks: { 
+                        label: function(context) { 
+                            const value = context.raw; 
+                            const percentage = totalPartitionsAmount > 0 ? (value / totalPartitionsAmount) * 100 : 0; 
+                            return `${context.label}: ${value.toLocaleString('en-US')} (${percentage.toFixed(2)}%)`; 
+                        }
+                    }
                 }
             }
         }

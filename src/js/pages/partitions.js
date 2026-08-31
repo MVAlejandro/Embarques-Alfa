@@ -17,9 +17,11 @@ import { addPartition } from '../components/partitions/partitions-form.js';
 import { initPageFilters } from '../utils/planning-filters.js'; 
 import { renderPartitionsTable } from '../components/partitions/partitions-table.js'; 
 import { renderPartitionsEditModal } from '../components/partitions/partitions-modal.js'; 
+import { renderRejectionInfoModal } from '../components/partitions/rejection-modal.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initPage()
+
     // Generar tabla con el día actual
     await initPageFilters(getPartitions,renderPartitionsTable);
 });
@@ -31,22 +33,35 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Acciones del modal de edición
+// Declarar los modales de edición e información
 const editModal = document.getElementById('edit-modal');
-// Al abrir modal
+const rejectionOffCanvas = document.getElementById('rejection');
+
+let partitionData = null;
+
+// Edición - Apertura
 editModal.addEventListener('shown.bs.modal', event => {
     const button = event.relatedTarget;
-    const partitionData = JSON.parse(button.getAttribute('partition-data'));
+    partitionData = JSON.parse(button.getAttribute('partition-data'));
     
     renderPartitionsEditModal(partitionData);
+    renderRejectionInfoModal(partitionData);
 });
-// Al cerrar modal
+// Edición - Cierre
 editModal.addEventListener('hidden.bs.modal', () => {
     editModal.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
         e.classList.remove('is-valid', 'is-invalid');
     });
 
     editModal.querySelectorAll('input, select').forEach(el => {
+        el.value = '';
+    });
+
+    rejectionOffCanvas.querySelectorAll('.is-valid, .is-invalid').forEach(e => {
+        e.classList.remove('is-valid', 'is-invalid');
+    });
+
+    rejectionOffCanvas.querySelectorAll('input, select').forEach(el => {
         el.value = '';
     });
 });

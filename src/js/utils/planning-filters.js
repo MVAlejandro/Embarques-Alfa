@@ -1,8 +1,7 @@
 // Servicios Supabase
 import { getPartitionProducts } from '../services/partition-product-service.js';
-
 // Utilidades
-import { loadClientsFilter, loadDaysFilter, loadProductsFilter } from './load-select.js';
+import { loadDaysFilter } from './load-select.js';
 
 let allRegisters = [];
 
@@ -10,6 +9,28 @@ let allRegisters = [];
 export async function initPageFilters(getFunction, renderTable) {
     // Cargar filtros con valores iniciales
     loadDaysFilter()
+
+    const param = new URLSearchParams(window.location.search);
+    const client = param.get("client") || "";
+    const product = param.get("product") || "0";
+    const canceled = param.get("canceled") || "0";
+
+    const clientFilterEl = document.getElementById('client-filter');
+    const productFilterEl = document.getElementById("product-filter");
+    const canceledFilterEl = document.getElementById('canceled-filter');
+    
+    // Solo establecer el valor si el filtro existe
+    if (clientFilterEl) {
+        clientFilterEl.value = client;
+    }
+
+    if (productFilterEl) {
+        productFilterEl.value = product;
+    }
+
+    if (canceledFilterEl) {
+        canceledFilterEl.value = canceled;
+    }
 
     // Render inicial
     await planningFilter(getFunction, renderTable);
@@ -26,12 +47,15 @@ export async function planningFilter(getFunction, renderTable) {
     const dayFilterEl = document.getElementById('day-filter');
     const clientFilterEl = document.getElementById('client-filter');
     const productFilterEl = document.getElementById('product-filter');
-    const projectionFilterEl = document.getElementById('projection-filter');
+    const canceledFilterEl = document.getElementById('canceled-filter');
 
     // Valores por defecto si no existe alguno de los filtros
-    const clientFilter = clientFilterEl?.value || '0';
-    const productFilter = productFilterEl?.value || '0';
-    const projectionFilter = projectionFilterEl?.value || '0';
+    let clientFilter = '';
+    if (clientFilterEl) {
+        clientFilter = clientFilterEl.value.trim().toLowerCase();
+    }
+    const productFilter = productFilterEl?.value.toLowerCase() || '0';
+    const canceledFilter = canceledFilterEl?.value || '0';
 
     let startDate = null;
     let endDate = null;
@@ -52,24 +76,29 @@ export async function planningFilter(getFunction, renderTable) {
     allRegisters = await getFunction();
         if (!allRegisters) return;
 
+    // Filtrar por cancelados
+    let filtered = allRegisters.filter(p => { 
+        if (canceledFilter === '0') { 
+            // Mostrar los que no están cancelados 
+            return p.planta !== 'Cancelado'; 
+        } 
+        if (canceledFilter === '1') { 
+            // Mostrar solamente los cancelados 
+            return p.planta === 'Cancelado'; 
+        } 
+        return p.planta === canceledFilter; 
+    });
+
     // Filtrar por rango de fechas
-    let filtered = allRegisters.filter(p => {
+    filtered = filtered.filter(p => {
         const fecha = new Date(p.fecha_programada);
         return fecha >= startDate && fecha <= endDate;
     });
-    
-    // Cargar clientes solo si existe el select
-    if (clientFilterEl) {
-        loadClientsFilter(filtered, clientFilter);
-    }
 
-    filtered = filtered.filter(p => (clientFilter === '0' || p.id_cliente == clientFilter));
+    // Filtrar por cliente
+    filtered = filtered.filter(p => (clientFilter === '' || p.cliente.toString().toLowerCase().includes(clientFilter)));
 
-    // Cargar productos solo si existe el select
-    if (productFilterEl) {
-        loadProductsFilter(filtered, productFilter);
-    }
-
+    // Filtrar por producto
     if (productFilter !== '0') {
         const enriched = await Promise.all(
             filtered.map(async (partida) => {
@@ -77,14 +106,11 @@ export async function planningFilter(getFunction, renderTable) {
                 return { ...partida, productos };
             })
         );
-
+        
         filtered = enriched.filter(partida =>
-            partida.productos.some(prod => prod.id_producto == productFilter)
+            partida.productos.some(prod => prod.producto?.toLowerCase().includes(productFilter))
         );
     }
-
-    // Filtrar por proyectados
-    filtered = filtered.filter(p => (projectionFilter === '0' || p.embarque !== projectionFilter));
         
     renderTable(filtered);
 }

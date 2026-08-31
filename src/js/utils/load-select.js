@@ -87,7 +87,7 @@ export async function loadOptionsFilter(selectId, getFunction, displayFields, id
     });
 }
 
-// Función para cargar los días de la semana en el filtro
+// Función para cargar los valores del filtro de fechas por rango
 export function loadDaysFilter() {
     flatpickr("#day-filter", {
         locale: {
@@ -100,8 +100,47 @@ export function loadDaysFilter() {
     });
 }
 
+// Función para cargar los valores del filtro de fechas por semana
+export function loadWeeksFilter() {
+    const today = new Date();
+
+    // Inicio de la semana (domingo)
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+
+    const fp = flatpickr("#day-filter", {
+        locale: {
+            ...flatpickr.l10ns.es,
+            firstDayOfWeek: 0
+        },
+        disableMobile: true,
+        dateFormat: "Y-m-d",
+        defaultDate: startOfWeek,
+        plugins: [weekSelect({})],
+
+        onReady: function(selectedDates, dateStr, instance) {
+            instance.input.value = `${instance.formatDate(startOfWeek, "Y-m-d")} a ${instance.formatDate(today, "Y-m-d")}`;
+        },
+
+        onChange: function(selectedDates, dateStr, instance) {
+            if (!selectedDates.length) return;
+
+            const selected = selectedDates[0];
+            const day = selected.getDay();
+
+            const start = new Date(selected);
+            start.setDate(selected.getDate() - day);
+
+            const end = new Date(start);
+            end.setDate(start.getDate() + 6);
+
+            instance.input.value = `${instance.formatDate(start, "Y-m-d")} a ${instance.formatDate(end, "Y-m-d")}`;
+        }
+    });
+}
+
 // Función para cargar los viajes filtrados en el select
-export async function loadTripsFilter(dateFilter, displayFields, selectedId = 0) {
+export async function loadTripsFilter(type, dateFilter, displayFields, selectedId = 0) {
     const select = document.getElementById('edit-trip');
     if (!select) return;
 
@@ -112,7 +151,9 @@ export async function loadTripsFilter(dateFilter, displayFields, selectedId = 0)
     let data = await getTrips();
     if (!data) return;
 
+    // Filtrar viajes por tipo y fecha
     data = data.filter(e => e.fecha_programada === dateFilter);
+    data = data.filter(e => e.tipo === type || e.tipo === 'Ambos');
 
     // Opción por defecto
     const defaultOptionEl = document.createElement('option');

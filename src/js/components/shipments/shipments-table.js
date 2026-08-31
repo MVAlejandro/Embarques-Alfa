@@ -4,6 +4,25 @@ import { getPartitionProducts } from '../../services/partition-product-service.j
 import { validateUserRole } from '../../utils/session-validate.js';
 
 let allPartitions = [];
+let shipmentsSortable = null;
+
+function initShipmentsSortable() {
+    const tbody = document.querySelector('#shipments-table tbody');
+
+    if (!tbody) return;
+
+    if (shipmentsSortable) {
+        shipmentsSortable.destroy();
+    }
+
+    shipmentsSortable = new Sortable(tbody, {
+        animation: 150,
+        chosenClass: "chosen",
+        dragClass: "drag",
+        draggable: "tr",
+        forceFallback: true
+    });
+}
 
 // Función para crear la tabla y la paginación
 export async function renderShipmentsTable(partitionsParam = null) {
@@ -37,6 +56,26 @@ export async function renderShipmentsTable(partitionsParam = null) {
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
 
     for (const [i, partida] of allPartitions.entries()) {
+        // Obtener productos de la partida
+        const productos = await getPartitionProducts(partida.id_partida);
+
+        // Calcular total de cantidades
+        if (partida.planta !== "Cancelado") {
+            const totalRequiredAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+            const totalProducedAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_embarcada || 0), 0);
+
+            totalSolGeneral += totalRequiredAmount;
+            totalEmbGeneral += totalProducedAmount;
+        } else if (partida.planta === "Cancelado") {
+            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
+            totalCancelado += totalAmount;
+        }
+
+        // Si está cancelada no mostrar
+        if (partida.embarque === "Cancelado") {
+            continue;
+        }
+
         // Determinar clase CSS para el estatus de embarque
         let shipmentStatusClass = '';
         if (partida.embarque == 'Preparando') {
@@ -59,20 +98,6 @@ export async function renderShipmentsTable(partitionsParam = null) {
             viaje = await getPartitionTrip(partida.id_viaje);
         }
         
-        // Obtener productos de la partida
-        const productos = await getPartitionProducts(partida.id_partida);
-        // Calcular total de cantidades
-        if (partida.planta !== "Cancelado") {
-            const totalRequiredAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
-            const totalProducedAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_embarcada || 0), 0);
-
-            totalSolGeneral += totalRequiredAmount;
-            totalEmbGeneral += totalProducedAmount;
-        } else if (partida.planta === "Cancelado") {
-            const totalAmount = productos.reduce((acc, prod) => acc + (prod.cantidad_solicitada || 0), 0);
-            totalCancelado += totalAmount;
-        }
-
         tbody.innerHTML += 
         `<tr data-id="${partida.id_partida}">
             <td class="shipment-order text-center fw-bold px-3 py-2">${partida.orden_embarque || (i + 1)}</td>
@@ -92,11 +117,11 @@ export async function renderShipmentsTable(partitionsParam = null) {
                 <p class="shipment-license">${viaje.placas || "-"}</p>
             </td>
             <td class="shipment-observation px-3 py-2">${partida.observaciones}</td>
-            <td class="shipment-control text-center d-none" data-prod-only data-coor-only>
+            <td class="shipment-control text-center d-none" data-prod-only data-coor-only data-dir-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
-                    ${partida.embarque === "Cargado" || partida.planta !== "Terminado" || viaje.unidad === undefined || partida.planta === "Cancelado" ? "disabled" : ""}
+                    ${partida.planta === "Cancelado" ? "disabled" : ""}
                     partition-data='${JSON.stringify(partida)}'>
                     ${partida.embarque === "Cargado" ? "Completado" : partida.embarque === "Cancelado" ? "Cancelado" : "Actualizar"}
                 </button>
@@ -109,7 +134,9 @@ export async function renderShipmentsTable(partitionsParam = null) {
 
         for (const producto of productos) {
             container1.innerHTML += 
-            `<p class="partition-product ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${producto.codigo} -  <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')} / ${(producto.cantidad_embarcada ?? 0).toLocaleString('en-US')}</b></p>
+            `<p class="partition-product ${partida.embarque === "Proyectado" ? "text-primary" : ""}">
+                ${producto.codigo} -  <b> Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')} / ${(producto.cantidad_embarcada ?? 0).toLocaleString('en-US')}</b>
+            </p>
             <p class="partition-cant">${producto.producto}</p>
             <hr>`;
         };
@@ -149,13 +176,5 @@ export async function renderShipmentsTable(partitionsParam = null) {
         </tr>`;
 
     validateUserRole()
-
-    new Sortable(tbody, {
-        //handle: '.handle',
-        animation: 150,
-        chosenClass: "chosen",
-        dragClass: "drag",
-        draggable: "tr",
-        forceFallback: true
-    });
+    initShipmentsSortable();
 }

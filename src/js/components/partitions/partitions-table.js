@@ -17,6 +17,7 @@ export async function renderPartitionsTable(partitionsParam = null) {
     const tbody = document.querySelector('#partitions-table tbody');
     const thead = document.getElementById('partitions-total-container');
     const weekText = document.getElementById('weekHeader');
+
     // Limpiar elementos antes de insertar
     weekText.innerHTML = "Semana 0";
     thead.innerHTML = '';
@@ -34,6 +35,32 @@ export async function renderPartitionsTable(partitionsParam = null) {
     weekText.innerHTML = `Semana ${allPartitions[0].semana}`;
     
     for (const partida of allPartitions) {
+        // Obtener productos de la partida
+        const productos = await getPartitionProducts(partida.id_partida);
+
+        let tarimas = 0;
+        let marcos = 0;
+        let cancelados = 0;
+
+        // Calcular cantidades
+        for (const producto of productos) {
+            const cantidad = producto.cantidad_solicitada || 0;
+
+            if (partida.planta === "Cancelado") {
+                cancelados += cantidad;
+                totalCancelado += cantidad;
+            } 
+            else if (producto.producto?.includes('TARIMA')) {
+                tarimas += cantidad;
+                totalTarimas += cantidad;
+            } 
+            else if (producto.producto?.includes('MARCO')) {
+                marcos += cantidad;
+                totalMarcos += cantidad;
+            }
+        }
+
+        // Determinar clase CSS para el estatus de embarque
         let statusClass = '';
         if (partida.planta == 'En proceso') {
             statusClass = 'yellow';
@@ -49,28 +76,25 @@ export async function renderPartitionsTable(partitionsParam = null) {
             statusClass = 'grey';
         }
 
-        // Obtener productos de la partida
-        const productos = await getPartitionProducts(partida.id_partida);
-
         tbody.innerHTML += 
         `<tr>
             <td class="p-2 ps-3">
                 <p class="partition-date fw-bold">${partida.fecha_programada}</p>
                 <p class="partition-time">${partida.hora_programada.slice(0, 5)}</p>
             </td>
-            <td class="partition-client px-3 py-2 ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${partida.cliente}</td>
-            <td id="partition-products-${partida.id_partida}" class="px-3 py-2">
+            <td class="partition-client px-3 py-2 ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${partida.cliente} ${partida.rechazo !== null ? "*" : ""}</td>
+            <td id="partition-products-${partida.id_partida}" class="px-3 py-2" style="${partida.rechazo !== null ? "background-color: var(--table-yellow-light) !important" : ""}">
 
             </td>
             <td class="text-center px-3 py-2">
                 <p class="partition-status ${statusClass}">${partida.planta}</p>
             </td>
             <td class="partition-destination px-3 py-2">${partida.destino || partida.ubicacion}</td>
-            <td class="partition-control text-center d-none" data-vent-only data-fact-only>
+            <td class="partition-control text-center d-none" data-vent-only data-fact-only data-dir-only>
                 <button class="btn btn-primary btn-update" 
                     data-bs-target="#edit-modal" 
                     data-bs-toggle="modal"
-                    ${partida.embarque === "Cargado" || partida.planta === "Cancelado" ? "disabled" : ""}
+                    ${partida.planta === "Cancelado" ? "disabled" : ""}
                     partition-data='${JSON.stringify(partida)}'>
                     ${partida.planta === "Terminado" ? "Completado" : partida.planta === "Cancelado" ? "Cancelado" :"Actualizar"}
                 </button>
@@ -81,33 +105,13 @@ export async function renderPartitionsTable(partitionsParam = null) {
         const container = document.getElementById(`partition-products-${partida.id_partida}`);
         container.innerHTML = '';
 
-        let tarimas = 0;
-        let marcos = 0;
-        let cancelados = 0;
-
         for (const producto of productos) {
-            if (partida.planta !== "Cancelado") {
-                if (producto.producto?.includes('TARIMA')) {
-                    const cantidad = producto.cantidad_solicitada || 0;
-                    tarimas += cantidad;
-                    totalTarimas += cantidad;
-                } 
-                else if (producto.producto?.includes('MARCO')) {
-                    const cantidad = producto.cantidad_solicitada || 0;
-                    marcos += cantidad;
-                    totalMarcos += cantidad;
-                }
-
-            } else if ((partida.planta === "Cancelado")) {
-                const cantidad = producto.cantidad_solicitada || 0;
-                cancelados += cantidad;
-                totalCancelado += cantidad;
-            }
-
-            container.innerHTML += 
-            `<p class="partition-product ${partida.embarque === "Proyectado" ? "text-primary" : ""}">${producto.codigo} - <b>Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b></p>
-            <p class="partition-cant">${producto.producto}</p>
-            <hr>`;
+            container.innerHTML += `
+                <p class="partition-product ${partida.embarque === "Proyectado" ? "text-primary" : ""}">
+                    ${producto.codigo} - <b>Cant. ${(producto.cantidad_solicitada ?? 0).toLocaleString('en-US')}</b>
+                </p>
+                <p class="partition-cant">${producto.producto}</p>
+                <hr>`;
         }
     };
 
